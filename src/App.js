@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Slideshow from './lib';
 import './App.css';
 
 class App extends Component {
   render() {
+    const images = [
+      'images/slide_2.jpg',
+      'images/slide_3.jpg',
+      'images/slide_4.jpg',
+      'images/slide_5.jpg',
+      'images/slide_6.jpg'
+    ]
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Slideshow images={images} />
       </div>
     );
   }
