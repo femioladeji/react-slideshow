@@ -12,11 +12,15 @@ class Slideshow extends Component {
         const { images } = this.props
         let index = 0;
         setInterval(() => {
-            console.log(index)
+            const slideShow = document.querySelector('.slideshow-wrapper');            
             const allImages = document.querySelectorAll('.slideshow-wrapper div');
-            allImages[index%images.length].style.marginLeft = "-100%";
-            index++;
-        }, 5000)
+            allImages[0].style.marginLeft = "-100%";
+            setTimeout(() =>{
+                allImages[0].style.marginLeft = "0%";                
+                slideShow.appendChild(allImages[0]);
+            }, 1000)
+            // index++;
+        }, this.props.duration)
         return (
             <div className="slideshow-wrapper">
                 {
@@ -29,7 +33,15 @@ class Slideshow extends Component {
         );
     }
 }
+
+Slideshow.defaultProps = {
+    duration: 5000,
+    transitionDuration: 1000
+}
+
 Slideshow.PropTypes = {
-    images: PropTypes.array.isRequired
+    images: PropTypes.array.isRequired,
+    duration: PropTypes.number,
+    transitionDuration: PropTypes.transitionDuration
 }
 export default Slideshow;

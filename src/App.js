@@ -13,7 +13,7 @@ class App extends Component {
     ]
     return (
       <div className="App">
-        <Slideshow images={images} />
+        <Slideshow images={images} duration="2000" transitionDuration="1000" />
       </div>
     );
   }
