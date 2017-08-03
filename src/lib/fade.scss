@@ -1,0 +1,8 @@
+.fade {
+    margin: auto;
+    // flex-direction: row-reverse;
+
+    &>div {
+        position: absolute;
+    }
+}

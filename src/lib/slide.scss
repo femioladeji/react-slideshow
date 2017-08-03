@@ -2,7 +2,10 @@
   display: flex;
   width: 70%;
   margin: auto;
-  overflow: hidden; }
-  .slideshow-wrapper > div {
+  overflow: hidden;
+
+  &.slide>div {
     width: 100%;
-    transition: all 1s; }
+    transition: all 1s;
+  }
+}

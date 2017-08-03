@@ -1,0 +1,8 @@
+oot=true
+
+[*]
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.cs]
+indent_size = 2

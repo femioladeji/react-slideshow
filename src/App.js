@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Slideshow from './lib';
-import './App.css';
+// import './App.css';
 
 class App extends Component {
   render() {
@@ -13,7 +13,7 @@ class App extends Component {
     ]
     return (
       <div className="App">
-        <Slideshow images={images} duration="2000" transitionDuration="1000" />
+        <Slideshow images={images} duration="5000" transitionDuration="2000" type="fade" />
       </div>
     );
   }
