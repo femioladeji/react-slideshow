@@ -1,11 +1,21 @@
 .slideshow-wrapper {
-  display: flex;
-  width: 70%;
+  // display: flex;
+  width: 100%;
   margin: auto;
   overflow: hidden;
+
+  &.slide {
+    // position: relative;
+    // height: 561px;
+  }
+
+  img {
+      width: 100%;
+  }
 
   &.slide>div {
     width: 100%;
     transition: all 1s;
+    position: absolute;
   }
 }

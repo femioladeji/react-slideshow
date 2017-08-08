@@ -1,8 +1,9 @@
-.fade {
+.fade, .zoom {
     margin: auto;
-    // flex-direction: row-reverse;
+    // position: relative;
 
     &>div {
+        width: 100%;
         position: absolute;
     }
 }

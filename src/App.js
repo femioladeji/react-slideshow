@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Slideshow from './lib';
-// import './App.css';
+import './app.css';
 
 class App extends Component {
   render() {
@@ -9,11 +9,20 @@ class App extends Component {
       'images/slide_3.jpg',
       'images/slide_4.jpg',
       'images/slide_5.jpg',
-      'images/slide_6.jpg'
-    ]
+      'images/slide_6.jpg',
+      'images/slide_7.jpg'
+    ];
     return (
       <div className="App">
-        <Slideshow images={images} duration="5000" transitionDuration="2000" type="fade" />
+        <Slideshow
+          images={images}
+          duration="5000"
+          transitionDuration="2000"
+          type="slide"
+          direction="out"
+        />
+
+        <p>An incredible God deserves an incredible praise</p>
       </div>
     );
   }
