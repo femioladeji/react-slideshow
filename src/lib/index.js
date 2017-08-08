@@ -5,68 +5,108 @@ import './slide.css';
 import './fade.css';
 
 class Slideshow extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+    this.getImageDim = this.getImageDim.bind(this);
+  }
 
-    componentDidMount() {
-      const allImages = document.querySelectorAll(`.fade div`);
-      allImages.forEach(eachImage => {
-        eachImage.style.transition = `all ${this.props.transitionDuration/1000}s`;
-      });
-    }
+  getImageDim({ target }) {
+    document.querySelector(
+      `.slideshow-wrapper`
+    ).style.height = `${target.clientHeight}px`;
+  }
 
-    render() {
-        const { images, type, duration } = this.props;
-        setInterval(() => {
-            const slideShow = document.querySelector(`.${type}`);
-            const allImages = document.querySelectorAll(`.${type} div`);
-            if (type === 'slide') {
-                this.slideImages(slideShow, allImages);
-            } else if (type === 'fade') {
-                this.fadeImages(slideShow, allImages);
-            }
-        }, duration)
-        return (
-            <div className={`slideshow-wrapper ${type}`}>
-                {
-                    images.map((each, key) => (
-                        <div data-index={key} key={key}><img src={each} /></div>
-                        )
-                    )
-                }
-            </div>
-        );
+  componentDidMount() {
+    if (this.props.type === 'fade' || this.props.type === 'zoom') {
+      this.applyFadeStyle();
+    } else if (this.props.type === 'slide') {
+      this.applySlideStyle();
     }
+  }
 
-    slideImages(slideShow, allImages) {
-        allImages[0].style.marginLeft = "-100%";
-        setTimeout(() => {
-            allImages[0].style.marginLeft = "0%";
-            slideShow.appendChild(allImages[0]);
-        }, 1000);
-    }
+  applySlideStyle() {
+    // const allImages = document.querySelectorAll(`.slide div`);
+    // const lastIndex = allImages.length - 1;
+    // allImages.forEach((eachImage, index) => {
+    //   eachImage.style.left = 100*(index) + '%';
+    // });
+  }
 
-    fadeImages(slideShow, allImages) {
-      allImages[allImages.length-1].style.opacity = "0";
-        setTimeout(() => {
-            allImages[allImages.length-1].style.opacity = "1";
-            slideShow.insertBefore(allImages[allImages.length-1], allImages[0]);
-        }, this.props.transitionDuration);
-    }
+  applyFadeStyle() {
+    const allImages = document.querySelectorAll(`.fade div, .zoom div`);
+    allImages.forEach(eachImage => {
+      eachImage.style.transition = `all ${this.props.transitionDuration /
+        1000}s`;
+    });
+  }
+
+  render() {
+    const { images, type, duration } = this.props;
+    setInterval(() => {
+      const slideShow = document.querySelector(`.${type}`);
+      const allImages = document.querySelectorAll(`.${type} div`);
+      if (type === 'slide') {
+        this.slideImages(slideShow, allImages);
+      } else if (type === 'fade') {
+        this.fadeImages(slideShow, allImages);
+      } else if (type === 'zoom') {
+        this.zoomImages(slideShow, allImages);
+      }
+    }, duration);
+    return (
+      <div className={`slideshow-wrapper ${type}`}>
+        {images.reverse().map((each, key) =>
+          <div
+            onLoad={key === 0 ? this.getImageDim : null}
+            data-index={key}
+            key={key}
+          >
+            <img alt="" src={each} />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  slideImages(slideShow, allImages) {
+    const width = allImages[0].clientWidth;
+    allImages[allImages.length - 1].style.transform = `translate(-${width}px)`;
+    setTimeout(() => {
+      allImages[allImages.length - 1].style.transform = 'translate(0)';
+      slideShow.insertBefore(allImages[allImages.length - 1], allImages[0]);
+    }, this.props.transitionDuration);
+  }
+
+  fadeImages(slideShow, allImages) {
+    allImages[allImages.length - 1].style.opacity = '0';
+    setTimeout(() => {
+      allImages[allImages.length - 1].style.opacity = '1';
+      slideShow.insertBefore(allImages[allImages.length - 1], allImages[0]);
+    }, this.props.transitionDuration);
+  }
+
+  zoomImages(slideShow, allImages) {
+    const scale = this.props.direction === 'in' ? 0.7 : 1.3;
+    allImages[allImages.length - 1].style.opacity = '0';
+    allImages[allImages.length - 1].style.transform = `scale(${scale})`;
+    setTimeout(() => {
+      allImages[allImages.length - 1].style.opacity = '1';
+      allImages[allImages.length - 1].style.transform = 'scale(1)';
+      slideShow.insertBefore(allImages[allImages.length - 1], allImages[0]);
+    }, this.props.transitionDuration);
+  }
 }
-
 
 Slideshow.defaultProps = {
-    duration: 5000,
-    transitionDuration: 1000,
-    type: 'slide'
-}
+  duration: 5000,
+  transitionDuration: 1000,
+  type: 'slide'
+};
 
 Slideshow.PropTypes = {
-    images: PropTypes.array.isRequired,
-    duration: PropTypes.number,
-    transitionDuration: PropTypes.transitionDuration,
-    type: PropTypes.string
-}
+  images: PropTypes.array.isRequired,
+  duration: PropTypes.number,
+  transitionDuration: PropTypes.transitionDuration,
+  type: PropTypes.string
+};
 export default Slideshow;
