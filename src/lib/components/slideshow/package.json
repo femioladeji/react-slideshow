@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "slideshow",
+  "main": "./index.js"
+}
