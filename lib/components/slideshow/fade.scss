@@ -1,0 +1,9 @@
+.fade, .zoom {
+    margin: auto;
+    // position: relative;
+
+    &>div {
+        width: 100%;
+        position: absolute;
+    }
+}
