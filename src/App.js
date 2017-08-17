@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Slideshow from '../lib';
+import { Slideshow } from './lib';
 import './app.css';
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
           direction="out"
         />
 
-        <p>An incredible God deserves an incredible praise</p>
+        <p />
       </div>
     );
   }
