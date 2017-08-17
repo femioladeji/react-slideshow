@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Slideshow from './lib';
+import Slideshow from '../lib';
 import './app.css';
 
 class App extends Component {
@@ -17,7 +17,7 @@ class App extends Component {
         <Slideshow
           images={images}
           duration="5000"
-          transitionDuration="2000"
+          transitionDuration="1000"
           type="slide"
           direction="out"
         />

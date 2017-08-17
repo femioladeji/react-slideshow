@@ -8,6 +8,7 @@ class Slideshow extends Component {
   constructor(props) {
     super(props);
     this.getImageDim = this.getImageDim.bind(this);
+    this.transition = this.transition.bind(this);
   }
 
   getImageDim({ target }) {
@@ -17,11 +18,7 @@ class Slideshow extends Component {
   }
 
   componentDidMount() {
-    if (this.props.type === 'fade' || this.props.type === 'zoom') {
-      this.applyFadeStyle();
-    } else if (this.props.type === 'slide') {
-      this.applySlideStyle();
-    }
+    this.applyTransitionDuration();
   }
 
   applySlideStyle() {
@@ -32,27 +29,30 @@ class Slideshow extends Component {
     // });
   }
 
-  applyFadeStyle() {
-    const allImages = document.querySelectorAll(`.fade div, .zoom div`);
+  applyTransitionDuration() {
+    const allImages = document.querySelectorAll(`.slideshow-wrapper div`);
     allImages.forEach(eachImage => {
       eachImage.style.transition = `all ${this.props.transitionDuration /
         1000}s`;
     });
   }
 
+  transition() {
+    const { type } = this.props;
+    const slideShow = document.querySelector(`.${type}`);
+    const allImages = document.querySelectorAll(`.${type} div`);
+    if (type === 'slide') {
+      this.slideImages(slideShow, allImages);
+    } else if (type === 'fade') {
+      this.fadeImages(slideShow, allImages);
+    } else if (type === 'zoom') {
+      this.zoomImages(slideShow, allImages);
+    }
+  }
+
   render() {
     const { images, type, duration } = this.props;
-    setInterval(() => {
-      const slideShow = document.querySelector(`.${type}`);
-      const allImages = document.querySelectorAll(`.${type} div`);
-      if (type === 'slide') {
-        this.slideImages(slideShow, allImages);
-      } else if (type === 'fade') {
-        this.fadeImages(slideShow, allImages);
-      } else if (type === 'zoom') {
-        this.zoomImages(slideShow, allImages);
-      }
-    }, duration);
+    setInterval(this.transition, duration);
     return (
       <div className={`slideshow-wrapper ${type}`}>
         {images.reverse().map((each, key) =>
