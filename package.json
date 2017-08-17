@@ -61,7 +61,6 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "postinstall": "npm run lib",
     "lib": "NODE_ENV=production babel src/lib --out-dir lib --copy-files",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
