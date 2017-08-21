@@ -69,7 +69,7 @@ class Slideshow extends Component {
                 <img alt="" src={each} />
               </div>
             )}
-            <div onLoad={this.getImageDim} data-index="-1">
+            <div data-index="-1">
               <img alt="" src={images[0]} />
             </div>
           </div>

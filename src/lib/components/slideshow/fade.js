@@ -9,50 +9,56 @@ class Fade extends Component {
     this.state = {
       index: 0
     };
+    this.imageRefs = [];
     this.width = 0;
     this.height = 0;
-    this.imageContainer = null;
     this.timeout = null;
+    this.getImageDim = this.getImageDim.bind(this);
   }
 
   componentDidMount() {
-    console.log(document.querySelector('.images-wrap img').clientHeight);
-    this.imageContainer = document.querySelector(`.images-wrap`);
-    this.allImages = document.querySelectorAll(`.images-wrap div`);
     this.width = document.querySelector('.fade-wrapper').clientWidth;
-    this.applySlideStyle();
+    this.applyStyle();
     this.addResizeListener();
+  }
+
+  getImageDim() {
+    this.height = document.querySelector('.images-wrap div').clientHeight;
+    document.querySelector('.images-wrap').style.height = `${this.height}px`;
   }
 
   addResizeListener() {
     window.addEventListener('resize', () => {
       this.width = document.querySelector('.fade-wrapper').clientWidth;
-      this.applySlideStyle();
+      this.applyStyle();
     });
   }
 
-  applySlideStyle() {
-    this.allImages.forEach((eachImage, index) => {
+  applyStyle() {
+    this.imageRefs.forEach((eachImage, index) => {
       eachImage.style.width = `${this.width}px`;
+      // eachImage.style.transition = `all ${this.props.transitionDuration/1000}s`;
+      // eachImage.style.opacity = (index === 0) ? 1 : 0;
     });
   }
 
   render() {
     const { images, type, duration } = this.props;
     const { index } = this.state;
-    // this.timeout = setTimeout(() => this.slideImages('next'), duration);
+    // this.timeout = setTimeout(() => this.fadeImages('next'), duration);
     return (
       <div className="container">
-        <div className="nav" onClick={() => this.slideImages('prev')}>
+        <div className="nav" onClick={() => this.fadeImages('prev')}>
           {' '}&lt;{' '}
         </div>
         <div className={`fade-wrapper ${type}`}>
           <div className="images-wrap">
-            <div data-index="-1">
-              <img alt="" src={images[images.length - 1]} />
-            </div>
-            {images.map((each, key) =>
+            {images.reverse().map((each, key) =>
               <div
+                ref={el => {
+                  this.imageRefs.push(el);
+                }}
+                onLoad={key === 0 ? this.getImageDim : null}
                 data-index={key}
                 key={key}
                 className={key === index ? 'active' : ''}
@@ -60,23 +66,36 @@ class Fade extends Component {
                 <img alt="" src={each} />
               </div>
             )}
-            <div onLoad={this.getImageDim} data-index="-1">
-              <img alt="" src={images[0]} />
-            </div>
           </div>
         </div>
-        <div className="nav" onClick={() => this.slideImages('next')}>
+        <div className="nav" onClick={() => this.fadeImages('next')}>
           {' '}&gt;{' '}
         </div>
       </div>
     );
   }
 
-  slideImages(type) {
-    let { index } = this.state;
+  fadeImages(type) {
     let { images } = this.props;
     clearTimeout(this.timeout);
-    index = type === 'next' ? index + 1 : index - 1;
+    const lastImage = document.querySelectorAll('.images-wrap div')[
+      images.length - 1
+    ];
+    const firstImage = document.querySelectorAll('.images-wrap div')[0];
+    if (type === 'prev') {
+      document
+        .querySelector('.images-wrap')
+        .insertBefore(firstImage, lastImage);
+    }
+    lastImage.style.transition = `all ${this.props.transitionDuration / 1000}s`;
+    lastImage.style.opacity = '0';
+    setTimeout(() => {
+      lastImage.style.opacity = '1';
+      lastImage.style.transition = 'none';
+      document
+        .querySelector('.images-wrap')
+        .insertBefore(lastImage, firstImage);
+    }, this.props.transitionDuration);
   }
 }
 
