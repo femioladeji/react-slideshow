@@ -73,7 +73,8 @@
     "start": "node scripts/start.js",
     "dev": "npm-run-all -p watch-css start",
     "test": "node scripts/test.js --env=jsdom",
-    "build": "npm run build-css && NODE_ENV=production babel src/lib --out-dir lib --copy-files",
+    "demo": "node scripts/build.js",
+    "build": "npm run build-css && NODE_ENV=production babel src/lib --out-dir lib --copy-files && npm run demo",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "precommit": "lint-staged"
