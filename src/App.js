@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Slide, Fade } from './lib';
+import { Slide, Fade, Zoom } from './lib';
 import './app.css';
 
 class App extends Component {
@@ -24,7 +24,6 @@ class App extends Component {
             images={slideImages}
             duration="5000"
             transitionDuration="1000"
-            type="slide"
           />
         </div>
         <br />
@@ -34,11 +33,31 @@ class App extends Component {
             images={fadeImages}
             duration="5000"
             transitionDuration="1000"
-            type="fade"
             direction="in"
           />
         </div>
-        <h3>Hold On</h3>
+
+        <br />
+        <h3>Zoom out Effect</h3>
+        <div className="slide-container">
+          <Zoom
+            images={fadeImages}
+            duration="5000"
+            transitionDuration="1000"
+            scale="0.4"
+          />
+        </div>
+
+        <br />
+        <h3>Zoom in Effect</h3>
+        <div className="slide-container">
+          <Zoom
+            images={fadeImages}
+            duration="5000"
+            transitionDuration="1000"
+            scale="1.3"
+          />
+        </div>
       </div>
     );
   }
