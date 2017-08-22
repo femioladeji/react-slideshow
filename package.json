@@ -2,6 +2,17 @@
   "name": "react-slideshow",
   "version": "0.1.0",
   "author": "Femi Oladeji",
+  "description": "An image slideshow with react",
+  "engines": {
+    "node": "7.*"
+  },
+  "keywords": [
+    "image",
+    "react",
+    "Image slider",
+    "Slideshow",
+    "react"
+  ],
   "devDependencies": {
     "autoprefixer": "7.1.1",
     "babel-cli": "^6.26.0",

@@ -105,14 +105,12 @@ class Slideshow extends Component {
 
 Slideshow.defaultProps = {
   duration: 5000,
-  transitionDuration: 1000,
-  type: 'slide'
+  transitionDuration: 1000
 };
 
 Slideshow.PropTypes = {
   images: PropTypes.array.isRequired,
   duration: PropTypes.number,
-  transitionDuration: PropTypes.transitionDuration,
-  type: PropTypes.string
+  transitionDuration: PropTypes.transitionDuration
 };
 export default Slideshow;
