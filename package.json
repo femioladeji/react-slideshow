@@ -73,8 +73,8 @@
     "start": "node scripts/start.js",
     "dev": "npm-run-all -p watch-css start",
     "test": "node scripts/test.js --env=jsdom",
-    "demo": "node scripts/build.js",
-    "build": "npm run build-css && NODE_ENV=production babel src/lib --out-dir lib --copy-files && npm run demo",
+    "heroku-postbuild": "npm run build-css && node scripts/build.js && npm i serve",
+    "build": "npm run build-css && NODE_ENV=production babel src/lib --out-dir lib --copy-files",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "precommit": "lint-staged"
@@ -118,5 +118,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "dependencies": {
+    "prop-types": "^15.5.10"
   }
 }
