@@ -15,7 +15,6 @@ class Slideshow extends Component {
   }
 
   componentDidMount() {
-    this.imageContainer = document.querySelector(`.images-wrap`);
     this.allImages = document.querySelectorAll(`.images-wrap div`);
     this.width = document.querySelector('.slideshow-wrapper').clientWidth;
     this.setWidth();
@@ -56,7 +55,11 @@ class Slideshow extends Component {
           {' '}&lt;{' '}
         </div>
         <div className={`slideshow-wrapper ${type}`}>
-          <div className="images-wrap" style={style}>
+          <div
+            className="images-wrap"
+            style={style}
+            ref={wrap => (this.imageContainer = wrap)}
+          >
             <div data-index="-1">
               <img alt="" src={images[images.length - 1]} />
             </div>

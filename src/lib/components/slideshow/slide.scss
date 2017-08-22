@@ -16,25 +16,6 @@
   }
 }
 
-.fade-wrapper {
-  width: 100%;
-  overflow: hidden;
-  // min-height: 400px;
-
-  .images-wrap {
-    display: flex;
-    flex-wrap: wrap;
-
-    div {
-      position: absolute;
-
-      img {
-        width: 100%;
-      }
-    }
-  }
-}
-
 .container {
   display: flex;
   align-items: center;

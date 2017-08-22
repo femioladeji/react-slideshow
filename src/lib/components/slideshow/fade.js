@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './slide.css';
+import './fade.css';
 
 class Fade extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0
+      images: []
     };
     this.imageRefs = [];
     this.width = 0;
     this.height = 0;
     this.timeout = null;
+    this.imageContainer = null;
     this.getImageDim = this.getImageDim.bind(this);
+  }
+
+  componentWillMount() {
+    this.timeout = setTimeout(
+      () => this.fadeImages('next'),
+      this.props.duration
+    );
+    this.setState({
+      images: this.props.images.reverse()
+    });
   }
 
   componentDidMount() {
@@ -23,8 +34,8 @@ class Fade extends Component {
   }
 
   getImageDim() {
-    this.height = document.querySelector('.images-wrap div').clientHeight;
-    document.querySelector('.images-wrap').style.height = `${this.height}px`;
+    this.height = this.imageContainer.children[0].clientHeight;
+    this.imageContainer.style.height = `${this.height}px`;
   }
 
   addResizeListener() {
@@ -37,23 +48,23 @@ class Fade extends Component {
   applyStyle() {
     this.imageRefs.forEach((eachImage, index) => {
       eachImage.style.width = `${this.width}px`;
-      // eachImage.style.transition = `all ${this.props.transitionDuration/1000}s`;
-      // eachImage.style.opacity = (index === 0) ? 1 : 0;
     });
   }
 
   render() {
-    const { images, type, duration } = this.props;
-    const { index } = this.state;
-    // this.timeout = setTimeout(() => this.fadeImages('next'), duration);
+    const { type } = this.props;
+    const { images } = this.state;
     return (
       <div className="container">
         <div className="nav" onClick={() => this.fadeImages('prev')}>
           {' '}&lt;{' '}
         </div>
         <div className={`fade-wrapper ${type}`}>
-          <div className="images-wrap">
-            {images.reverse().map((each, key) =>
+          <div
+            className="images-wrap"
+            ref={wrap => (this.imageContainer = wrap)}
+          >
+            {images.map((each, key) =>
               <div
                 ref={el => {
                   this.imageRefs.push(el);
@@ -61,7 +72,6 @@ class Fade extends Component {
                 onLoad={key === 0 ? this.getImageDim : null}
                 data-index={key}
                 key={key}
-                className={key === index ? 'active' : ''}
               >
                 <img alt="" src={each} />
               </div>
@@ -76,39 +86,43 @@ class Fade extends Component {
   }
 
   fadeImages(type) {
-    let { images } = this.props;
+    let { images } = this.state;
+    let newImageArr = [];
     clearTimeout(this.timeout);
-    const lastImage = document.querySelectorAll('.images-wrap div')[
-      images.length - 1
-    ];
-    const firstImage = document.querySelectorAll('.images-wrap div')[0];
+    const lastImage = this.imageContainer.children[images.length - 1];
     if (type === 'prev') {
-      document
-        .querySelector('.images-wrap')
-        .insertBefore(firstImage, lastImage);
+      newImageArr = images.slice(1);
+      newImageArr.splice(newImageArr.length - 1, 0, images[0]);
+      this.setState({ images: newImageArr });
+      newImageArr = images.slice(1, images.length);
+      newImageArr.splice(newImageArr.length, 0, images[0]);
+    } else {
+      newImageArr = [images[images.length - 1]].concat(
+        images.slice(0, images.length - 1)
+      );
     }
     lastImage.style.transition = `all ${this.props.transitionDuration / 1000}s`;
     lastImage.style.opacity = '0';
     setTimeout(() => {
       lastImage.style.opacity = '1';
       lastImage.style.transition = 'none';
-      document
-        .querySelector('.images-wrap')
-        .insertBefore(lastImage, firstImage);
+      this.timeout = setTimeout(
+        () => this.fadeImages('next'),
+        this.props.duration
+      );
+      this.setState({ images: newImageArr });
     }, this.props.transitionDuration);
   }
 }
 
 Fade.defaultProps = {
   duration: 5000,
-  transitionDuration: 1000,
-  type: 'slide'
+  transitionDuration: 1000
 };
 
 Fade.PropTypes = {
   images: PropTypes.array.isRequired,
   duration: PropTypes.number,
-  transitionDuration: PropTypes.transitionDuration,
-  type: PropTypes.string
+  transitionDuration: PropTypes.transitionDuration
 };
 export default Fade;
