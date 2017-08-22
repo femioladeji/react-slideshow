@@ -1,20 +1,47 @@
 .slideshow-wrapper {
-  // display: flex;
-  width: 100%;
-  margin: auto;
-  overflow: hidden;
-
   &.slide {
-    // position: relative;
-    // height: 561px;
-  }
-
-  img {
-      width: 100%;
-  }
-
-  &.slide>div {
     width: 100%;
-    position: absolute;
+    overflow: hidden;
+  }
+
+  .images-wrap {
+    display: flex;
+    flex-wrap: wrap;
+
+    div {
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+
+  .nav {
+    height: 30px;
+    background: rgba(255, 255, 255, 0.6);
+    width: 30px;
+    z-index: 10;
+    line-height: 30px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 15px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+      color: #666;
+    }
+
+    &:first-of-type {
+      margin-right: -30px;
+    }
+    &:last-of-type {
+      margin-left: -30px;
+    }
   }
 }
