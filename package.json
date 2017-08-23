@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "engines": {
@@ -13,6 +13,10 @@
     "Slideshow",
     "react"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-foladeji/react-slideshow.git"
+  },
   "devDependencies": {
     "autoprefixer": "7.1.1",
     "babel-cli": "^6.26.0",

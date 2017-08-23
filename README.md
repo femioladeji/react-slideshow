@@ -9,7 +9,7 @@ npm install react-slideshow-image
 
 You can use three different versions of slideshow
 
-1. Slide Effect
+## Slide Effect
 ```
 import React from 'react';
 import { Slide } from 'react-slideshow-image';
@@ -23,7 +23,7 @@ const images = [
   'images/slide_7.jpg'
 ];
 
-const imageSlideShow = () => {
+const Slideshow = () => {
     return (
         <Slide
           images={images}
@@ -35,7 +35,7 @@ const imageSlideShow = () => {
 ```
 The `images` props should be an array of image path. It's also the only required prop. The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
 
-2. Fade Effect
+## Fade Effect
 ```
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
@@ -49,7 +49,7 @@ const images = [
   'images/slide_7.jpg'
 ];
 
-const imageSlideShow = () => {
+const Slideshow = () => {
     return (
         <Fade
           images={images}
@@ -61,7 +61,7 @@ const imageSlideShow = () => {
 ```
 The `images` props should be an array of image path. It's also the only required prop. The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
 
-3. Zoom Effect
+## Zoom Effect
 ```
 import React from 'react';
 import { Zoom } from 'react-slideshow-image';
@@ -75,7 +75,7 @@ const images = [
   'images/slide_7.jpg'
 ];
 
-const imageSlideShow = () => {
+const Slideshow = () => {
     return (
         <Zoom
           images={images}
