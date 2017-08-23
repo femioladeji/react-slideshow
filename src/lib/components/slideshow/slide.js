@@ -43,7 +43,7 @@ class Slideshow extends Component {
   }
 
   render() {
-    const { images, type, duration } = this.props;
+    const { images, duration } = this.props;
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
@@ -54,7 +54,7 @@ class Slideshow extends Component {
         <div className="nav" onClick={() => this.slideImages('prev')}>
           {' '}&lt;{' '}
         </div>
-        <div className={`slideshow-wrapper ${type}`}>
+        <div className={`slideshow-wrapper slide`}>
           <div
             className="images-wrap"
             style={style}
