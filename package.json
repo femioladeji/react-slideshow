@@ -4,7 +4,8 @@
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "engines": {
-    "node": "7.*"
+    "node": "7.*",
+    "npm": "5.2.0"
   },
   "keywords": [
     "image",
@@ -77,7 +78,7 @@
     "start": "node scripts/start.js",
     "dev": "npm-run-all -p watch-css start",
     "test": "node scripts/test.js --env=jsdom",
-    "heroku-postbuild": "npm run build-css && node scripts/build.js && npm i serve",
+    "heroku-postbuild": "npm run build-css && node scripts/build.js",
     "build": "npm run build-css && NODE_ENV=production babel src/lib --out-dir lib --copy-files",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
