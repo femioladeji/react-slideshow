@@ -4,7 +4,7 @@ A simple image slideshow component built with react that supports slide, fade an
 
 Installation
 ```
-npm install react-slideshow
+npm install react-slideshow-image
 ```
 
 You can use three different versions of slideshow
@@ -12,7 +12,7 @@ You can use three different versions of slideshow
 1. Slide Effect
 ```
 import React from 'react';
-import { Slide } from 'react-slideshow';
+import { Slide } from 'react-slideshow-image';
 
 const images = [
   'images/slide_2.jpg',
@@ -38,7 +38,7 @@ The `images` props should be an array of image path. It's also the only required
 2. Fade Effect
 ```
 import React from 'react';
-import { Fade } from 'react-slideshow';
+import { Fade } from 'react-slideshow-image';
 
 const images = [
   'images/slide_2.jpg',
@@ -64,7 +64,7 @@ The `images` props should be an array of image path. It's also the only required
 3. Zoom Effect
 ```
 import React from 'react';
-import { Zoom } from 'react-slideshow';
+import { Zoom } from 'react-slideshow-image';
 
 const images = [
   'images/slide_2.jpg',
