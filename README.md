@@ -7,7 +7,7 @@ Installation
 npm install react-slideshow-image
 ```
 
-You can use three different versions of slideshow
+You can use three different effects of the slideshow. Check the [demo](https://react-slideshow.herokuapp.com)
 
 ## Slide Effect
 ```
