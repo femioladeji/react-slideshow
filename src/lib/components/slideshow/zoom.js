@@ -125,7 +125,7 @@ Zoom.defaultProps = {
 Zoom.PropTypes = {
   images: PropTypes.array.isRequired,
   duration: PropTypes.number,
-  transitionDuration: PropTypes.transitionDuration,
+  transitionDuration: PropTypes.number,
   scale: PropTypes.string.isRequired
 };
 export default Zoom;

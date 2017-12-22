@@ -111,6 +111,6 @@ Slideshow.defaultProps = {
 Slideshow.PropTypes = {
   images: PropTypes.array.isRequired,
   duration: PropTypes.number,
-  transitionDuration: PropTypes.transitionDuration
+  transitionDuration: PropTypes.number
 };
 export default Slideshow;
