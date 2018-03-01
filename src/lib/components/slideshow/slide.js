@@ -16,7 +16,7 @@ class Slideshow extends Component {
 
   componentDidMount() {
     this.allImages = document.querySelectorAll(`.images-wrap div`);
-    this.width = document.querySelector('.slideshow-wrapper').clientWidth;
+    this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     this.setWidth();
     this.addResizeListener();
   }
@@ -31,7 +31,7 @@ class Slideshow extends Component {
 
   addResizeListener() {
     window.addEventListener('resize', () => {
-      this.width = document.querySelector('.slideshow-wrapper').clientWidth;
+      this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
       this.setWidth();
     });
   }
@@ -50,11 +50,11 @@ class Slideshow extends Component {
     };
     this.timeout = setTimeout(() => this.slideImages('next'), duration);
     return (
-      <div className="container">
+      <div className="react-slideshow-container">
         <div className="nav" onClick={() => this.slideImages('prev')}>
           {' '}&lt;{' '}
         </div>
-        <div className={`slideshow-wrapper slide`}>
+        <div className={`react-slideshow-wrapper slide`}>
           <div
             className="images-wrap"
             style={style}
@@ -108,7 +108,7 @@ Slideshow.defaultProps = {
   transitionDuration: 1000
 };
 
-Slideshow.PropTypes = {
+Slideshow.propTypes = {
   images: PropTypes.array.isRequired,
   duration: PropTypes.number,
   transitionDuration: PropTypes.number

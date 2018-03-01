@@ -28,7 +28,7 @@ class Fade extends Component {
   }
 
   componentDidMount() {
-    this.width = document.querySelector('.fade-wrapper').clientWidth;
+    this.width = document.querySelector('.react-slideshow-fade-wrapper').clientWidth;
     this.applyStyle();
     this.addResizeListener();
   }
@@ -40,7 +40,7 @@ class Fade extends Component {
 
   addResizeListener() {
     window.addEventListener('resize', () => {
-      this.width = document.querySelector('.fade-wrapper').clientWidth;
+      this.width = document.querySelector('.react-slideshow-fade-wrapper').clientWidth;
       this.applyStyle();
     });
   }
@@ -55,11 +55,11 @@ class Fade extends Component {
     const { type } = this.props;
     const { images } = this.state;
     return (
-      <div className="container">
+      <div className="react-slideshow-container">
         <div className="nav" onClick={() => this.fadeImages('prev')}>
           {' '}&lt;{' '}
         </div>
-        <div className={`fade-wrapper ${type}`}>
+        <div className={`react-slideshow-fade-wrapper ${type}`}>
           <div
             className="images-wrap"
             ref={wrap => (this.imageContainer = wrap)}
@@ -120,7 +120,7 @@ Fade.defaultProps = {
   transitionDuration: 1000
 };
 
-Fade.PropTypes = {
+Fade.propTypes = {
   images: PropTypes.array.isRequired,
   duration: PropTypes.number,
   transitionDuration: PropTypes.number

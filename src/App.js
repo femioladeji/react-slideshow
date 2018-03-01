@@ -22,8 +22,8 @@ class App extends Component {
         <div className="slide-container">
           <Slide
             images={slideImages}
-            duration="5000"
-            transitionDuration="1000"
+            duration={5000}
+            transitionDuration={1000}
           />
         </div>
         <br />
@@ -31,8 +31,8 @@ class App extends Component {
         <div className="slide-container">
           <Fade
             images={fadeImages}
-            duration="5000"
-            transitionDuration="1000"
+            duration={5000}
+            transitionDuration={1000}
             direction="in"
           />
         </div>
@@ -42,8 +42,8 @@ class App extends Component {
         <div className="slide-container">
           <Zoom
             images={fadeImages}
-            duration="5000"
-            transitionDuration="1000"
+            duration={5000}
+            transitionDuration={1000}
             scale="0.4"
           />
         </div>
@@ -53,8 +53,8 @@ class App extends Component {
         <div className="slide-container">
           <Zoom
             images={fadeImages}
-            duration="5000"
-            transitionDuration="1000"
+            duration={5000}
+            transitionDuration={1000}
             scale="1.3"
           />
         </div>

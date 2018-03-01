@@ -28,7 +28,7 @@ class Zoom extends Component {
   }
 
   componentDidMount() {
-    this.width = document.querySelector('.zoom-wrapper').clientWidth;
+    this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
     this.applyStyle();
     this.addResizeListener();
   }
@@ -40,7 +40,7 @@ class Zoom extends Component {
 
   addResizeListener() {
     window.addEventListener('resize', () => {
-      this.width = document.querySelector('.zoom-wrapper').clientWidth;
+      this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
       this.applyStyle();
     });
   }
@@ -55,11 +55,11 @@ class Zoom extends Component {
     const { type } = this.props;
     const { images } = this.state;
     return (
-      <div className="container">
+      <div className="react-slideshow-container">
         <div className="nav" onClick={() => this.fadeImages('prev')}>
           {' '}&lt;{' '}
         </div>
-        <div className={`zoom-wrapper ${type}`}>
+        <div className={`react-slideshow-zoom-wrapper ${type}`}>
           <div
             className="images-wrap"
             ref={wrap => (this.imageContainer = wrap)}
@@ -122,7 +122,7 @@ Zoom.defaultProps = {
   transitionDuration: 1000
 };
 
-Zoom.PropTypes = {
+Zoom.propTypes = {
   images: PropTypes.array.isRequired,
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,

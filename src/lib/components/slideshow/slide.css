@@ -1,21 +1,23 @@
-.slideshow-wrapper.slide {
+.react-slideshow-wrapper.slide {
   width: 100%;
   overflow: hidden;
 }
 
-.slideshow-wrapper .images-wrap {
+.react-slideshow-wrapper .images-wrap {
   display: flex;
   flex-wrap: wrap;
 }
-.slideshow-wrapper .images-wrap div img {
+
+.react-slideshow-wrapper .images-wrap div img {
   width: 100%;
 }
 
-.container {
+.react-slideshow-container {
   display: flex;
   align-items: center;
 }
-.container .nav {
+
+.react-slideshow-container .nav {
   height: 30px;
   background: rgba(255, 255, 255, 0.6);
   width: 30px;
@@ -27,13 +29,16 @@
   color: #fff;
   border-radius: 15px;
 }
-.container .nav:hover {
+
+.react-slideshow-container .nav:hover {
   background: white;
   color: #666;
 }
-.container .nav:first-of-type {
+
+.react-slideshow-container .nav:first-of-type {
   margin-right: -30px;
 }
-.container .nav:last-of-type {
+
+.react-slideshow-container .nav:last-of-type {
   margin-left: -30px;
 }
