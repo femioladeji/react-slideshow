@@ -22,6 +22,7 @@
     "css-loader": "^0.28.10",
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "html-webpack-plugin": "^3.0.0",
+    "serve": "^6.5.1",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9",
     "webpack-dev-server": "^3.1.0"
@@ -29,7 +30,10 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "webpack",
+    "build": "webpack && cp -r src/images dist",
+    "install": "npm i && npm i --only=dev",
+    "postinstall": "npm run build",
+    "start": "serve dist/",
     "prepublish": "NODE_ENV=production babel src/lib --out-dir lib --copy-files"
   },
   "dependencies": {
