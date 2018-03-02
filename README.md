@@ -27,8 +27,8 @@ const Slideshow = () => {
     return (
         <Slide
           images={images}
-          duration="5000"
-          transitionDuration="1000"
+          duration={5000}
+          transitionDuration={1000}
         />
     )
 }
@@ -53,8 +53,8 @@ const Slideshow = () => {
     return (
         <Fade
           images={images}
-          duration="5000"
-          transitionDuration="1000"
+          duration={5000}
+          transitionDuration={1000}
         />
     )
 }
@@ -80,10 +80,30 @@ const Slideshow = () => {
         <Zoom
           images={images}
           scale="0.4"
-          duration="5000"
-          transitionDuration="1000"
+          duration={5000}
+          transitionDuration={1000}
         />
     )
 }
 ```
 The `images` and `scale` props are compulsory. The `scale` prop determines if the images will be zoomed out or in. If a scale less than 1 was entered, then the image will be zoomed out but if it's greater than 1 then the image will be zoomed in
+
+# Webpack configuration
+⚠️  If you bootstrapped the app without using create-react-app, you will need to add [css loader](https://github.com/webpack-contrib/css-loader) and [style loader](https://github.com/webpack-contrib/style-loader) to your webpack config
+
+**webpack.config.js**
+```js
+{
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" }
+        ]
+      }
+    ]
+  }
+}
+```
