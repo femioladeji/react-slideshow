@@ -23,7 +23,7 @@ class Zoom extends Component {
       this.props.duration
     );
     this.setState({
-      images: this.props.images.reverse()
+      images: this.props.children.reverse()
     });
   }
 
@@ -78,7 +78,7 @@ class Zoom extends Component {
                 data-index={key}
                 key={key}
               >
-                <img alt="" src={each} />
+                {each}
               </div>
             )}
           </div>
@@ -130,7 +130,6 @@ Zoom.defaultProps = {
 };
 
 Zoom.propTypes = {
-  images: PropTypes.array.isRequired,
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   scale: PropTypes.string.isRequired

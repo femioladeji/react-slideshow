@@ -16,47 +16,65 @@ class App extends Component {
       'images/slide_7.jpg'
     ];
 
+    const properties = {
+      duration: 5000,
+      transitionDuration: 500,
+      infinite: true,
+      indicators: true
+    }
+
+    const fadeProperties = {
+      duration: 5000,
+      transitionDuration: 500,
+      infinite: true,
+      indicators: true,
+      direction: "in"
+    }
+
     return (
       <div>
         <h3>Slide Effect</h3>
         <div className="slide-container">
-          <Slide
-            images={slideImages}
-            duration={5000}
-            transitionDuration={1000}
-          />
+          <Slide {...properties}>
+            {
+              slideImages.map((each, index) => <img key={index} src={each} />)
+            }
+          </Slide>
         </div>
         <br />
         <h3>Fade Effect</h3>
         <div className="slide-container">
-          <Fade
-            images={fadeImages}
-            duration={5000}
-            transitionDuration={1000}
-            direction="in"
-          />
+          <Fade {...fadeProperties}>
+            {
+              fadeImages.map((each, index) => <img key={index} src={each} />)
+            }
+          </Fade>
         </div>
 
         <br />
         <h3>Zoom out Effect</h3>
         <div className="slide-container">
           <Zoom
-            images={fadeImages}
             duration={5000}
             transitionDuration={1000}
-            scale="0.4"
-          />
+            scale="0.4">
+            {
+              fadeImages.map((each, index) => <img key={index} src={each} />)
+            }
+          </Zoom>
         </div>
 
         <br />
         <h3>Zoom in Effect</h3>
         <div className="slide-container">
           <Zoom
-            images={fadeImages}
             duration={5000}
             transitionDuration={1000}
-            scale="1.3"
-          />
+            scale="1.3">
+            {
+              fadeImages.map((each, index) => <img key={index} src={each} />)
+            }
+          </Zoom>
         </div>
       </div>
     );

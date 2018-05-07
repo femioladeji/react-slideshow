@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "keywords": [
@@ -35,6 +35,7 @@
     "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
     "css-loader": "^0.28.10",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",
