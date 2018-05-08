@@ -26,8 +26,7 @@ class Fade extends Component {
       this.props.duration
     );
     this.setState({
-      children: this.props.children,
-      index: 0
+      children: this.props.children
     });
   }
 

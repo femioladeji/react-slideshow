@@ -31,6 +31,22 @@ class App extends Component {
       direction: "in"
     }
 
+    const zoomOutProperties = {
+      duration: 5000,
+      transitionDuration: 500,
+      infinite: true,
+      indicators: true,
+      scale: 0.4
+    }
+
+    const zoomInProperties = {
+      duration: 5000,
+      transitionDuration: 500,
+      infinite: true,
+      indicators: true,
+      scale: 1.4
+    }
+
     return (
       <div>
         <h3>Slide Effect</h3>
@@ -54,10 +70,7 @@ class App extends Component {
         <br />
         <h3>Zoom out Effect</h3>
         <div className="slide-container">
-          <Zoom
-            duration={5000}
-            transitionDuration={1000}
-            scale="0.4">
+          <Zoom {...zoomOutProperties}>
             {
               fadeImages.map((each, index) => <img key={index} src={each} />)
             }
@@ -67,10 +80,7 @@ class App extends Component {
         <br />
         <h3>Zoom in Effect</h3>
         <div className="slide-container">
-          <Zoom
-            duration={5000}
-            transitionDuration={1000}
-            scale="1.3">
+          <Zoom {...zoomInProperties}>
             {
               fadeImages.map((each, index) => <img key={index} src={each} />)
             }

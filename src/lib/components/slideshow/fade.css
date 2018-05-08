@@ -48,13 +48,13 @@
   margin-left: -30px;
 }
 
-.react-slideshow-container .indicators {
+div > div.indicators {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.react-slideshow-container .indicators > div {
+div > div.indicators > div {
   width: 7px;
   height: 7px;
   margin-right: 10px;
@@ -63,14 +63,14 @@
   cursor: pointer;
 }
 
-.react-slideshow-container .indicators > div:hover {
+div > div.indicators > div:hover {
   background: #666;
 }
 
-.react-slideshow-container .indicators > div.active {
+div > div.indicators > div.active {
   background: #000;
 }
 
-.react-slideshow-container .indicators > div:last-of-type {
+div > div.indicators > div:last-of-type {
   margin-right: 0;
 }
