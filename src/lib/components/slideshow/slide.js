@@ -20,6 +20,11 @@ class Slideshow extends Component {
     this.setWidth();
     this.addResizeListener();
   }
+  
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    this.setState({ unmounted: true });
+  }
 
   setWidth() {
     const fullwidth = this.width * (this.props.images.length + 2);
@@ -88,12 +93,14 @@ class Slideshow extends Component {
     let { index } = this.state;
     let { images } = this.props;
     clearTimeout(this.timeout);
+    if (this.state.unmounted || !this.imageContainer) return;
     index = type === 'next' ? index + 1 : index - 1;
     this.imageContainer.style.transition = `all ${this.props
       .transitionDuration / 1000}s`;
     this.imageContainer.style.transform = `translate(-${this.width *
       (index + 1)}px)`;
     setTimeout(() => {
+      if (this.state.unmounted || !this.imageContainer) return;
       this.imageContainer.style.transition = `none`;
       this.setState({
         index:

@@ -33,6 +33,11 @@ class Zoom extends Component {
     this.addResizeListener();
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    this.setState({ unmounted: true });
+  }
+
   getImageDim() {
     this.height = this.imageContainer.children[0].clientHeight;
     this.imageContainer.style.height = `${this.height}px`;
@@ -89,6 +94,7 @@ class Zoom extends Component {
     let { images } = this.state;
     let newImageArr = [];
     clearTimeout(this.timeout);
+    if (this.state.unmounted || !this.imageContainer) return;
     const lastImage = this.imageContainer.children[images.length - 1];
     if (type === 'prev') {
       newImageArr = images.slice(1);
@@ -105,6 +111,7 @@ class Zoom extends Component {
     lastImage.style.opacity = '0';
     lastImage.style.transform = `scale(${this.props.scale})`;
     setTimeout(() => {
+      if (this.state.unmounted || !this.lastImage) return;
       lastImage.style.opacity = '1';
       lastImage.style.transform = `scale(1)`;
       lastImage.style.transition = 'none';
