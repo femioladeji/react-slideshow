@@ -52,40 +52,90 @@ class App extends Component {
         <h3>Slide Effect</h3>
         <div className="slide-container">
           <Slide {...properties}>
-            {
-              slideImages.map((each, index) => <img key={index} src={each} />)
-            }
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
+                <span>Slide 1</span>
+              </div>
+            </div>
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
+                <span>Slide 2</span>
+              </div>
+            </div>
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
+                <span>Slide 3</span>
+              </div>
+            </div>
           </Slide>
         </div>
         <br />
         <h3>Fade Effect</h3>
         <div className="slide-container">
           <Fade {...fadeProperties}>
-            {
-              fadeImages.map((each, index) => <img key={index} src={each} />)
-            }
+            <div className="each-fade">
+              <div className="image-container">
+                <img src={fadeImages[0]} />
+              </div>
+              <h2>First Slide</h2>
+            </div>
+            <div className="each-fade">
+              <div className="image-container">
+                <img src={fadeImages[1]} />
+              </div>
+              <h2>Second Slide</h2>
+            </div>
+            <div className="each-fade">
+              <div className="image-container">
+                <img src={fadeImages[2]} />
+              </div>
+              <h2>Third Slide</h2>
+            </div>
           </Fade>
         </div>
 
         <br />
-        <h3>Zoom out Effect</h3>
+        {/* <h3>Zoom out Effect</h3>
         <div className="slide-container">
           <Zoom {...zoomOutProperties}>
-            {
-              fadeImages.map((each, index) => <img key={index} src={each} />)
-            }
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
+                <span>Slide<br />One</span>
+              </div>
+            </div>
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${fadeImages[0]})`}}>
+                <span>Slide<br />Two</span>
+              </div>
+            </div>
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
+                <span>Slide<br/>Three</span>
+              </div>
+            </div>
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
+                <span>Slide<br />Four</span>
+              </div>
+            </div>
+            <div className="each-slide">
+              <div style={{'backgroundImage': `url(${fadeImages[1]})`}}>
+                <span>Slide<br />Five</span>
+              </div>
+            </div>
           </Zoom>
-        </div>
+        </div> */}
 
         <br />
         <h3>Zoom in Effect</h3>
         <div className="slide-container">
-          <Zoom {...zoomInProperties}>
+        <Zoom {...zoomInProperties}>
             {
-              fadeImages.map((each, index) => <img key={index} src={each} />)
+              fadeImages.map((each, index) => <div className="zoom-in-image"><img src={each} /></div>)
             }
           </Zoom>
         </div>
+        <br />
       </div>
     );
   }

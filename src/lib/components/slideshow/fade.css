@@ -8,13 +8,13 @@
   flex-wrap: wrap;
 }
 
+.react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap * {
+  max-width: 100%;
+}
+
 .react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap > div {
   position: absolute;
   opacity: 0;
-}
-
-.react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap > div img {
-  width: 100%;
 }
 
 .react-slideshow-container {

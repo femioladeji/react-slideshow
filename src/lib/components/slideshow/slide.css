@@ -8,8 +8,8 @@
   flex-wrap: wrap;
 }
 
-.react-slideshow-wrapper .images-wrap div img {
-  width: 100%;
+.react-slideshow-wrapper .images-wrap * {
+  max-width: 100%;
 }
 
 .react-slideshow-container {
@@ -52,13 +52,13 @@
   margin-left: -30px;
 }
 
-div > div.indicators {
+.react-slideshow-container + div.indicators {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-div > div.indicators > div {
+.react-slideshow-container + div.indicators > div {
   width: 7px;
   height: 7px;
   margin-right: 10px;
@@ -67,14 +67,14 @@ div > div.indicators > div {
   cursor: pointer;
 }
 
-div > div.indicators > div:hover {
+.react-slideshow-container + div.indicators > div:hover {
   background: #666;
 }
 
-div > div.indicators > div.active {
+.react-slideshow-container + div.indicators > div.active {
   background: #000;
 }
 
-div > div.indicators > div:last-of-type {
+.react-slideshow-container + div.indicators > div:last-of-type {
   margin-right: 0;
 }

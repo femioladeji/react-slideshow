@@ -11,12 +11,11 @@ class Zoom extends Component {
       children: [],
       index: 0
     };
-    this.imageRefs = [];
+    this.divRefs = [];
     this.width = 0;
     this.height = 0;
     this.timeout = null;
-    this.imageContainer = null;
-    this.getImageDim = this.getImageDim.bind(this);
+    this.divsContainer = null;
     this.goto = this.goto.bind(this);
   }
 
@@ -32,6 +31,8 @@ class Zoom extends Component {
 
   componentDidMount() {
     this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
+    this.height = this.divsContainer.children[0].clientHeight;
+    this.divsContainer.style.height = `${this.height}px`;
     this.applyStyle();
     this.addResizeListener();
   }
@@ -54,8 +55,10 @@ class Zoom extends Component {
   }
 
   applyStyle() {
-    this.imageRefs.forEach((eachImage, index) => {
-      eachImage.style.width = `${this.width}px`;
+    this.divRefs.forEach((eachDiv, index) => {
+      if (eachDiv) {
+        eachDiv.style.width = `${this.width}px`;
+      }
     });
   }
 
@@ -64,7 +67,7 @@ class Zoom extends Component {
   }
 
   render() {
-    const { type, indicators } = this.props;
+    const { indicators } = this.props;
     const { children, index } = this.state;
     return (
       <div>
@@ -72,18 +75,17 @@ class Zoom extends Component {
           <div className="nav" onClick={() => this.zoomTo(index === 0 ? children.length - 1 : index - 1)}>
             {' '}&lt;{' '}
           </div>
-          <div className={`react-slideshow-zoom-wrapper ${type}`}>
+          <div className="react-slideshow-zoom-wrapper">
             <div
               className="zoom-wrapper"
-              ref={wrap => (this.imageContainer = wrap)}
+              ref={wrap => (this.divsContainer = wrap)}
             >
               {children.map((each, key) =>
                 <div
                   style={{opacity: key === index ? '1' : '0'}}
                   ref={el => {
-                    this.imageRefs.push(el);
+                    this.divRefs.push(el);
                   }}
-                  onLoad={key === 0 ? this.getImageDim : null}
                   data-index={key}
                   key={key}
                 >
@@ -118,7 +120,6 @@ class Zoom extends Component {
     let { children, index } = this.state;
     const { scale } = this.props;
     clearTimeout(this.timeout);
-    this.imageContainer.children[newIndex].style.transform = `scale(1)`;
     const value = {
       opacity: 0,
       scale: 1
@@ -131,19 +132,21 @@ class Zoom extends Component {
     const tween = new TWEEN.Tween(value)
       .to({opacity: 1, scale}, this.props.transitionDuration)
       .onUpdate((value) => {
-        this.imageContainer.children[newIndex].style.opacity = value.opacity;
-        this.imageContainer.children[index].style.opacity = 1 - value.opacity;
-        this.imageContainer.children[index].style.transform = `scale(${value.scale})`;
+        this.divsContainer.children[newIndex].style.opacity = value.opacity;
+        this.divsContainer.children[index].style.opacity = 1 - value.opacity;
+        this.divsContainer.children[index].style.transform = `scale(${value.scale})`;
       }).start();
 
-    setTimeout(() => {
+    tween.onComplete(() => {
       this.setState({
         index: newIndex
+      }, () => {
+        this.divsContainer.children[index].style.transform = `scale(1)`;
       });
       this.timeout = setTimeout(() => {
         this.zoomTo((newIndex + 1) % children.length);
       }, this.props.duration);
-    }, this.props.transitionDuration);
+    });
   }
 }
 
