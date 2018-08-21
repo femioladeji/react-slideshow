@@ -33,6 +33,11 @@ class Fade extends Component {
     this.addResizeListener();
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    this.setState({ unmounted: true });
+  }  
+
   getImageDim() {
     this.height = this.imageContainer.children[0].clientHeight;
     this.imageContainer.style.height = `${this.height}px`;
@@ -89,6 +94,7 @@ class Fade extends Component {
     let { images } = this.state;
     let newImageArr = [];
     clearTimeout(this.timeout);
+    if (this.state.unmounted || !this.imageContainer) return;
     const lastImage = this.imageContainer.children[images.length - 1];
     if (type === 'prev') {
       newImageArr = images.slice(1);
@@ -104,6 +110,7 @@ class Fade extends Component {
     lastImage.style.transition = `all ${this.props.transitionDuration / 1000}s`;
     lastImage.style.opacity = '0';
     setTimeout(() => {
+      if (this.state.unmounted || !this.lastImage) return;
       lastImage.style.opacity = '1';
       lastImage.style.transition = 'none';
       this.timeout = setTimeout(
