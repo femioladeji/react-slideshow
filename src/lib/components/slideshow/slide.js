@@ -14,6 +14,7 @@ class Slideshow extends Component {
     this.imageContainer = null;
     this.timeout = null;
     this.moveSlides = this.moveSlides.bind(this);
+    this.resizeListener = this.resizeListener.bind(this);
     this.goToSlide = this.goToSlide.bind(this);
   }
 
@@ -21,12 +22,12 @@ class Slideshow extends Component {
     this.allImages = document.querySelectorAll(`.images-wrap div`);
     this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     this.setWidth();
-    this.addResizeListener();
+    window.addEventListener('resize', this.resizeListener);
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
-    window.removeEventListener('resize');
+    window.removeEventListener('resize', this.resizeListener);
   }
 
   setWidth() {
@@ -37,11 +38,9 @@ class Slideshow extends Component {
     this.applySlideStyle();
   }
 
-  addResizeListener() {
-    window.addEventListener('resize', () => {
-      this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
-      this.setWidth();
-    });
+  resizeListener() {
+    this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
+    this.setWidth();
   }
 
   applySlideStyle() {

@@ -6,6 +6,7 @@
 .react-slideshow-zoom-wrapper .zoom-wrapper {
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .react-slideshow-zoom-wrapper .zoom-wrapper * {

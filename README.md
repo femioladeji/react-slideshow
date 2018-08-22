@@ -66,8 +66,7 @@ const fadeProperties = {
   duration: 5000,
   transitionDuration: 500,
   infinite: true,
-  indicators: true,
-  direction: "in"
+  indicators: true
 }
 
 const Slideshow = () => {
@@ -111,18 +110,25 @@ const images = [
   'images/slide_7.jpg'
 ];
 
+const zoomOutProperties = {
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true,
+  scale: 0.4
+}
+
 const Slideshow = () => {
     return (
-        <Zoom
-          images={images}
-          scale="0.4"
-          duration={5000}
-          transitionDuration={1000}
-        />
+      <Zoom {...zoomOutProperties}>
+        {
+          images.map((each, index) =><img key={index} style={{width: "100%"}} src={each} />)
+        }
+      </Zoom>
     )
 }
 ```
-The `images` and `scale` props are compulsory. The `scale` prop determines if the images will be zoomed out or in. If a scale less than 1 was entered, then the image will be zoomed out but if it's greater than 1 then the image will be zoomed in
+The `images` and `scale` props are compulsory. The `scale` prop determines if the images will be zoomed out or in. If a scale less than 1 was entered, then the image will be zoomed out but if it's greater than 1 then the image will be zoomed in. The `scale` property is numeric
 
 # Webpack configuration
 ⚠️  If you bootstrapped the app without using create-react-app, you will need to add [css loader](https://github.com/webpack-contrib/css-loader) and [style loader](https://github.com/webpack-contrib/style-loader) to your webpack config

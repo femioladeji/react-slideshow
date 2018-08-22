@@ -17,6 +17,7 @@ class Zoom extends Component {
     this.timeout = null;
     this.divsContainer = null;
     this.getImageDim = this.getImageDim.bind(this);
+    this.resizeListener = this.resizeListener.bind(this);
     this.goto = this.goto.bind(this);
   }
 
@@ -32,35 +33,32 @@ class Zoom extends Component {
 
   componentDidMount() {
     this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
-    this.height = this.divsContainer.children[0].clientHeight;
-    this.divsContainer.style.height = `${this.height}px`;
-    this.applyStyle();
-    this.addResizeListener();
+    window.addEventListener('resize', this.resizeListener)
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
-    window.removeEventListener('resize');
+    window.removeEventListener('resize', this.resizeListener);
   }
 
   getImageDim() {
     this.height = this.divsContainer.children[0].clientHeight;
     this.divsContainer.style.height = `${this.height}px`;
+    this.applyStyle();
   }
 
-  addResizeListener() {
-    window.addEventListener('resize', () => {
-      this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
-      this.height = this.divsContainer.children[0].clientHeight;
-      this.divsContainer.style.height = `${this.height}px`;
-      this.applyStyle();
-    });
+  resizeListener() {
+    this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
+    this.height = this.divsContainer.children[0].clientHeight;
+    this.divsContainer.style.height = `${this.height}px`;
+    this.applyStyle();
   }
 
   applyStyle() {
     this.divRefs.forEach((eachDiv, index) => {
       if (eachDiv) {
         eachDiv.style.width = `${this.width}px`;
+        eachDiv.style.height = `${this.height}px`;
       }
     });
   }
