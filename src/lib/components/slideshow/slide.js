@@ -26,7 +26,7 @@ class Slideshow extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
-    this.setState({ unmounted: true });
+    window.removeEventListener('resize');
   }
 
   setWidth() {

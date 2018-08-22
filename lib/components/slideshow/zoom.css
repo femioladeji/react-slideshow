@@ -3,17 +3,18 @@
   overflow: hidden;
 }
 
-.react-slideshow-zoom-wrapper .images-wrap {
+.react-slideshow-zoom-wrapper .zoom-wrapper {
   display: flex;
   flex-wrap: wrap;
 }
 
-.react-slideshow-zoom-wrapper .images-wrap div {
-  position: absolute;
+.react-slideshow-zoom-wrapper .zoom-wrapper * {
+  max-width: 100%;
 }
 
-.react-slideshow-zoom-wrapper .images-wrap div img {
-  width: 100%;
+.react-slideshow-zoom-wrapper .zoom-wrapper > div {
+  position: absolute;
+  display: flex;
 }
 
 .react-slideshow-container {
@@ -45,4 +46,31 @@
 
 .react-slideshow-container .nav:last-of-type {
   margin-left: -30px;
+}
+
+.react-slideshow-container + div.indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.react-slideshow-container + div.indicators > div {
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.react-slideshow-container + div.indicators > div:hover {
+  background: #666;
+}
+
+.react-slideshow-container + div.indicators > div.active {
+  background: #000;
+}
+
+.react-slideshow-container + div.indicators > div:last-of-type {
+  margin-right: 0;
 }

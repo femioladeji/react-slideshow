@@ -16,6 +16,7 @@ class Zoom extends Component {
     this.height = 0;
     this.timeout = null;
     this.divsContainer = null;
+    this.getImageDim = this.getImageDim.bind(this);
     this.goto = this.goto.bind(this);
   }
 
@@ -39,17 +40,19 @@ class Zoom extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
-    this.setState({ unmounted: true });
+    window.removeEventListener('resize');
   }
 
   getImageDim() {
-    this.height = this.imageContainer.children[0].clientHeight;
-    this.imageContainer.style.height = `${this.height}px`;
+    this.height = this.divsContainer.children[0].clientHeight;
+    this.divsContainer.style.height = `${this.height}px`;
   }
 
   addResizeListener() {
     window.addEventListener('resize', () => {
       this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
+      this.height = this.divsContainer.children[0].clientHeight;
+      this.divsContainer.style.height = `${this.height}px`;
       this.applyStyle();
     });
   }
@@ -86,6 +89,7 @@ class Zoom extends Component {
                   ref={el => {
                     this.divRefs.push(el);
                   }}
+                  onLoad={key === 0 ? this.getImageDim : null}
                   data-index={key}
                   key={key}
                 >

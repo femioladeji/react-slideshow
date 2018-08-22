@@ -16,6 +16,12 @@ class App extends Component {
       'images/slide_7.jpg'
     ];
 
+    const zoomOutImages = [
+      'images/slide_2.jpg',
+      'images/slide_7.jpg',
+      'images/slide_5.jpg'
+    ];
+
     const properties = {
       duration: 5000,
       transitionDuration: 500,
@@ -95,43 +101,21 @@ class App extends Component {
         </div>
 
         <br />
-        {/* <h3>Zoom out Effect</h3>
+        <h3>Zoom out Effect</h3>
         <div className="slide-container">
           <Zoom {...zoomOutProperties}>
-            <div className="each-slide">
-              <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
-                <span>Slide<br />One</span>
-              </div>
-            </div>
-            <div className="each-slide">
-              <div style={{'backgroundImage': `url(${fadeImages[0]})`}}>
-                <span>Slide<br />Two</span>
-              </div>
-            </div>
-            <div className="each-slide">
-              <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
-                <span>Slide<br/>Three</span>
-              </div>
-            </div>
-            <div className="each-slide">
-              <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
-                <span>Slide<br />Four</span>
-              </div>
-            </div>
-            <div className="each-slide">
-              <div style={{'backgroundImage': `url(${fadeImages[1]})`}}>
-                <span>Slide<br />Five</span>
-              </div>
-            </div>
+            {
+              zoomOutImages.map((each, index) =><img key={index} style={{width: "100%"}} src={each} />)
+            }
           </Zoom>
-        </div> */}
+        </div>
 
         <br />
         <h3>Zoom in Effect</h3>
         <div className="slide-container">
-        <Zoom {...zoomInProperties}>
+          <Zoom {...zoomInProperties}>
             {
-              fadeImages.map((each, index) => <div className="zoom-in-image"><img src={each} /></div>)
+              fadeImages.map((each, index) =><img key={index} style={{width: "100%"}} src={each} />)
             }
           </Zoom>
         </div>

@@ -38,7 +38,7 @@ class Fade extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
-    this.setState({ unmounted: true });
+    window.removeEventListener('resize');
   }
 
   getImageDim() {
@@ -49,6 +49,8 @@ class Fade extends Component {
   addResizeListener() {
     window.addEventListener('resize', () => {
       this.width = document.querySelector('.react-slideshow-fade-wrapper').clientWidth;
+      this.height = this.divsContainer.children[0].clientHeight;
+      this.divsContainer.style.height = `${this.height}px`;
       this.applyStyle();
     });
   }
