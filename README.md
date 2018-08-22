@@ -1,10 +1,14 @@
 # React-Slideshow
 
-A simple image slideshow component built with react that supports slide, fade and zoom effects
+A simple slideshow component built with react that supports slide, fade and zoom effects
 
 Installation
 ```
-npm install react-slideshow-image
+npm install react-slideshow-image -S
+```
+
+```
+yarn add react-slideshow-image
 ```
 
 You can use three different effects of the slideshow. Check the [demo](https://react-slideshow.herokuapp.com)
@@ -122,7 +126,7 @@ const Slideshow = () => {
     return (
       <Zoom {...zoomOutProperties}>
         {
-          images.map((each, index) =><img key={index} style={{width: "100%"}} src={each} />)
+          images.map((each, index) => <img key={index} style={{width: "100%"}} src={each} />)
         }
       </Zoom>
     )
