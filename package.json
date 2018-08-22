@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "keywords": [
@@ -21,6 +21,7 @@
     "babel-preset-react": "^6.24.1",
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "html-webpack-plugin": "^3.0.0",
+    "husky": "^0.14.3",
     "serve": "^6.5.1",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9",
@@ -32,9 +33,11 @@
     "build": "npm i --only=dev && webpack && cp -r src/images dist",
     "heroku-postbuild": "npm run build",
     "start": "serve dist/",
+    "precommit": "npm run prepublishOnly",
     "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
     "css-loader": "^0.28.10",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",

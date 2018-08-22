@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import * as TWEEN from '@tweenjs/tween.js';
 
 import './fade.css';
 
@@ -7,23 +8,25 @@ class Fade extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      children: [],
+      index: 0
     };
-    this.imageRefs = [];
+    this.divsRef = [];
     this.width = 0;
     this.height = 0;
     this.timeout = null;
-    this.imageContainer = null;
+    this.divsContainer = null;
     this.getImageDim = this.getImageDim.bind(this);
+    this.goto = this.goto.bind(this);
   }
 
   componentWillMount() {
     this.timeout = setTimeout(
-      () => this.fadeImages('next'),
+      () => this.fadeImages(1),
       this.props.duration
     );
     this.setState({
-      images: this.props.images.reverse()
+      children: this.props.children
     });
   }
 
@@ -35,101 +38,122 @@ class Fade extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
-    this.setState({ unmounted: true });
-  }  
+    window.removeEventListener('resize');
+  }
 
   getImageDim() {
-    this.height = this.imageContainer.children[0].clientHeight;
-    this.imageContainer.style.height = `${this.height}px`;
+    this.height = this.divsContainer.children[0].clientHeight;
+    this.divsContainer.style.height = `${this.height}px`;
   }
 
   addResizeListener() {
     window.addEventListener('resize', () => {
       this.width = document.querySelector('.react-slideshow-fade-wrapper').clientWidth;
+      this.height = this.divsContainer.children[0].clientHeight;
+      this.divsContainer.style.height = `${this.height}px`;
       this.applyStyle();
     });
   }
 
   applyStyle() {
-    this.imageRefs.forEach((eachImage, index) => {
-      eachImage.style.width = `${this.width}px`;
+    this.divsRef.forEach((eachDiv, index) => {
+      if (eachDiv) {
+        eachDiv.style.width = `${this.width}px`;
+      }
     });
   }
 
+  goto({ target }) {
+    this.fadeImages(parseInt(target.dataset.key));
+  }
+
   render() {
-    const { type } = this.props;
-    const { images } = this.state;
+    const { type, indicators } = this.props;
+    const { children, index } = this.state;
     return (
-      <div className="react-slideshow-container">
-        <div className="nav" onClick={() => this.fadeImages('prev')}>
-          {' '}&lt;{' '}
-        </div>
-        <div className={`react-slideshow-fade-wrapper ${type}`}>
-          <div
-            className="images-wrap"
-            ref={wrap => (this.imageContainer = wrap)}
-          >
-            {images.map((each, key) =>
-              <div
-                ref={el => {
-                  this.imageRefs.push(el);
-                }}
-                onLoad={key === 0 ? this.getImageDim : null}
-                data-index={key}
-                key={key}
-              >
-                <img alt="" src={each} />
-              </div>
-            )}
+      <div>
+        <div className="react-slideshow-container">
+          <div className="nav" onClick={() => this.fadeImages(index === 0 ? children.length - 1 : index - 1)}>
+            {' '}&lt;{' '}
+          </div>
+          <div className={`react-slideshow-fade-wrapper ${type}`}>
+            <div
+              className="react-slideshow-fade-images-wrap"
+              ref={wrap => (this.divsContainer = wrap)}
+            >
+              {children.map((each, key) =>
+                <div
+                  style={{opacity: key === index ? '1' : '0'}}
+                  ref={el => {
+                    this.divsRef.push(el);
+                  }}
+                  onLoad={key === 0 ? this.getImageDim : null}
+                  data-index={key}
+                  key={key}
+                >
+                  {each}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="nav" onClick={() => this.fadeImages((index + 1) % children.length)}>
+            {' '}&gt;{' '}
           </div>
         </div>
-        <div className="nav" onClick={() => this.fadeImages('next')}>
-          {' '}&gt;{' '}
-        </div>
+        {
+          indicators &&
+          <div className="indicators">
+            {
+              children.map((each, key) => (
+                <div
+                  key={key}
+                  data-key={key}
+                  className={index === key ? 'active' : ''}
+                  onClick={this.goto}/>
+              ))
+            }
+          </div>
+        }
       </div>
     );
   }
 
-  fadeImages(type) {
-    let { images } = this.state;
-    let newImageArr = [];
+  fadeImages(newIndex) {
+    let { children, index } = this.state;
     clearTimeout(this.timeout);
-    if (this.state.unmounted || !this.imageContainer) return;
-    const lastImage = this.imageContainer.children[images.length - 1];
-    if (type === 'prev') {
-      newImageArr = images.slice(1);
-      newImageArr.splice(newImageArr.length - 1, 0, images[0]);
-      this.setState({ images: newImageArr });
-      newImageArr = images.slice(1, images.length);
-      newImageArr.splice(newImageArr.length, 0, images[0]);
-    } else {
-      newImageArr = [images[images.length - 1]].concat(
-        images.slice(0, images.length - 1)
-      );
+    const value = { opacity: 0 };
+    animate();
+    function animate() {
+      requestAnimationFrame(animate);
+      TWEEN.default.update();
     }
-    lastImage.style.transition = `all ${this.props.transitionDuration / 1000}s`;
-    lastImage.style.opacity = '0';
-    setTimeout(() => {
-      if (this.state.unmounted || !this.lastImage) return;
-      lastImage.style.opacity = '1';
-      lastImage.style.transition = 'none';
-      this.timeout = setTimeout(
-        () => this.fadeImages('next'),
-        this.props.duration
-      );
-      this.setState({ images: newImageArr });
-    }, this.props.transitionDuration);
+    const tween = new TWEEN.Tween(value)
+      .to({opacity: 1}, this.props.transitionDuration)
+      .onUpdate((value) => {
+        this.divsContainer.children[newIndex].style.opacity = value.opacity;
+        this.divsContainer.children[index].style.opacity = 1 - value.opacity;
+      }).start();
+
+    tween.onComplete(() => {
+      this.setState({
+        index: newIndex
+      });
+      this.timeout = setTimeout(() => {
+        this.fadeImages((newIndex + 1) % children.length);
+      }, this.props.duration);
+    });
   }
 }
 
 Fade.defaultProps = {
   duration: 5000,
-  transitionDuration: 1000
+  transitionDuration: 1000,
+  indicators: false
 };
 
 Fade.propTypes = {
-  images: PropTypes.array.isRequired,
   duration: PropTypes.number,
-  transitionDuration: PropTypes.number
+  transitionDuration: PropTypes.number,
+  indicators: PropTypes.bool
 };
 export default Fade;

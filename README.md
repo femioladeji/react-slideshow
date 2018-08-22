@@ -14,52 +14,88 @@ You can use three different effects of the slideshow. Check the [demo](https://r
 import React from 'react';
 import { Slide } from 'react-slideshow-image';
 
-const images = [
+const slideImages = [
   'images/slide_2.jpg',
   'images/slide_3.jpg',
-  'images/slide_4.jpg',
-  'images/slide_5.jpg',
-  'images/slide_6.jpg',
-  'images/slide_7.jpg'
+  'images/slide_4.jpg'
 ];
+
+const properties = {
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true
+}
 
 const Slideshow = () => {
     return (
-        <Slide
-          images={images}
-          duration={5000}
-          transitionDuration={1000}
-        />
+      <Slide {...properties}>
+        <div className="each-slide">
+          <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
+            <span>Slide 1</span>
+          </div>
+        </div>
+        <div className="each-slide">
+          <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
+            <span>Slide 2</span>
+          </div>
+        </div>
+        <div className="each-slide">
+          <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
+            <span>Slide 3</span>
+          </div>
+        </div>
+      </Slide>
     )
 }
 ```
-The `images` props should be an array of image path. It's also the only required prop. The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
+The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
 
 ## Fade Effect
 ```
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
 
-const images = [
-  'images/slide_2.jpg',
-  'images/slide_3.jpg',
-  'images/slide_4.jpg',
+const fadeImages = [
   'images/slide_5.jpg',
   'images/slide_6.jpg',
   'images/slide_7.jpg'
 ];
 
+const fadeProperties = {
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true,
+  direction: "in"
+}
+
 const Slideshow = () => {
-    return (
-        <Fade
-          images={images}
-          duration={5000}
-          transitionDuration={1000}
-        />
-    )
+  return (
+    <Fade {...fadeProperties}>
+      <div className="each-fade">
+        <div className="image-container">
+          <img src={fadeImages[0]} />
+        </div>
+        <h2>First Slide</h2>
+      </div>
+      <div className="each-fade">
+        <div className="image-container">
+          <img src={fadeImages[1]} />
+        </div>
+        <h2>Second Slide</h2>
+      </div>
+      <div className="each-fade">
+        <div className="image-container">
+          <img src={fadeImages[2]} />
+        </div>
+        <h2>Third Slide</h2>
+      </div>
+    </Fade>
+  )
 }
 ```
-The `images` props should be an array of image path. It's also the only required prop. The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
+The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
 
 ## Zoom Effect
 ```

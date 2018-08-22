@@ -3,17 +3,18 @@
   overflow: hidden;
 }
 
-.react-slideshow-fade-wrapper .images-wrap {
+.react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap {
   display: flex;
   flex-wrap: wrap;
 }
 
-.react-slideshow-fade-wrapper .images-wrap div {
-  position: absolute;
+.react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap * {
+  max-width: 100%;
 }
 
-.react-slideshow-fade-wrapper .images-wrap div img {
-  width: 100%;
+.react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap > div {
+  position: absolute;
+  opacity: 0;
 }
 
 .react-slideshow-container {
@@ -45,4 +46,31 @@
 
 .react-slideshow-container .nav:last-of-type {
   margin-left: -30px;
+}
+
+div > div.indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+div > div.indicators > div {
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+}
+
+div > div.indicators > div:hover {
+  background: #666;
+}
+
+div > div.indicators > div.active {
+  background: #000;
+}
+
+div > div.indicators > div:last-of-type {
+  margin-right: 0;
 }
