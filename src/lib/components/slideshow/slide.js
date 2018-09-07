@@ -26,6 +26,7 @@ class Slideshow extends Component {
   }
 
   componentWillUnmount() {
+    this.willUnmount = true;
     clearTimeout(this.timeout);
     window.removeEventListener('resize', this.resizeListener);
   }
@@ -139,6 +140,10 @@ class Slideshow extends Component {
         }).start();
       animate();
       function animate() {
+        if(this.willUnmount){
+          TWEEN.default.stop();
+          return;
+        }
         requestAnimationFrame(animate);
         TWEEN.default.update();
       }

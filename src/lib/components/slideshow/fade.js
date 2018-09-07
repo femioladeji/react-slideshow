@@ -38,6 +38,7 @@ class Fade extends Component {
   }
 
   componentWillUnmount() {
+    this.willUnmount = true;
     clearTimeout(this.timeout);
     window.removeEventListener('resize', this.resizeListener)
   }
@@ -124,6 +125,10 @@ class Fade extends Component {
     const value = { opacity: 0 };
     animate();
     function animate() {
+      if(this.willUnmount){
+        TWEEN.default.stop();
+        return;
+      }
       requestAnimationFrame(animate);
       TWEEN.default.update();
     }

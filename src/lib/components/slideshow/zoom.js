@@ -37,6 +37,7 @@ class Zoom extends Component {
   }
 
   componentWillUnmount() {
+    this.willUnmount = true;
     clearTimeout(this.timeout);
     window.removeEventListener('resize', this.resizeListener);
   }
@@ -128,6 +129,10 @@ class Zoom extends Component {
     };
     animate();
     function animate() {
+      if(this.willUnmount){
+        TWEEN.default.stop();
+        return;
+      }
       requestAnimationFrame(animate);
       TWEEN.default.update();
     }
