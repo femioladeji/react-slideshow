@@ -129,7 +129,6 @@ class Slideshow extends Component {
 
   slideImages(index) {
     let { children, transitionDuration } = this.props;
-    let { willUnmount } = this;
     const existingTweens = TWEEN.default.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
@@ -139,16 +138,20 @@ class Slideshow extends Component {
         .onUpdate((value) => {
           this.imageContainer.style.transform = `translate(${value.margin}px)`;
         }).start();
+      let this2 = this;
       animate();
       function animate() {
-        if(willUnmount){
-          TWEEN.default.stop();
+        if(this2.willUnmount){
+          TWEEN.default.removeAll();
           return;
         }
         requestAnimationFrame(animate);
         TWEEN.default.update();
       }
       setTimeout(() => {
+        if(this2.willUnmount){
+          return;
+        }
         this.setState({
           index:
             index < 0 ? children.length - 1 : index >= children.length ? 0 : index

@@ -121,13 +121,13 @@ class Fade extends Component {
 
   fadeImages(newIndex) {
     let { children, index } = this.state;
-    let { willUnmount } = this;
     clearTimeout(this.timeout);
     const value = { opacity: 0 };
+    let this2 = this;
     animate();
     function animate() {
-      if(willUnmount){
-        TWEEN.default.stop();
+      if(this2.willUnmount){
+        TWEEN.default.removeAll();
         return;
       }
       requestAnimationFrame(animate);
@@ -141,6 +141,9 @@ class Fade extends Component {
       }).start();
 
     tween.onComplete(() => {
+      if(this2.willUnmount){
+        return;
+      }
       this.setState({
         index: newIndex
       });
