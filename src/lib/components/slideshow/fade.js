@@ -121,11 +121,12 @@ class Fade extends Component {
 
   fadeImages(newIndex) {
     let { children, index } = this.state;
+    let { willUnmount } = this;
     clearTimeout(this.timeout);
     const value = { opacity: 0 };
     animate();
     function animate() {
-      if(this.willUnmount){
+      if(willUnmount){
         TWEEN.default.stop();
         return;
       }

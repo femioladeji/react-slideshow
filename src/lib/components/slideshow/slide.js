@@ -129,6 +129,7 @@ class Slideshow extends Component {
 
   slideImages(index) {
     let { children, transitionDuration } = this.props;
+    let { willUnmount } = this;
     const existingTweens = TWEEN.default.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
@@ -140,7 +141,7 @@ class Slideshow extends Component {
         }).start();
       animate();
       function animate() {
-        if(this.willUnmount){
+        if(willUnmount){
           TWEEN.default.stop();
           return;
         }

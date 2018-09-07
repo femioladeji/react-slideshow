@@ -121,6 +121,7 @@ class Zoom extends Component {
 
   zoomTo(newIndex) {
     let { children, index } = this.state;
+    let { willUnmount } = this;
     const { scale } = this.props;
     clearTimeout(this.timeout);
     const value = {
@@ -129,7 +130,7 @@ class Zoom extends Component {
     };
     animate();
     function animate() {
-      if(this.willUnmount){
+      if(willUnmount){
         TWEEN.default.stop();
         return;
       }
