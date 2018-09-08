@@ -38,6 +38,7 @@ class Fade extends Component {
   }
 
   componentWillUnmount() {
+    this.willUnmount = true;
     clearTimeout(this.timeout);
     window.removeEventListener('resize', this.resizeListener)
   }
@@ -122,11 +123,18 @@ class Fade extends Component {
     let { children, index } = this.state;
     clearTimeout(this.timeout);
     const value = { opacity: 0 };
-    animate();
-    function animate() {
+
+    let animate = () => {
+      if(this.willUnmount){
+        TWEEN.default.removeAll();
+        return;
+      }
       requestAnimationFrame(animate);
       TWEEN.default.update();
-    }
+    };
+
+    animate();
+
     const tween = new TWEEN.Tween(value)
       .to({opacity: 1}, this.props.transitionDuration)
       .onUpdate((value) => {
@@ -135,6 +143,9 @@ class Fade extends Component {
       }).start();
 
     tween.onComplete(() => {
+      if(this.willUnmount){
+        return;
+      }
       this.setState({
         index: newIndex
       });

@@ -37,6 +37,7 @@ class Zoom extends Component {
   }
 
   componentWillUnmount() {
+    this.willUnmount = true;
     clearTimeout(this.timeout);
     window.removeEventListener('resize', this.resizeListener);
   }
@@ -120,17 +121,25 @@ class Zoom extends Component {
 
   zoomTo(newIndex) {
     let { children, index } = this.state;
+    let { willUnmount } = this;
     const { scale } = this.props;
     clearTimeout(this.timeout);
     const value = {
       opacity: 0,
       scale: 1
     };
-    animate();
-    function animate() {
+
+    let animate = () => {
+      if(this.willUnmount){
+        TWEEN.default.removeAll();
+        return;
+      }
       requestAnimationFrame(animate);
       TWEEN.default.update();
     }
+
+    animate();
+
     const tween = new TWEEN.Tween(value)
       .to({opacity: 1, scale}, this.props.transitionDuration)
       .onUpdate((value) => {
@@ -140,6 +149,9 @@ class Zoom extends Component {
       }).start();
 
     tween.onComplete(() => {
+      if(this.willUnmount){
+        return;
+      }
       this.setState({
         index: newIndex
       }, () => {
