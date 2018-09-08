@@ -125,7 +125,7 @@ class Fade extends Component {
     const value = { opacity: 0 };
 
     let animate = () => {
-      if(this.willUnmount){
+      if (this.willUnmount) {
         TWEEN.default.removeAll();
         return;
       }
@@ -143,7 +143,7 @@ class Fade extends Component {
       }).start();
 
     tween.onComplete(() => {
-      if(this.willUnmount){
+      if (this.willUnmount) {
         return;
       }
       this.setState({

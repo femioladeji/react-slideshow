@@ -74,7 +74,7 @@ class Slideshow extends Component {
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
     };
-    if(infinite) {
+    if (infinite) {
       this.timeout = setTimeout(() => this.preSlide('next'), duration);
     }
     return (
@@ -140,7 +140,7 @@ class Slideshow extends Component {
         }).start();
 
       let animate = () => {
-        if(this.willUnmount){
+        if (this.willUnmount) {
           TWEEN.default.removeAll();
           return;
         }
@@ -151,7 +151,7 @@ class Slideshow extends Component {
       animate();
 
       setTimeout(() => {
-        if(this.willUnmount){
+        if (this.willUnmount) {
           return;
         }
         this.setState({
