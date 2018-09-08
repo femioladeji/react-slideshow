@@ -128,16 +128,18 @@ class Zoom extends Component {
       opacity: 0,
       scale: 1
     };
-    let this2 = this;
-    animate();
-    function animate() {
-      if(this2.willUnmount){
+
+    let animate = () => {
+      if(this.willUnmount){
         TWEEN.default.removeAll();
         return;
       }
       requestAnimationFrame(animate);
       TWEEN.default.update();
     }
+
+    animate();
+
     const tween = new TWEEN.Tween(value)
       .to({opacity: 1, scale}, this.props.transitionDuration)
       .onUpdate((value) => {
@@ -147,7 +149,7 @@ class Zoom extends Component {
       }).start();
 
     tween.onComplete(() => {
-      if(this2.willUnmount){
+      if(this.willUnmount){
         return;
       }
       this.setState({

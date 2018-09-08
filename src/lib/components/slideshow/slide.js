@@ -138,18 +138,20 @@ class Slideshow extends Component {
         .onUpdate((value) => {
           this.imageContainer.style.transform = `translate(${value.margin}px)`;
         }).start();
-      let this2 = this;
-      animate();
-      function animate() {
-        if(this2.willUnmount){
+
+      let animate = () => {
+        if(this.willUnmount){
           TWEEN.default.removeAll();
           return;
         }
         requestAnimationFrame(animate);
         TWEEN.default.update();
       }
+
+      animate();
+
       setTimeout(() => {
-        if(this2.willUnmount){
+        if(this.willUnmount){
           return;
         }
         this.setState({
