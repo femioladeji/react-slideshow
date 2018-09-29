@@ -128,7 +128,7 @@ class Slideshow extends Component {
   }
 
   slideImages(index) {
-    let { children, transitionDuration } = this.props;
+    let { children, transitionDuration, onChange } = this.props;
     const existingTweens = TWEEN.default.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
@@ -158,6 +158,13 @@ class Slideshow extends Component {
           index:
             index < 0 ? children.length - 1 : index >= children.length ? 0 : index
         });
+        
+        try{
+          if(typeof(onChange) === "function"){
+            onChange(index);
+          }
+        }
+        catch(e){ console.error(e) }
       }, transitionDuration);
     }
   }

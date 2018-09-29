@@ -28,7 +28,8 @@ const properties = {
   duration: 5000,
   transitionDuration: 500,
   infinite: true,
-  indicators: true
+  indicators: true,
+  onChange: (index) => { console.log(`Finished slide ${index}`) }
 }
 
 const Slideshow = () => {
@@ -70,7 +71,8 @@ const fadeProperties = {
   duration: 5000,
   transitionDuration: 500,
   infinite: true,
-  indicators: true
+  indicators: true,
+  onChange: (index) => { console.log(`Finished fade ${index}`) }
 }
 
 const Slideshow = () => {
@@ -119,7 +121,8 @@ const zoomOutProperties = {
   transitionDuration: 500,
   infinite: true,
   indicators: true,
-  scale: 0.4
+  scale: 0.4,
+  onChange: (index) => { console.log(`Finished zoom ${index}`) }
 }
 
 const Slideshow = () => {

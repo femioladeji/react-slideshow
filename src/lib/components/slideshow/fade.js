@@ -121,6 +121,7 @@ class Fade extends Component {
 
   fadeImages(newIndex) {
     let { children, index } = this.state;
+    let { onChange } = this.props;
     clearTimeout(this.timeout);
     const value = { opacity: 0 };
 
@@ -152,6 +153,13 @@ class Fade extends Component {
       this.timeout = setTimeout(() => {
         this.fadeImages((newIndex + 1) % children.length);
       }, this.props.duration);
+      
+      try{
+        if(typeof(onChange) === "function"){
+          onChange(index);
+        }
+      }
+      catch(e){ console.error(e) }
     });
   }
 }

@@ -121,7 +121,7 @@ class Zoom extends Component {
 
   zoomTo(newIndex) {
     let { children, index } = this.state;
-    const { scale } = this.props;
+    const { scale, onChange } = this.props;
     clearTimeout(this.timeout);
     const value = {
       opacity: 0,
@@ -135,7 +135,7 @@ class Zoom extends Component {
       }
       requestAnimationFrame(animate);
       TWEEN.default.update();
-    }
+    };
 
     animate();
 
@@ -159,6 +159,13 @@ class Zoom extends Component {
       this.timeout = setTimeout(() => {
         this.zoomTo((newIndex + 1) % children.length);
       }, this.props.duration);
+      
+      try{
+        if(typeof(onChange) === "function"){
+          onChange(index);
+        }
+      }
+      catch(e){ console.error(e) }
     });
   }
 }
