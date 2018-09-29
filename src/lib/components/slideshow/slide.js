@@ -154,17 +154,15 @@ class Slideshow extends Component {
         if (this.willUnmount) {
           return;
         }
+        let newIndex = index < 0 ? children.length - 1 : index >= children.length ? 0 : index;
         this.setState({
-          index:
-            index < 0 ? children.length - 1 : index >= children.length ? 0 : index
-        });
-        
-        try{
-          if(typeof(onChange) === "function"){
-            onChange(index);
+          index: newIndex
+        }, () => {
+          try{
+            if(typeof onChange === "function") onChange(index, newIndex);
           }
-        }
-        catch(e){ console.error(e) }
+          catch(e){ console.error(e) }
+        });
       }, transitionDuration);
     }
   }

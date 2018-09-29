@@ -149,17 +149,15 @@ class Fade extends Component {
       }
       this.setState({
         index: newIndex
+      }, () => {
+        try{
+          if(typeof onChange === "function") onChange(index, newIndex);
+        }
+        catch(e){ console.error(e) }
       });
       this.timeout = setTimeout(() => {
         this.fadeImages((newIndex + 1) % children.length);
       }, this.props.duration);
-      
-      try{
-        if(typeof(onChange) === "function"){
-          onChange(index);
-        }
-      }
-      catch(e){ console.error(e) }
     });
   }
 }

@@ -155,17 +155,14 @@ class Zoom extends Component {
         index: newIndex
       }, () => {
         this.divsContainer.children[index].style.transform = `scale(1)`;
+        try{
+          if(typeof onChange === "function") onChange(index, newIndex);
+        }
+        catch(e){ console.error(e) }
       });
       this.timeout = setTimeout(() => {
         this.zoomTo((newIndex + 1) % children.length);
       }, this.props.duration);
-      
-      try{
-        if(typeof(onChange) === "function"){
-          onChange(index);
-        }
-      }
-      catch(e){ console.error(e) }
     });
   }
 }
