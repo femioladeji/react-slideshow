@@ -11,12 +11,10 @@ class Zoom extends Component {
       children: [],
       index: 0
     };
-    this.divRefs = [];
     this.width = 0;
-    this.height = 0;
     this.timeout = null;
     this.divsContainer = null;
-    this.getImageDim = this.getImageDim.bind(this);
+    this.setWidth = this.setWidth.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.goto = this.goto.bind(this);
   }
@@ -32,8 +30,8 @@ class Zoom extends Component {
   }
 
   componentDidMount() {
-    this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
-    window.addEventListener('resize', this.resizeListener)
+    window.addEventListener('resize', this.resizeListener);
+    this.setWidth();
   }
 
   componentWillUnmount() {
@@ -42,41 +40,45 @@ class Zoom extends Component {
     window.removeEventListener('resize', this.resizeListener);
   }
 
-  getImageDim() {
-    this.height = this.divsContainer.children[0].clientHeight;
-    this.divsContainer.style.height = `${this.height}px`;
+  setWidth() {
+    this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
     this.applyStyle();
   }
 
   resizeListener() {
-    this.width = document.querySelector('.react-slideshow-zoom-wrapper').clientWidth;
-    this.height = this.divsContainer.children[0].clientHeight;
-    this.divsContainer.style.height = `${this.height}px`;
-    this.applyStyle();
+    this.setWidth();
   }
 
   applyStyle() {
-    this.divRefs.forEach((eachDiv, index) => {
+    const fullwidth = this.width * this.props.children.length;
+    this.divsContainer.style.width = `${fullwidth}px`;
+    for(let index = 0; index < this.divsContainer.children.length; index++) {
+      const eachDiv = this.divsContainer.children[index];
       if (eachDiv) {
         eachDiv.style.width = `${this.width}px`;
-        eachDiv.style.height = `${this.height}px`;
+        eachDiv.style.left = `${index * -this.width}px`;
       }
-    });
+    }
   }
 
   goto({ target }) {
-    this.zoomTo(parseInt(target.dataset.key));
+    if (target.dataset.key != this.state.index) {
+      this.zoomTo(parseInt(target.dataset.key));
+    }
   }
 
   render() {
-    const { indicators } = this.props;
+    const { indicators, arrows } = this.props;
     const { children, index } = this.state;
     return (
       <div>
         <div className="react-slideshow-container">
-          <div className="nav" onClick={() => this.zoomTo(index === 0 ? children.length - 1 : index - 1)}>
-            {' '}&lt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className="nav" onClick={() => this.zoomTo(index === 0 ? children.length - 1 : index - 1)}>
+              {' '}&lt;{' '}
+            </div>
+          }
           <div className="react-slideshow-zoom-wrapper">
             <div
               className="zoom-wrapper"
@@ -85,10 +87,6 @@ class Zoom extends Component {
               {children.map((each, key) =>
                 <div
                   style={{opacity: key === index ? '1' : '0'}}
-                  ref={el => {
-                    this.divRefs.push(el);
-                  }}
-                  onLoad={key === 0 ? this.getImageDim : null}
                   data-index={key}
                   key={key}
                 >
@@ -97,9 +95,12 @@ class Zoom extends Component {
               )}
             </div>
           </div>
-          <div className="nav" onClick={() => this.zoomTo((index + 1) % children.length)}>
-            {' '}&gt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className="nav" onClick={() => this.zoomTo((index + 1) % children.length)}>
+              {' '}&gt;{' '}
+            </div>
+          }
         </div>
         {
           indicators &&
@@ -166,13 +167,15 @@ class Zoom extends Component {
 Zoom.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
-  indicators: false
+  indicators: false,
+  arrows: true
 };
 
 Zoom.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   indicators: PropTypes.bool,
-  scale: PropTypes.number.isRequired
+  scale: PropTypes.number.isRequired,
+  arrows: PropTypes.bool
 };
 export default Zoom;

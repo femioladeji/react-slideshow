@@ -33,8 +33,7 @@ class App extends Component {
       duration: 5000,
       transitionDuration: 500,
       infinite: true,
-      indicators: true,
-      direction: "in"
+      indicators: true
     }
 
     const zoomOutProperties = {
@@ -86,10 +85,10 @@ class App extends Component {
               <h2>First Slide</h2>
             </div>
             <div className="each-fade">
+              <h2>Second Slide</h2>
               <div className="image-container">
                 <img src={fadeImages[1]} />
               </div>
-              <h2>Second Slide</h2>
             </div>
             <div className="each-fade">
               <div className="image-container">

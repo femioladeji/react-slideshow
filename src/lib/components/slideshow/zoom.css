@@ -14,7 +14,7 @@
 }
 
 .react-slideshow-zoom-wrapper .zoom-wrapper > div {
-  position: absolute;
+  position: relative;
   display: flex;
 }
 

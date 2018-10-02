@@ -13,7 +13,7 @@
 }
 
 .react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap > div {
-  position: absolute;
+  position: relative;
   opacity: 0;
 }
 

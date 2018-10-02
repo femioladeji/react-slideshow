@@ -14,7 +14,7 @@ yarn add react-slideshow-image
 You can use three different effects of the slideshow. Check the [demo](https://react-slideshow.herokuapp.com)
 
 ## Slide Effect
-```
+```js
 import React from 'react';
 import { Slide } from 'react-slideshow-image';
 
@@ -28,7 +28,8 @@ const properties = {
   duration: 5000,
   transitionDuration: 500,
   infinite: true,
-  indicators: true
+  indicators: true,
+  arrows: true
 }
 
 const Slideshow = () => {
@@ -56,7 +57,7 @@ const Slideshow = () => {
 The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
 
 ## Fade Effect
-```
+```js
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
 
@@ -101,7 +102,7 @@ const Slideshow = () => {
 The default value for duration and transitionDuration is 5000 and 1000 milliseconds respectively
 
 ## Zoom Effect
-```
+```js
 import React from 'react';
 import { Zoom } from 'react-slideshow-image';
 
@@ -119,7 +120,8 @@ const zoomOutProperties = {
   transitionDuration: 500,
   infinite: true,
   indicators: true,
-  scale: 0.4
+  scale: 0.4,
+  arrows: true
 }
 
 const Slideshow = () => {
@@ -132,7 +134,6 @@ const Slideshow = () => {
     )
 }
 ```
-The `images` and `scale` props are compulsory. The `scale` prop determines if the images will be zoomed out or in. If a scale less than 1 was entered, then the image will be zoomed out but if it's greater than 1 then the image will be zoomed in. The `scale` property is numeric
 
 # Webpack configuration
 ⚠️  If you bootstrapped the app without using create-react-app, you will need to add [css loader](https://github.com/webpack-contrib/css-loader) and [style loader](https://github.com/webpack-contrib/style-loader) to your webpack config
@@ -153,3 +154,13 @@ The `images` and `scale` props are compulsory. The `scale` prop determines if th
   }
 }
 ```
+
+## Properties
+| Properties          | Type        | DefaultValue  | Description                                                                                |
+| ------------------- |:-----------:| ------------- | ------------------------------------------------------------------------------------------ |
+| duration            | integer     | 5000          | Time it takes (milliseconds) before next transition starts                                 |
+| transitionDuration  | integer     | 1000          | Determines how long the transition takes                                                   |
+| infinite            | boolean     | false         | Specifies if the transition should loop throughout                                         |
+| indicators          | boolean     | false         | For specifying if there should be dots below the slideshow                                 |
+| scale               | number      |               | *Required* when using zoom to specify the scale the current slide should be zoomed to      |
+| arrows              | boolean     | true          | Determines if there should be a navigational arrow for going to the next or previous slide |
