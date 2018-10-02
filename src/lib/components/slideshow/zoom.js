@@ -62,7 +62,9 @@ class Zoom extends Component {
   }
 
   goto({ target }) {
-    this.zoomTo(parseInt(target.dataset.key));
+    if (target.dataset.key != this.state.index) {
+      this.zoomTo(parseInt(target.dataset.key));
+    }
   }
 
   render() {

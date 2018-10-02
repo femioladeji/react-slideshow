@@ -62,7 +62,9 @@ class Fade extends Component {
   }
 
   goto({ target }) {
-    this.fadeImages(parseInt(target.dataset.key));
+    if (target.dataset.key != this.state.index) {
+      this.fadeImages(parseInt(target.dataset.key));
+    }
   }
 
   render() {
