@@ -66,14 +66,17 @@ class Fade extends Component {
   }
 
   render() {
-    const { indicators } = this.props;
+    const { indicators, arrows } = this.props;
     const { children, index } = this.state;
     return (
       <div>
         <div className="react-slideshow-container">
-          <div className="nav" onClick={() => this.fadeImages(index === 0 ? children.length - 1 : index - 1)}>
-            {' '}&lt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className="nav" onClick={() => this.fadeImages(index === 0 ? children.length - 1 : index - 1)}>
+              {' '}&lt;{' '}
+            </div>
+          }
           <div className="react-slideshow-fade-wrapper">
             <div
               className="react-slideshow-fade-images-wrap"
@@ -90,9 +93,12 @@ class Fade extends Component {
               )}
             </div>
           </div>
-          <div className="nav" onClick={() => this.fadeImages((index + 1) % children.length)}>
-            {' '}&gt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className="nav" onClick={() => this.fadeImages((index + 1) % children.length)}>
+              {' '}&gt;{' '}
+            </div>
+          }
         </div>
         {
           indicators &&
@@ -152,12 +158,14 @@ class Fade extends Component {
 Fade.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
-  indicators: false
+  indicators: false,
+  arrows: true
 };
 
 Fade.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
-  indicators: PropTypes.bool
+  indicators: PropTypes.bool,
+  arrows: PropTypes.bool
 };
 export default Fade;

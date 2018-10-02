@@ -33,8 +33,7 @@ class App extends Component {
       duration: 5000,
       transitionDuration: 500,
       infinite: true,
-      indicators: true,
-      direction: "in"
+      indicators: true
     }
 
     const zoomOutProperties = {

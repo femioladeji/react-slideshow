@@ -69,7 +69,7 @@ class Slideshow extends Component {
   }
 
   render() {
-    const { children, duration, infinite, indicators } = this.props;
+    const { children, duration, infinite, indicators, arrows } = this.props;
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
@@ -80,9 +80,12 @@ class Slideshow extends Component {
     return (
       <div>
         <div className="react-slideshow-container">
-          <div className={`nav ${index <= 0 && !infinite ? 'disabled': ''}`} data-type="prev" onClick={this.moveSlides}>
-            {' '}&lt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className={`nav ${index <= 0 && !infinite ? 'disabled': ''}`} data-type="prev" onClick={this.moveSlides}>
+              {' '}&lt;{' '}
+            </div>
+          }
           <div className={`react-slideshow-wrapper slide`}>
             <div
               className="images-wrap"
@@ -105,9 +108,12 @@ class Slideshow extends Component {
               </div>
             </div>
           </div>
-          <div className={`nav ${index === children.length - 1 && !infinite ? 'disabled': ''}`} data-type="next" onClick={this.moveSlides}>
-            {' '}&gt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className={`nav ${index === children.length - 1 && !infinite ? 'disabled': ''}`} data-type="next" onClick={this.moveSlides}>
+              {' '}&gt;{' '}
+            </div>
+          }
         </div>
         {
           indicators &&
@@ -167,13 +173,15 @@ Slideshow.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
   infinite: false,
-  indicators: false
+  indicators: false,
+  arrows: true
 };
 
 Slideshow.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   infinite: PropTypes.bool,
-  indicators: PropTypes.bool
+  indicators: PropTypes.bool,
+  arrows: PropTypes.bool
 };
 export default Slideshow;

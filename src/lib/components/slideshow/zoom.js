@@ -66,14 +66,17 @@ class Zoom extends Component {
   }
 
   render() {
-    const { indicators } = this.props;
+    const { indicators, arrows } = this.props;
     const { children, index } = this.state;
     return (
       <div>
         <div className="react-slideshow-container">
-          <div className="nav" onClick={() => this.zoomTo(index === 0 ? children.length - 1 : index - 1)}>
-            {' '}&lt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className="nav" onClick={() => this.zoomTo(index === 0 ? children.length - 1 : index - 1)}>
+              {' '}&lt;{' '}
+            </div>
+          }
           <div className="react-slideshow-zoom-wrapper">
             <div
               className="zoom-wrapper"
@@ -90,9 +93,12 @@ class Zoom extends Component {
               )}
             </div>
           </div>
-          <div className="nav" onClick={() => this.zoomTo((index + 1) % children.length)}>
-            {' '}&gt;{' '}
-          </div>
+          {
+            arrows &&
+            <div className="nav" onClick={() => this.zoomTo((index + 1) % children.length)}>
+              {' '}&gt;{' '}
+            </div>
+          }
         </div>
         {
           indicators &&
@@ -159,13 +165,15 @@ class Zoom extends Component {
 Zoom.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
-  indicators: false
+  indicators: false,
+  arrows: true
 };
 
 Zoom.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   indicators: PropTypes.bool,
-  scale: PropTypes.number.isRequired
+  scale: PropTypes.number.isRequired,
+  arrows: PropTypes.bool
 };
 export default Zoom;
