@@ -160,7 +160,8 @@ const Slideshow = () => {
 | ------------------- |:-----------:| ------------- | ------------------------------------------------------------------------------------------ |
 | duration            | integer     | 5000          | Time it takes (milliseconds) before next transition starts                                 |
 | transitionDuration  | integer     | 1000          | Determines how long the transition takes                                                   |
-| infinite            | boolean     | false         | Specifies if the transition should loop throughout                                         |
+| infinite            | boolean     | true          | Specifies if the transition should loop throughout                                         |
 | indicators          | boolean     | false         | For specifying if there should be dots below the slideshow                                 |
 | scale               | number      |               | *Required* when using zoom to specify the scale the current slide should be zoomed to      |
 | arrows              | boolean     | true          | Determines if there should be a navigational arrow for going to the next or previous slide |
+| autoplay            | boolean     | true          | Responsible for determining if the slideshow should start automatically                    |

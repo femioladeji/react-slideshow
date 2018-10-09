@@ -64,17 +64,21 @@ class Slideshow extends Component {
 
   preSlide(type) {
     let { index } = this.state;
+    const { infinite, children } = this.props;
+    if (!infinite && type === 'next' && index === children.length - 1) {
+      return;
+    }
     index = type === 'next' ? index + 1 : index - 1;
     this.slideImages(index);
   }
 
   render() {
-    const { children, duration, infinite, indicators, arrows } = this.props;
+    const { children, duration, infinite, autoplay, indicators, arrows } = this.props;
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
     };
-    if (infinite) {
+    if (autoplay) {
       this.timeout = setTimeout(() => this.preSlide('next'), duration);
     }
     return (
@@ -172,7 +176,8 @@ class Slideshow extends Component {
 Slideshow.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
-  infinite: false,
+  infinite: true,
+  autoplay: true,
   indicators: false,
   arrows: true
 };
@@ -182,6 +187,7 @@ Slideshow.propTypes = {
   transitionDuration: PropTypes.number,
   infinite: PropTypes.bool,
   indicators: PropTypes.bool,
+  autoplay: PropTypes.bool,
   arrows: PropTypes.bool
 };
 export default Slideshow;

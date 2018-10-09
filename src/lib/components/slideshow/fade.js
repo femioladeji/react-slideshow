@@ -20,10 +20,12 @@ class Fade extends Component {
   }
 
   componentWillMount() {
-    this.timeout = setTimeout(
-      () => this.fadeImages(1),
-      this.props.duration
-    );
+    if (this.props.autoplay) {
+      this.timeout = setTimeout(
+        () => this.fadeImages(1),
+        this.props.duration
+      );
+    }
     this.setState({
       children: this.props.children
     });
@@ -150,9 +152,11 @@ class Fade extends Component {
       this.setState({
         index: newIndex
       });
-      this.timeout = setTimeout(() => {
-        this.fadeImages((newIndex + 1) % children.length);
-      }, this.props.duration);
+      if (this.props.autoplay) {
+        this.timeout = setTimeout(() => {
+          this.fadeImages((newIndex + 1) % children.length);
+        }, this.props.duration);
+      }
     });
   }
 }
@@ -161,13 +165,15 @@ Fade.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
   indicators: false,
-  arrows: true
+  arrows: true,
+  autoplay: true
 };
 
 Fade.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   indicators: PropTypes.bool,
-  arrows: PropTypes.bool
+  arrows: PropTypes.bool,
+  autoplay: PropTypes.bool
 };
 export default Fade;
