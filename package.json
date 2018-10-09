@@ -22,10 +22,24 @@
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "html-webpack-plugin": "^3.0.0",
     "husky": "^0.14.3",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3",
     "serve": "^6.5.1",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9",
     "webpack-dev-server": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "npm run prepublishOnly",
+      "git add ."
+    ]
   },
   "main": "lib/index.js",
   "scripts": {
@@ -33,7 +47,6 @@
     "build": "npm i --only=dev && webpack && cp -r src/images dist",
     "heroku-postbuild": "npm run build",
     "start": "serve dist/",
-    "precommit": "npm run prepublishOnly && git add .",
     "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files"
   },
   "dependencies": {

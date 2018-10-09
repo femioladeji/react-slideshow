@@ -73,7 +73,14 @@ class Slideshow extends Component {
   }
 
   render() {
-    const { children, duration, infinite, autoplay, indicators, arrows } = this.props;
+    const {
+      children,
+      duration,
+      infinite,
+      autoplay,
+      indicators,
+      arrows
+    } = this.props;
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
@@ -84,21 +91,24 @@ class Slideshow extends Component {
     return (
       <div>
         <div className="react-slideshow-container">
-          {
-            arrows &&
-            <div className={`nav ${index <= 0 && !infinite ? 'disabled': ''}`} data-type="prev" onClick={this.moveSlides}>
-              {' '}&lt;{' '}
+          {arrows && (
+            <div
+              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
+              data-type="prev"
+              onClick={this.moveSlides}
+            >
+              {' '}
+              &lt;{' '}
             </div>
-          }
+          )}
           <div className={`react-slideshow-wrapper slide`}>
             <div
               className="images-wrap"
               style={style}
-              ref={wrap => (this.imageContainer = wrap)}>
-              <div data-index="-1">
-                { children[children.length - 1] }
-              </div>
-              {children.map((each, key) =>
+              ref={wrap => (this.imageContainer = wrap)}
+            >
+              <div data-index="-1">{children[children.length - 1]}</div>
+              {children.map((each, key) => (
                 <div
                   data-index={key}
                   key={key}
@@ -106,33 +116,35 @@ class Slideshow extends Component {
                 >
                   {each}
                 </div>
-              )}
-              <div data-index="-1">
-                {children[0]}
-              </div>
+              ))}
+              <div data-index="-1">{children[0]}</div>
             </div>
           </div>
-          {
-            arrows &&
-            <div className={`nav ${index === children.length - 1 && !infinite ? 'disabled': ''}`} data-type="next" onClick={this.moveSlides}>
-              {' '}&gt;{' '}
+          {arrows && (
+            <div
+              className={`nav ${
+                index === children.length - 1 && !infinite ? 'disabled' : ''
+              }`}
+              data-type="next"
+              onClick={this.moveSlides}
+            >
+              {' '}
+              &gt;{' '}
             </div>
-          }
+          )}
         </div>
-        {
-          indicators &&
+        {indicators && (
           <div className="indicators">
-            {
-              children.map((each, key) => (
-                <div
-                  key={key}
-                  data-key={key}
-                  className={index === key ? 'active' : ''}
-                  onClick={this.goToSlide}/>
-              ))
-            }
+            {children.map((each, key) => (
+              <div
+                key={key}
+                data-key={key}
+                className={index === key ? 'active' : ''}
+                onClick={this.goToSlide}
+              />
+            ))}
           </div>
-        }
+        )}
       </div>
     );
   }
@@ -142,12 +154,13 @@ class Slideshow extends Component {
     const existingTweens = TWEEN.default.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
-      const value = {margin: -this.width * (this.state.index + 1)};
+      const value = { margin: -this.width * (this.state.index + 1) };
       const tween = new TWEEN.Tween(value)
-        .to({margin: -this.width * (index + 1)}, transitionDuration)
-        .onUpdate((value) => {
+        .to({ margin: -this.width * (index + 1) }, transitionDuration)
+        .onUpdate(value => {
           this.imageContainer.style.transform = `translate(${value.margin}px)`;
-        }).start();
+        })
+        .start();
 
       let animate = () => {
         if (this.willUnmount) {
@@ -156,7 +169,7 @@ class Slideshow extends Component {
         }
         requestAnimationFrame(animate);
         TWEEN.default.update();
-      }
+      };
 
       animate();
 
@@ -166,7 +179,11 @@ class Slideshow extends Component {
         }
         this.setState({
           index:
-            index < 0 ? children.length - 1 : index >= children.length ? 0 : index
+            index < 0
+              ? children.length - 1
+              : index >= children.length
+                ? 0
+                : index
         });
       }, transitionDuration);
     }
