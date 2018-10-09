@@ -81,8 +81,7 @@ class Zoom extends Component {
                 this.zoomTo(index === 0 ? children.length - 1 : index - 1)
               }
             >
-              {' '}
-              &lt;{' '}
+              &lt;
             </div>
           )}
           <div className="react-slideshow-zoom-wrapper">
@@ -109,8 +108,7 @@ class Zoom extends Component {
               className="nav"
               onClick={() => this.zoomTo((index + 1) % children.length)}
             >
-              {' '}
-              &gt;{' '}
+              &gt;
             </div>
           )}
         </div>

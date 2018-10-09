@@ -97,8 +97,7 @@ class Slideshow extends Component {
               data-type="prev"
               onClick={this.moveSlides}
             >
-              {' '}
-              &lt;{' '}
+              &lt;
             </div>
           )}
           <div className={`react-slideshow-wrapper slide`}>
@@ -128,8 +127,7 @@ class Slideshow extends Component {
               data-type="next"
               onClick={this.moveSlides}
             >
-              {' '}
-              &gt;{' '}
+              &gt;
             </div>
           )}
         </div>
