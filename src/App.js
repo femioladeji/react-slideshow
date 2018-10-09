@@ -32,14 +32,12 @@ class App extends Component {
     const fadeProperties = {
       duration: 5000,
       transitionDuration: 500,
-      infinite: true,
       indicators: true
     }
 
     const zoomOutProperties = {
       duration: 5000,
       transitionDuration: 500,
-      infinite: true,
       indicators: true,
       scale: 0.4
     }
@@ -47,7 +45,6 @@ class App extends Component {
     const zoomInProperties = {
       duration: 5000,
       transitionDuration: 500,
-      infinite: true,
       indicators: true,
       scale: 1.4
     }

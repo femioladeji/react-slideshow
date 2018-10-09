@@ -20,10 +20,12 @@ class Zoom extends Component {
   }
 
   componentWillMount() {
-    this.timeout = setTimeout(
-      () => this.zoomTo(1),
-      this.props.duration
-    );
+    if (this.props.autoplay) {
+      this.timeout = setTimeout(
+        () => this.zoomTo(1),
+        this.props.duration
+      );
+    }
     this.setState({
       children: this.props.children
     });
@@ -122,7 +124,7 @@ class Zoom extends Component {
 
   zoomTo(newIndex) {
     let { children, index } = this.state;
-    const { scale } = this.props;
+    const { scale, autoplay } = this.props;
     clearTimeout(this.timeout);
     const value = {
       opacity: 0,
@@ -157,9 +159,11 @@ class Zoom extends Component {
       }, () => {
         this.divsContainer.children[index].style.transform = `scale(1)`;
       });
-      this.timeout = setTimeout(() => {
-        this.zoomTo((newIndex + 1) % children.length);
-      }, this.props.duration);
+      if (autoplay) {
+        this.timeout = setTimeout(() => {
+          this.zoomTo((newIndex + 1) % children.length);
+        }, this.props.duration);
+      }
     });
   }
 }
@@ -168,7 +172,8 @@ Zoom.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
   indicators: false,
-  arrows: true
+  arrows: true,
+  autoplay: true
 };
 
 Zoom.propTypes = {
@@ -176,6 +181,7 @@ Zoom.propTypes = {
   transitionDuration: PropTypes.number,
   indicators: PropTypes.bool,
   scale: PropTypes.number.isRequired,
-  arrows: PropTypes.bool
+  arrows: PropTypes.bool,
+  autoplay: PropTypes.bool
 };
 export default Zoom;
