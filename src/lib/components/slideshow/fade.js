@@ -86,7 +86,7 @@ class Fade extends Component {
             >
               {children.map((each, key) =>
                 <div
-                  style={{opacity: key === index ? '1' : '0'}}
+                  style={{opacity: key === index ? '1' : '0', zIndex: key === index ? '1' : '0'}}
                   data-index={key}
                   key={key}
                 >
