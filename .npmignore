@@ -4,3 +4,6 @@ scripts
 config
 coverage
 build
+__tests__
+__mocks__
+dist
