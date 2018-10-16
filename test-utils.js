@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-testing-library';
-import { Fade, Zoom } from './src/lib';
+import { Fade, Zoom, Slide } from './src/lib';
 
 export const images = [
   'images/slide_5.jpg',
@@ -39,5 +39,22 @@ export const renderZoom = (props = {}, container) => {
           <img key={index} src={each} />
         ))}
       </Zoom>, options);
+  return slideShow;
+}
+
+export const renderSlide = (props = {}, container) => {
+  let options = {};
+  if (container) {
+    options = {
+      container: document.body.appendChild(container),
+      baseElement: container
+    }
+  }
+  let slideShow = render(
+      <Slide {...props}>
+        {images.map((each, index) => (
+          <img key={index} src={each} />
+        ))}
+      </Slide>, options);
   return slideShow;
 }
