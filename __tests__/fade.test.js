@@ -1,12 +1,12 @@
-import { cleanup, wait, waitForElement, fireEvent } from 'react-testing-library';
-import { renderFade, fadeImages } from '../test-utils';
+import { cleanup, wait, fireEvent } from 'react-testing-library';
+import { renderFade, images } from '../test-utils';
 
 afterEach(cleanup);
 
 test("All children dom elements were loaded", () => {
   const { container } = renderFade();
   const childrenElements = container.querySelectorAll('.react-slideshow-fade-images-wrap > div');
-  expect(childrenElements.length).toEqual(fadeImages.length);
+  expect(childrenElements.length).toEqual(images.length);
 });
 
 test("The opacity and z-index of the first child are 1", () => {
@@ -52,10 +52,10 @@ test("indciators should show with the exact number of children dots", () => {
   let indicators = container.querySelectorAll('.indicators');
   let dots = container.querySelectorAll('.indicators > div');
   expect(indicators.length).toBe(1);
-  expect(dots.length).toBe(fadeImages.length);
+  expect(dots.length).toBe(images.length);
 });
 
-/*test("When next or previous arrow is clicked, the right child shows up", async () => {
+test("When next or previous arrow is clicked, the right child shows up", async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(fadeProperties2, wrapperElement);
   const childrenElements = baseElement.querySelectorAll('.react-slideshow-fade-images-wrap > div');
@@ -75,7 +75,7 @@ test("indciators should show with the exact number of children dots", () => {
   }, {
     timeout: fadeProperties2.transitionDuration
   });
-});*/
+});
 
 test(`The second child should start transition to opacity and zIndex of 1 after ${fadeProperties.duration}ms`, async () => {
   const { container } = renderFade(fadeProperties);

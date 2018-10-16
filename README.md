@@ -1,5 +1,7 @@
 # React-Slideshow
 
+[![CircleCI](https://circleci.com/gh/andela-foladeji/react-slideshow.svg?style=svg)](https://circleci.com/gh/andela-foladeji/react-slideshow)
+
 A simple slideshow component built with react that supports slide, fade and zoom effects
 
 Installation
