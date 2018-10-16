@@ -48,7 +48,7 @@
     "heroku-postbuild": "npm run build",
     "start": "serve dist/",
     "precommit": "lint-staged",
-    "test": "jest",
+    "test": "jest && codecov",
     "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files"
   },
   "dependencies": {
