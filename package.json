@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "keywords": [
@@ -8,7 +8,9 @@
     "react",
     "Image slider",
     "Slideshow",
-    "react"
+    "react",
+    "fade",
+    "zoom"
   ],
   "repository": {
     "type": "git",
@@ -33,6 +35,10 @@
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9",
     "webpack-dev-server": "^3.1.0"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "lint-staged": {
     "[src|__tests__]/**/*.{js,jsx,json,css}": [
