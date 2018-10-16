@@ -21,10 +21,7 @@ class Fade extends Component {
 
   componentWillMount() {
     if (this.props.autoplay) {
-      this.timeout = setTimeout(
-        () => this.fadeImages(1),
-        this.props.duration
-      );
+      this.timeout = setTimeout(() => this.fadeImages(1), this.props.duration);
     }
     this.setState({
       children: this.props.children
@@ -43,7 +40,9 @@ class Fade extends Component {
   }
 
   setWidth() {
-    this.width = document.querySelector('.react-slideshow-fade-wrapper').clientWidth;
+    this.width = document.querySelector(
+      '.react-slideshow-fade-wrapper'
+    ).clientWidth;
     this.applyStyle();
   }
 
@@ -54,7 +53,7 @@ class Fade extends Component {
   applyStyle() {
     const fullwidth = this.width * this.props.children.length;
     this.divsContainer.style.width = `${fullwidth}px`;
-    for(let index = 0; index < this.divsContainer.children.length; index++) {
+    for (let index = 0; index < this.divsContainer.children.length; index++) {
       const eachDiv = this.divsContainer.children[index];
       if (eachDiv) {
         eachDiv.style.width = `${this.width}px`;
@@ -75,49 +74,56 @@ class Fade extends Component {
     return (
       <div>
         <div className="react-slideshow-container">
-          {
-            arrows &&
-            <div className="nav" onClick={() => this.fadeImages(index === 0 ? children.length - 1 : index - 1)}>
-              {' '}&lt;{' '}
+          {arrows && (
+            <div
+              className="nav"
+              onClick={() =>
+                this.fadeImages(index === 0 ? children.length - 1 : index - 1)
+              }
+            >
+              &lt;
             </div>
-          }
+          )}
           <div className="react-slideshow-fade-wrapper">
             <div
               className="react-slideshow-fade-images-wrap"
               ref={wrap => (this.divsContainer = wrap)}
             >
-              {children.map((each, key) =>
+              {children.map((each, key) => (
                 <div
-                  style={{opacity: key === index ? '1' : '0', zIndex: key === index ? '1' : '0'}}
+                  style={{
+                    opacity: key === index ? '1' : '0',
+                    zIndex: key === index ? '1' : '0'
+                  }}
                   data-index={key}
                   key={key}
                 >
                   {each}
                 </div>
-              )}
+              ))}
             </div>
           </div>
-          {
-            arrows &&
-            <div className="nav" onClick={() => this.fadeImages((index + 1) % children.length)}>
-              {' '}&gt;{' '}
+          {arrows && (
+            <div
+              className="nav"
+              onClick={() => this.fadeImages((index + 1) % children.length)}
+            >
+              &gt;
             </div>
-          }
+          )}
         </div>
-        {
-          indicators &&
+        {indicators && (
           <div className="indicators">
-            {
-              children.map((each, key) => (
-                <div
-                  key={key}
-                  data-key={key}
-                  className={index === key ? 'active' : ''}
-                  onClick={this.goto}/>
-              ))
-            }
+            {children.map((each, key) => (
+              <div
+                key={key}
+                data-key={key}
+                className={index === key ? 'active' : ''}
+                onClick={this.goto}
+              />
+            ))}
           </div>
-        }
+        )}
       </div>
     );
   }
@@ -139,11 +145,12 @@ class Fade extends Component {
     animate();
 
     const tween = new TWEEN.Tween(value)
-      .to({opacity: 1}, this.props.transitionDuration)
-      .onUpdate((value) => {
+      .to({ opacity: 1 }, this.props.transitionDuration)
+      .onUpdate(value => {
         this.divsContainer.children[newIndex].style.opacity = value.opacity;
         this.divsContainer.children[index].style.opacity = 1 - value.opacity;
-      }).start();
+      })
+      .start();
 
     tween.onComplete(() => {
       if (this.willUnmount) {

@@ -27,27 +27,27 @@ class App extends Component {
       transitionDuration: 500,
       infinite: true,
       indicators: true
-    }
+    };
 
     const fadeProperties = {
       duration: 5000,
       transitionDuration: 500,
       indicators: true
-    }
+    };
 
     const zoomOutProperties = {
       duration: 5000,
       transitionDuration: 500,
       indicators: true,
       scale: 0.4
-    }
+    };
 
     const zoomInProperties = {
       duration: 5000,
       transitionDuration: 500,
       indicators: true,
       scale: 1.4
-    }
+    };
 
     return (
       <div>
@@ -55,17 +55,17 @@ class App extends Component {
         <div className="slide-container">
           <Slide {...properties}>
             <div className="each-slide">
-              <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
+              <div style={{ backgroundImage: `url(${slideImages[0]})` }}>
                 <span>Slide 1</span>
               </div>
             </div>
             <div className="each-slide">
-              <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
+              <div style={{ backgroundImage: `url(${slideImages[1]})` }}>
                 <span>Slide 2</span>
               </div>
             </div>
             <div className="each-slide">
-              <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
+              <div style={{ backgroundImage: `url(${slideImages[2]})` }}>
                 <span>Slide 3</span>
               </div>
             </div>
@@ -100,9 +100,9 @@ class App extends Component {
         <h3>Zoom out Effect</h3>
         <div className="slide-container">
           <Zoom {...zoomOutProperties}>
-            {
-              zoomOutImages.map((each, index) =><img key={index} style={{width: "100%"}} src={each} />)
-            }
+            {zoomOutImages.map((each, index) => (
+              <img key={index} style={{ width: '100%' }} src={each} />
+            ))}
           </Zoom>
         </div>
 
@@ -110,9 +110,9 @@ class App extends Component {
         <h3>Zoom in Effect</h3>
         <div className="slide-container">
           <Zoom {...zoomInProperties}>
-            {
-              fadeImages.map((each, index) =><img key={index} style={{width: "100%"}} src={each} />)
-            }
+            {fadeImages.map((each, index) => (
+              <img key={index} style={{ width: '100%' }} src={each} />
+            ))}
           </Zoom>
         </div>
         <br />

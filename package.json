@@ -19,13 +19,27 @@
     "babel-loader": "^7.1.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "codecov": "^3.1.0",
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "html-webpack-plugin": "^3.0.0",
     "husky": "^0.14.3",
+    "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-testing-library": "^5.2.0",
     "serve": "^6.5.1",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9",
     "webpack-dev-server": "^3.1.0"
+  },
+  "lint-staged": {
+    "[src|__tests__]/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "npm run prepublishOnly",
+      "git add ."
+    ]
   },
   "main": "lib/index.js",
   "scripts": {
@@ -33,15 +47,14 @@
     "build": "npm i --only=dev && webpack && cp -r src/images dist",
     "heroku-postbuild": "npm run build",
     "start": "serve dist/",
-    "precommit": "npm run prepublishOnly && git add .",
+    "precommit": "lint-staged",
+    "test": "jest && codecov",
     "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.2.0",
     "css-loader": "^0.28.10",
     "prop-types": "^15.5.10",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "style-loader": "^0.20.2"
   }
 }

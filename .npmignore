@@ -2,3 +2,5 @@ public
 src
 scripts
 config
+coverage
+build
