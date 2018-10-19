@@ -48,9 +48,7 @@ test("It shouldn't navigate if infinite false and previous arrow is clicked", as
     { ...zoomOut, infinite: false },
     wrapperElement
   );
-  const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
-  );
+  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[0]);
   await wait(
