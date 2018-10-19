@@ -32,7 +32,8 @@ class App extends Component {
     const fadeProperties = {
       duration: 5000,
       transitionDuration: 500,
-      indicators: true
+      indicators: true,
+      infinite: false
     };
 
     const zoomOutProperties = {
