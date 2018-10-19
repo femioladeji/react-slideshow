@@ -17,6 +17,7 @@ class Zoom extends Component {
     this.setWidth = this.setWidth.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.goto = this.goto.bind(this);
+    this.preZoom = this.preZoom.bind(this);
   }
 
   componentWillMount() {
@@ -68,18 +69,29 @@ class Zoom extends Component {
     }
   }
 
+  preZoom({ target }) {
+    if (target.className.includes('disabled')) {
+      return;
+    }
+    const { index, children } = this.state;
+    if (target.dataset.type === 'prev') {
+      this.zoomTo(index === 0 ? children.length - 1 : index - 1);
+    } else {
+      this.zoomTo((index + 1) % children.length);
+    }
+  }
+
   render() {
-    const { indicators, arrows } = this.props;
+    const { indicators, arrows, infinite } = this.props;
     const { children, index } = this.state;
     return (
       <div>
         <div className="react-slideshow-container">
           {arrows && (
             <div
-              className="nav"
-              onClick={() =>
-                this.zoomTo(index === 0 ? children.length - 1 : index - 1)
-              }
+              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
+              data-type="prev"
+              onClick={this.preZoom}
             >
               &lt;
             </div>
@@ -105,8 +117,11 @@ class Zoom extends Component {
           </div>
           {arrows && (
             <div
-              className="nav"
-              onClick={() => this.zoomTo((index + 1) % children.length)}
+              className={`nav ${
+                index === children.length - 1 && !infinite ? 'disabled' : ''
+              }`}
+              data-type="next"
+              onClick={this.preZoom}
             >
               &gt;
             </div>
@@ -130,7 +145,13 @@ class Zoom extends Component {
 
   zoomTo(newIndex) {
     let { children, index } = this.state;
-    const { scale, autoplay } = this.props;
+    const {
+      scale,
+      autoplay,
+      infinite,
+      transitionDuration,
+      duration
+    } = this.props;
     clearTimeout(this.timeout);
     const value = {
       opacity: 0,
@@ -149,7 +170,7 @@ class Zoom extends Component {
     animate();
 
     const tween = new TWEEN.Tween(value)
-      .to({ opacity: 1, scale }, this.props.transitionDuration)
+      .to({ opacity: 1, scale }, transitionDuration)
       .onUpdate(value => {
         this.divsContainer.children[newIndex].style.opacity = value.opacity;
         this.divsContainer.children[index].style.opacity = 1 - value.opacity;
@@ -171,10 +192,10 @@ class Zoom extends Component {
           this.divsContainer.children[index].style.transform = `scale(1)`;
         }
       );
-      if (autoplay) {
+      if (autoplay && (infinite || newIndex < children.length - 1)) {
         this.timeout = setTimeout(() => {
           this.zoomTo((newIndex + 1) % children.length);
-        }, this.props.duration);
+        }, duration);
       }
     });
   }
@@ -185,7 +206,8 @@ Zoom.defaultProps = {
   transitionDuration: 1000,
   indicators: false,
   arrows: true,
-  autoplay: true
+  autoplay: true,
+  infinite: true
 };
 
 Zoom.propTypes = {
@@ -194,6 +216,7 @@ Zoom.propTypes = {
   indicators: PropTypes.bool,
   scale: PropTypes.number.isRequired,
   arrows: PropTypes.bool,
-  autoplay: PropTypes.bool
+  autoplay: PropTypes.bool,
+  infinite: PropTypes.bool
 };
 export default Zoom;

@@ -17,6 +17,7 @@ class Fade extends Component {
     this.setWidth = this.setWidth.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.goto = this.goto.bind(this);
+    this.preFade = this.preFade.bind(this);
   }
 
   componentWillMount() {
@@ -68,18 +69,29 @@ class Fade extends Component {
     }
   }
 
+  preFade({ target }) {
+    if (target.className.includes('disabled')) {
+      return;
+    }
+    const { index, children } = this.state;
+    if (target.dataset.type === 'prev') {
+      this.fadeImages(index === 0 ? children.length - 1 : index - 1);
+    } else {
+      this.fadeImages((index + 1) % children.length);
+    }
+  }
+
   render() {
-    const { indicators, arrows } = this.props;
+    const { indicators, arrows, infinite } = this.props;
     const { children, index } = this.state;
     return (
       <div>
         <div className="react-slideshow-container">
           {arrows && (
             <div
-              className="nav"
-              onClick={() =>
-                this.fadeImages(index === 0 ? children.length - 1 : index - 1)
-              }
+              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
+              data-type="prev"
+              onClick={this.preFade}
             >
               &lt;
             </div>
@@ -105,8 +117,11 @@ class Fade extends Component {
           </div>
           {arrows && (
             <div
-              className="nav"
-              onClick={() => this.fadeImages((index + 1) % children.length)}
+              className={`nav ${
+                index === children.length - 1 && !infinite ? 'disabled' : ''
+              }`}
+              data-type="next"
+              onClick={this.preFade}
             >
               &gt;
             </div>
@@ -130,6 +145,7 @@ class Fade extends Component {
 
   fadeImages(newIndex) {
     let { children, index } = this.state;
+    const { autoplay, infinite, duration, transitionDuration } = this.props;
     clearTimeout(this.timeout);
     const value = { opacity: 0 };
 
@@ -145,7 +161,7 @@ class Fade extends Component {
     animate();
 
     const tween = new TWEEN.Tween(value)
-      .to({ opacity: 1 }, this.props.transitionDuration)
+      .to({ opacity: 1 }, transitionDuration)
       .onUpdate(value => {
         this.divsContainer.children[newIndex].style.opacity = value.opacity;
         this.divsContainer.children[index].style.opacity = 1 - value.opacity;
@@ -159,10 +175,10 @@ class Fade extends Component {
       this.setState({
         index: newIndex
       });
-      if (this.props.autoplay) {
+      if (autoplay && (infinite || newIndex < children.length - 1)) {
         this.timeout = setTimeout(() => {
           this.fadeImages((newIndex + 1) % children.length);
-        }, this.props.duration);
+        }, duration);
       }
     });
   }
@@ -173,7 +189,8 @@ Fade.defaultProps = {
   transitionDuration: 1000,
   indicators: false,
   arrows: true,
-  autoplay: true
+  autoplay: true,
+  infinite: true
 };
 
 Fade.propTypes = {
@@ -181,6 +198,7 @@ Fade.propTypes = {
   transitionDuration: PropTypes.number,
   indicators: PropTypes.bool,
   arrows: PropTypes.bool,
-  autoplay: PropTypes.bool
+  autoplay: PropTypes.bool,
+  infinite: PropTypes.bool
 };
 export default Fade;
