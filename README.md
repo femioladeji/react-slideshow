@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/andela-foladeji/react-slideshow.svg?style=svg)](https://circleci.com/gh/andela-foladeji/react-slideshow)
 [![codecov](https://codecov.io/gh/andela-foladeji/react-slideshow/branch/master/graph/badge.svg)](https://codecov.io/gh/andela-foladeji/react-slideshow)
+[![Package Quality](http://npm.packagequality.com/shield/react-slideshow-image.svg)](http://packagequality.com/#?package=react-slideshow-image)
 
 A simple slideshow component built with react that supports slide, fade and zoom effects
 
