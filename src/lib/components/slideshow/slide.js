@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as TWEEN from '@tweenjs/tween.js';
 import PropTypes from 'prop-types';
+import { getUnhandledProps } from '../../helpers.js';
 
 import './slide.css';
 
@@ -81,6 +82,10 @@ class Slideshow extends Component {
       indicators,
       arrows
     } = this.props;
+    const unhandledProps = getUnhandledProps(
+      Slideshow.defaultProps,
+      this.props
+    );
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
@@ -89,7 +94,7 @@ class Slideshow extends Component {
       this.timeout = setTimeout(() => this.preSlide('next'), duration);
     }
     return (
-      <div>
+      <div {...unhandledProps}>
         <div className="react-slideshow-container">
           {arrows && (
             <div

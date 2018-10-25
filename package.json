@@ -17,6 +17,7 @@
     "url": "git+https://github.com/andela-foladeji/react-slideshow.git"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.3",
     "babel-preset-es2015": "^6.24.1",
