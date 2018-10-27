@@ -158,9 +158,9 @@ const Slideshow = () => {
   }
 }
 ```
+HTML properties like className, data-* attributes and others will be applied to the parent div
 
 ## Properties
-HTML properties like className, data-* attributes and others will be applied to the parent div
 | Properties          | Type        | DefaultValue  | Description                                                                                |
 | ------------------- |:-----------:| ------------- | ------------------------------------------------------------------------------------------ |
 | duration            | integer     | 5000          | Time it takes (milliseconds) before next transition starts                                 |
