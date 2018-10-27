@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as TWEEN from '@tweenjs/tween.js';
+import { getUnhandledProps } from '../../helpers.js';
 
 import './zoom.css';
 
@@ -84,8 +85,9 @@ class Zoom extends Component {
   render() {
     const { indicators, arrows, infinite } = this.props;
     const { children, index } = this.state;
+    const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
     return (
-      <div>
+      <div {...unhandledProps}>
         <div className="react-slideshow-container">
           {arrows && (
             <div
