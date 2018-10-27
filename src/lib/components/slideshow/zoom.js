@@ -85,7 +85,7 @@ class Zoom extends Component {
   render() {
     const { indicators, arrows, infinite } = this.props;
     const { children, index } = this.state;
-    const unhandledProps = getUnhandledProps(Zoom.defaultProps, this.props);
+    const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
     return (
       <div {...unhandledProps}>
         <div className="react-slideshow-container">

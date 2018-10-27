@@ -85,7 +85,7 @@ class Fade extends Component {
   render() {
     const { indicators, arrows, infinite } = this.props;
     const { children, index } = this.state;
-    const unhandledProps = getUnhandledProps(Fade.defaultProps, this.props);
+    const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
       <div {...unhandledProps}>
         <div className="react-slideshow-container">

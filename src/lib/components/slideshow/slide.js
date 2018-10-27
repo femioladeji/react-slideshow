@@ -82,10 +82,7 @@ class Slideshow extends Component {
       indicators,
       arrows
     } = this.props;
-    const unhandledProps = getUnhandledProps(
-      Slideshow.defaultProps,
-      this.props
-    );
+    const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
