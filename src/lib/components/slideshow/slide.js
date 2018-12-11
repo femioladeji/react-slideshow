@@ -20,7 +20,7 @@ class Slideshow extends Component {
   }
 
   componentDidMount() {
-    this.allImages = document.querySelectorAll(`.images-wrap div`);
+    this.allImages = document.querySelectorAll(`.images-wrap > div`);
     this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     this.setWidth();
     window.addEventListener('resize', this.resizeListener);
