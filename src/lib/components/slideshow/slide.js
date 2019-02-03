@@ -99,7 +99,7 @@ class Slideshow extends Component {
               data-type="prev"
               onClick={this.moveSlides}
             >
-              &lt;
+              <img src="lib/icons/left-arrow.svg" title="previous" />
             </div>
           )}
           <div className={`react-slideshow-wrapper slide`}>
@@ -129,7 +129,7 @@ class Slideshow extends Component {
               data-type="next"
               onClick={this.moveSlides}
             >
-              &gt;
+              <img src="lib/icons/right-arrow.svg" title="next" />
             </div>
           )}
         </div>

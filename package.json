@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "keywords": [
@@ -35,7 +35,7 @@
     "serve": "^10.0.2",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.14"
   },
   "peerDependencies": {
     "react": "^16.2.0",
@@ -44,7 +44,6 @@
   "lint-staged": {
     "{src,__tests__}/**/*.{js,jsx,json,css}": [
       "prettier --single-quote --write",
-      "npm run prepublishOnly",
       "git add ."
     ]
   },
