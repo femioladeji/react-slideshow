@@ -38,7 +38,7 @@
 }
 
 .react-slideshow-container .nav:first-of-type span {
-  margin-left: 7.5px;
+  margin-left: 5px;
   border-right: none;
   border-top: none;
 }
@@ -48,7 +48,7 @@
 }
 
 .react-slideshow-container .nav:last-of-type span {
-  margin-right: 7.5px;
+  margin-right: 5px;
   border-left: none;
   border-bottom: none;
 }

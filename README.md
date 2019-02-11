@@ -138,7 +138,7 @@ const Slideshow = () => {
     )
 }
 ```
-##CSS
+## CSS
 
 This is what my css looks like. You can customize this to your own taste
 ```
