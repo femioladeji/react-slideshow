@@ -17,8 +17,13 @@
   justify-content: center;
 }
 
-.react-slideshow-container .nav img {
-  width: 60%;
+.react-slideshow-container .nav span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-color: #000;
+  border-style: solid;
+  transform: rotate(45deg);
 }
 
 .react-slideshow-container .nav:hover {
@@ -28,10 +33,24 @@
 
 .react-slideshow-container .nav:first-of-type {
   margin-right: -30px;
+  border-right: none;
+  border-top: none;
+}
+
+.react-slideshow-container .nav:first-of-type span {
+  margin-left: 7.5px;
+  border-right: none;
+  border-top: none;
 }
 
 .react-slideshow-container .nav:last-of-type {
   margin-left: -30px;
+}
+
+.react-slideshow-container .nav:last-of-type span {
+  margin-right: 7.5px;
+  border-left: none;
+  border-bottom: none;
 }
 
 .react-slideshow-container + div.indicators {
