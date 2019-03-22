@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as TWEEN from '@tweenjs/tween.js';
 import { getUnhandledProps } from '../../helpers.js';
-
 import './fade.css';
 
 class Fade extends Component {
@@ -95,7 +94,7 @@ class Fade extends Component {
               data-type="prev"
               onClick={this.preFade}
             >
-              &lt;
+              <span />
             </div>
           )}
           <div className="react-slideshow-fade-wrapper">
@@ -125,7 +124,7 @@ class Fade extends Component {
               data-type="next"
               onClick={this.preFade}
             >
-              &gt;
+              <span />
             </div>
           )}
         </div>

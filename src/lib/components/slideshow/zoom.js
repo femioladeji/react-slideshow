@@ -95,7 +95,7 @@ class Zoom extends Component {
               data-type="prev"
               onClick={this.preZoom}
             >
-              &lt;
+              <span />
             </div>
           )}
           <div className="react-slideshow-zoom-wrapper">
@@ -125,7 +125,7 @@ class Zoom extends Component {
               data-type="next"
               onClick={this.preZoom}
             >
-              &gt;
+              <span />
             </div>
           )}
         </div>

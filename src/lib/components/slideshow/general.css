@@ -1,17 +1,3 @@
-.react-slideshow-wrapper.slide {
-  width: 100%;
-  overflow: hidden;
-}
-
-.react-slideshow-wrapper .images-wrap {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.react-slideshow-wrapper .images-wrap * {
-  max-width: 100%;
-}
-
 .react-slideshow-container {
   display: flex;
   align-items: center;
@@ -22,12 +8,22 @@
   background: rgba(255, 255, 255, 0.6);
   width: 30px;
   z-index: 10;
-  line-height: 30px;
-  font-size: 20px;
   text-align: center;
   cursor: pointer;
   color: #fff;
-  border-radius: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-slideshow-container .nav span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-color: #000;
+  border-style: solid;
+  transform: rotate(45deg);
 }
 
 .react-slideshow-container .nav:hover {
@@ -35,21 +31,26 @@
   color: #666;
 }
 
-.react-slideshow-container .nav.disabled {
-  cursor: not-allowed;
-}
-
-.react-slideshow-container .nav.disabled:hover {
-  background: rgba(255, 255, 255, 0.6);
-  color: #fff;
-}
-
 .react-slideshow-container .nav:first-of-type {
   margin-right: -30px;
+  border-right: none;
+  border-top: none;
+}
+
+.react-slideshow-container .nav:first-of-type span {
+  margin-left: 5px;
+  border-right: none;
+  border-top: none;
 }
 
 .react-slideshow-container .nav:last-of-type {
   margin-left: -30px;
+}
+
+.react-slideshow-container .nav:last-of-type span {
+  margin-right: 5px;
+  border-left: none;
+  border-bottom: none;
 }
 
 .react-slideshow-container + div.indicators {

@@ -1,7 +1,7 @@
 # React-Slideshow
 
-[![CircleCI](https://circleci.com/gh/andela-foladeji/react-slideshow.svg?style=svg)](https://circleci.com/gh/andela-foladeji/react-slideshow)
-[![codecov](https://codecov.io/gh/andela-foladeji/react-slideshow/branch/master/graph/badge.svg)](https://codecov.io/gh/andela-foladeji/react-slideshow)
+[![CircleCI](https://circleci.com/gh/femioladeji/react-slideshow.svg?style=svg)](https://circleci.com/gh/femioladeji/react-slideshow)
+[![codecov](https://codecov.io/gh/femioladeji/react-slideshow/branch/master/graph/badge.svg)](https://codecov.io/gh/femioladeji/react-slideshow)
 [![Package Quality](http://npm.packagequality.com/shield/react-slideshow-image.svg)](http://packagequality.com/#?package=react-slideshow-image)
 
 A simple slideshow component built with react that supports slide, fade and zoom effects
@@ -136,6 +136,54 @@ const Slideshow = () => {
         }
       </Zoom>
     )
+}
+```
+## CSS
+
+This is what my css looks like. You can customize this to your own taste
+```
+.slide-container {
+  width: 70%;
+  margin: auto; }
+
+h3 {
+  text-align: center; }
+
+.each-slide > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  height: 300px;
+}
+
+.each-slide span {
+  padding: 20px;
+  font-size: 20px;
+  background: #efefef;
+  text-align: center;
+}
+
+.each-fade {
+  display: flex;
+}
+
+.each-fade .image-container {
+  width: 75%;
+  overflow: hidden;
+}
+
+.each-fade .image-container img {
+  width: 100%;
+}
+
+.each-fade h2 {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background: #adceed;
 }
 ```
 

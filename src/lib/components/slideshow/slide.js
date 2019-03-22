@@ -20,7 +20,7 @@ class Slideshow extends Component {
   }
 
   componentDidMount() {
-    this.allImages = document.querySelectorAll(`.images-wrap div`);
+    this.allImages = document.querySelectorAll(`.images-wrap > div`);
     this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     this.setWidth();
     window.addEventListener('resize', this.resizeListener);
@@ -99,7 +99,7 @@ class Slideshow extends Component {
               data-type="prev"
               onClick={this.moveSlides}
             >
-              &lt;
+              <span />
             </div>
           )}
           <div className={`react-slideshow-wrapper slide`}>
@@ -129,7 +129,7 @@ class Slideshow extends Component {
               data-type="next"
               onClick={this.moveSlides}
             >
-              &gt;
+              <span />
             </div>
           )}
         </div>
