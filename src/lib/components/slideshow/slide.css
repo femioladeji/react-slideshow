@@ -7,7 +7,3 @@
   display: flex;
   flex-wrap: wrap;
 }
-
-.react-slideshow-wrapper .images-wrap * {
-  max-width: 100%;
-}
