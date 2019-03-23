@@ -24,16 +24,6 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      const { zoomOutImages, slideImages, fadeImages } = this.state;
-      zoomOutImages.push('images/slide_3.jpg');
-      slideImages.push('images/slide_7.jpg');
-      fadeImages.push('images/slide_2.jpg');
-      this.setState({ zoomOutImages, slideImages });
-    }, 6000);
-  }
-
   render() {
     const properties = {
       duration: 5000,
