@@ -3,25 +3,38 @@ import { Slide, Fade, Zoom } from './lib';
 import './app.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      zoomOutImages: [
+        'images/slide_2.jpg',
+        'images/slide_7.jpg',
+        'images/slide_5.jpg'
+      ],
+      slideImages: [
+        'images/slide_2.jpg',
+        'images/slide_3.jpg',
+        'images/slide_4.jpg'
+      ],
+      fadeImages: [
+        'images/slide_5.jpg',
+        'images/slide_6.jpg',
+        'images/slide_7.jpg'
+      ]
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      const { zoomOutImages, slideImages, fadeImages } = this.state;
+      zoomOutImages.push('images/slide_3.jpg');
+      slideImages.push('images/slide_7.jpg');
+      fadeImages.push('images/slide_2.jpg');
+      this.setState({ zoomOutImages, slideImages });
+    }, 6000);
+  }
+
   render() {
-    const slideImages = [
-      'images/slide_2.jpg',
-      'images/slide_3.jpg',
-      'images/slide_4.jpg'
-    ];
-
-    const fadeImages = [
-      'images/slide_5.jpg',
-      'images/slide_6.jpg',
-      'images/slide_7.jpg'
-    ];
-
-    const zoomOutImages = [
-      'images/slide_2.jpg',
-      'images/slide_7.jpg',
-      'images/slide_5.jpg'
-    ];
-
     const properties = {
       duration: 5000,
       transitionDuration: 500,
@@ -49,30 +62,23 @@ class App extends Component {
       indicators: true,
       scale: 1.4
     };
-
+    const { slideImages, zoomOutImages, fadeImages } = this.state;
     return (
       <div>
         <h3>Slide Effect</h3>
         <div className="slide-container">
           <Slide {...properties}>
-            <div className="each-slide">
-              <div style={{ backgroundImage: `url(${slideImages[0]})` }}>
-                <span>Slide 1</span>
+            {slideImages.map((each, index) => (
+              <div key={index} className="each-slide">
+                <div style={{ backgroundImage: `url(${each})` }}>
+                  <span>Slide {index + 1}</span>
+                </div>
               </div>
-            </div>
-            <div className="each-slide">
-              <div style={{ backgroundImage: `url(${slideImages[1]})` }}>
-                <span>Slide 2</span>
-              </div>
-            </div>
-            <div className="each-slide">
-              <div style={{ backgroundImage: `url(${slideImages[2]})` }}>
-                <span>Slide 3</span>
-              </div>
-            </div>
+            ))}
           </Slide>
         </div>
         <br />
+
         <h3>Fade Effect</h3>
         <div className="slide-container">
           <Fade {...fadeProperties}>
@@ -106,7 +112,6 @@ class App extends Component {
             ))}
           </Zoom>
         </div>
-
         <br />
         <h3>Zoom in Effect</h3>
         <div className="slide-container">
