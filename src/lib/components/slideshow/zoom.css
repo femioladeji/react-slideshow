@@ -9,10 +9,6 @@
   overflow: hidden;
 }
 
-.react-slideshow-zoom-wrapper .zoom-wrapper * {
-  max-width: 100%;
-}
-
 .react-slideshow-zoom-wrapper .zoom-wrapper > div {
   position: relative;
   display: flex;
