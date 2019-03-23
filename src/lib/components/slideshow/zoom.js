@@ -9,7 +9,6 @@ class Zoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      children: [],
       index: 0
     };
     this.width = 0;
@@ -21,24 +20,24 @@ class Zoom extends Component {
     this.preZoom = this.preZoom.bind(this);
   }
 
-  componentWillMount() {
-    if (this.props.autoplay) {
-      this.timeout = setTimeout(() => this.zoomTo(1), this.props.duration);
-    }
-    this.setState({
-      children: this.props.children
-    });
-  }
-
   componentDidMount() {
     window.addEventListener('resize', this.resizeListener);
     this.setWidth();
+    if (this.props.autoplay) {
+      this.timeout = setTimeout(() => this.zoomTo(1), this.props.duration);
+    }
   }
 
   componentWillUnmount() {
     this.willUnmount = true;
     clearTimeout(this.timeout);
     window.removeEventListener('resize', this.resizeListener);
+  }
+
+  componentDidUpdate(props) {
+    if (this.props.children.length != props.children.length) {
+      this.applyStyle();
+    }
   }
 
   setWidth() {
@@ -70,12 +69,13 @@ class Zoom extends Component {
     }
   }
 
-  preZoom({ target }) {
-    if (target.className.includes('disabled')) {
+  preZoom({ currentTarget }) {
+    if (currentTarget.className.includes('disabled')) {
       return;
     }
-    const { index, children } = this.state;
-    if (target.dataset.type === 'prev') {
+    const { index } = this.state;
+    const { children } = this.props;
+    if (currentTarget.dataset.type === 'prev') {
       this.zoomTo(index === 0 ? children.length - 1 : index - 1);
     } else {
       this.zoomTo((index + 1) % children.length);
@@ -83,8 +83,8 @@ class Zoom extends Component {
   }
 
   render() {
-    const { indicators, arrows, infinite } = this.props;
-    const { children, index } = this.state;
+    const { indicators, arrows, infinite, children } = this.props;
+    const { index } = this.state;
     const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
     return (
       <div {...unhandledProps}>
@@ -146,8 +146,9 @@ class Zoom extends Component {
   }
 
   zoomTo(newIndex) {
-    let { children, index } = this.state;
+    const { index } = this.state;
     const {
+      children,
       scale,
       autoplay,
       infinite,

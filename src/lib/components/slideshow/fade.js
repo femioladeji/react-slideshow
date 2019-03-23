@@ -8,7 +8,6 @@ class Fade extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      children: [],
       index: 0
     };
     this.width = 0;
@@ -20,18 +19,18 @@ class Fade extends Component {
     this.preFade = this.preFade.bind(this);
   }
 
-  componentWillMount() {
-    if (this.props.autoplay) {
-      this.timeout = setTimeout(() => this.fadeImages(1), this.props.duration);
-    }
-    this.setState({
-      children: this.props.children
-    });
-  }
-
   componentDidMount() {
     window.addEventListener('resize', this.resizeListener);
     this.setWidth();
+    if (this.props.autoplay) {
+      this.timeout = setTimeout(() => this.fadeImages(1), this.props.duration);
+    }
+  }
+
+  componentDidUpdate(props) {
+    if (this.props.children.length != props.children.length) {
+      this.applyStyle();
+    }
   }
 
   componentWillUnmount() {
@@ -69,12 +68,13 @@ class Fade extends Component {
     }
   }
 
-  preFade({ target }) {
-    if (target.className.includes('disabled')) {
+  preFade({ currentTarget }) {
+    if (currentTarget.className.includes('disabled')) {
       return;
     }
-    const { index, children } = this.state;
-    if (target.dataset.type === 'prev') {
+    const { index } = this.state;
+    const { children } = this.props;
+    if (currentTarget.dataset.type === 'prev') {
       this.fadeImages(index === 0 ? children.length - 1 : index - 1);
     } else {
       this.fadeImages((index + 1) % children.length);
@@ -82,8 +82,8 @@ class Fade extends Component {
   }
 
   render() {
-    const { indicators, arrows, infinite } = this.props;
-    const { children, index } = this.state;
+    const { indicators, arrows, infinite, children } = this.props;
+    const { index } = this.state;
     const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
       <div {...unhandledProps}>
@@ -145,12 +145,13 @@ class Fade extends Component {
   }
 
   fadeImages(newIndex) {
-    let { children, index } = this.state;
+    const { index } = this.state;
+    const { children } = this.props;
     const { autoplay, infinite, duration, transitionDuration } = this.props;
     clearTimeout(this.timeout);
     const value = { opacity: 0 };
 
-    let animate = () => {
+    const animate = () => {
       if (this.willUnmount) {
         TWEEN.default.removeAll();
         return;

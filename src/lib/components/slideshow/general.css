@@ -26,9 +26,17 @@
   transform: rotate(45deg);
 }
 
+.react-slideshow-container .nav.disabled span {
+  border-color: #666;
+}
+
 .react-slideshow-container .nav:hover {
   background: white;
   color: #666;
+}
+
+.react-slideshow-container .nav.disabled:hover {
+  cursor: not-allowed;
 }
 
 .react-slideshow-container .nav:first-of-type {

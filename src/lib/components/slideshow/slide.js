@@ -20,10 +20,12 @@ class Slideshow extends Component {
   }
 
   componentDidMount() {
-    this.allImages = document.querySelectorAll(`.images-wrap > div`);
-    this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     this.setWidth();
     window.addEventListener('resize', this.resizeListener);
+    const { autoplay, duration } = this.props;
+    if (autoplay) {
+      this.timeout = setTimeout(() => this.preSlide('next'), duration);
+    }
   }
 
   componentWillUnmount() {
@@ -33,11 +35,19 @@ class Slideshow extends Component {
   }
 
   setWidth() {
+    this.allImages = document.querySelectorAll(`.images-wrap > div`);
+    this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     const fullwidth = this.width * (this.props.children.length + 2);
     this.imageContainer.style.width = `${fullwidth}px`;
     this.imageContainer.style.transform = `translate(-${this.width *
       (this.state.index + 1)}px)`;
     this.applySlideStyle();
+  }
+
+  componentDidUpdate(props) {
+    if (this.props.children.length != props.children.length) {
+      this.setWidth();
+    }
   }
 
   resizeListener() {
@@ -51,12 +61,12 @@ class Slideshow extends Component {
     });
   }
 
-  moveSlides({ target }) {
+  moveSlides({ currentTarget }) {
     //check if there's disabled class
-    if (target.className.includes('disabled')) {
+    if (currentTarget.className.includes('disabled')) {
       return;
     }
-    this.preSlide(target.dataset.type);
+    this.preSlide(currentTarget.dataset.type);
   }
 
   goToSlide({ target }) {
@@ -87,9 +97,7 @@ class Slideshow extends Component {
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
     };
-    if (autoplay) {
-      this.timeout = setTimeout(() => this.preSlide('next'), duration);
-    }
+
     return (
       <div {...unhandledProps}>
         <div className="react-slideshow-container">
@@ -150,7 +158,13 @@ class Slideshow extends Component {
   }
 
   slideImages(index) {
-    let { children, transitionDuration } = this.props;
+    let {
+      children,
+      transitionDuration,
+      autoplay,
+      infinite,
+      duration
+    } = this.props;
     const existingTweens = TWEEN.default.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
@@ -173,19 +187,26 @@ class Slideshow extends Component {
 
       animate();
 
-      setTimeout(() => {
+      tween.onComplete(() => {
         if (this.willUnmount) {
           return;
         }
-        this.setState({
-          index:
-            index < 0
-              ? children.length - 1
-              : index >= children.length
-                ? 0
-                : index
-        });
-      }, transitionDuration);
+        this.setState(
+          {
+            index:
+              index < 0
+                ? children.length - 1
+                : index >= children.length
+                  ? 0
+                  : index
+          },
+          () => {
+            if (autoplay && (infinite || this.state.index < children.length)) {
+              this.timeout = setTimeout(() => this.preSlide('next'), duration);
+            }
+          }
+        );
+      });
     }
   }
 }
