@@ -23,8 +23,18 @@ class Zoom extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.resizeListener);
     this.setWidth();
-    if (this.props.autoplay) {
-      this.timeout = setTimeout(() => this.zoomTo(1), this.props.duration);
+    this.play();
+  }
+
+  play() {
+    const { autoplay, children } = this.props;
+    const { index } = this.state;
+    if (autoplay && children.length > 1) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(
+        () => this.zoomTo(index + 1),
+        this.props.duration
+      );
     }
   }
 
@@ -37,6 +47,7 @@ class Zoom extends Component {
   componentDidUpdate(props) {
     if (this.props.children.length != props.children.length) {
       this.applyStyle();
+      this.play();
     }
   }
 
@@ -155,6 +166,9 @@ class Zoom extends Component {
       transitionDuration,
       duration
     } = this.props;
+    if (!this.divsContainer.children[newIndex]) {
+      newIndex = 0;
+    }
     clearTimeout(this.timeout);
     const value = {
       opacity: 0,
@@ -196,6 +210,7 @@ class Zoom extends Component {
         }
       );
       if (autoplay && (infinite || newIndex < children.length - 1)) {
+        clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.zoomTo((newIndex + 1) % children.length);
         }, duration);
