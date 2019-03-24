@@ -22,14 +22,25 @@ class Fade extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.resizeListener);
     this.setWidth();
-    if (this.props.autoplay) {
-      this.timeout = setTimeout(() => this.fadeImages(1), this.props.duration);
+    this.play();
+  }
+
+  play() {
+    const { autoplay, children } = this.props;
+    const { index } = this.state;
+    if (autoplay && children.length > 1) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(
+        () => this.fadeImages(index + 1),
+        this.props.duration
+      );
     }
   }
 
   componentDidUpdate(props) {
     if (this.props.children.length != props.children.length) {
       this.applyStyle();
+      this.play();
     }
   }
 
@@ -146,8 +157,16 @@ class Fade extends Component {
 
   fadeImages(newIndex) {
     const { index } = this.state;
-    const { children } = this.props;
-    const { autoplay, infinite, duration, transitionDuration } = this.props;
+    const {
+      autoplay,
+      children,
+      infinite,
+      duration,
+      transitionDuration
+    } = this.props;
+    if (!this.divsContainer.children[newIndex]) {
+      newIndex = 0;
+    }
     clearTimeout(this.timeout);
     const value = { opacity: 0 };
 
@@ -178,6 +197,7 @@ class Fade extends Component {
         index: newIndex
       });
       if (autoplay && (infinite || newIndex < children.length - 1)) {
+        clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.fadeImages((newIndex + 1) % children.length);
         }, duration);
