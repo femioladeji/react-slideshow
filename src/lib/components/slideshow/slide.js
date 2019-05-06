@@ -35,7 +35,11 @@ class Slideshow extends Component {
   }
 
   setWidth() {
-    this.allImages = document.querySelectorAll(`.images-wrap > div`);
+    // the .slice.call was needed to support ie11
+    this.allImages = Array.prototype.slice.call(
+      document.querySelectorAll(`.images-wrap > div`),
+      0
+    );
     this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     const fullwidth = this.width * (this.props.children.length + 2);
     this.imageContainer.style.width = `${fullwidth}px`;
