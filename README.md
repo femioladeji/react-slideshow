@@ -209,6 +209,7 @@ h3 {
 ```
 
 ⚠️ For those using `Next.js` , this should be your `next.config.js`inorder to avoid errors relating to importing css files within node modules 
+
 **next.config.js** 
 ```js 
 const withCSS = require('@zeit/next-css');
