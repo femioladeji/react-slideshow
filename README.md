@@ -207,6 +207,37 @@ h3 {
   }
 }
 ```
+
+⚠️ For those using `Next.js` , this should be your `next.config.js`inorder to avoid errors relating to importing css files within node modules 
+
+**next.config.js** 
+```js 
+const withCSS = require('@zeit/next-css');
+
+if (typeof require !== 'undefined') {
+	require.extensions['.css'] = file => {};
+}
+
+module.exports = {
+	webpack: config => {
+		// Fixes npm packages that depend on `fs` module
+		config.node = {
+			fs: 'empty',
+		};
+
+		return config;
+	},
+};
+
+module.exports = withCSS({
+	cssModules: true,
+	cssLoaderOptions: {
+		url: true,
+	},
+});
+
+```
+
 HTML properties like className, data-* attributes and others will be applied to the parent div
 
 ## Properties
