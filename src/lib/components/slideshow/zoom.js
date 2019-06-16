@@ -164,7 +164,8 @@ class Zoom extends Component {
       autoplay,
       infinite,
       transitionDuration,
-      duration
+      duration,
+      onChange
     } = this.props;
     if (!this.divsContainer.children[newIndex]) {
       newIndex = 0;
@@ -201,6 +202,9 @@ class Zoom extends Component {
       if (this.willUnmount) {
         return;
       }
+      if (typeof onChange === 'function') {
+        onChange(index, newIndex);
+      }
       this.setState(
         {
           index: newIndex
@@ -235,6 +239,7 @@ Zoom.propTypes = {
   scale: PropTypes.number.isRequired,
   arrows: PropTypes.bool,
   autoplay: PropTypes.bool,
-  infinite: PropTypes.bool
+  infinite: PropTypes.bool,
+  onChange: PropTypes.func
 };
 export default Zoom;

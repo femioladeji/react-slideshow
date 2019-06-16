@@ -26,7 +26,7 @@
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "html-webpack-plugin": "^3.0.0",
     "husky": "^0.14.3",
-    "jest": "^23.6.0",
+    "jest": "^24.8.0",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
     "react": "^16.2.0",
@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.2.0",
-    "css-loader": "^0.28.10",
+    "css-loader": "^3.0.0",
     "prop-types": "^15.5.10",
     "style-loader": "^0.20.2"
   }

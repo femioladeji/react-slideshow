@@ -34,7 +34,10 @@ const properties = {
   transitionDuration: 500,
   infinite: true,
   indicators: true,
-  arrows: true
+  arrows: true,
+  onChange: (oldIndex, newIndex) => {
+    console.log(`slide transition from ${oldIndex} to ${newIndex}`);
+  }
 }
 
 const Slideshow = () => {
@@ -76,7 +79,10 @@ const fadeProperties = {
   duration: 5000,
   transitionDuration: 500,
   infinite: false,
-  indicators: true
+  indicators: true,
+  onChange: (oldIndex, newIndex) => {
+    console.log(`fade transition from ${oldIndex} to ${newIndex}`);
+  }
 }
 
 const Slideshow = () => {
@@ -250,3 +256,4 @@ HTML properties like className, data-* attributes and others will be applied to 
 | scale               | number      |               | *Required* when using zoom to specify the scale the current slide should be zoomed to      |
 | arrows              | boolean     | true          | Determines if there should be a navigational arrow for going to the next or previous slide |
 | autoplay            | boolean     | true          | Responsible for determining if the slideshow should start automatically                    |
+| onChange            | function    |               | Callback that gets triggered at the end of every transition. The oldIndex and newIndex are passed as arguments    |

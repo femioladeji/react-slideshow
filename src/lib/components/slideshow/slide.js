@@ -88,14 +88,7 @@ class Slideshow extends Component {
   }
 
   render() {
-    const {
-      children,
-      duration,
-      infinite,
-      autoplay,
-      indicators,
-      arrows
-    } = this.props;
+    const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
     const { index } = this.state;
     const style = {
@@ -167,7 +160,8 @@ class Slideshow extends Component {
       transitionDuration,
       autoplay,
       infinite,
-      duration
+      duration,
+      onChange
     } = this.props;
     const existingTweens = TWEEN.default.getAll();
     if (!existingTweens.length) {
@@ -192,17 +186,21 @@ class Slideshow extends Component {
       animate();
 
       tween.onComplete(() => {
+        const newIndex =
+          index < 0
+            ? children.length - 1
+            : index >= children.length
+              ? 0
+              : index;
         if (this.willUnmount) {
           return;
         }
+        if (typeof onChange === 'function') {
+          onChange(this.state.index, newIndex);
+        }
         this.setState(
           {
-            index:
-              index < 0
-                ? children.length - 1
-                : index >= children.length
-                  ? 0
-                  : index
+            index: newIndex
           },
           () => {
             if (autoplay && (infinite || this.state.index < children.length)) {
@@ -230,6 +228,7 @@ Slideshow.propTypes = {
   infinite: PropTypes.bool,
   indicators: PropTypes.bool,
   autoplay: PropTypes.bool,
-  arrows: PropTypes.bool
+  arrows: PropTypes.bool,
+  onChange: PropTypes.func
 };
 export default Slideshow;

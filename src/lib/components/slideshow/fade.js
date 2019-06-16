@@ -162,7 +162,8 @@ class Fade extends Component {
       children,
       infinite,
       duration,
-      transitionDuration
+      transitionDuration,
+      onChange
     } = this.props;
     if (!this.divsContainer.children[newIndex]) {
       newIndex = 0;
@@ -196,6 +197,9 @@ class Fade extends Component {
       this.setState({
         index: newIndex
       });
+      if (typeof onChange === 'function') {
+        onChange(index, newIndex);
+      }
       if (autoplay && (infinite || newIndex < children.length - 1)) {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
@@ -221,6 +225,7 @@ Fade.propTypes = {
   indicators: PropTypes.bool,
   arrows: PropTypes.bool,
   autoplay: PropTypes.bool,
-  infinite: PropTypes.bool
+  infinite: PropTypes.bool,
+  onChange: PropTypes.func
 };
 export default Fade;
