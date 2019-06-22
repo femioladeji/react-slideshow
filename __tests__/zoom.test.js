@@ -1,4 +1,9 @@
-import { cleanup, wait, fireEvent } from 'react-testing-library';
+import {
+  cleanup,
+  wait,
+  fireEvent,
+  waitForDomChange
+} from 'react-testing-library';
 import { renderZoom, images } from '../test-utils';
 
 afterEach(cleanup);
@@ -94,16 +99,43 @@ test('When next or previous arrow is clicked, the right child shows up', async (
   );
 });
 
-test(`The second child should start transition to opacity and zIndex of 1 after ${
-  zoomOut.duration
-}ms`, async () => {
-  const { container } = renderZoom(zoomOut);
+test("It shouldn't navigate if infinite false and next arrow is clicked on the last slide", async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderZoom(
+    { ...zoomOut, infinite: false, autoplay: false },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+  const nav = baseElement.querySelectorAll('.nav');
+  const dots = baseElement.querySelectorAll('.indicators > div');
+  fireEvent.click(dots[dots.length - 1]);
+  // wait for the active indicator to change
+  await wait(() => {}, { timeout: zoomOut.transitionDuration });
+  // await waitForDomChange({ container: baseElement.querySelector('.indicators') })
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
+      expect(
+        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
+      ).toBe(1);
+    },
+    {
+      timeout: zoomOut.transitionDuration
+    }
+  );
+});
+
+test(`The second child should start transition to opacity and zIndex of 1 after ${zoomOut.duration}ms`, async () => {
+  const onChange = jest.fn();
+  const { container } = renderZoom({ ...zoomOut, onChange });
   await wait(
     () => {
       const childrenElements = container.querySelectorAll(
         '.zoom-wrapper > div'
       );
       expect(parseFloat(childrenElements[1].style.opacity)).toBeGreaterThan(0);
+      expect(onChange).toBeCalledWith(0, 1);
       // expect(childrenElements[1].style.zIndex).toBe('1');
     },
     {

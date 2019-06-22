@@ -24,7 +24,7 @@ class Slideshow extends Component {
     window.addEventListener('resize', this.resizeListener);
     const { autoplay, duration } = this.props;
     if (autoplay) {
-      this.timeout = setTimeout(() => this.preSlide('next'), duration);
+      this.timeout = setTimeout(() => this.goNext(), duration);
     }
   }
 
@@ -65,26 +65,38 @@ class Slideshow extends Component {
     });
   }
 
-  moveSlides({ currentTarget }) {
-    //check if there's disabled class
-    if (currentTarget.className.includes('disabled')) {
-      return;
+  moveSlides({ currentTarget: { dataset } }) {
+    if (dataset.type === 'next') {
+      this.goNext();
+    } else {
+      this.goBack();
     }
-    this.preSlide(currentTarget.dataset.type);
   }
 
   goToSlide({ target }) {
-    this.slideImages(parseInt(target.dataset.key));
+    this.goTo(parseInt(target.dataset.key));
   }
 
-  preSlide(type) {
-    let { index } = this.state;
-    const { infinite, children } = this.props;
-    if (!infinite && type === 'next' && index === children.length - 1) {
+  goTo(index) {
+    this.slideImages(index);
+  }
+
+  goNext() {
+    const { index } = this.state;
+    const { children, infinite } = this.props;
+    if (!infinite && index === children.length - 1) {
       return;
     }
-    index = type === 'next' ? index + 1 : index - 1;
-    this.slideImages(index);
+    this.slideImages(index + 1);
+  }
+
+  goBack() {
+    const { index } = this.state;
+    const { infinite } = this.props;
+    if (!infinite && index === 0) {
+      return;
+    }
+    this.slideImages(index - 1);
   }
 
   render() {
@@ -190,8 +202,8 @@ class Slideshow extends Component {
           index < 0
             ? children.length - 1
             : index >= children.length
-              ? 0
-              : index;
+            ? 0
+            : index;
         if (this.willUnmount) {
           return;
         }
@@ -204,7 +216,7 @@ class Slideshow extends Component {
           },
           () => {
             if (autoplay && (infinite || this.state.index < children.length)) {
-              this.timeout = setTimeout(() => this.preSlide('next'), duration);
+              this.timeout = setTimeout(() => this.goNext(), duration);
             }
           }
         );

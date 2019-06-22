@@ -16,7 +16,7 @@ class Zoom extends Component {
     this.divsContainer = null;
     this.setWidth = this.setWidth.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
-    this.goto = this.goto.bind(this);
+    this.navigate = this.navigate.bind(this);
     this.preZoom = this.preZoom.bind(this);
   }
 
@@ -74,22 +74,39 @@ class Zoom extends Component {
     }
   }
 
-  goto({ target }) {
-    if (target.dataset.key != this.state.index) {
-      this.zoomTo(parseInt(target.dataset.key));
+  goNext() {
+    const { index } = this.state;
+    const { children, infinite } = this.props;
+    if (!infinite && index === children.length - 1) {
+      return;
+    }
+    this.zoomTo((index + 1) % children.length);
+  }
+
+  goBack() {
+    const { index } = this.state;
+    const { children, infinite } = this.props;
+    if (!infinite && index === 0) {
+      return;
+    }
+    this.zoomTo(index === 0 ? children.length - 1 : index - 1);
+  }
+
+  goTo(index) {
+    this.zoomTo(index);
+  }
+
+  navigate({ target: { dataset } }) {
+    if (dataset.key != this.state.index) {
+      this.goTo(parseInt(dataset.key));
     }
   }
 
   preZoom({ currentTarget }) {
-    if (currentTarget.className.includes('disabled')) {
-      return;
-    }
-    const { index } = this.state;
-    const { children } = this.props;
     if (currentTarget.dataset.type === 'prev') {
-      this.zoomTo(index === 0 ? children.length - 1 : index - 1);
+      this.goBack();
     } else {
-      this.zoomTo((index + 1) % children.length);
+      this.goNext();
     }
   }
 
@@ -147,7 +164,7 @@ class Zoom extends Component {
                 key={key}
                 data-key={key}
                 className={index === key ? 'active' : ''}
-                onClick={this.goto}
+                onClick={this.navigate}
               />
             ))}
           </div>
@@ -192,9 +209,9 @@ class Zoom extends Component {
       .onUpdate(value => {
         this.divsContainer.children[newIndex].style.opacity = value.opacity;
         this.divsContainer.children[index].style.opacity = 1 - value.opacity;
-        this.divsContainer.children[index].style.transform = `scale(${
-          value.scale
-        })`;
+        this.divsContainer.children[
+          index
+        ].style.transform = `scale(${value.scale})`;
       })
       .start();
 

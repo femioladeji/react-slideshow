@@ -15,7 +15,7 @@ class Fade extends Component {
     this.divsContainer = null;
     this.setWidth = this.setWidth.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
-    this.goto = this.goto.bind(this);
+    this.navigate = this.navigate.bind(this);
     this.preFade = this.preFade.bind(this);
   }
 
@@ -73,22 +73,39 @@ class Fade extends Component {
     }
   }
 
-  goto({ target }) {
-    if (target.dataset.key != this.state.index) {
-      this.fadeImages(parseInt(target.dataset.key));
+  goNext() {
+    const { index } = this.state;
+    const { children, infinite } = this.props;
+    if (!infinite && index === children.length - 1) {
+      return;
+    }
+    this.fadeImages((index + 1) % children.length);
+  }
+
+  goBack() {
+    const { index } = this.state;
+    const { children, infinite } = this.props;
+    if (!infinite && index === 0) {
+      return;
+    }
+    this.fadeImages(index === 0 ? children.length - 1 : index - 1);
+  }
+
+  navigate({ target: { dataset } }) {
+    if (dataset.key != this.state.index) {
+      this.goTo(parseInt(dataset.key));
     }
   }
 
+  goTo(index) {
+    this.fadeImages(index);
+  }
+
   preFade({ currentTarget }) {
-    if (currentTarget.className.includes('disabled')) {
-      return;
-    }
-    const { index } = this.state;
-    const { children } = this.props;
     if (currentTarget.dataset.type === 'prev') {
-      this.fadeImages(index === 0 ? children.length - 1 : index - 1);
+      this.goBack();
     } else {
-      this.fadeImages((index + 1) % children.length);
+      this.goNext();
     }
   }
 
@@ -146,7 +163,7 @@ class Fade extends Component {
                 key={key}
                 data-key={key}
                 className={index === key ? 'active' : ''}
-                onClick={this.goto}
+                onClick={this.navigate}
               />
             ))}
           </div>
