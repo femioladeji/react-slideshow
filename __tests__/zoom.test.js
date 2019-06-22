@@ -4,7 +4,7 @@ import {
   fireEvent,
   waitForDomChange
 } from 'react-testing-library';
-import { renderZoom, images } from '../test-utils';
+import { renderZoom, renderZoom2, images } from '../test-utils';
 
 afterEach(cleanup);
 
@@ -69,49 +69,20 @@ test("It shouldn't navigate if infinite false and previous arrow is clicked", as
   );
 });
 
-test('When next or previous arrow is clicked, the right child shows up', async () => {
-  const wrapperElement = document.createElement('div');
-  const { baseElement } = renderZoom(zoomOut, wrapperElement);
-  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
-  const nav = baseElement.querySelectorAll('.nav');
-  fireEvent.click(nav[1]);
-  await wait(
-    () => {
-      expect(parseFloat(childrenElements[1].style.opacity)).toBeGreaterThan(0);
-      // preceding image should have a scale of 1 at the end of transition
-      // expect(childrenElements[0].style.transform).toBe('scale(1)');
-    },
-    {
-      timeout: zoomOut.transitionDuration
-    }
-  );
-
-  fireEvent.click(nav[0]);
-  await wait(
-    () => {
-      expect(parseFloat(childrenElements[0].style.opacity)).toBeGreaterThan(0);
-      // expect(childrenElements[1].style.transform).toBe('scale(1)');
-      // expect(childrenElements[0].style.zIndex).toBe('1');
-    },
-    {
-      timeout: zoomOut.transitionDuration
-    }
-  );
-});
-
 test("It shouldn't navigate if infinite false and next arrow is clicked on the last slide", async () => {
   const wrapperElement = document.createElement('div');
-  const { baseElement } = renderZoom(
+  const { baseElement } = renderZoom2(
     { ...zoomOut, infinite: false, autoplay: false },
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
   const nav = baseElement.querySelectorAll('.nav');
-  const dots = baseElement.querySelectorAll('.indicators > div');
-  fireEvent.click(dots[dots.length - 1]);
+  fireEvent.click(nav[1]);
   // wait for the active indicator to change
-  await wait(() => {}, { timeout: zoomOut.transitionDuration });
-  // await waitForDomChange({ container: baseElement.querySelector('.indicators') })
+  await waitForDomChange({
+    container: baseElement.querySelector('.indicators')
+  });
+  expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
   fireEvent.click(nav[1]);
   await wait(
     () => {

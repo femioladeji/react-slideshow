@@ -42,6 +42,23 @@ export const renderZoom = (props = {}, container) => {
   return slideShow;
 }
 
+export const renderZoom2 = (props = {}, container) => {
+  let options = {};
+  if (container) {
+    options = {
+      container: document.body.appendChild(container),
+      baseElement: container
+    }
+  }
+  let slideShow = render(
+      <Zoom {...props}>
+        {images.slice(0, 2).map((each, index) => (
+          <img key={index} src={each} />
+        ))}
+      </Zoom>, options);
+  return slideShow;
+}
+
 export const renderSlide = (props = {}, container) => {
   let options = {};
   if (container) {

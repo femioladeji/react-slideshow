@@ -257,3 +257,16 @@ HTML properties like className, data-* attributes and others will be applied to 
 | arrows              | boolean     | true          | Determines if there should be a navigational arrow for going to the next or previous slide |
 | autoplay            | boolean     | true          | Responsible for determining if the slideshow should start automatically                    |
 | onChange            | function    |               | Callback that gets triggered at the end of every transition. The oldIndex and newIndex are passed as arguments    |
+
+## Methods
+1. goNext()
+It is used to programmatically transition the slide to the next one.
+
+2. goBack()
+If you want to show the previous slide, then use this function
+
+3. goTo(index)
+It can be used to transition the slide to a particular index. N.B Index starts from 0
+
+To call the method you can use the slide's ref attribute and then call the method.
+`this.slideRef.goNext()`
