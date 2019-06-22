@@ -29,21 +29,32 @@ class App extends Component {
       duration: 5000,
       transitionDuration: 500,
       infinite: true,
-      indicators: true
+      indicators: true,
+      onChange: (oldIndex, newIndex) => {
+        console.log(
+          `Slide transition finished from ${oldIndex} to ${newIndex}`
+        );
+      }
     };
 
     const fadeProperties = {
       duration: 5000,
       transitionDuration: 500,
       indicators: true,
-      infinite: false
+      infinite: false,
+      onChange: (oldIndex, newIndex) => {
+        console.log(`Fade transition finished from ${oldIndex} to ${newIndex}`);
+      }
     };
 
     const zoomOutProperties = {
       duration: 5000,
       transitionDuration: 500,
       indicators: true,
-      scale: 0.4
+      scale: 0.4,
+      onChange: (oldIndex, newIndex) => {
+        console.log(`zoom transition finished from ${oldIndex} to ${newIndex}`);
+      }
     };
 
     const zoomInProperties = {

@@ -1,4 +1,9 @@
-import { cleanup, wait, fireEvent } from 'react-testing-library';
+import {
+  cleanup,
+  wait,
+  fireEvent,
+  waitForDomChange
+} from 'react-testing-library';
 import { renderSlide, images } from '../test-utils';
 
 const options = {
@@ -52,22 +57,31 @@ test('When next is clicked, the second child should have an active class', async
   );
 });
 
-test('When the second indicator is clicked, the third child should have active class', async () => {
+test('When back is clicked, the third child should have an active class', async () => {
   const wrapperElement = document.createElement('div');
-  const { baseElement, debug } = renderSlide(options, wrapperElement);
-  let dots = baseElement.querySelectorAll('.indicators > div');
-  fireEvent.click(dots[2]);
-  await wait(
-    () => {
-      const childrenElements = baseElement.querySelectorAll(
-        '.images-wrap > div'
-      );
-      expect(childrenElements[1].classList).toContain('active');
-    },
-    {
-      timeout: options.transitionDuration
-    }
-  );
+  const { baseElement } = renderSlide(options, wrapperElement);
+  const nav = baseElement.querySelectorAll('.nav');
+  fireEvent.click(nav[0]);
+  await waitForDomChange({
+    container: baseElement.querySelector('.indicators')
+  });
+  const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
+  expect(childrenElements[2].classList).toContain('active');
+  // childrenElements.forEach(a => {
+  //   console.log(a.className)
+  // })
+  // await wait(
+  //   () => {
+  //     const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
+  //     // expect(childrenElements[0].classList).toContain('active');
+  //     childrenElements.forEach(a => {
+  //       console.log(a.classList)
+  //     })
+  //   },
+  //   {
+  //     timeout: options.transitionDuration
+  //   }
+  // );
 });
 
 test('It should automatically show second child after first slide', async () => {
