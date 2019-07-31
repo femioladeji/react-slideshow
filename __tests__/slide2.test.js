@@ -26,7 +26,7 @@ test('When the second indicator is clicked, the third child should have active c
       expect(onChange).toBeCalledWith(0, 1);
     },
     {
-      timeout: options.transitionDuration + 1000
+      timeout: options.transitionDuration + options.duration
     }
   );
 });

@@ -6,4 +6,8 @@ coverage
 build
 __tests__
 __mocks__
-dist
+node_modules
+.circleci
+webpack.config.js
+LICENSE
+test-utils.js

@@ -42,23 +42,25 @@ const properties = {
 
 const Slideshow = () => {
     return (
-      <Slide {...properties}>
-        <div className="each-slide">
-          <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
-            <span>Slide 1</span>
+      <div className="slide-container">
+        <Slide {...properties}>
+          <div className="each-slide">
+            <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
+              <span>Slide 1</span>
+            </div>
           </div>
-        </div>
-        <div className="each-slide">
-          <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
-            <span>Slide 2</span>
+          <div className="each-slide">
+            <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
+              <span>Slide 2</span>
+            </div>
           </div>
-        </div>
-        <div className="each-slide">
-          <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
-            <span>Slide 3</span>
+          <div className="each-slide">
+            <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
+              <span>Slide 3</span>
+            </div>
           </div>
-        </div>
-      </Slide>
+        </Slide>
+      </div>
     )
 }
 ```
@@ -87,26 +89,28 @@ const fadeProperties = {
 
 const Slideshow = () => {
   return (
-    <Fade {...fadeProperties}>
-      <div className="each-fade">
-        <div className="image-container">
-          <img src={fadeImages[0]} />
+    <div className="slide-container">
+      <Fade {...fadeProperties}>
+        <div className="each-fade">
+          <div className="image-container">
+            <img src={fadeImages[0]} />
+          </div>
+          <h2>First Slide</h2>
         </div>
-        <h2>First Slide</h2>
-      </div>
-      <div className="each-fade">
-        <div className="image-container">
-          <img src={fadeImages[1]} />
+        <div className="each-fade">
+          <div className="image-container">
+            <img src={fadeImages[1]} />
+          </div>
+          <h2>Second Slide</h2>
         </div>
-        <h2>Second Slide</h2>
-      </div>
-      <div className="each-fade">
-        <div className="image-container">
-          <img src={fadeImages[2]} />
+        <div className="each-fade">
+          <div className="image-container">
+            <img src={fadeImages[2]} />
+          </div>
+          <h2>Third Slide</h2>
         </div>
-        <h2>Third Slide</h2>
-      </div>
-    </Fade>
+      </Fade>
+    </div>
   )
 }
 ```
@@ -137,11 +141,13 @@ const zoomOutProperties = {
 
 const Slideshow = () => {
     return (
-      <Zoom {...zoomOutProperties}>
-        {
-          images.map((each, index) => <img key={index} style={{width: "100%"}} src={each} />)
-        }
-      </Zoom>
+      <div className="slide-container">
+        <Zoom {...zoomOutProperties}>
+          {
+            images.map((each, index) => <img key={index} style={{width: "100%"}} src={each} />)
+          }
+        </Zoom>
+      </div>
     )
 }
 ```
