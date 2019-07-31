@@ -10,7 +10,7 @@ const paths = {
 
 // Webpack configuration
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: path.join(paths.JS, 'index.js'),
   output: {
     path: paths.DIST,

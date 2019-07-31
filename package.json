@@ -1,8 +1,20 @@
 {
   "name": "react-slideshow-image",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "npmFileMap": [
+    {
+      "basePath": "/dist/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ],
   "keywords": [
     "image",
     "react",
@@ -51,12 +63,12 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "npm i --only=dev && webpack && cp -r src/images dist",
-    "heroku-postbuild": "npm run build",
-    "start": "serve dist/",
+    "build": "webpack --config webpack.config.dist.js",
+    "heroku-postbuild": "npm i --only=dev && webpack && cp -r src/images public",
+    "start": "serve public/",
     "precommit": "lint-staged",
     "test": "jest && codecov",
-    "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files --ignore *.test.js"
+    "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files && npm run build"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.2.0",
