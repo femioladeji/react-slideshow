@@ -110,7 +110,7 @@ test(`The second child should start transition to opacity and zIndex of 1 after 
       // expect(childrenElements[1].style.zIndex).toBe('1');
     },
     {
-      timeout: zoomOut.duration + zoomOut.transitionDuration
+      timeout: zoomOut.duration + zoomOut.transitionDuration + 10
     }
   );
 });
