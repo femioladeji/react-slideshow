@@ -224,29 +224,24 @@ h3 {
 
 **next.config.js** 
 ```js 
-const withCSS = require('@zeit/next-css');
+const withCSS = require("@zeit/next-css");
 
-if (typeof require !== 'undefined') {
-	require.extensions['.css'] = file => {};
+if (typeof require !== "undefined") {
+  require.extensions[".css"] = file => {};
 }
 
 module.exports = {
-	webpack: config => {
-		// Fixes npm packages that depend on `fs` module
-		config.node = {
-			fs: 'empty',
-		};
+  webpack: config => {
+    // Fixes npm packages that depend on `fs` module
+    config.node = {
+      fs: "empty"
+    };
 
-		return config;
-	},
+    return config;
+  }
 };
 
-module.exports = withCSS({
-	cssModules: true,
-	cssLoaderOptions: {
-		url: true,
-	},
-});
+module.exports = withCSS();
 
 ```
 
