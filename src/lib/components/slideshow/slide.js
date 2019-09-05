@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as TWEEN from '@tweenjs/tween.js';
+import TWEEN from '@tweenjs/tween.js';
 import PropTypes from 'prop-types';
 import { getUnhandledProps } from '../../helpers.js';
 
@@ -175,7 +175,7 @@ class Slideshow extends Component {
       duration,
       onChange
     } = this.props;
-    const existingTweens = TWEEN.default.getAll();
+    const existingTweens = TWEEN.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
       const value = { margin: -this.width * (this.state.index + 1) };
@@ -188,11 +188,11 @@ class Slideshow extends Component {
 
       let animate = () => {
         if (this.willUnmount) {
-          TWEEN.default.removeAll();
+          TWEEN.removeAll();
           return;
         }
         requestAnimationFrame(animate);
-        TWEEN.default.update();
+        TWEEN.update();
       };
 
       animate();

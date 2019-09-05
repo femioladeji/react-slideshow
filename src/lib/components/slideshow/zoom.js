@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as TWEEN from '@tweenjs/tween.js';
+import TWEEN from '@tweenjs/tween.js';
 import { getUnhandledProps } from '../../helpers.js';
 
 import './zoom.css';
@@ -195,11 +195,11 @@ class Zoom extends Component {
 
     let animate = () => {
       if (this.willUnmount) {
-        TWEEN.default.removeAll();
+        TWEEN.removeAll();
         return;
       }
       requestAnimationFrame(animate);
-      TWEEN.default.update();
+      TWEEN.update();
     };
 
     animate();
