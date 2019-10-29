@@ -252,6 +252,7 @@ HTML properties like className, data-* attributes and others will be applied to 
 | ------------------- |:-----------:| ------------- | ------------------------------------------------------------------------------------------ |
 | duration            | integer     | 5000          | Time it takes (milliseconds) before next transition starts                                 |
 | transitionDuration  | integer     | 1000          | Determines how long the transition takes                                                   |
+| defaultIndex        | integer     | 0             | Specifies the first slide to display                                                       |
 | infinite            | boolean     | true          | Specifies if the transition should loop throughout      |
 | indicators          | boolean     | false         | For specifying if there should be dots below the slideshow                                 |
 | scale               | number      |               | *Required* when using zoom to specify the scale the current slide should be zoomed to      |

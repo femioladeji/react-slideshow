@@ -233,6 +233,7 @@ class Fade extends Component {
 Fade.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
+  defaultIndex: 0,
   indicators: false,
   arrows: true,
   autoplay: true,
@@ -242,6 +243,7 @@ Fade.defaultProps = {
 Fade.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
+  defaultIndex: PropTypes.number,
   indicators: PropTypes.bool,
   arrows: PropTypes.bool,
   autoplay: PropTypes.bool,

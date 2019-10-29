@@ -231,6 +231,7 @@ class Slideshow extends Component {
 Slideshow.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
+  defaultIndex: 0,
   infinite: true,
   autoplay: true,
   indicators: false,
@@ -240,6 +241,7 @@ Slideshow.defaultProps = {
 Slideshow.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
+  defaultIndex: PropTypes.number,
   infinite: PropTypes.bool,
   indicators: PropTypes.bool,
   autoplay: PropTypes.bool,
