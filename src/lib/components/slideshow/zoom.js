@@ -9,7 +9,10 @@ class Zoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0
+      index:
+        props.defaultIndex && props.defaultIndex < props.children.length
+          ? props.defaultIndex
+          : 0
     };
     this.width = 0;
     this.timeout = null;
@@ -243,6 +246,7 @@ class Zoom extends Component {
 Zoom.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
+  defaultIndex: 0,
   indicators: false,
   arrows: true,
   autoplay: true,
@@ -252,6 +256,7 @@ Zoom.defaultProps = {
 Zoom.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
+  defaultIndex: PropTypes.number,
   indicators: PropTypes.bool,
   scale: PropTypes.number.isRequired,
   arrows: PropTypes.bool,

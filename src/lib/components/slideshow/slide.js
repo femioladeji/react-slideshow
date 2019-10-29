@@ -9,7 +9,10 @@ class Slideshow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0
+      index:
+        props.defaultIndex && props.defaultIndex < props.children.length
+          ? props.defaultIndex
+          : 0
     };
     this.width = 0;
     this.imageContainer = null;
@@ -228,6 +231,7 @@ class Slideshow extends Component {
 Slideshow.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
+  defaultIndex: 0,
   infinite: true,
   autoplay: true,
   indicators: false,
@@ -237,6 +241,7 @@ Slideshow.defaultProps = {
 Slideshow.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
+  defaultIndex: PropTypes.number,
   infinite: PropTypes.bool,
   indicators: PropTypes.bool,
   autoplay: PropTypes.bool,
