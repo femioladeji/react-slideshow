@@ -9,7 +9,10 @@ class Zoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0
+      index:
+        props.defaultIndex && props.defaultIndex < props.children.length
+          ? props.defaultIndex
+          : 0
     };
     this.width = 0;
     this.timeout = null;
