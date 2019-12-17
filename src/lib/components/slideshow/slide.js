@@ -16,10 +16,12 @@ class Slideshow extends Component {
     };
     this.width = 0;
     this.imageContainer = null;
+    this.wrapper = null;
     this.timeout = null;
     this.moveSlides = this.moveSlides.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.goToSlide = this.goToSlide.bind(this);
+    this.tweenGroup = new TWEEN.Group();
   }
 
   componentDidMount() {
@@ -40,10 +42,10 @@ class Slideshow extends Component {
   setWidth() {
     // the .slice.call was needed to support ie11
     this.allImages = Array.prototype.slice.call(
-      document.querySelectorAll(`.images-wrap > div`),
+      this.wrapper.querySelectorAll(`.images-wrap > div`),
       0
     );
-    this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
+    this.width = this.wrapper.clientWidth;
     const fullwidth = this.width * (this.props.children.length + 2);
     this.imageContainer.style.width = `${fullwidth}px`;
     this.imageContainer.style.transform = `translate(-${this.width *
@@ -58,7 +60,6 @@ class Slideshow extends Component {
   }
 
   resizeListener() {
-    this.width = document.querySelector('.react-slideshow-wrapper').clientWidth;
     this.setWidth();
   }
 
@@ -122,11 +123,14 @@ class Slideshow extends Component {
               <span />
             </div>
           )}
-          <div className={`react-slideshow-wrapper slide`}>
+          <div
+            className={`react-slideshow-wrapper slide`}
+            ref={ref => (this.wrapper = ref)}
+          >
             <div
               className="images-wrap"
               style={style}
-              ref={wrap => (this.imageContainer = wrap)}
+              ref={ref => (this.imageContainer = ref)}
             >
               <div data-index="-1">{children[children.length - 1]}</div>
               {children.map((each, key) => (
@@ -178,11 +182,11 @@ class Slideshow extends Component {
       duration,
       onChange
     } = this.props;
-    const existingTweens = TWEEN.getAll();
+    const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
       const value = { margin: -this.width * (this.state.index + 1) };
-      const tween = new TWEEN.Tween(value)
+      const tween = new TWEEN.Tween(value, this.tweenGroup)
         .to({ margin: -this.width * (index + 1) }, transitionDuration)
         .onUpdate(value => {
           this.imageContainer.style.transform = `translate(${value.margin}px)`;
@@ -191,11 +195,11 @@ class Slideshow extends Component {
 
       let animate = () => {
         if (this.willUnmount) {
-          TWEEN.removeAll();
+          this.tweenGroup.removeAll();
           return;
         }
         requestAnimationFrame(animate);
-        TWEEN.update();
+        this.tweenGroup.update();
       };
 
       animate();
