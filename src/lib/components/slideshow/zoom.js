@@ -17,10 +17,12 @@ class Zoom extends Component {
     this.width = 0;
     this.timeout = null;
     this.divsContainer = null;
+    this.wrapper = null;
     this.setWidth = this.setWidth.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.navigate = this.navigate.bind(this);
     this.preZoom = this.preZoom.bind(this);
+    this.tweenGroup = new TWEEN.Group();
   }
 
   componentDidMount() {
@@ -55,9 +57,7 @@ class Zoom extends Component {
   }
 
   setWidth() {
-    this.width = document.querySelector(
-      '.react-slideshow-zoom-wrapper'
-    ).clientWidth;
+    this.width = this.wrapper.clientWidth;
     this.applyStyle();
   }
 
@@ -129,7 +129,10 @@ class Zoom extends Component {
               <span />
             </div>
           )}
-          <div className="react-slideshow-zoom-wrapper">
+          <div
+            className="react-slideshow-zoom-wrapper"
+            ref={ref => (this.wrapper = ref)}
+          >
             <div
               className="zoom-wrapper"
               ref={wrap => (this.divsContainer = wrap)}
@@ -187,59 +190,62 @@ class Zoom extends Component {
       duration,
       onChange
     } = this.props;
-    if (!this.divsContainer.children[newIndex]) {
-      newIndex = 0;
-    }
-    clearTimeout(this.timeout);
-    const value = {
-      opacity: 0,
-      scale: 1
-    };
-
-    let animate = () => {
-      if (this.willUnmount) {
-        TWEEN.removeAll();
-        return;
+    const existingTweens = this.tweenGroup.getAll();
+    if (!existingTweens.length) {
+      if (!this.divsContainer.children[newIndex]) {
+        newIndex = 0;
       }
-      requestAnimationFrame(animate);
-      TWEEN.update();
-    };
+      clearTimeout(this.timeout);
+      const value = {
+        opacity: 0,
+        scale: 1
+      };
 
-    animate();
-
-    const tween = new TWEEN.Tween(value)
-      .to({ opacity: 1, scale }, transitionDuration)
-      .onUpdate(value => {
-        this.divsContainer.children[newIndex].style.opacity = value.opacity;
-        this.divsContainer.children[index].style.opacity = 1 - value.opacity;
-        this.divsContainer.children[
-          index
-        ].style.transform = `scale(${value.scale})`;
-      })
-      .start();
-
-    tween.onComplete(() => {
-      if (this.willUnmount) {
-        return;
-      }
-      if (typeof onChange === 'function') {
-        onChange(index, newIndex);
-      }
-      this.setState(
-        {
-          index: newIndex
-        },
-        () => {
-          this.divsContainer.children[index].style.transform = `scale(1)`;
+      let animate = () => {
+        if (this.willUnmount) {
+          this.tweenGroup.removeAll();
+          return;
         }
-      );
-      if (autoplay && (infinite || newIndex < children.length - 1)) {
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-          this.zoomTo((newIndex + 1) % children.length);
-        }, duration);
-      }
-    });
+        requestAnimationFrame(animate);
+        this.tweenGroup.update();
+      };
+
+      animate();
+
+      const tween = new TWEEN.Tween(value, this.tweenGroup)
+        .to({ opacity: 1, scale }, transitionDuration)
+        .onUpdate(value => {
+          this.divsContainer.children[newIndex].style.opacity = value.opacity;
+          this.divsContainer.children[index].style.opacity = 1 - value.opacity;
+          this.divsContainer.children[
+            index
+          ].style.transform = `scale(${value.scale})`;
+        })
+        .start();
+
+      tween.onComplete(() => {
+        if (this.willUnmount) {
+          return;
+        }
+        if (typeof onChange === 'function') {
+          onChange(index, newIndex);
+        }
+        this.setState(
+          {
+            index: newIndex
+          },
+          () => {
+            this.divsContainer.children[index].style.transform = `scale(1)`;
+          }
+        );
+        if (autoplay && (infinite || newIndex < children.length - 1)) {
+          clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            this.zoomTo((newIndex + 1) % children.length);
+          }, duration);
+        }
+      });
+    }
   }
 }
 

@@ -16,10 +16,12 @@ class Fade extends Component {
     this.width = 0;
     this.timeout = null;
     this.divsContainer = null;
+    this.wrapper = null;
     this.setWidth = this.setWidth.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.navigate = this.navigate.bind(this);
     this.preFade = this.preFade.bind(this);
+    this.tweenGroup = new TWEEN.Group();
   }
 
   componentDidMount() {
@@ -54,9 +56,7 @@ class Fade extends Component {
   }
 
   setWidth() {
-    this.width = document.querySelector(
-      '.react-slideshow-fade-wrapper'
-    ).clientWidth;
+    this.width = this.wrapper.clientWidth;
     this.applyStyle();
   }
 
@@ -128,7 +128,10 @@ class Fade extends Component {
               <span />
             </div>
           )}
-          <div className="react-slideshow-fade-wrapper">
+          <div
+            className="react-slideshow-fade-wrapper"
+            ref={ref => (this.wrapper = ref)}
+          >
             <div
               className="react-slideshow-fade-images-wrap"
               ref={wrap => (this.divsContainer = wrap)}
@@ -185,48 +188,51 @@ class Fade extends Component {
       transitionDuration,
       onChange
     } = this.props;
-    if (!this.divsContainer.children[newIndex]) {
-      newIndex = 0;
-    }
-    clearTimeout(this.timeout);
-    const value = { opacity: 0 };
-
-    const animate = () => {
-      if (this.willUnmount) {
-        TWEEN.removeAll();
-        return;
+    const existingTweens = this.tweenGroup.getAll();
+    if (!existingTweens.length) {
+      if (!this.divsContainer.children[newIndex]) {
+        newIndex = 0;
       }
-      requestAnimationFrame(animate);
-      TWEEN.update();
-    };
+      clearTimeout(this.timeout);
+      const value = { opacity: 0 };
 
-    animate();
+      const animate = () => {
+        if (this.willUnmount) {
+          this.tweenGroup.removeAll();
+          return;
+        }
+        requestAnimationFrame(animate);
+        this.tweenGroup.update();
+      };
 
-    const tween = new TWEEN.Tween(value)
-      .to({ opacity: 1 }, transitionDuration)
-      .onUpdate(value => {
-        this.divsContainer.children[newIndex].style.opacity = value.opacity;
-        this.divsContainer.children[index].style.opacity = 1 - value.opacity;
-      })
-      .start();
+      animate();
 
-    tween.onComplete(() => {
-      if (this.willUnmount) {
-        return;
-      }
-      this.setState({
-        index: newIndex
+      const tween = new TWEEN.Tween(value, this.tweenGroup)
+        .to({ opacity: 1 }, transitionDuration)
+        .onUpdate(value => {
+          this.divsContainer.children[newIndex].style.opacity = value.opacity;
+          this.divsContainer.children[index].style.opacity = 1 - value.opacity;
+        })
+        .start();
+
+      tween.onComplete(() => {
+        if (this.willUnmount) {
+          return;
+        }
+        this.setState({
+          index: newIndex
+        });
+        if (typeof onChange === 'function') {
+          onChange(index, newIndex);
+        }
+        if (autoplay && (infinite || newIndex < children.length - 1)) {
+          clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            this.fadeImages((newIndex + 1) % children.length);
+          }, duration);
+        }
       });
-      if (typeof onChange === 'function') {
-        onChange(index, newIndex);
-      }
-      if (autoplay && (infinite || newIndex < children.length - 1)) {
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-          this.fadeImages((newIndex + 1) % children.length);
-        }, duration);
-      }
-    });
+    }
   }
 }
 
