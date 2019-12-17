@@ -63,6 +63,7 @@
 
 .react-slideshow-container + div.indicators {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;
 }
@@ -71,6 +72,7 @@
   width: 7px;
   height: 7px;
   margin-right: 10px;
+  margin-top: 10px;
   border-radius: 50%;
   background: #ccc;
   cursor: pointer;
