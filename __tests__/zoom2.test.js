@@ -54,7 +54,7 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
       const childrenElements = baseElement.querySelectorAll(
         '.zoom-wrapper > div'
       );
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
     {
       timeout: zoomOut.duration + zoomOut.transitionDuration
@@ -74,7 +74,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       const childrenElements = baseElement.querySelectorAll(
         '.zoom-wrapper > div'
       );
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
     {
       timeout: zoomOut.duration + zoomOut.transitionDuration

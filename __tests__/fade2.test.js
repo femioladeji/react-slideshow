@@ -19,7 +19,7 @@ test('When the third indicator dot is clicked, the third child should show', asy
       const childrenElements = baseElement.querySelectorAll(
         '.react-slideshow-fade-images-wrap > div'
       );
-      expect(parseFloat(childrenElements[2].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[2].style.opacity)).toBe(1);
       expect(childrenElements[2].style.zIndex).toBe('1');
     },
     {
@@ -40,9 +40,9 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
       const childrenElements = baseElement.querySelectorAll(
         '.react-slideshow-fade-images-wrap > div'
       );
-      expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
       expect(childrenElements[0].style.zIndex).toBe('1');
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(0);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
       expect(childrenElements[1].style.zIndex).toBe('0');
     },
     {
@@ -55,9 +55,9 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
       const childrenElements = baseElement.querySelectorAll(
         '.react-slideshow-fade-images-wrap > div'
       );
-      expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
+      expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(childrenElements[0].style.zIndex).toBe('0');
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
       expect(childrenElements[1].style.zIndex).toBe('1');
     },
     {
@@ -78,9 +78,9 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       const childrenElements = baseElement.querySelectorAll(
         '.react-slideshow-fade-images-wrap > div'
       );
-      expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
+      expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(childrenElements[0].style.zIndex).toBe('0');
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
       expect(childrenElements[1].style.zIndex).toBe('1');
     },
     {
@@ -93,9 +93,9 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       const childrenElements = baseElement.querySelectorAll(
         '.react-slideshow-fade-images-wrap > div'
       );
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
       expect(childrenElements[1].style.zIndex).toBe('1');
-      expect(parseFloat(childrenElements[2].style.opacity)).toBe(0);
+      expect(Math.round(childrenElements[2].style.opacity)).toBe(0);
       expect(childrenElements[2].style.zIndex).toBe('0');
     },
     {

@@ -58,7 +58,7 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
       expect(childrenElements[2].classList).toContain('active');
     },
     {
-      timeout: options.duration + options.transitionDuration
+      timeout: options.duration + options.transitionDuration + 1000
     }
   );
 });
