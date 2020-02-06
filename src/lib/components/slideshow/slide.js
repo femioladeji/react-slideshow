@@ -54,6 +54,13 @@ class Slideshow extends Component {
   }
 
   componentDidUpdate(props) {
+    if (this.props.autoplay !== props.autoplay) {
+      if (this.props.autoplay) {
+        this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+      } else {
+        clearTimeout(this.timeout);
+      }
+    }
     if (this.props.children.length != props.children.length) {
       this.setWidth();
     }

@@ -8,7 +8,7 @@ export const images = [
   'images/slide_7.jpg'
 ];
 
-export const renderFade = (props = {}, container) => {
+export const renderFade = (props = {}, container, rerender) => {
   let options = {};
   if (container) {
     options = {
@@ -16,12 +16,22 @@ export const renderFade = (props = {}, container) => {
       baseElement: container
     }
   }
-  let slideShow = render(
+  let slideShow;
+  if (rerender) {
+    slideShow = rerender(
       <Fade {...props}>
         {images.map((each, index) => (
           <img key={index} src={each} />
         ))}
       </Fade>, options);
+  } else {
+    slideShow = render(
+        <Fade {...props}>
+          {images.map((each, index) => (
+            <img key={index} src={each} />
+          ))}
+        </Fade>, options);
+  }
   return slideShow;
 }
 
@@ -42,7 +52,7 @@ export const renderZoom = (props = {}, container) => {
   return slideShow;
 }
 
-export const renderZoom2 = (props = {}, container) => {
+export const renderZoom2 = (props = {}, container, rerender) => {
   let options = {};
   if (container) {
     options = {
@@ -50,16 +60,26 @@ export const renderZoom2 = (props = {}, container) => {
       baseElement: container
     }
   }
-  let slideShow = render(
+  let slideShow;
+  if (rerender) {
+    slideShow = rerender(
       <Zoom {...props}>
         {images.slice(0, 2).map((each, index) => (
           <img key={index} src={each} />
         ))}
       </Zoom>, options);
+  } else {
+    slideShow = render(
+        <Zoom {...props}>
+          {images.slice(0, 2).map((each, index) => (
+            <img key={index} src={each} />
+          ))}
+        </Zoom>, options);
+  }
   return slideShow;
 }
 
-export const renderSlide = (props = {}, container) => {
+export const renderSlide = (props = {}, container, rerender) => {
   let options = {};
   if (container) {
     options = {
@@ -67,11 +87,21 @@ export const renderSlide = (props = {}, container) => {
       baseElement: container
     }
   }
-  let slideShow = render(
+  let slideShow;
+  if (rerender) {
+    slideShow = rerender(
       <Slide {...props}>
         {images.map((each, index) => (
           <img key={index} src={each} />
         ))}
-      </Slide>, options);
+      </Slide>);
+  } else {
+    slideShow = render(
+        <Slide {...props}>
+          {images.map((each, index) => (
+            <img key={index} src={each} />
+          ))}
+        </Slide>, options);
+  }
   return slideShow;
 }

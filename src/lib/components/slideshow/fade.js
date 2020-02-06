@@ -43,6 +43,13 @@ class Fade extends Component {
   }
 
   componentDidUpdate(props) {
+    if (this.props.autoplay !== props.autoplay) {
+      if (this.props.autoplay) {
+        this.play();
+      } else {
+        clearTimeout(this.timeout);
+      }
+    }
     if (this.props.children.length != props.children.length) {
       this.applyStyle();
       this.play();

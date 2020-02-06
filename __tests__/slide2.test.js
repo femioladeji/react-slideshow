@@ -30,3 +30,68 @@ test('When the second indicator is clicked, the third child should have active c
     }
   );
 });
+
+test('When the autoplay prop changes from false to true the slideshow plays again', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement, rerender } = renderSlide(
+    { ...options, autoplay: false },
+    wrapperElement
+  );
+  // nothing changes after duration and transitionDuration
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.images-wrap > div'
+      );
+      expect(childrenElements[1].classList).toContain('active');
+    },
+    {
+      timeout: options.duration + options.transitionDuration
+    }
+  );
+  renderSlide({ ...options, autoplay: true }, false, rerender);
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.images-wrap > div'
+      );
+      expect(childrenElements[2].classList).toContain('active');
+    },
+    {
+      timeout: options.duration + options.transitionDuration + 1000
+    }
+  );
+});
+
+test('When the autoplay prop changes from true to false the slideshow stops', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement, rerender } = renderSlide(
+    { ...options, autoplay: true },
+    wrapperElement
+  );
+  // the slide plays since autoplay is true changes after duration and transitionDuration
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.images-wrap > div'
+      );
+      expect(childrenElements[2].classList).toContain('active');
+    },
+    {
+      timeout: options.duration + options.transitionDuration + 1000
+    }
+  );
+  renderSlide({ ...options, autoplay: false }, false, rerender);
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.images-wrap > div'
+      );
+      expect(childrenElements[2].classList).toContain('active');
+      expect(childrenElements[3].classList.contains('active')).toBeFalsy();
+    },
+    {
+      timeout: options.duration + options.transitionDuration
+    }
+  );
+});
