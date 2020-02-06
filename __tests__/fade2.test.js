@@ -56,9 +56,7 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
         '.react-slideshow-fade-images-wrap > div'
       );
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
-      expect(childrenElements[0].style.zIndex).toBe('0');
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
-      expect(childrenElements[1].style.zIndex).toBe('1');
     },
     {
       timeout: options.duration + options.transitionDuration
@@ -79,9 +77,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
         '.react-slideshow-fade-images-wrap > div'
       );
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
-      expect(childrenElements[0].style.zIndex).toBe('0');
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
-      expect(childrenElements[1].style.zIndex).toBe('1');
     },
     {
       timeout: options.duration + options.transitionDuration

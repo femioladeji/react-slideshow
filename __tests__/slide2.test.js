@@ -78,7 +78,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       expect(childrenElements[2].classList).toContain('active');
     },
     {
-      timeout: options.duration + options.transitionDuration
+      timeout: options.duration + options.transitionDuration + 1000
     }
   );
   renderSlide({ ...options, autoplay: false }, false, rerender);
