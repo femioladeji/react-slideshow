@@ -29,3 +29,67 @@ test('Clicking on the indicator should show the right slide', async () => {
   });
   expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
 });
+
+test('When the autoplay prop changes from false to true the slideshow plays again', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement, rerender } = renderZoom2(
+    { ...zoomOut, autoplay: false },
+    wrapperElement
+  );
+  // nothing changes after duration and transitionDuration
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.zoom-wrapper > div'
+      );
+      expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
+    },
+    {
+      timeout: zoomOut.duration + zoomOut.transitionDuration
+    }
+  );
+  renderZoom2({ ...zoomOut, autoplay: true }, false, rerender);
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.zoom-wrapper > div'
+      );
+      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+    },
+    {
+      timeout: zoomOut.duration + zoomOut.transitionDuration
+    }
+  );
+});
+
+test('When the autoplay prop changes from true to false the slideshow stops', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement, rerender } = renderZoom2(
+    { ...zoomOut, autoplay: true },
+    wrapperElement
+  );
+  // the slide plays since autoplay is true changes after duration and transitionDuration
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.zoom-wrapper > div'
+      );
+      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+    },
+    {
+      timeout: zoomOut.duration + zoomOut.transitionDuration
+    }
+  );
+  renderZoom2({ ...zoomOut, autoplay: false }, false, rerender);
+  await wait(
+    () => {
+      const childrenElements = baseElement.querySelectorAll(
+        '.zoom-wrapper > div'
+      );
+      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+    },
+    {
+      timeout: zoomOut.duration + zoomOut.transitionDuration
+    }
+  );
+});
