@@ -1,4 +1,4 @@
-import { cleanup, wait, fireEvent } from 'react-testing-library';
+import { cleanup, wait, fireEvent } from '@testing-library/react';
 import { renderFade } from '../test-utils';
 
 afterEach(cleanup);

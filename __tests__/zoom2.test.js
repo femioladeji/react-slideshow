@@ -3,7 +3,7 @@ import {
   wait,
   fireEvent,
   waitForDomChange
-} from 'react-testing-library';
+} from '@testing-library/react';
 import { renderZoom, renderZoom2, images } from '../test-utils';
 
 afterEach(cleanup);
