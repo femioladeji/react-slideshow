@@ -1,4 +1,4 @@
-import { cleanup, wait, fireEvent } from 'react-testing-library';
+import { cleanup, wait, fireEvent } from '@testing-library/react';
 import { renderFade, images } from '../test-utils';
 
 afterEach(cleanup);
@@ -117,9 +117,7 @@ test('When next or previous arrow is clicked, the right child shows up', async (
   );
 });
 
-test(`The second child should start transition to opacity after ${
-  fadeProperties.duration
-}ms`, async () => {
+test(`The second child should start transition to opacity after ${fadeProperties.duration}ms`, async () => {
   const { container } = renderFade(fadeProperties);
   await wait(
     () => {

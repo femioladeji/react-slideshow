@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, wait } from 'react-testing-library';
+import { cleanup, fireEvent, wait } from '@testing-library/react';
 import { renderSlide } from '../test-utils';
 
 const options = {

@@ -3,7 +3,7 @@ import {
   wait,
   fireEvent,
   waitForDomChange
-} from 'react-testing-library';
+} from '@testing-library/react';
 import { renderSlide, images } from '../test-utils';
 
 const options = {
