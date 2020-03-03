@@ -19,7 +19,7 @@ class Slideshow extends Component {
     this.wrapper = null;
     this.timeout = null;
     this.moveSlides = this.moveSlides.bind(this);
-    this.stopSlides = this.stopSlides.bind(this);
+    this.pauseSlides = this.pauseSlides.bind(this);
     this.startSlides = this.startSlides.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.goToSlide = this.goToSlide.bind(this);
@@ -77,13 +77,13 @@ class Slideshow extends Component {
       eachImage.style.width = `${this.width}px`;
     });
   }
-  stopSlides() {
-    if (this.props.stopOnHover) {
+  pauseSlides() {
+    if (this.props.pauseOnHover) {
       clearTimeout(this.timeout);
     }
   }
   startSlides() {
-    if (this.props.stopOnHover) {
+    if (this.props.pauseOnHover) {
       this.timeout = setTimeout(() => this.goNext(), this.props.duration);
     }
   }
@@ -134,7 +134,7 @@ class Slideshow extends Component {
       <div {...unhandledProps}>
         <div
           className="react-slideshow-container"
-          onMouseEnter={this.stopSlides}
+          onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
           {arrows && (
@@ -263,7 +263,7 @@ Slideshow.defaultProps = {
   autoplay: true,
   indicators: false,
   arrows: true,
-  stopOnHover: true
+  pauseOnHover: false
 };
 
 Slideshow.propTypes = {
@@ -275,6 +275,6 @@ Slideshow.propTypes = {
   autoplay: PropTypes.bool,
   arrows: PropTypes.bool,
   onChange: PropTypes.func,
-  stopOnHover: PropTypes.bool
+  pauseOnHover: PropTypes.bool
 };
 export default Slideshow;
