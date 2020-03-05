@@ -3,7 +3,7 @@ import {
   wait,
   fireEvent,
   waitForDomChange
-} from 'react-testing-library';
+} from '@testing-library/react';
 import { renderSlide, images } from '../test-utils';
 
 const options = {
@@ -47,10 +47,9 @@ test('When next is clicked, the second child should have an active class', async
   const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[1]);
-  fireEvent.click(nav[1]);
   await wait(
     () => {
-      expect(childrenElements[2].classList).toContain('active');
+      expect(childrenElements[1].classList).toContain('active');
     },
     {
       timeout: options.transitionDuration
@@ -79,7 +78,7 @@ test('It should automatically show second child after first slide', async () => 
       const childrenElements = baseElement.querySelectorAll(
         '.images-wrap > div'
       );
-	  expect(childrenElements[1].classList).toContain('active');	  
+      expect(childrenElements[1].classList).toContain('active');
     },
     {
       timeout: options.duration + options.transitionDuration
