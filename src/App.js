@@ -29,7 +29,7 @@ class App extends Component {
       duration: 5000,
       transitionDuration: 500,
       infinite: true,
-      indicators: true,	  
+      indicators: true,
 	  pauseOnHover: true,
       onChange: (oldIndex, newIndex) => {
         console.log(
