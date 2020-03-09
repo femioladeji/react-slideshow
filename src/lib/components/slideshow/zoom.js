@@ -86,17 +86,18 @@ class Zoom extends Component {
     }
   }
 
-    pauseSlides() {
-		if (this.props.pauseOnHover) {
-		  clearTimeout(this.timeout);
-		}
-	}
-	startSlides() {
-		if (this.props.pauseOnHover) {
-		  this.timeout = setTimeout(() => this.goNext(), this.props.duration);
-		}
-	}
-  
+  pauseSlides() {
+    if (this.props.pauseOnHover) {
+      clearTimeout(this.timeout);
+    }
+  }
+
+  startSlides() {
+    if (this.props.pauseOnHover) {
+      this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+    }
+  }
+
   goNext() {
     const { index } = this.state;
     const { children, infinite } = this.props;
@@ -140,9 +141,9 @@ class Zoom extends Component {
     return (
       <div {...unhandledProps}>
         <div className="react-slideshow-container"
-		    onMouseEnter={this.pauseSlides}
-			onMouseLeave={this.startSlides}
-		>
+          onMouseEnter={this.pauseSlides}
+          onMouseLeave={this.startSlides}
+        >
           {arrows && (
             <div
               className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
