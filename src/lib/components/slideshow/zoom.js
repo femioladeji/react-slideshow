@@ -87,16 +87,12 @@ class Zoom extends Component {
   }
 
     pauseSlides() {
-	console.log("PAUSE SLIDES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		if (this.props.pauseOnHover) {
-		console.log("PAUSE SLIDES ENTER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		  clearTimeout(this.timeout);
 		}
 	}
 	startSlides() {
-	console.log("START SLIDES  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		if (this.props.pauseOnHover) {
-		console.log("START SLIDES ENTER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		  this.timeout = setTimeout(() => this.goNext(), this.props.duration);
 		}
 	}
