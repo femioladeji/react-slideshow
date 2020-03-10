@@ -140,9 +140,9 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
   await wait(
     () => {
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
       expect(
-        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
+        Math.round(childrenElements[childrenElements.length - 1].style.opacity)
       ).toBe(0);
     },
     {
