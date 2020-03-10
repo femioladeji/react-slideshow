@@ -133,7 +133,8 @@ class Slideshow extends Component {
 
     return (
       <div {...unhandledProps}>
-        <div className="react-slideshow-container"
+        <div
+          className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
