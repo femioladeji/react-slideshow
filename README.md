@@ -35,7 +35,7 @@ const properties = {
   infinite: true,
   indicators: true,
   arrows: true,
-  pauseOnHover: PropTypes.bool,
+  pauseOnHover: true,
   onChange: (oldIndex, newIndex) => {
     console.log(`slide transition from ${oldIndex} to ${newIndex}`);
   }
@@ -273,4 +273,4 @@ If you want to show the previous slide, then use this function
 It can be used to transition the slide to a particular index. N.B Index starts from 0
 
 To call the method you can use the slide's ref attribute and then call the method.
-`this.slideRef.goNext()`
+`this.slideRef.goNext()` or `this.slideRef.current.goNext()`
