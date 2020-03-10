@@ -21,6 +21,8 @@ class Fade extends Component {
     this.resizeListener = this.resizeListener.bind(this);
     this.navigate = this.navigate.bind(this);
     this.preFade = this.preFade.bind(this);
+    this.pauseSlides = this.pauseSlides.bind(this);
+    this.startSlides = this.startSlides.bind(this);
     this.tweenGroup = new TWEEN.Group();
   }
 
@@ -83,6 +85,17 @@ class Fade extends Component {
     }
   }
 
+  pauseSlides() {
+    if (this.props.pauseOnHover) {
+      clearTimeout(this.timeout);
+    }
+  }
+  startSlides() {
+    if (this.props.pauseOnHover) {
+      this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+    }
+  }
+
   goNext() {
     const { index } = this.state;
     const { children, infinite } = this.props;
@@ -125,7 +138,10 @@ class Fade extends Component {
     const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
       <div {...unhandledProps}>
-        <div className="react-slideshow-container">
+        <div className="react-slideshow-container"
+          onMouseEnter={this.pauseSlides}
+          onMouseLeave={this.startSlides}
+        >
           {arrows && (
             <div
               className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
@@ -250,7 +266,8 @@ Fade.defaultProps = {
   indicators: false,
   arrows: true,
   autoplay: true,
-  infinite: true
+  infinite: true,
+  pauseOnHover: false
 };
 
 Fade.propTypes = {
@@ -261,6 +278,7 @@ Fade.propTypes = {
   arrows: PropTypes.bool,
   autoplay: PropTypes.bool,
   infinite: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  pauseOnHover: PropTypes.bool
 };
 export default Fade;

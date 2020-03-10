@@ -114,3 +114,37 @@ test(`The second child should start transition to opacity and zIndex of 1 after 
     }
   );
 });
+
+
+test('When the pauseOnHover prop is true and the mouse hovers the container the slideshow stops', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderZoom({ ...zoomOut, pauseOnHover: true }, wrapperElement);
+  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+   
+  fireEvent.mouseEnter(baseElement);
+  await wait(
+    () => {
+      expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
+	  expect(parseFloat(childrenElements[1].style.opacity)).toBe(0);
+      expect(
+        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
+      ).toBe(0);
+    },
+    {
+      timeout: (zoomOut.duration  + zoomOut.transitionDuration)
+    }
+  );
+    fireEvent.mouseLeave(baseElement);
+  await wait(
+    () => {
+      expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
+	  expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(
+        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
+      ).toBe(0);
+    },
+    {
+      timeout: (zoomOut.duration  + zoomOut.transitionDuration)
+    }
+  );
+});

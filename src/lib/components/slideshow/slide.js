@@ -19,6 +19,8 @@ class Slideshow extends Component {
     this.wrapper = null;
     this.timeout = null;
     this.moveSlides = this.moveSlides.bind(this);
+    this.pauseSlides = this.pauseSlides.bind(this);
+    this.startSlides = this.startSlides.bind(this);
     this.resizeListener = this.resizeListener.bind(this);
     this.goToSlide = this.goToSlide.bind(this);
     this.tweenGroup = new TWEEN.Group();
@@ -76,6 +78,17 @@ class Slideshow extends Component {
     });
   }
 
+  pauseSlides() {
+    if (this.props.pauseOnHover) {
+      clearTimeout(this.timeout);
+    }
+  }
+  startSlides() {
+    if (this.props.pauseOnHover) {
+      this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+    }
+  }
+
   moveSlides({ currentTarget: { dataset } }) {
     if (dataset.type === 'next') {
       this.goNext();
@@ -120,7 +133,10 @@ class Slideshow extends Component {
 
     return (
       <div {...unhandledProps}>
-        <div className="react-slideshow-container">
+        <div className="react-slideshow-container"
+          onMouseEnter={this.pauseSlides}
+          onMouseLeave={this.startSlides}
+        >
           {arrows && (
             <div
               className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
@@ -246,7 +262,8 @@ Slideshow.defaultProps = {
   infinite: true,
   autoplay: true,
   indicators: false,
-  arrows: true
+  arrows: true,
+  pauseOnHover: false
 };
 
 Slideshow.propTypes = {
@@ -257,6 +274,7 @@ Slideshow.propTypes = {
   indicators: PropTypes.bool,
   autoplay: PropTypes.bool,
   arrows: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  pauseOnHover: PropTypes.bool
 };
 export default Slideshow;

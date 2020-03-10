@@ -30,6 +30,7 @@ class App extends Component {
       transitionDuration: 500,
       infinite: true,
       indicators: true,
+      pauseOnHover: true,
       onChange: (oldIndex, newIndex) => {
         console.log(
           `Slide transition finished from ${oldIndex} to ${newIndex}`
@@ -42,6 +43,7 @@ class App extends Component {
       transitionDuration: 500,
       indicators: true,
       infinite: false,
+      pauseOnHover: true,
       onChange: (oldIndex, newIndex) => {
         console.log(`Fade transition finished from ${oldIndex} to ${newIndex}`);
       }
@@ -52,6 +54,7 @@ class App extends Component {
       transitionDuration: 500,
       indicators: true,
       scale: 0.4,
+      pauseOnHover: true,
       onChange: (oldIndex, newIndex) => {
         console.log(`zoom transition finished from ${oldIndex} to ${newIndex}`);
       }
@@ -61,7 +64,8 @@ class App extends Component {
       duration: 5000,
       transitionDuration: 500,
       indicators: true,
-      scale: 1.4
+      scale: 1.4,
+      pauseOnHover: true,
     };
     const { slideImages, zoomOutImages, fadeImages } = this.state;
     return (

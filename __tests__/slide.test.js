@@ -85,3 +85,28 @@ test('It should automatically show second child after first slide', async () => 
     }
   );
 });
+
+test('When the pauseOnHover prop is true and the mouse hovers the container the slideshow stops', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderSlide({ ...options, pauseOnHover: true }, wrapperElement);
+  const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
+   
+  fireEvent.mouseEnter(baseElement);
+  await wait(
+    () => {
+      expect(childrenElements[1].classList).toContain('active');
+    },
+    {
+      timeout: (options.duration  + options.transitionDuration)
+    }
+  );
+    fireEvent.mouseLeave(baseElement);
+  await wait(
+    () => {
+      expect(childrenElements[2].classList).toContain('active');
+    },
+    {
+      timeout: (options.duration  + options.transitionDuration)
+    }
+  );
+});
