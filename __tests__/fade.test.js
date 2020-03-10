@@ -135,14 +135,14 @@ test(`The second child should start transition to opacity after ${fadeProperties
 test('When the pauseOnHover prop is true and the mouse hovers the container the slideshow stops', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(
-    { ...fadeProperties, pauseOnHover: true },
+    { ...fadeProperties, autoplay: true, pauseOnHover: true },
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
     '.react-slideshow-fade-images-wrap > div'
   );
 
-  fireEvent.mouseEnter(baseElement);
+  fireEvent.mouseEnter(baseElement.querySelector('.react-slideshow-container'));
   // nothing happens on mouse enter
   await wait(
     () => {
@@ -155,7 +155,7 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
       timeout: fadeProperties.duration + fadeProperties.transitionDuration
     }
   );
-  fireEvent.mouseLeave(baseElement);
+  fireEvent.mouseLeave(baseElement.querySelector('.react-slideshow-container'));
   // it resumes
   await wait(
     () => {

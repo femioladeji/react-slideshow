@@ -90,6 +90,7 @@ class Fade extends Component {
       clearTimeout(this.timeout);
     }
   }
+
   startSlides() {
     if (this.props.pauseOnHover) {
       this.timeout = setTimeout(() => this.goNext(), this.props.duration);
@@ -138,7 +139,8 @@ class Fade extends Component {
     const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
       <div {...unhandledProps}>
-        <div className="react-slideshow-container"
+        <div
+          className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >

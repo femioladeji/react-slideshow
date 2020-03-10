@@ -83,6 +83,7 @@ class Slideshow extends Component {
       clearTimeout(this.timeout);
     }
   }
+
   startSlides() {
     if (this.props.pauseOnHover) {
       this.timeout = setTimeout(() => this.goNext(), this.props.duration);
