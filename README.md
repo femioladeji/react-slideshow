@@ -226,23 +226,36 @@ h3 {
 **next.config.js** 
 ```js 
 const withCSS = require("@zeit/next-css");
-
-if (typeof require !== "undefined") {
-  require.extensions[".css"] = file => {};
-}
-
-module.exports = {
-  webpack: config => {
-    // Fixes npm packages that depend on `fs` module
-    config.node = {
-      fs: "empty"
-    };
-
+const resolve = require("resolve");
+global.navigator = () => null;
+module.exports = withCSS({
+  webpack(config, options) {
+    const { dir, isServer } = options;
+    config.externals = [];
+    if (isServer) {
+      config.externals.push((context, request, callback) => {
+        resolve(
+          request,
+          { basedir: dir, preserveSymlinks: true },
+          (err, res) => {
+            if (err) {
+              return callback();
+            }
+            if (
+              res.match(/node_modules[/\\].*\.css/) &&
+              !res.match(/node_modules[/\\]webpack/) &&
+              !res.match(/node_modules[/\\]react-slideshow-image/)
+            ) {
+              return callback(null, `commonjs ${request}`);
+            }
+            callback();
+          }
+        );
+      });
+    }
     return config;
   }
-};
-
-module.exports = withCSS();
+});
 
 ```
 
