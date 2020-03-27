@@ -1,9 +1,9 @@
 import React from 'react';
 
-const GetStarted = () => {
+const Api = () => {
   return (
     <div style={{ width: '50%', margin: 'auto' }}>
-      <h1>The getting started landing page (docs page)</h1>
+      <h1>The API page (renders the Table API on the github readme)</h1>
       <div>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -19,4 +19,4 @@ const GetStarted = () => {
   );
 };
 
-export default GetStarted;
+export default Api;

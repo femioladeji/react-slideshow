@@ -1,0 +1,33 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 13%;
+  height: 100vh;
+  width: 12%;
+  /* margin-left: -45%; */
+  background: #ddd;
+  color: gray;
+  transition: all 0.5s;
+  z-index: 100;
+}
+
+.sidebar-items {
+  padding-left: 15px;
+  line-height: 50px;
+  align-items: center;
+  margin: 40px auto;
+  box-sizing: border-box;
+}
+
+.sidebar-items a {
+  padding-top: 50px;
+  font-size: 18px;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+}
+
+.sidebar-items a:hover {
+  cursor: pointer;
+  color: gray;
+}
