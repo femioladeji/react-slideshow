@@ -93,7 +93,8 @@ class Zoom extends Component {
   }
 
   startSlides() {
-    if (this.props.pauseOnHover) {
+    const { pauseOnHover, autoplay } = this.props;
+    if (pauseOnHover && autoplay) {
       this.timeout = setTimeout(() => this.goNext(), this.props.duration);
     }
   }
@@ -140,7 +141,8 @@ class Zoom extends Component {
     const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
     return (
       <div {...unhandledProps}>
-        <div className="react-slideshow-container"
+        <div
+          className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
