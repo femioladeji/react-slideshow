@@ -85,7 +85,8 @@ class Slideshow extends Component {
   }
 
   startSlides() {
-    if (this.props.pauseOnHover) {
+    const { pauseOnHover, autoplay } = this.props;
+    if (pauseOnHover && autoplay) {
       this.timeout = setTimeout(() => this.goNext(), this.props.duration);
     }
   }
