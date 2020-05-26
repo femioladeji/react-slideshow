@@ -143,9 +143,7 @@ class Fade extends Component {
           <div
             key={key}
             data-key={key}
-            className={`${className} ${
-              this.state.index === key ? 'active' : ''
-            }`}
+            className={`${className} ${this.state.index === key && 'active'}`}
             onClick={this.navigate}
           >
             {isCustomIndicator && this.props.indicators(key)}
@@ -168,7 +166,7 @@ class Fade extends Component {
         >
           {arrows && (
             <div
-              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
+              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
               data-type="prev"
               onClick={this.preFade}
             >
@@ -199,9 +197,9 @@ class Fade extends Component {
           </div>
           {arrows && (
             <div
-              className={`nav ${
-                index === children.length - 1 && !infinite ? 'disabled' : ''
-              }`}
+              className={`nav ${index === children.length - 1 &&
+                !infinite &&
+                'disabled'}`}
               data-type="next"
               onClick={this.preFade}
             >
