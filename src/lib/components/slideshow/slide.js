@@ -99,8 +99,8 @@ class Slideshow extends Component {
     }
   }
 
-  goToSlide({ target }) {
-    this.goTo(parseInt(target.dataset.key));
+  goToSlide({ currentTarget }) {
+    this.goTo(parseInt(currentTarget.dataset.key));
   }
 
   goTo(index) {
@@ -125,6 +125,25 @@ class Slideshow extends Component {
     this.slideImages(index - 1);
   }
 
+  showIndicators() {
+    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
+    const className = !isCustomIndicator && 'each-slideshow-indicator';
+    return (
+      <div className="indicators">
+        {this.props.children.map((_, key) => (
+          <div
+            key={key}
+            data-key={key}
+            className={`${className} ${this.state.index === key && 'active'}`}
+            onClick={this.goToSlide}
+          >
+            {isCustomIndicator && this.props.indicators(key)}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   render() {
     const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
@@ -142,7 +161,7 @@ class Slideshow extends Component {
         >
           {arrows && (
             <div
-              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
+              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
               data-type="prev"
               onClick={this.moveSlides}
             >
@@ -173,9 +192,9 @@ class Slideshow extends Component {
           </div>
           {arrows && (
             <div
-              className={`nav ${
-                index === children.length - 1 && !infinite ? 'disabled' : ''
-              }`}
+              className={`nav ${index === children.length - 1 &&
+                !infinite &&
+                'disabled'}`}
               data-type="next"
               onClick={this.moveSlides}
             >
@@ -183,18 +202,7 @@ class Slideshow extends Component {
             </div>
           )}
         </div>
-        {indicators && (
-          <div className="indicators">
-            {children.map((each, key) => (
-              <div
-                key={key}
-                data-key={key}
-                className={index === key ? 'active' : ''}
-                onClick={this.goToSlide}
-              />
-            ))}
-          </div>
-        )}
+        {indicators && this.showIndicators()}
       </div>
     );
   }
@@ -274,7 +282,7 @@ Slideshow.propTypes = {
   transitionDuration: PropTypes.number,
   defaultIndex: PropTypes.number,
   infinite: PropTypes.bool,
-  indicators: PropTypes.bool,
+  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   autoplay: PropTypes.bool,
   arrows: PropTypes.bool,
   onChange: PropTypes.func,

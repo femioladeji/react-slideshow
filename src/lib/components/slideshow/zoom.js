@@ -121,7 +121,7 @@ class Zoom extends Component {
     this.zoomTo(index);
   }
 
-  navigate({ target: { dataset } }) {
+  navigate({ currentTarget: { dataset } }) {
     if (dataset.key != this.state.index) {
       this.goTo(parseInt(dataset.key));
     }
@@ -133,6 +133,25 @@ class Zoom extends Component {
     } else {
       this.goNext();
     }
+  }
+
+  showIndicators() {
+    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
+    const className = !isCustomIndicator && 'each-slideshow-indicator';
+    return (
+      <div className="indicators">
+        {this.props.children.map((each, key) => (
+          <div
+            key={key}
+            data-key={key}
+            className={`${className} ${this.state.index === key && 'active'}`}
+            onClick={this.navigate}
+          >
+            {isCustomIndicator && this.props.indicators(key)}
+          </div>
+        ))}
+      </div>
+    );
   }
 
   render() {
@@ -148,7 +167,7 @@ class Zoom extends Component {
         >
           {arrows && (
             <div
-              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
+              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
               data-type="prev"
               onClick={this.preZoom}
             >
@@ -179,9 +198,9 @@ class Zoom extends Component {
           </div>
           {arrows && (
             <div
-              className={`nav ${
-                index === children.length - 1 && !infinite ? 'disabled' : ''
-              }`}
+              className={`nav ${index === children.length - 1 &&
+                !infinite &&
+                'disabled'}`}
               data-type="next"
               onClick={this.preZoom}
             >
@@ -189,18 +208,7 @@ class Zoom extends Component {
             </div>
           )}
         </div>
-        {indicators && (
-          <div className="indicators">
-            {children.map((each, key) => (
-              <div
-                key={key}
-                data-key={key}
-                className={index === key ? 'active' : ''}
-                onClick={this.navigate}
-              />
-            ))}
-          </div>
-        )}
+        {indicators && this.showIndicators()}
       </div>
     );
   }
@@ -290,7 +298,7 @@ Zoom.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   defaultIndex: PropTypes.number,
-  indicators: PropTypes.bool,
+  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   scale: PropTypes.number.isRequired,
   arrows: PropTypes.bool,
   autoplay: PropTypes.bool,
