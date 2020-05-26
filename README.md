@@ -157,21 +157,22 @@ const Slideshow = () => {
 The indicator can be customizes to what you want. To customize it, set the indicators prop to a function that returns the element you want. The function accepts an index parameter.
 ```js
 {
-  indicators: (i) => (
+  indicators: i => (
     <div
       style={{
-        width: "30px",
-        color: "blue",
-        textAlign: "center",
-        cursor: "pointer",
-        border: "1px blue solid"
+        width: '30px',
+        color: 'blue',
+        textAlign: 'center',
+        cursor: 'pointer',
+        border: '1px blue solid'
       }}
     >
       {i + 1}
     </div>
-}
+  )
 ),
 ```
+
 ## CSS
 
 This is what my css looks like. You can customize this to your own taste
