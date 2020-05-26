@@ -116,7 +116,7 @@ class Fade extends Component {
     this.fadeImages(index === 0 ? children.length - 1 : index - 1);
   }
 
-  navigate({ target: { dataset } }) {
+  navigate({ currentTarget: { dataset } }) {
     if (dataset.key != this.state.index) {
       this.goTo(parseInt(dataset.key));
     }
@@ -132,6 +132,27 @@ class Fade extends Component {
     } else {
       this.goNext();
     }
+  }
+
+  showIndicators() {
+    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
+    const className = !isCustomIndicator && 'each-slideshow-indicator';
+    return (
+      <div className="indicators">
+        {this.props.children.map((each, key) => (
+          <div
+            key={key}
+            data-key={key}
+            className={`${className} ${
+              this.state.index === key ? 'active' : ''
+            }`}
+            onClick={this.navigate}
+          >
+            {isCustomIndicator && this.props.indicators(key)}
+          </div>
+        ))}
+      </div>
+    );
   }
 
   render() {
@@ -188,18 +209,7 @@ class Fade extends Component {
             </div>
           )}
         </div>
-        {indicators && (
-          <div className="indicators">
-            {children.map((each, key) => (
-              <div
-                key={key}
-                data-key={key}
-                className={index === key ? 'active' : ''}
-                onClick={this.navigate}
-              />
-            ))}
-          </div>
-        )}
+        {indicators && this.showIndicators()}
       </div>
     );
   }
@@ -277,7 +287,7 @@ Fade.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   defaultIndex: PropTypes.number,
-  indicators: PropTypes.bool,
+  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   arrows: PropTypes.bool,
   autoplay: PropTypes.bool,
   infinite: PropTypes.bool,

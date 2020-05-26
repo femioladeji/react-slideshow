@@ -11,3 +11,4 @@ node_modules
 webpack.config.js
 LICENSE
 test-utils.js
+.github

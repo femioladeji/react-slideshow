@@ -152,6 +152,26 @@ const Slideshow = () => {
     )
 }
 ```
+
+## Customizing Indciators
+The indicator can be customizes to what you want. To customize it, set the indicators prop to a function that returns the element you want. The function accepts an index parameter.
+```js
+{
+  indicators: (i) => (
+    <div
+      style={{
+        width: "30px",
+        color: "blue",
+        textAlign: "center",
+        cursor: "pointer",
+        border: "1px blue solid"
+      }}
+    >
+      {i + 1}
+    </div>
+}
+),
+```
 ## CSS
 
 This is what my css looks like. You can customize this to your own taste
@@ -268,7 +288,7 @@ HTML properties like className, data-* attributes and others will be applied to 
 | transitionDuration  | integer     | 1000          | Determines how long the transition takes                                                   |
 | defaultIndex        | integer     | 0             | Specifies the first slide to display                                                       |
 | infinite            | boolean     | true          | Specifies if the transition should loop throughout      |
-| indicators          | boolean     | false         | For specifying if there should be dots below the slideshow                                 |
+| indicators          | boolean or function     | false         | For specifying if there should be dots below the slideshow. If function, it will render the returned element                                |
 | scale               | number      |               | *Required* when using zoom to specify the scale the current slide should be zoomed to      |
 | arrows              | boolean     | true          | Determines if there should be a navigational arrow for going to the next or previous slide |
 | autoplay            | boolean     | true          | Responsible for determining if the slideshow should start automatically                    |

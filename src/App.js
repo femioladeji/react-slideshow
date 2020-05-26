@@ -29,13 +29,25 @@ class App extends Component {
       duration: 5000,
       transitionDuration: 500,
       infinite: true,
-      indicators: true,
       pauseOnHover: true,
       onChange: (oldIndex, newIndex) => {
         console.log(
           `Slide transition finished from ${oldIndex} to ${newIndex}`
         );
-      }
+      },
+      indicators: i => (
+        <div
+          style={{
+            width: '30px',
+            color: 'blue',
+            textAlign: 'center',
+            cursor: 'pointer',
+            border: '1px blue solid'
+          }}
+        >
+          {i + 1}
+        </div>
+      )
     };
 
     const fadeProperties = {
@@ -65,7 +77,7 @@ class App extends Component {
       transitionDuration: 500,
       indicators: true,
       scale: 1.4,
-      pauseOnHover: true,
+      pauseOnHover: true
     };
     const { slideImages, zoomOutImages, fadeImages } = this.state;
     return (
