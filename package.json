@@ -73,7 +73,6 @@
   "dependencies": {
     "@tweenjs/tween.js": "^18.1.2",
     "css-loader": "^3.0.0",
-    "prop-types": "^15.5.10",
     "style-loader": "^0.20.2"
   }
 }

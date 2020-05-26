@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
 import { getUnhandledProps } from '../../helpers.js';
 import './fade.css';
@@ -270,26 +269,4 @@ class Fade extends Component {
   }
 }
 
-Fade.defaultProps = {
-  duration: 5000,
-  transitionDuration: 1000,
-  defaultIndex: 0,
-  indicators: false,
-  arrows: true,
-  autoplay: true,
-  infinite: true,
-  pauseOnHover: false
-};
-
-Fade.propTypes = {
-  duration: PropTypes.number,
-  transitionDuration: PropTypes.number,
-  defaultIndex: PropTypes.number,
-  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  arrows: PropTypes.bool,
-  autoplay: PropTypes.bool,
-  infinite: PropTypes.bool,
-  onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
-};
 export default Fade;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TWEEN from '@tweenjs/tween.js';
-import PropTypes from 'prop-types';
 import { getUnhandledProps } from '../../helpers.js';
 
 import './slide.css';
@@ -266,26 +265,4 @@ class Slideshow extends Component {
   }
 }
 
-Slideshow.defaultProps = {
-  duration: 5000,
-  transitionDuration: 1000,
-  defaultIndex: 0,
-  infinite: true,
-  autoplay: true,
-  indicators: false,
-  arrows: true,
-  pauseOnHover: false
-};
-
-Slideshow.propTypes = {
-  duration: PropTypes.number,
-  transitionDuration: PropTypes.number,
-  defaultIndex: PropTypes.number,
-  infinite: PropTypes.bool,
-  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  autoplay: PropTypes.bool,
-  arrows: PropTypes.bool,
-  onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
-};
 export default Slideshow;
