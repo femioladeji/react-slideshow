@@ -144,6 +144,44 @@ class Slideshow extends Component {
     );
   }
 
+  showPreviousArrow() {
+    const { arrows, prevArrow, infinite } = this.props;
+    return (
+      arrows && (
+        <div
+          className={
+            !prevArrow &&
+            `nav ${this.state.index <= 0 && !infinite && 'disabled'}`
+          }
+          data-type="prev"
+          onClick={this.moveSlides}
+        >
+          {prevArrow ? prevArrow : <span />}
+        </div>
+      )
+    );
+  }
+
+  showNextArrow() {
+    const { arrows, nextArrow, infinite, children } = this.props;
+    return (
+      arrows && (
+        <div
+          className={
+            !nextArrow &&
+            `nav ${this.state.index === children.length - 1 &&
+              !infinite &&
+              'disabled'}`
+          }
+          data-type="next"
+          onClick={this.moveSlides}
+        >
+          {nextArrow ? nextArrow : <span />}
+        </div>
+      )
+    );
+  }
+
   render() {
     const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
@@ -159,15 +197,7 @@ class Slideshow extends Component {
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
-          {arrows && (
-            <div
-              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
-              data-type="prev"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {this.showPreviousArrow()}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -190,17 +220,7 @@ class Slideshow extends Component {
               <div data-index="-1">{children[0]}</div>
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${index === children.length - 1 &&
-                !infinite &&
-                'disabled'}`}
-              data-type="next"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {this.showNextArrow()}
         </div>
         {indicators && this.showIndicators()}
       </div>

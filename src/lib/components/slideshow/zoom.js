@@ -154,6 +154,44 @@ class Zoom extends Component {
     );
   }
 
+  showPreviousArrow() {
+    const { arrows, prevArrow, infinite } = this.props;
+    return (
+      arrows && (
+        <div
+          className={
+            !prevArrow &&
+            `nav ${this.state.index <= 0 && !infinite && 'disabled'}`
+          }
+          data-type="prev"
+          onClick={this.preZoom}
+        >
+          {prevArrow ? prevArrow : <span />}
+        </div>
+      )
+    );
+  }
+
+  showNextArrow() {
+    const { arrows, nextArrow, infinite, children } = this.props;
+    return (
+      arrows && (
+        <div
+          className={
+            !nextArrow &&
+            `nav ${this.state.index === children.length - 1 &&
+              !infinite &&
+              'disabled'}`
+          }
+          data-type="next"
+          onClick={this.preZoom}
+        >
+          {nextArrow ? nextArrow : <span />}
+        </div>
+      )
+    );
+  }
+
   render() {
     const { indicators, arrows, infinite, children } = this.props;
     const { index } = this.state;
@@ -165,15 +203,7 @@ class Zoom extends Component {
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
-          {arrows && (
-            <div
-              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
-              data-type="prev"
-              onClick={this.preZoom}
-            >
-              <span />
-            </div>
-          )}
+          {this.showPreviousArrow()}
           <div
             className="react-slideshow-zoom-wrapper"
             ref={ref => (this.wrapper = ref)}
@@ -196,17 +226,7 @@ class Zoom extends Component {
               ))}
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${index === children.length - 1 &&
-                !infinite &&
-                'disabled'}`}
-              data-type="next"
-              onClick={this.preZoom}
-            >
-              <span />
-            </div>
-          )}
+          {this.showNextArrow()}
         </div>
         {indicators && this.showIndicators()}
       </div>
