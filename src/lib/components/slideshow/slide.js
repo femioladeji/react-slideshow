@@ -144,6 +144,38 @@ class Slideshow extends Component {
     );
   }
 
+  showPreviousArrow() {
+    const { arrows, prevArrow, infinite } = this.props;
+    let className = '';
+    if (!prevArrow) {
+      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="prev" onClick={this.moveSlides}>
+          {prevArrow ? prevArrow : <span />}
+        </div>
+      )
+    );
+  }
+
+  showNextArrow() {
+    const { arrows, nextArrow, infinite, children } = this.props;
+    let className = '';
+    if (!nextArrow) {
+      className = `nav ${this.state.index === children.length - 1 &&
+        !infinite &&
+        'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="next" onClick={this.moveSlides}>
+          {nextArrow ? nextArrow : <span />}
+        </div>
+      )
+    );
+  }
+
   render() {
     const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
@@ -159,15 +191,7 @@ class Slideshow extends Component {
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
-          {arrows && (
-            <div
-              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
-              data-type="prev"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {this.showPreviousArrow()}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -190,17 +214,7 @@ class Slideshow extends Component {
               <div data-index="-1">{children[0]}</div>
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${index === children.length - 1 &&
-                !infinite &&
-                'disabled'}`}
-              data-type="next"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {this.showNextArrow()}
         </div>
         {indicators && this.showIndicators()}
       </div>
@@ -286,6 +300,8 @@ Slideshow.propTypes = {
   autoplay: PropTypes.bool,
   arrows: PropTypes.bool,
   onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
+  pauseOnHover: PropTypes.bool,
+  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
 export default Slideshow;

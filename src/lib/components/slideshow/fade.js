@@ -153,8 +153,40 @@ class Fade extends Component {
     );
   }
 
+  showPreviousArrow() {
+    const { arrows, prevArrow, infinite } = this.props;
+    let className = '';
+    if (!prevArrow) {
+      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="prev" onClick={this.preFade}>
+          {prevArrow ? prevArrow : <span />}
+        </div>
+      )
+    );
+  }
+
+  showNextArrow() {
+    const { arrows, nextArrow, infinite, children } = this.props;
+    let className = '';
+    if (!nextArrow) {
+      className = `nav ${this.state.index === children.length - 1 &&
+        !infinite &&
+        'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="next" onClick={this.preFade}>
+          {nextArrow ? nextArrow : <span />}
+        </div>
+      )
+    );
+  }
+
   render() {
-    const { indicators, arrows, infinite, children } = this.props;
+    const { indicators, children } = this.props;
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
@@ -164,15 +196,7 @@ class Fade extends Component {
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
-          {arrows && (
-            <div
-              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
-              data-type="prev"
-              onClick={this.preFade}
-            >
-              <span />
-            </div>
-          )}
+          {this.showPreviousArrow()}
           <div
             className="react-slideshow-fade-wrapper"
             ref={ref => (this.wrapper = ref)}
@@ -195,17 +219,7 @@ class Fade extends Component {
               ))}
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${index === children.length - 1 &&
-                !infinite &&
-                'disabled'}`}
-              data-type="next"
-              onClick={this.preFade}
-            >
-              <span />
-            </div>
-          )}
+          {this.showNextArrow()}
         </div>
         {indicators && this.showIndicators()}
       </div>
@@ -290,6 +304,8 @@ Fade.propTypes = {
   autoplay: PropTypes.bool,
   infinite: PropTypes.bool,
   onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
+  pauseOnHover: PropTypes.bool,
+  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
 export default Fade;
