@@ -81,6 +81,28 @@ test("It shouldn't navigate if infinite false and previous arrow is clicked", as
   );
 });
 
+test("It shouldn't navigate to next if infinite false and next arrow is clicked on the last slide", async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    { ...fadeProperties2, defaultIndex: 2, infinite: false },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  const nav = baseElement.querySelectorAll('.nav');
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
+      expect(parseFloat(childrenElements[2].style.opacity)).toBe(1);
+    },
+    {
+      timeout: fadeProperties2.transitionDuration
+    }
+  );
+});
+
 test('indciators should show with the exact number of children dots', () => {
   const { container } = renderFade(fadeProperties);
   let indicators = container.querySelectorAll('.indicators');

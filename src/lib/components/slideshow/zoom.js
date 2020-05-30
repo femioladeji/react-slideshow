@@ -156,16 +156,13 @@ class Zoom extends Component {
 
   showPreviousArrow() {
     const { arrows, prevArrow, infinite } = this.props;
+    let className = '';
+    if (!prevArrow) {
+      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
+    }
     return (
       arrows && (
-        <div
-          className={
-            !prevArrow &&
-            `nav ${this.state.index <= 0 && !infinite && 'disabled'}`
-          }
-          data-type="prev"
-          onClick={this.preZoom}
-        >
+        <div className={className} data-type="prev" onClick={this.preZoom}>
           {prevArrow ? prevArrow : <span />}
         </div>
       )
@@ -174,18 +171,15 @@ class Zoom extends Component {
 
   showNextArrow() {
     const { arrows, nextArrow, infinite, children } = this.props;
+    let className = '';
+    if (!nextArrow) {
+      className = `nav ${this.state.index === children.length - 1 &&
+        !infinite &&
+        'disabled'}`;
+    }
     return (
       arrows && (
-        <div
-          className={
-            !nextArrow &&
-            `nav ${this.state.index === children.length - 1 &&
-              !infinite &&
-              'disabled'}`
-          }
-          data-type="next"
-          onClick={this.preZoom}
-        >
+        <div className={className} data-type="next" onClick={this.preZoom}>
           {nextArrow ? nextArrow : <span />}
         </div>
       )
@@ -324,6 +318,8 @@ Zoom.propTypes = {
   autoplay: PropTypes.bool,
   infinite: PropTypes.bool,
   onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
+  pauseOnHover: PropTypes.bool,
+  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
 export default Zoom;

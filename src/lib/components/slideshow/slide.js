@@ -146,16 +146,13 @@ class Slideshow extends Component {
 
   showPreviousArrow() {
     const { arrows, prevArrow, infinite } = this.props;
+    let className = '';
+    if (!prevArrow) {
+      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
+    }
     return (
       arrows && (
-        <div
-          className={
-            !prevArrow &&
-            `nav ${this.state.index <= 0 && !infinite && 'disabled'}`
-          }
-          data-type="prev"
-          onClick={this.moveSlides}
-        >
+        <div className={className} data-type="prev" onClick={this.moveSlides}>
           {prevArrow ? prevArrow : <span />}
         </div>
       )
@@ -164,18 +161,15 @@ class Slideshow extends Component {
 
   showNextArrow() {
     const { arrows, nextArrow, infinite, children } = this.props;
+    let className = '';
+    if (!nextArrow) {
+      className = `nav ${this.state.index === children.length - 1 &&
+        !infinite &&
+        'disabled'}`;
+    }
     return (
       arrows && (
-        <div
-          className={
-            !nextArrow &&
-            `nav ${this.state.index === children.length - 1 &&
-              !infinite &&
-              'disabled'}`
-          }
-          data-type="next"
-          onClick={this.moveSlides}
-        >
+        <div className={className} data-type="next" onClick={this.moveSlides}>
           {nextArrow ? nextArrow : <span />}
         </div>
       )
@@ -306,6 +300,8 @@ Slideshow.propTypes = {
   autoplay: PropTypes.bool,
   arrows: PropTypes.bool,
   onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
+  pauseOnHover: PropTypes.bool,
+  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
 export default Slideshow;

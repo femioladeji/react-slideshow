@@ -265,8 +265,8 @@ HTML properties like className, data-* attributes and others will be applied to 
 | indicators          | boolean or function     | false         | For specifying if there should be dots below the slideshow. If function, it will render the returned element                                |
 | scale               | number      |               | *Required* when using zoom to specify the scale the current slide should be zoomed to      |
 | arrows              | boolean     | true          | Determines if there should be a navigational arrow for going to the next or previous slide |
-| prevArrow           | function    | null |        | The function should return a custom element to serve as previous arrow
-| nextArrow           | function    | null |        | The function should return a custom element to serve as next arrow
+| prevArrow           | object    | null |        | A custom element to serve as previous arrow
+| nextArrow           | object    | null |        | A custom element to serve as next arrow
 | autoplay            | boolean     | true          | Responsible for determining if the slideshow should start automatically                    |
 | pauseOnHover        | boolean     | false         | Determines whether the transition effect applies when the mouse hovers the slider           |
 | onChange            | function    |               | Callback that gets triggered at the end of every transition. The oldIndex and newIndex are passed as arguments    |
