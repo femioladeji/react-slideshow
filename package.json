@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
@@ -34,13 +34,13 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@testing-library/react": "^9.4.1",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^26.0.1",
     "babel-loader": "^8.0.6",
     "codecov": "^3.1.0",
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "html-webpack-plugin": "^3.0.0",
     "husky": "^0.14.3",
-    "jest": "^24.8.0",
+    "jest": "^26.0.1",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
     "react": "^16.2.0",
@@ -48,7 +48,7 @@
     "serve": "^10.0.2",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^3.11.0"
   },
   "peerDependencies": {
     "react": "^16.2.0",
@@ -60,7 +60,7 @@
       "git add ."
     ]
   },
-  "main": "lib/index.js",
+  "main": "dist/react-slideshow-image.min.js",
   "scripts": {
     "dev": "webpack-dev-server",
     "build": "webpack --config webpack.config.dist.js",
@@ -68,7 +68,7 @@
     "start": "serve public/",
     "precommit": "lint-staged",
     "test": "jest && codecov",
-    "prepublishOnly": "NODE_ENV=production babel src/lib --out-dir lib --copy-files && npm run build"
+    "prepublish": "NODE_ENV=production babel src/lib --out-dir lib --copy-files && npm run build"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^18.1.2",

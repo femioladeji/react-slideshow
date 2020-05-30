@@ -242,41 +242,14 @@ h3 {
 }
 ```
 
-⚠️ For those using `Next.js` , this should be your `next.config.js`inorder to avoid errors relating to importing css files within node modules 
+⚠️ For those using `Next.js` . You need the import the package dynamically and set ssr property to false. The snippet below imports the Fade effect
 
-**next.config.js** 
 ```js 
-const withCSS = require("@zeit/next-css");
-const resolve = require("resolve");
-global.navigator = () => null;
-module.exports = withCSS({
-  webpack(config, options) {
-    const { dir, isServer } = options;
-    config.externals = [];
-    if (isServer) {
-      config.externals.push((context, request, callback) => {
-        resolve(
-          request,
-          { basedir: dir, preserveSymlinks: true },
-          (err, res) => {
-            if (err) {
-              return callback();
-            }
-            if (
-              res.match(/node_modules[/\\].*\.css/) &&
-              !res.match(/node_modules[/\\]webpack/) &&
-              !res.match(/node_modules[/\\]react-slideshow-image/)
-            ) {
-              return callback(null, `commonjs ${request}`);
-            }
-            callback();
-          }
-        );
-      });
-    }
-    return config;
-  }
-});
+import dynamic from 'next/dynamic';
+const Fade = dynamic(() =>
+  import('react-slideshow-image').then((slideshow) => slideshow.Fade),
+  { ssr: false }
+)
 
 ```
 
