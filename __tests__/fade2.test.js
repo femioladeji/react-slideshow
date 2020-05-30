@@ -114,12 +114,35 @@ test('When a valid defaultIndex prop is set, it shows that particular index firs
   expect(parseInt(childrenElements[1].style.opacity)).toBe(1);
 });
 
-test('Custom prevArrow and nextArrow indicator can be set', async () => {
+test('Custom prevArrow indicator can be set', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(
     {
       ...options,
-      prevArrow: <div className="previous">Previous</div>,
+      prevArrow: <div className="previous">Previous</div>
+    },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  expect(baseElement.querySelector('.previous')).toBeTruthy();
+  fireEvent.click(baseElement.querySelector('[data-type="prev"]'));
+  await wait(
+    () => {
+      expect(Math.round(childrenElements[2].style.opacity)).toBe(1);
+    },
+    {
+      timeout: options.transitionDuration
+    }
+  );
+});
+
+test('Custom nextArrow indicator can be set', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    {
+      ...options,
       nextArrow: <div className="next">Next</div>
     },
     wrapperElement
@@ -132,16 +155,6 @@ test('Custom prevArrow and nextArrow indicator can be set', async () => {
   await wait(
     () => {
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
-    },
-    {
-      timeout: options.transitionDuration
-    }
-  );
-  expect(baseElement.querySelector('.previous')).toBeTruthy();
-  fireEvent.click(baseElement.querySelector('[data-type="prev"]'));
-  await wait(
-    () => {
-      expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
     },
     {
       timeout: options.transitionDuration
