@@ -176,7 +176,7 @@ The indicator can be customizes to what you want. To customize it, set the indic
 ## CSS
 
 This is what my css looks like. You can customize this to your own taste
-```
+```css
 .slide-container {
   width: 70%;
   margin: auto; }
@@ -221,27 +221,7 @@ h3 {
   background: #adceed;
 }
 ```
-
-# Webpack configuration
-⚠️  If you bootstrapped the app without using create-react-app, you will need to add [css loader](https://github.com/webpack-contrib/css-loader) and [style loader](https://github.com/webpack-contrib/style-loader) to your webpack config
-
-**webpack.config.js**
-```js
-{
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" }
-        ]
-      }
-    ]
-  }
-}
-```
-
+## Next
 ⚠️ For those using `Next.js` . You need the import the package dynamically and set ssr property to false. The snippet below imports the Fade effect
 
 ```js 
@@ -283,3 +263,52 @@ It can be used to transition the slide to a particular index. N.B Index starts f
 
 To call the method you can use the slide's ref attribute and then call the method.
 `this.slideRef.goNext()` or `this.slideRef.current.goNext()`
+
+
+## Typescript
+
+1. In your tsconfig.json file add this to the compiler options
+```json
+"typeRoots": [
+      "./types",
+      "./node_modules/@types"
+]
+```
+2. Create a file in this directory `types/react-slideshow-image/index.d.ts`
+3. Copy and paste this into it
+```ts
+declare module 'react-slideshow-image' {
+    export class Zoom extends React.Component<ZoomProps & any, any> {
+        goBack(): void;
+        goNext(): void;
+        goTo(index: number): void;
+    }
+    export class Fade extends React.Component<SlideshowProps & any, any> {
+        goBack(): void;
+        goNext(): void;
+        goTo(index: number): void;
+    }
+    export class Slide extends React.Component<SlideshowProps & any, any> {
+        goBack(): void;
+        goNext(): void;
+        goTo(index: number): void;
+    }
+    export interface SlideshowProps {
+        duration?: number,
+        transitionDuration?: number,
+        defaultIndex?: number,
+        indicators?: boolean | function,
+        prevArrow?: object | function,
+        nextArrow?: object | function,
+        arrows?: boolean,
+        autoplay?: boolean,
+        infinite?: boolean,
+        onChange?(oldIndex: number, newIndex: number): void,
+        pauseOnHover?: boolean
+    }
+    export interface ZoomProps extends SlideshowProps {
+        scale: number
+    }
+}
+
+```
