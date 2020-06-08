@@ -81,6 +81,28 @@ test("It shouldn't navigate if infinite false and previous arrow is clicked", as
   );
 });
 
+test("It shouldn't navigate to next if infinite false and next arrow is clicked on the last slide", async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    { ...fadeProperties2, defaultIndex: 2, infinite: false },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  const nav = baseElement.querySelectorAll('.nav');
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
+      expect(parseFloat(childrenElements[2].style.opacity)).toBe(1);
+    },
+    {
+      timeout: fadeProperties2.transitionDuration
+    }
+  );
+});
+
 test('indciators should show with the exact number of children dots', () => {
   const { container } = renderFade(fadeProperties);
   let indicators = container.querySelectorAll('.indicators');
@@ -132,28 +154,38 @@ test(`The second child should start transition to opacity after ${fadeProperties
   );
 });
 
-
 test('When the pauseOnHover prop is true and the mouse hovers the container the slideshow stops', async () => {
   const wrapperElement = document.createElement('div');
-  const { baseElement } = renderFade({ ...fadeProperties, pauseOnHover: true }, wrapperElement);
-  const childrenElements = baseElement.querySelectorAll('.react-slideshow-fade-images-wrap > div');
-   
-  fireEvent.mouseEnter(baseElement);
-  await wait(
-    () => {	
-      expect(parseFloat(childrenElements[1].style.opacity)).toBeGreaterThan(0);
-    },
-    {
-      timeout: (fadeProperties.duration  + fadeProperties.transitionDuration)
-    }
+  const { baseElement } = renderFade(
+    { ...fadeProperties, autoplay: true, pauseOnHover: true },
+    wrapperElement
   );
-    fireEvent.mouseLeave(baseElement);
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+
+  fireEvent.mouseEnter(baseElement.querySelector('.react-slideshow-container'));
+  // nothing happens on mouse enter
   await wait(
     () => {
-      expect(parseFloat(childrenElements[2].style.opacity)).toBeGreaterThan(0);
+      expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
+      expect(childrenElements[0].style.zIndex).toBe('1');
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
+      expect(childrenElements[1].style.zIndex).toBe('0');
     },
     {
-      timeout: (fadeProperties.duration  + fadeProperties.transitionDuration)
+      timeout: fadeProperties.duration + fadeProperties.transitionDuration
+    }
+  );
+  fireEvent.mouseLeave(baseElement.querySelector('.react-slideshow-container'));
+  // it resumes
+  await wait(
+    () => {
+      expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
+    },
+    {
+      timeout: fadeProperties.duration + fadeProperties.transitionDuration
     }
   );
 });

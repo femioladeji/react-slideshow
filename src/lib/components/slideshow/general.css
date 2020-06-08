@@ -68,24 +68,19 @@
   margin-top: 20px;
 }
 
-.react-slideshow-container + div.indicators > div {
+.react-slideshow-container + div.indicators > .each-slideshow-indicator {
   width: 7px;
   height: 7px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin: 0 5px 10px;
   border-radius: 50%;
   background: #ccc;
   cursor: pointer;
 }
 
-.react-slideshow-container + div.indicators > div:hover {
+.react-slideshow-container + div.indicators > .each-slideshow-indicator:hover {
   background: #666;
 }
 
-.react-slideshow-container + div.indicators > div.active {
+.react-slideshow-container + div.indicators > .each-slideshow-indicator.active {
   background: #000;
-}
-
-.react-slideshow-container + div.indicators > div:last-of-type {
-  margin-right: 0;
 }
