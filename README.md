@@ -35,7 +35,7 @@ const properties = {
   infinite: true,
   indicators: true,
   arrows: true,
-  pauseOnHover: PropTypes.bool,
+  pauseOnHover: true,
   onChange: (oldIndex, newIndex) => {
     console.log(`slide transition from ${oldIndex} to ${newIndex}`);
   }
@@ -152,10 +152,31 @@ const Slideshow = () => {
     )
 }
 ```
+
+## Customizing Indciators
+The indicator can be customizes to what you want. To customize it, set the indicators prop to a function that returns the element you want. The function accepts an index parameter.
+```js
+{
+  indicators: i => (
+    <div
+      style={{
+        width: '30px',
+        color: 'blue',
+        textAlign: 'center',
+        cursor: 'pointer',
+        border: '1px blue solid'
+      }}
+    >
+      {i + 1}
+    </div>
+  )
+),
+```
+
 ## CSS
 
 This is what my css looks like. You can customize this to your own taste
-```
+```css
 .slide-container {
   width: 70%;
   margin: auto; }
@@ -200,49 +221,15 @@ h3 {
   background: #adceed;
 }
 ```
+## Next
+⚠️ For those using `Next.js` . You need the import the package dynamically and set ssr property to false. The snippet below imports the Fade effect
 
-# Webpack configuration
-⚠️  If you bootstrapped the app without using create-react-app, you will need to add [css loader](https://github.com/webpack-contrib/css-loader) and [style loader](https://github.com/webpack-contrib/style-loader) to your webpack config
-
-**webpack.config.js**
-```js
-{
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" }
-        ]
-      }
-    ]
-  }
-}
-```
-
-⚠️ For those using `Next.js` , this should be your `next.config.js`inorder to avoid errors relating to importing css files within node modules 
-
-**next.config.js** 
 ```js 
-const withCSS = require("@zeit/next-css");
-
-if (typeof require !== "undefined") {
-  require.extensions[".css"] = file => {};
-}
-
-module.exports = {
-  webpack: config => {
-    // Fixes npm packages that depend on `fs` module
-    config.node = {
-      fs: "empty"
-    };
-
-    return config;
-  }
-};
-
-module.exports = withCSS();
+import dynamic from 'next/dynamic';
+const Fade = dynamic(() =>
+  import('react-slideshow-image').then((slideshow) => slideshow.Fade),
+  { ssr: false }
+)
 
 ```
 
@@ -255,9 +242,11 @@ HTML properties like className, data-* attributes and others will be applied to 
 | transitionDuration  | integer     | 1000          | Determines how long the transition takes                                                   |
 | defaultIndex        | integer     | 0             | Specifies the first slide to display                                                       |
 | infinite            | boolean     | true          | Specifies if the transition should loop throughout      |
-| indicators          | boolean     | false         | For specifying if there should be dots below the slideshow                                 |
+| indicators          | boolean or function     | false         | For specifying if there should be dots below the slideshow. If function, it will render the returned element                                |
 | scale               | number      |               | *Required* when using zoom to specify the scale the current slide should be zoomed to      |
 | arrows              | boolean     | true          | Determines if there should be a navigational arrow for going to the next or previous slide |
+| prevArrow           | object or function    | null |  A custom element to serve as previous arrow                                                   |
+| nextArrow           | object or function    | null |  A custom element to serve as next arrow                                                       |
 | autoplay            | boolean     | true          | Responsible for determining if the slideshow should start automatically                    |
 | pauseOnHover        | boolean     | false         | Determines whether the transition effect applies when the mouse hovers the slider           |
 | onChange            | function    |               | Callback that gets triggered at the end of every transition. The oldIndex and newIndex are passed as arguments    |
@@ -273,4 +262,53 @@ If you want to show the previous slide, then use this function
 It can be used to transition the slide to a particular index. N.B Index starts from 0
 
 To call the method you can use the slide's ref attribute and then call the method.
-`this.slideRef.goNext()`
+`this.slideRef.goNext()` or `this.slideRef.current.goNext()`
+
+
+## Typescript
+
+1. In your tsconfig.json file add this to the compiler options
+```json
+"typeRoots": [
+      "./types",
+      "./node_modules/@types"
+]
+```
+2. Create a file in this directory `types/react-slideshow-image/index.d.ts`
+3. Copy and paste this into it
+```ts
+declare module 'react-slideshow-image' {
+    export class Zoom extends React.Component<ZoomProps & any, any> {
+        goBack(): void;
+        goNext(): void;
+        goTo(index: number): void;
+    }
+    export class Fade extends React.Component<SlideshowProps & any, any> {
+        goBack(): void;
+        goNext(): void;
+        goTo(index: number): void;
+    }
+    export class Slide extends React.Component<SlideshowProps & any, any> {
+        goBack(): void;
+        goNext(): void;
+        goTo(index: number): void;
+    }
+    export interface SlideshowProps {
+        duration?: number,
+        transitionDuration?: number,
+        defaultIndex?: number,
+        indicators?: boolean | function,
+        prevArrow?: object | function,
+        nextArrow?: object | function,
+        arrows?: boolean,
+        autoplay?: boolean,
+        infinite?: boolean,
+        onChange?(oldIndex: number, newIndex: number): void,
+        pauseOnHover?: boolean
+    }
+    export interface ZoomProps extends SlideshowProps {
+        scale: number
+    }
+}
+
+```

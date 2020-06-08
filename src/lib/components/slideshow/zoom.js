@@ -93,7 +93,8 @@ class Zoom extends Component {
   }
 
   startSlides() {
-    if (this.props.pauseOnHover) {
+    const { pauseOnHover, autoplay } = this.props;
+    if (pauseOnHover && autoplay) {
       this.timeout = setTimeout(() => this.goNext(), this.props.duration);
     }
   }
@@ -120,7 +121,7 @@ class Zoom extends Component {
     this.zoomTo(index);
   }
 
-  navigate({ target: { dataset } }) {
+  navigate({ currentTarget: { dataset } }) {
     if (dataset.key != this.state.index) {
       this.goTo(parseInt(dataset.key));
     }
@@ -134,25 +135,69 @@ class Zoom extends Component {
     }
   }
 
+  showIndicators() {
+    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
+    const className = !isCustomIndicator && 'each-slideshow-indicator';
+    return (
+      <div className="indicators">
+        {this.props.children.map((each, key) => (
+          <div
+            key={key}
+            data-key={key}
+            className={`${className} ${this.state.index === key && 'active'}`}
+            onClick={this.navigate}
+          >
+            {isCustomIndicator && this.props.indicators(key)}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  showPreviousArrow() {
+    const { arrows, prevArrow, infinite } = this.props;
+    let className = '';
+    if (!prevArrow) {
+      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="prev" onClick={this.preZoom}>
+          {prevArrow ? prevArrow : <span />}
+        </div>
+      )
+    );
+  }
+
+  showNextArrow() {
+    const { arrows, nextArrow, infinite, children } = this.props;
+    let className = '';
+    if (!nextArrow) {
+      className = `nav ${this.state.index === children.length - 1 &&
+        !infinite &&
+        'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="next" onClick={this.preZoom}>
+          {nextArrow ? nextArrow : <span />}
+        </div>
+      )
+    );
+  }
+
   render() {
     const { indicators, arrows, infinite, children } = this.props;
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
     return (
       <div {...unhandledProps}>
-        <div className="react-slideshow-container"
+        <div
+          className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
-          {arrows && (
-            <div
-              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
-              data-type="prev"
-              onClick={this.preZoom}
-            >
-              <span />
-            </div>
-          )}
+          {this.showPreviousArrow()}
           <div
             className="react-slideshow-zoom-wrapper"
             ref={ref => (this.wrapper = ref)}
@@ -175,30 +220,9 @@ class Zoom extends Component {
               ))}
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${
-                index === children.length - 1 && !infinite ? 'disabled' : ''
-              }`}
-              data-type="next"
-              onClick={this.preZoom}
-            >
-              <span />
-            </div>
-          )}
+          {this.showNextArrow()}
         </div>
-        {indicators && (
-          <div className="indicators">
-            {children.map((each, key) => (
-              <div
-                key={key}
-                data-key={key}
-                className={index === key ? 'active' : ''}
-                onClick={this.navigate}
-              />
-            ))}
-          </div>
-        )}
+        {indicators && this.showIndicators()}
       </div>
     );
   }
@@ -288,12 +312,14 @@ Zoom.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   defaultIndex: PropTypes.number,
-  indicators: PropTypes.bool,
+  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   scale: PropTypes.number.isRequired,
   arrows: PropTypes.bool,
   autoplay: PropTypes.bool,
   infinite: PropTypes.bool,
   onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
+  pauseOnHover: PropTypes.bool,
+  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
 export default Zoom;

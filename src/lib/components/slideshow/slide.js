@@ -83,8 +83,10 @@ class Slideshow extends Component {
       clearTimeout(this.timeout);
     }
   }
+
   startSlides() {
-    if (this.props.pauseOnHover) {
+    const { pauseOnHover, autoplay } = this.props;
+    if (pauseOnHover && autoplay) {
       this.timeout = setTimeout(() => this.goNext(), this.props.duration);
     }
   }
@@ -97,8 +99,8 @@ class Slideshow extends Component {
     }
   }
 
-  goToSlide({ target }) {
-    this.goTo(parseInt(target.dataset.key));
+  goToSlide({ currentTarget }) {
+    this.goTo(parseInt(currentTarget.dataset.key));
   }
 
   goTo(index) {
@@ -123,6 +125,57 @@ class Slideshow extends Component {
     this.slideImages(index - 1);
   }
 
+  showIndicators() {
+    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
+    const className = !isCustomIndicator && 'each-slideshow-indicator';
+    return (
+      <div className="indicators">
+        {this.props.children.map((_, key) => (
+          <div
+            key={key}
+            data-key={key}
+            className={`${className} ${this.state.index === key && 'active'}`}
+            onClick={this.goToSlide}
+          >
+            {isCustomIndicator && this.props.indicators(key)}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  showPreviousArrow() {
+    const { arrows, prevArrow, infinite } = this.props;
+    let className = '';
+    if (!prevArrow) {
+      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="prev" onClick={this.moveSlides}>
+          {prevArrow ? prevArrow : <span />}
+        </div>
+      )
+    );
+  }
+
+  showNextArrow() {
+    const { arrows, nextArrow, infinite, children } = this.props;
+    let className = '';
+    if (!nextArrow) {
+      className = `nav ${this.state.index === children.length - 1 &&
+        !infinite &&
+        'disabled'}`;
+    }
+    return (
+      arrows && (
+        <div className={className} data-type="next" onClick={this.moveSlides}>
+          {nextArrow ? nextArrow : <span />}
+        </div>
+      )
+    );
+  }
+
   render() {
     const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
@@ -133,19 +186,12 @@ class Slideshow extends Component {
 
     return (
       <div {...unhandledProps}>
-        <div className="react-slideshow-container"
+        <div
+          className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
         >
-          {arrows && (
-            <div
-              className={`nav ${index <= 0 && !infinite ? 'disabled' : ''}`}
-              data-type="prev"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {this.showPreviousArrow()}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -168,30 +214,9 @@ class Slideshow extends Component {
               <div data-index="-1">{children[0]}</div>
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${
-                index === children.length - 1 && !infinite ? 'disabled' : ''
-              }`}
-              data-type="next"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {this.showNextArrow()}
         </div>
-        {indicators && (
-          <div className="indicators">
-            {children.map((each, key) => (
-              <div
-                key={key}
-                data-key={key}
-                className={index === key ? 'active' : ''}
-                onClick={this.goToSlide}
-              />
-            ))}
-          </div>
-        )}
+        {indicators && this.showIndicators()}
       </div>
     );
   }
@@ -271,10 +296,12 @@ Slideshow.propTypes = {
   transitionDuration: PropTypes.number,
   defaultIndex: PropTypes.number,
   infinite: PropTypes.bool,
-  indicators: PropTypes.bool,
+  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   autoplay: PropTypes.bool,
   arrows: PropTypes.bool,
   onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool
+  pauseOnHover: PropTypes.bool,
+  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
 export default Slideshow;
