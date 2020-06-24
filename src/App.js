@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Examples from './views/Examples';
-import Navbar from './views/Navbar';
-import Sidebar from './views/Sidebar';
-import GetStarted from './views/GetStarted';
-import Api from './views/Api';
+import Navbar from './views/components/NavBar';
+import Sidebar from './views/components/SideBar';
+import ExamplesPage from './views/pages/ExamplesPage';
+import LandingPage from './views/pages/LandingPage';
+import ApiPage from './views/pages/ApiPage';
 
 const App = () => (
   <div>
@@ -12,9 +12,9 @@ const App = () => (
       <Navbar />
       <Sidebar />
       <Switch>
-        <Route exact path="/" component={GetStarted} />
-        <Route exact path="/examples" component={Examples} />
-        <Route exact path="/api" component={Api} />
+        <Route exact path="/" component={LandingPage} />
+        <Route exact path="/examples" component={ExamplesPage} />
+        <Route exact path="/api" component={ApiPage} />
       </Switch>
     </BrowserRouter>
   </div>
