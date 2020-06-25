@@ -15,6 +15,9 @@ const Sidebar = () => {
         <Link to="/examples">
           <div>Examples</div>
         </Link>
+        <Link to="/typescript">
+          <div>For Typescript</div>
+        </Link>
       </div>
     </div>
   );

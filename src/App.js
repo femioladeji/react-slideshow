@@ -5,6 +5,7 @@ import Sidebar from './views/components/SideBar';
 import ExamplesPage from './views/pages/ExamplesPage';
 import LandingPage from './views/pages/LandingPage';
 import ApiPage from './views/pages/ApiPage';
+import ForTypescript from './views/pages/ForTypescript';
 
 const App = () => (
   <div>
@@ -15,6 +16,7 @@ const App = () => (
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/examples" component={ExamplesPage} />
         <Route exact path="/api" component={ApiPage} />
+        <Route exact path="/typescript" component={ForTypescript} />
       </Switch>
     </BrowserRouter>
   </div>

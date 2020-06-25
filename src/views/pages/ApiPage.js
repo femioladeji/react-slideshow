@@ -1,17 +1,9 @@
 import React from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import '../styles.css';
 
 const Api = () => {
-  const codeString = `
-  "typeRoots": [
-    "./types",
-    "./node_modules/@types"
-  ]
-  `;
   return (
-    <div style={{ width: '60%', margin: 'auto' }}>
+    <div style={{ width: '70%', margin: 'auto' }}>
       <h1>Properties</h1>
       <div>
         <table>
@@ -113,11 +105,25 @@ const Api = () => {
           </tr>
         </table>
       </div>
+      <h1>Methods</h1>
       <div>
-        <h1>Methods</h1>
-        <SyntaxHighlighter language="javascript" styles={{ docco }}>
-          {codeString}
-        </SyntaxHighlighter>
+        <p>
+          1. goNext() - It is used to programmatically transition the spde to
+          the next one.
+        </p>
+        <p>
+          2. goBack() - If you want to show the previous spde, then use this
+          function
+        </p>
+        <p>
+          3. goTo(index) - It can be used to transition the spde to a particular
+          index. N.B Index starts from 0
+        </p>
+        <p>
+          To call the method you can use the slide's ref attribute and then call
+          the method. {`this.slideRef.goNext()`} or{' '}
+          {`this.slideRef.current.goNext()`}
+        </p>
       </div>
     </div>
   );
