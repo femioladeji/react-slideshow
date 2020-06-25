@@ -1,7 +1,15 @@
 import React from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import '../styles.css';
 
 const Api = () => {
+  const codeString = `
+  "typeRoots": [
+    "./types",
+    "./node_modules/@types"
+  ]
+  `;
   return (
     <div style={{ width: '60%', margin: 'auto' }}>
       <h1>Properties</h1>
@@ -104,6 +112,12 @@ const Api = () => {
             </td>
           </tr>
         </table>
+      </div>
+      <div>
+        <h1>Methods</h1>
+        <SyntaxHighlighter language="javascript" styles={{ docco }}>
+          {codeString}
+        </SyntaxHighlighter>
       </div>
     </div>
   );
