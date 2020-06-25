@@ -1,9 +1,11 @@
 import React from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import '../styles.css';
 
 const Api = () => {
   return (
-    <div style={{ width: '70%', margin: 'auto' }}>
+    <div style={{ width: '60%', margin: 'auto' }}>
       <h1>Properties</h1>
       <div>
         <table>
@@ -121,8 +123,14 @@ const Api = () => {
         </p>
         <p>
           To call the method you can use the slide's ref attribute and then call
-          the method. {`this.slideRef.goNext()`} or{' '}
-          {`this.slideRef.current.goNext()`}
+          the method.
+          <SyntaxHighlighter language="javascript" style={dark}>
+            {`this.slideRef.goNext()`}
+          </SyntaxHighlighter>
+          or
+          <SyntaxHighlighter language="javascript" style={dark}>
+            {`this.slideRef.current.goNext()`}
+          </SyntaxHighlighter>
         </p>
       </div>
     </div>
