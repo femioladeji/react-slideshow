@@ -1,4 +1,3 @@
-// import Sidebar from '../Sidebar';
 import React from 'react';
 
 const GetStarted = () => {

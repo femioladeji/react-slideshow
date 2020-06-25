@@ -69,3 +69,29 @@ li:hover {
   color: gray;
 }
 /* NAVBAR STYLESA ENDS */
+
+/* API TABLE STARTS */
+
+table {
+  width: 100%;
+}
+th {
+  text-align: left;
+}
+table,
+th,
+td {
+  border: 1px solid #000;
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 10px;
+}
+tr:nth-child(even) {
+  background-color: #fff;
+}
+tr:nth-child(odd) {
+  background-color: #ddd;
+}
+/*  API TABLE ENDS */
