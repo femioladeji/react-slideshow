@@ -6,7 +6,9 @@ import {
   cssCodeString,
   customizingIndicatorCodeString,
   nextCodeString,
-  zoomEffectCodeString
+  zoomEffectCodeString,
+  slideEffectCodeString,
+  fadeEffectCodeString
 } from '../codeStrings';
 import '../../app.css';
 
@@ -108,12 +110,15 @@ class LandingPage extends Component {
           </Slide>
         </div>
         <div style={{ width: '70%', margin: 'auto' }}>
-          {/* <SyntaxHighlighter language="javascript" style={dark}>
-            {}
-          </SyntaxHighlighter> */}
+          <SyntaxHighlighter language="javascript" style={dark}>
+            {slideEffectCodeString}
+          </SyntaxHighlighter>
+          <p>
+            The default value for duration and transitionDuration is 5000 and
+            1000 milliseconds respectively.
+          </p>
         </div>
         <br />
-
         <h3>Fade Effect</h3>
         <div className="slide-container">
           <Fade {...fadeProperties}>
@@ -138,9 +143,13 @@ class LandingPage extends Component {
           </Fade>
         </div>
         <div style={{ width: '70%', margin: 'auto' }}>
-          {/* <SyntaxHighlighter language="javascript" style={dark}>
-            {}
-          </SyntaxHighlighter> */}
+          <SyntaxHighlighter language="javascript" style={dark}>
+            {fadeEffectCodeString}
+          </SyntaxHighlighter>
+          <p>
+            The default value for duration and transitionDuration is 5000 and
+            1000 milliseconds respectively.
+          </p>
         </div>
         <br />
         <h3>Zoom out Effect</h3>
@@ -169,7 +178,7 @@ class LandingPage extends Component {
         <h3>Customizing Indicators</h3>
         <div style={{ width: '70%', margin: 'auto' }}>
           <p>
-            The indicator can be customizes to what you want. To customize it,
+            The indicator can be customized to what you want. To customize it,
             set the indicators prop to a function that returns the element you
             want. The function accepts an index parameter.
           </p>
