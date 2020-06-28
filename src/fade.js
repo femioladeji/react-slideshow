@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
-import { getUnhandledProps } from '../../helpers.js';
-import './fade.css';
+import ResizeObserver from 'resize-observer-polyfill';
+import { getUnhandledProps } from './helpers.js';
 
 class Fade extends Component {
   constructor(props) {
@@ -18,18 +18,29 @@ class Fade extends Component {
     this.divsContainer = null;
     this.wrapper = null;
     this.setWidth = this.setWidth.bind(this);
-    this.resizeListener = this.resizeListener.bind(this);
+    this.handleResize = this.handleResize.bind(this);
     this.navigate = this.navigate.bind(this);
     this.preFade = this.preFade.bind(this);
     this.pauseSlides = this.pauseSlides.bind(this);
     this.startSlides = this.startSlides.bind(this);
+    this.initResizeObserver = this.initResizeObserver.bind(this);
     this.tweenGroup = new TWEEN.Group();
+    this.reactSlideshowWrapper = createRef();
+    this.wrapper = createRef();
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeListener);
     this.setWidth();
     this.play();
+    this.initResizeObserver();
+  }
+
+  initResizeObserver() {
+    this.resizeObserver = new ResizeObserver(entries => {
+      if (!entries) return;
+      this.handleResize();
+    });
+    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
   }
 
   play() {
@@ -61,15 +72,25 @@ class Fade extends Component {
   componentWillUnmount() {
     this.willUnmount = true;
     clearTimeout(this.timeout);
-    window.removeEventListener('resize', this.resizeListener);
+    this.removeResizeObserver();
+  }
+
+  removeResizeObserver() {
+    if (
+      this.resizeObserver &&
+      this.reactSlideshowWrapper &&
+      this.reactSlideshowWrapper.current
+    ) {
+      this.resizeObserver.unobserve(this.reactSlideshowWrapper.current);
+    }
   }
 
   setWidth() {
-    this.width = this.wrapper.clientWidth;
+    this.width = this.wrapper.current.clientWidth;
     this.applyStyle();
   }
 
-  resizeListener() {
+  handleResize() {
     this.setWidth();
   }
 
@@ -195,12 +216,10 @@ class Fade extends Component {
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
+          ref={this.reactSlideshowWrapper}
         >
           {this.showPreviousArrow()}
-          <div
-            className="react-slideshow-fade-wrapper"
-            ref={ref => (this.wrapper = ref)}
-          >
+          <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
             <div
               className="react-slideshow-fade-images-wrap"
               ref={wrap => (this.divsContainer = wrap)}

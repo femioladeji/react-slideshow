@@ -1,9 +1,0 @@
-.react-slideshow-wrapper.slide {
-  width: 100%;
-  overflow: hidden;
-}
-
-.react-slideshow-wrapper .images-wrap {
-  display: flex;
-  flex-wrap: wrap;
-}

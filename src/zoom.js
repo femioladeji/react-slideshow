@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import TWEEN from '@tweenjs/tween.js';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { getUnhandledProps } from '../../helpers.js';
+import TWEEN from '@tweenjs/tween.js';
+import { getUnhandledProps } from './helpers.js';
 
-import './slide.css';
-
-class Slideshow extends Component {
+class Zoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,67 +13,95 @@ class Slideshow extends Component {
           : 0
     };
     this.width = 0;
-    this.imageContainer = null;
-    this.wrapper = null;
     this.timeout = null;
-    this.moveSlides = this.moveSlides.bind(this);
+    this.divsContainer = null;
+    this.wrapper = null;
+    this.setWidth = this.setWidth.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+    this.navigate = this.navigate.bind(this);
+    this.preZoom = this.preZoom.bind(this);
     this.pauseSlides = this.pauseSlides.bind(this);
     this.startSlides = this.startSlides.bind(this);
-    this.resizeListener = this.resizeListener.bind(this);
-    this.goToSlide = this.goToSlide.bind(this);
     this.tweenGroup = new TWEEN.Group();
+    this.initResizeObserver = this.initResizeObserver.bind(this);
+    this.reactSlideshowWrapper = createRef();
   }
 
   componentDidMount() {
     this.setWidth();
-    window.addEventListener('resize', this.resizeListener);
-    const { autoplay, duration } = this.props;
-    if (autoplay) {
-      this.timeout = setTimeout(() => this.goNext(), duration);
+    this.play();
+    this.initResizeObserver();
+  }
+
+  initResizeObserver() {
+    this.resizeObserver = new ResizeObserver(entries => {
+      if (!entries) return;
+      this.handleResize();
+    });
+    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+  }
+
+  play() {
+    const { autoplay, children } = this.props;
+    const { index } = this.state;
+    if (autoplay && children.length > 1) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(
+        () => this.zoomTo(index + 1),
+        this.props.duration
+      );
     }
   }
 
   componentWillUnmount() {
     this.willUnmount = true;
     clearTimeout(this.timeout);
-    window.removeEventListener('resize', this.resizeListener);
+    this.removeResizeObserver();
   }
 
-  setWidth() {
-    // the .slice.call was needed to support ie11
-    this.allImages = Array.prototype.slice.call(
-      this.wrapper.querySelectorAll(`.images-wrap > div`),
-      0
-    );
-    this.width = this.wrapper.clientWidth;
-    const fullwidth = this.width * (this.props.children.length + 2);
-    this.imageContainer.style.width = `${fullwidth}px`;
-    this.imageContainer.style.transform = `translate(-${this.width *
-      (this.state.index + 1)}px)`;
-    this.applySlideStyle();
+  removeResizeObserver() {
+    if (
+      this.resizeObserver &&
+      this.reactSlideshowWrapper &&
+      this.reactSlideshowWrapper.current
+    ) {
+      this.resizeObserver.unobserve(this.reactSlideshowWrapper.current);
+    }
   }
 
   componentDidUpdate(props) {
     if (this.props.autoplay !== props.autoplay) {
       if (this.props.autoplay) {
-        this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+        this.play();
       } else {
         clearTimeout(this.timeout);
       }
     }
     if (this.props.children.length != props.children.length) {
-      this.setWidth();
+      this.applyStyle();
+      this.play();
     }
   }
 
-  resizeListener() {
+  setWidth() {
+    this.width = this.wrapper.clientWidth;
+    this.applyStyle();
+  }
+
+  handleResize() {
     this.setWidth();
   }
 
-  applySlideStyle() {
-    this.allImages.forEach((eachImage, index) => {
-      eachImage.style.width = `${this.width}px`;
-    });
+  applyStyle() {
+    const fullwidth = this.width * this.props.children.length;
+    this.divsContainer.style.width = `${fullwidth}px`;
+    for (let index = 0; index < this.divsContainer.children.length; index++) {
+      const eachDiv = this.divsContainer.children[index];
+      if (eachDiv) {
+        eachDiv.style.width = `${this.width}px`;
+        eachDiv.style.left = `${index * -this.width}px`;
+      }
+    }
   }
 
   pauseSlides() {
@@ -91,38 +117,40 @@ class Slideshow extends Component {
     }
   }
 
-  moveSlides({ currentTarget: { dataset } }) {
-    if (dataset.type === 'next') {
-      this.goNext();
-    } else {
-      this.goBack();
-    }
-  }
-
-  goToSlide({ currentTarget }) {
-    this.goTo(parseInt(currentTarget.dataset.key));
-  }
-
-  goTo(index) {
-    this.slideImages(index);
-  }
-
   goNext() {
     const { index } = this.state;
     const { children, infinite } = this.props;
     if (!infinite && index === children.length - 1) {
       return;
     }
-    this.slideImages(index + 1);
+    this.zoomTo((index + 1) % children.length);
   }
 
   goBack() {
     const { index } = this.state;
-    const { infinite } = this.props;
+    const { children, infinite } = this.props;
     if (!infinite && index === 0) {
       return;
     }
-    this.slideImages(index - 1);
+    this.zoomTo(index === 0 ? children.length - 1 : index - 1);
+  }
+
+  goTo(index) {
+    this.zoomTo(index);
+  }
+
+  navigate({ currentTarget: { dataset } }) {
+    if (dataset.key != this.state.index) {
+      this.goTo(parseInt(dataset.key));
+    }
+  }
+
+  preZoom({ currentTarget }) {
+    if (currentTarget.dataset.type === 'prev') {
+      this.goBack();
+    } else {
+      this.goNext();
+    }
   }
 
   showIndicators() {
@@ -130,12 +158,12 @@ class Slideshow extends Component {
     const className = !isCustomIndicator && 'each-slideshow-indicator';
     return (
       <div className="indicators">
-        {this.props.children.map((_, key) => (
+        {this.props.children.map((each, key) => (
           <div
             key={key}
             data-key={key}
             className={`${className} ${this.state.index === key && 'active'}`}
-            onClick={this.goToSlide}
+            onClick={this.navigate}
           >
             {isCustomIndicator && this.props.indicators(key)}
           </div>
@@ -152,7 +180,7 @@ class Slideshow extends Component {
     }
     return (
       arrows && (
-        <div className={className} data-type="prev" onClick={this.moveSlides}>
+        <div className={className} data-type="prev" onClick={this.preZoom}>
           {prevArrow ? prevArrow : <span />}
         </div>
       )
@@ -169,7 +197,7 @@ class Slideshow extends Component {
     }
     return (
       arrows && (
-        <div className={className} data-type="next" onClick={this.moveSlides}>
+        <div className={className} data-type="next" onClick={this.preZoom}>
           {nextArrow ? nextArrow : <span />}
         </div>
       )
@@ -177,41 +205,38 @@ class Slideshow extends Component {
   }
 
   render() {
-    const { children, infinite, indicators, arrows } = this.props;
-    const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
+    const { indicators, arrows, infinite, children } = this.props;
     const { index } = this.state;
-    const style = {
-      transform: `translate(-${(index + 1) * this.width}px)`
-    };
-
+    const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
     return (
       <div {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
+          ref={this.reactSlideshowWrapper}
         >
           {this.showPreviousArrow()}
           <div
-            className={`react-slideshow-wrapper slide`}
+            className="react-slideshow-zoom-wrapper"
             ref={ref => (this.wrapper = ref)}
           >
             <div
-              className="images-wrap"
-              style={style}
-              ref={ref => (this.imageContainer = ref)}
+              className="zoom-wrapper"
+              ref={wrap => (this.divsContainer = wrap)}
             >
-              <div data-index="-1">{children[children.length - 1]}</div>
               {children.map((each, key) => (
                 <div
+                  style={{
+                    opacity: key === index ? '1' : '0',
+                    zIndex: key === index ? '1' : '0'
+                  }}
                   data-index={key}
                   key={key}
-                  className={key === index ? 'active' : ''}
                 >
                   {each}
                 </div>
               ))}
-              <div data-index="-1">{children[0]}</div>
             </div>
           </div>
           {this.showNextArrow()}
@@ -221,25 +246,27 @@ class Slideshow extends Component {
     );
   }
 
-  slideImages(index) {
-    let {
+  zoomTo(newIndex) {
+    const { index } = this.state;
+    const {
       children,
-      transitionDuration,
+      scale,
       autoplay,
       infinite,
+      transitionDuration,
       duration,
       onChange
     } = this.props;
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
+      if (!this.divsContainer.children[newIndex]) {
+        newIndex = 0;
+      }
       clearTimeout(this.timeout);
-      const value = { margin: -this.width * (this.state.index + 1) };
-      const tween = new TWEEN.Tween(value, this.tweenGroup)
-        .to({ margin: -this.width * (index + 1) }, transitionDuration)
-        .onUpdate(value => {
-          this.imageContainer.style.transform = `translate(${value.margin}px)`;
-        })
-        .start();
+      const value = {
+        opacity: 0,
+        scale: 1
+      };
 
       let animate = () => {
         if (this.willUnmount) {
@@ -252,56 +279,66 @@ class Slideshow extends Component {
 
       animate();
 
+      const tween = new TWEEN.Tween(value, this.tweenGroup)
+        .to({ opacity: 1, scale }, transitionDuration)
+        .onUpdate(value => {
+          this.divsContainer.children[newIndex].style.opacity = value.opacity;
+          this.divsContainer.children[index].style.opacity = 1 - value.opacity;
+          this.divsContainer.children[
+            index
+          ].style.transform = `scale(${value.scale})`;
+        })
+        .start();
+
       tween.onComplete(() => {
-        const newIndex =
-          index < 0
-            ? children.length - 1
-            : index >= children.length
-            ? 0
-            : index;
         if (this.willUnmount) {
           return;
         }
         if (typeof onChange === 'function') {
-          onChange(this.state.index, newIndex);
+          onChange(index, newIndex);
         }
         this.setState(
           {
             index: newIndex
           },
           () => {
-            if (autoplay && (infinite || this.state.index < children.length)) {
-              this.timeout = setTimeout(() => this.goNext(), duration);
-            }
+            this.divsContainer.children[index].style.transform = `scale(1)`;
           }
         );
+        if (autoplay && (infinite || newIndex < children.length - 1)) {
+          clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            this.zoomTo((newIndex + 1) % children.length);
+          }, duration);
+        }
       });
     }
   }
 }
 
-Slideshow.defaultProps = {
+Zoom.defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
   defaultIndex: 0,
-  infinite: true,
-  autoplay: true,
   indicators: false,
   arrows: true,
+  autoplay: true,
+  infinite: true,
   pauseOnHover: false
 };
 
-Slideshow.propTypes = {
+Zoom.propTypes = {
   duration: PropTypes.number,
   transitionDuration: PropTypes.number,
   defaultIndex: PropTypes.number,
-  infinite: PropTypes.bool,
   indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  autoplay: PropTypes.bool,
+  scale: PropTypes.number.isRequired,
   arrows: PropTypes.bool,
+  autoplay: PropTypes.bool,
+  infinite: PropTypes.bool,
   onChange: PropTypes.func,
   pauseOnHover: PropTypes.bool,
   prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
-export default Slideshow;
+export default Zoom;
