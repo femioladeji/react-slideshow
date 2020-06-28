@@ -27,7 +27,9 @@ class Fade extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.resizeListener);
+    }
     this.setWidth();
     this.play();
   }
@@ -61,7 +63,9 @@ class Fade extends Component {
   componentWillUnmount() {
     this.willUnmount = true;
     clearTimeout(this.timeout);
-    window.removeEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   setWidth() {

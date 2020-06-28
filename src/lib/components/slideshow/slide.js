@@ -28,7 +28,9 @@ class Slideshow extends Component {
 
   componentDidMount() {
     this.setWidth();
-    window.addEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.resizeListener);
+    }
     const { autoplay, duration } = this.props;
     if (autoplay) {
       this.timeout = setTimeout(() => this.goNext(), duration);
@@ -38,7 +40,9 @@ class Slideshow extends Component {
   componentWillUnmount() {
     this.willUnmount = true;
     clearTimeout(this.timeout);
-    window.removeEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   setWidth() {
