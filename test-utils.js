@@ -1,6 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react';
-import { Fade, Zoom, Slide } from './src/lib';
+import 'resize-observer-polyfill';
+import { Fade, Zoom, Slide } from './src';
+
+jest.mock('resize-observer-polyfill');
 
 export const images = [
   'images/slide_5.jpg',
