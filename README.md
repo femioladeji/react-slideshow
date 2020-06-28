@@ -18,7 +18,7 @@ yarn add react-slideshow-image
 
 You need to import the css style, you can do that by adding to your main css file
 ```css
-@import "~react-slideshow-image/dist/styles.css";
+@import "react-slideshow-image/dist/styles.css";
 
 ```
 or import it in your js file
