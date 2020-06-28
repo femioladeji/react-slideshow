@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import TWEEN from '@tweenjs/tween.js';
+import ResizeObserver from 'resize-observer-polyfill';
 import PropTypes from 'prop-types';
-import { getUnhandledProps } from '../../helpers.js';
-
-import './slide.css';
+import { getUnhandledProps } from './helpers.js';
 
 class Slideshow extends Component {
   constructor(props) {
@@ -21,27 +20,43 @@ class Slideshow extends Component {
     this.moveSlides = this.moveSlides.bind(this);
     this.pauseSlides = this.pauseSlides.bind(this);
     this.startSlides = this.startSlides.bind(this);
-    this.resizeListener = this.resizeListener.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+    this.initResizeObserver = this.initResizeObserver.bind(this);
+    this.reactSlideshowWrapper = createRef();
     this.goToSlide = this.goToSlide.bind(this);
     this.tweenGroup = new TWEEN.Group();
   }
 
   componentDidMount() {
     this.setWidth();
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.resizeListener);
-    }
+    this.initResizeObserver();
     const { autoplay, duration } = this.props;
     if (autoplay) {
       this.timeout = setTimeout(() => this.goNext(), duration);
     }
   }
 
+  initResizeObserver() {
+    this.resizeObserver = new ResizeObserver(entries => {
+      if (!entries) return;
+      this.handleResize();
+    });
+    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+  }
+
   componentWillUnmount() {
     this.willUnmount = true;
     clearTimeout(this.timeout);
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.resizeListener);
+    this.removeResizeObserver();
+  }
+
+  removeResizeObserver() {
+    if (
+      this.resizeObserver &&
+      this.reactSlideshowWrapper &&
+      this.reactSlideshowWrapper.current
+    ) {
+      this.resizeObserver.unobserve(this.reactSlideshowWrapper.current);
     }
   }
 
@@ -72,7 +87,7 @@ class Slideshow extends Component {
     }
   }
 
-  resizeListener() {
+  handleResize() {
     this.setWidth();
   }
 
@@ -194,6 +209,7 @@ class Slideshow extends Component {
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
+          ref={this.reactSlideshowWrapper}
         >
           {this.showPreviousArrow()}
           <div
