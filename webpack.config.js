@@ -56,5 +56,7 @@ module.exports = {
   /*server */
   devServer: {
     contentBase: paths.SRC,
+    publicPath: '/',
+    historyApiFallback: true,
   },
 };
