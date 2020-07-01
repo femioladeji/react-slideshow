@@ -31,11 +31,6 @@ class App extends Component {
       transitionDuration: 500,
       infinite: true,
       pauseOnHover: true,
-      onChange: (oldIndex, newIndex) => {
-        console.log(
-          `Slide transition finished from ${oldIndex} to ${newIndex}`
-        );
-      },
       indicators: i => (
         <div
           style={{
@@ -56,10 +51,7 @@ class App extends Component {
       transitionDuration: 500,
       indicators: true,
       infinite: false,
-      pauseOnHover: true,
-      onChange: (oldIndex, newIndex) => {
-        console.log(`Fade transition finished from ${oldIndex} to ${newIndex}`);
-      }
+      pauseOnHover: true
     };
 
     const zoomOutProperties = {
@@ -67,10 +59,7 @@ class App extends Component {
       transitionDuration: 500,
       indicators: true,
       scale: 0.4,
-      pauseOnHover: true,
-      onChange: (oldIndex, newIndex) => {
-        console.log(`zoom transition finished from ${oldIndex} to ${newIndex}`);
-      }
+      pauseOnHover: true
     };
 
     const zoomInProperties = {
