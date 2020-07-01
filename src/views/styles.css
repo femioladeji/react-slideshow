@@ -4,7 +4,7 @@
   position: fixed;
   left: 0;
   top: 13%;
-  height: 100vh;
+  height: 150vh;
   width: 12%;
   background: #ddd;
   color: gray;
@@ -30,6 +30,7 @@
   margin: 5px auto;
   box-sizing: border-box;
   background: #111;
+  animation: 0.5s ease-in-out;
 }
 
 .d-item {
@@ -60,8 +61,12 @@
 
 /* NAVBAR STYLES STARTS */
 .navbar {
+  position: fixed;
+  top: 0;
+  z-index: 200;
   width: 100%;
   border-bottom: 1px solid #ddd;
+  background: #fff;
 }
 
 .navbar-div {
