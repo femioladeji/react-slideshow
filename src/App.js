@@ -1,11 +1,14 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Navbar from './views/components/NavBar';
-import Sidebar from './views/components/SideBar';
-import ExamplesPage from './views/pages/ExamplesPage';
-import LandingPage from './views/pages/LandingPage';
-import ApiPage from './views/pages/ApiPage';
-import ForTypescript from './views/pages/ForTypescript';
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Navbar from "./views/components/NavBar";
+import Sidebar from "./views/components/SideBar";
+import ExamplesPage from "./views/pages/ExamplesPage";
+import LandingPage from "./views/pages/LandingPage";
+import ApiPage from "./views/pages/ApiPage";
+import ForTypescript from "./views/pages/ForTypescript";
+import SlideExample from "./views/pages//Examples/Slide";
+import FadeExample from "./views/pages//Examples/Fade";
+import ZoomExample from "./views/pages//Examples/Zoom";
 
 const App = () => (
   <div>
@@ -17,6 +20,9 @@ const App = () => (
         <Route exact path="/examples" component={ExamplesPage} />
         <Route exact path="/api" component={ApiPage} />
         <Route exact path="/typescript" component={ForTypescript} />
+        <Route exact path="/slide-effect" component={SlideExample} />
+        <Route exact path="/fade-effect" component={FadeExample} />
+        <Route exact path="/zoom-effect" component={ZoomExample} />
       </Switch>
     </BrowserRouter>
   </div>

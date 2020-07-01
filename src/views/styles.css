@@ -8,27 +8,52 @@
   width: 12%;
   background: #ddd;
   color: gray;
-  transition: all 0.5s;
-  z-index: 100;
 }
 
 .sidebar-items {
   padding-left: 15px;
   line-height: 50px;
-  margin: 40px auto;
+  margin: 5px auto;
   box-sizing: border-box;
 }
 
 .sidebar-items a {
   padding-top: 50px;
-  font-size: 18px;
   text-decoration: none;
-  color: #000;
   text-align: center;
 }
 
-.sidebar-items a:hover {
+.dropdown-container {
+  position: relative;
+  padding-left: 15px;
+  line-height: 50px;
+  margin: 5px auto;
+  box-sizing: border-box;
+  background: #111;
+}
+
+.d-item {
+  color: #fff !important;
+}
+
+.d-item:hover {
+  color: gray !important;
+}
+
+.menu-item {
+  font-size: 18px;
   cursor: pointer;
+  margin: 0 auto;
+  text-align: left;
+  width: 100%;
+  color: #000;
+}
+
+.menu-item > div {
+  color: #fff;
+}
+
+.menu-item:hover {
   color: gray;
 }
 /* SIDEBAR STYLES ENDS */

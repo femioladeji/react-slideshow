@@ -1,22 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import '../styles.css';
 
 const Sidebar = () => {
+  const [dropDowns, setDropDowns] = useState(false);
+
   return (
     <div className="sidebar">
       <div className="sidebar-items">
         <Link to="/">
-          <div>Docs</div>
+          <div className="menu-item">Docs</div>
         </Link>
         <Link to="/api">
-          <div>Api</div>
+          <div className="menu-item">Api</div>
         </Link>
-        <Link to="/examples">
-          <div>Examples</div>
-        </Link>
+        <div 
+          className="menu-item" 
+          onClick={() => setDropDowns(!dropDowns)}>
+          Examples
+        </div>
+        {
+          dropDowns === true ?
+          (
+            <div className="menu-item dropdown-container">
+              <Link to="/slide-effect">
+                <div className="d-item menu-item">Slide Effect</div>
+              </Link>
+              <Link to="/zoom-effect">
+                <div className="d-item menu-item">Zoom Effect</div>
+              </Link>
+              <Link to="/fade-effect">
+                <div className="d-item menu-item">Fade Effect</div>
+              </Link>
+            </div>
+          ) : ''
+        }
         <Link to="/typescript">
-          <div>For Typescript</div>
+          <div className="menu-item">For Typescript</div>
         </Link>
       </div>
     </div>
