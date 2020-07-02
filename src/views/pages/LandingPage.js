@@ -80,7 +80,7 @@ class LandingPage extends Component {
     const { slideImages, zoomOutImages, fadeImages } = this.state;
     return (
       <div>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        <div className="ld-sections">
           <p>
             <b>
               A simple slideshow component built with react that supports slide,
@@ -109,7 +109,7 @@ class LandingPage extends Component {
             ))}
           </Slide>
         </div>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        <div className="ld-sections">
           <SyntaxHighlighter language="javascript" style={dark}>
             {slideEffectCodeString}
           </SyntaxHighlighter>
@@ -142,7 +142,7 @@ class LandingPage extends Component {
             </div>
           </Fade>
         </div>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        <div className="ld-sections">
           <SyntaxHighlighter language="javascript" style={dark}>
             {fadeEffectCodeString}
           </SyntaxHighlighter>
@@ -169,14 +169,14 @@ class LandingPage extends Component {
             ))}
           </Zoom>
         </div>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        <div className="ld-sections">
           <SyntaxHighlighter language="javascript" style={dark}>
             {zoomEffectCodeString}
           </SyntaxHighlighter>
         </div>
         <br />
         <h3>Customizing Indicators</h3>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        <div className="ld-sections">
           <p>
             The indicator can be customized to what you want. To customize it,
             set the indicators prop to a function that returns the element you
@@ -188,7 +188,7 @@ class LandingPage extends Component {
         </div>
         <br />
         <h3>CSS</h3>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        <div className="ld-sections">
           <p>
             This is what my css looks like. You can customize this to your own
             taste.
@@ -199,7 +199,7 @@ class LandingPage extends Component {
         </div>
         <br />
         <h3>Next</h3>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        <div className="ld-sections">
           <p>
             For those using 'Next.js' . You need the import the package
             dynamically and set ssr property to false. The snippet below imports

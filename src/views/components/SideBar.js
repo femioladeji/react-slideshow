@@ -12,7 +12,7 @@ const Sidebar = () => {
           <div className="menu-item">Docs</div>
         </Link>
         <Link to="/api">
-          <div className="menu-item">Api</div>
+          <div className="menu-item">API</div>
         </Link>
         <div className="menu-item" onClick={() => setDropDowns(!dropDowns)}>
           Examples
@@ -34,6 +34,9 @@ const Sidebar = () => {
         )}
         <Link to="/typescript">
           <div className="menu-item">For Typescript</div>
+        </Link>
+        <Link to="/next">
+          <div className="d-item menu-item">Next</div>
         </Link>
       </div>
     </div>

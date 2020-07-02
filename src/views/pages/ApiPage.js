@@ -1,11 +1,10 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import '../styles.css';
 
 const Api = () => {
   return (
-    <div style={{ width: '60%', margin: 'auto' }}>
+    <div className="div-sec">
       <h1>Properties</h1>
       <div>
         <table>

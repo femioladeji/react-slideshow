@@ -9,12 +9,14 @@ import ForTypescript from './views/pages/ForTypescript';
 import SlideExample from './views/pages//Examples/Slide';
 import FadeExample from './views/pages//Examples/Fade';
 import ZoomExample from './views/pages//Examples/Zoom';
+import Next from './views/pages/Next';
+import './views/styles.css';
 
 const App = () => (
   <BrowserRouter>
     <Navbar />
     <Sidebar />
-    <div style={{ marginTop: '150px' }}>
+    <div className="app-container">
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/all-examples" component={ExamplesPage} />
@@ -23,6 +25,7 @@ const App = () => (
         <Route exact path="/slide-effect" component={SlideExample} />
         <Route exact path="/fade-effect" component={FadeExample} />
         <Route exact path="/zoom-effect" component={ZoomExample} />
+        <Route exact path="/next" component={Next} />
       </Switch>
     </div>
   </BrowserRouter>

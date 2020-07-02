@@ -5,7 +5,7 @@ import { tsConfigCodeString, forTS } from '../codeStrings';
 
 const ForTypescript = () => {
   return (
-    <div style={{ width: '60%', margin: 'auto' }}>
+    <div className="div-sec">
       <h1>Typescript</h1>
       <div>
         <p>1. In your tsconfig.json file add this to the compiler options</p>
