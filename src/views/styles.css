@@ -23,13 +23,25 @@
   text-align: center;
 }
 
+@keyframes dropdown {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .dropdown-container {
   position: relative;
   padding-left: 1.5625rem;
   line-height: 1.875rem;
   margin: 0.3125rem auto;
   box-sizing: border-box;
-  transition: all 0.5s;
+  transition: all 1.5s;
+  opacity: 1;
+  animation-name: dropdown;
+  animation-duration: 1.5s;
 }
 
 .d-item:hover {
