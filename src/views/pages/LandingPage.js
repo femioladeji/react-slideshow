@@ -79,7 +79,7 @@ class LandingPage extends Component {
     };
     const { slideImages, zoomOutImages, fadeImages } = this.state;
     return (
-      <div>
+      <div className="ld-page">
         <div className="ld-sections">
           <p>
             <b>

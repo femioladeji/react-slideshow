@@ -1,11 +1,14 @@
+.app-container {
+  margin-top: 8.125rem;
+}
 /* SIDEBAR STYLE STARTS */
-
 .sidebar {
   position: fixed;
+  top: 102px;
   left: 0;
-  top: 6.25rem;
   height: 150vh;
-  width: 12%;
+  width: 10%;
+  margin-left: 0;
   background: #ddd;
   color: gray;
 }
@@ -49,7 +52,7 @@
 }
 
 .menu-item {
-  font-size: 1.125rem;
+  font-size: 20px;
   cursor: pointer;
   margin: 0 auto;
   text-align: left;
@@ -70,7 +73,6 @@
 .navbar {
   position: fixed;
   top: 0;
-  z-index: 200;
   width: 100%;
   border-bottom: 1px solid #ddd;
   background: #fff;
@@ -132,10 +134,6 @@ tr:nth-child(odd) {
 }
 /*  API TABLE ENDS */
 
-.app-container {
-  margin-top: 8.125rem;
-}
-
 .ld-sections {
   width: 70%;
   margin: auto;
@@ -144,4 +142,50 @@ tr:nth-child(odd) {
 .div-sec {
   width: 60%;
   margin: auto;
+}
+
+.table-div {
+  overflow-x: auto;
+}
+
+.menu-bar {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .div-sec {
+    width: 90%;
+  }
+  .table-div {
+    overflow-x: auto;
+  }
+
+  .ld-sections {
+    width: 90%;
+  }
+
+  .ld-page {
+    width: 90%;
+  }
+
+  .sidebar {
+    width: 45%;
+    top: 80px;
+    margin-left: -50%;
+    z-index: 200;
+    height: 150vh;
+    transition: 1s;
+  }
+
+  .navbar {
+    height: 80px;
+  }
+
+  .nav-item {
+    display: none;
+  }
+
+  .menu-bar {
+    display: block;
+  }
 }

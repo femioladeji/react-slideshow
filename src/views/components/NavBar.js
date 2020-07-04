@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles.css';
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   return (
     <div className="navbar">
       <div className="navbar-div">
         <h1>React Slideshow</h1>
-        <div>
+        <div className="nav-item">
           <ul>
             <Link to="/">
               <li>Docs</li>
@@ -22,6 +22,9 @@ const Navbar = () => {
               <li>Github</li>
             </a>
           </ul>
+        </div>
+        <div className="menu-bar" onMouseDown={toggleSidebar}>
+          Menu
         </div>
       </div>
     </div>

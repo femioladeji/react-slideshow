@@ -6,7 +6,7 @@ const Api = () => {
   return (
     <div className="div-sec">
       <h1>Properties</h1>
-      <div>
+      <div className="table-div">
         <table>
           <tr>
             <th>Properties</th>
