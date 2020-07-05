@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   const [dropDowns, setDropDowns] = useState(false);
@@ -7,36 +7,36 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-items">
-        <Link to="/">
-          <div className="menu-item">Docs</div>
-        </Link>
-        <Link to="/api">
-          <div className="menu-item">API</div>
-        </Link>
-        <div className="menu-item" onClick={() => setDropDowns(!dropDowns)}>
+        <NavLink activeClassName="is-active" exact={true} to="/">
+          Docs
+        </NavLink>
+        <NavLink activeClassName="is-active" to="/api">
+          API
+        </NavLink>
+        <div className="dropdown" onClick={() => setDropDowns(!dropDowns)}>
           Examples
         </div>
         {dropDowns ? (
-          <div className="menu-item dropdown-container">
-            <Link to="/slide-effect">
-              <div className="d-item menu-item">Slide Effect</div>
-            </Link>
-            <Link to="/zoom-effect">
-              <div className="d-item menu-item">Zoom Effect</div>
-            </Link>
-            <Link to="/fade-effect">
-              <div className="d-item menu-item">Fade Effect</div>
-            </Link>
+          <div className="dropdown-container">
+            <NavLink activeClassName="is-active" to="/slide-effect">
+              Slide Effect
+            </NavLink>
+            <NavLink activeClassName="is-active" to="/zoom-effect">
+              Zoom Effect
+            </NavLink>
+            <NavLink activeClassName="is-active" to="/fade-effect">
+              Fade Effect
+            </NavLink>
           </div>
         ) : (
           ''
         )}
-        <Link to="/typescript">
-          <div className="menu-item">For Typescript</div>
-        </Link>
-        <Link to="/next">
-          <div className="d-item menu-item">Next</div>
-        </Link>
+        <NavLink activeClassName="is-active" to="/typescript">
+          For Typescript
+        </NavLink>
+        <NavLink activeClassName="is-active" to="/next">
+          Next
+        </NavLink>
       </div>
     </div>
   );
