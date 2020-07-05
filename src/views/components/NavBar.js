@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles.css';
+// import menuIcon from '../assets/svg/list.svg';
 
 const Navbar = ({ toggleSidebar }) => {
   return (
@@ -24,7 +25,7 @@ const Navbar = ({ toggleSidebar }) => {
           </ul>
         </div>
         <div className="menu-bar" onMouseDown={toggleSidebar}>
-          Menu
+          <img className="menu-img" src="images/icons/list.svg" alt="" />
         </div>
       </div>
     </div>

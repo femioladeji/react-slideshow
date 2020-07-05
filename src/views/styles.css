@@ -188,4 +188,8 @@ tr:nth-child(odd) {
   .menu-bar {
     display: block;
   }
+  .menu-img {
+    width: 30px;
+    height: 30px;
+  }
 }
