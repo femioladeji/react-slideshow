@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles.css';
-// import menuIcon from '../assets/svg/list.svg';
 
 const Navbar = ({ toggleSidebar }) => {
   return (
