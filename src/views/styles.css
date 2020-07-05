@@ -1,6 +1,48 @@
 .app-container {
-  margin-top: 100px;
+  margin-top: 100px !important;
+  padding-top: 10px !important;
 }
+
+/* NAVBAR STYLES STARTS */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.navbar-div {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  background: #fff;
+  z-index: 100;
+}
+
+ul {
+  display: inline-flex;
+  font-size: 1.4375rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  color: #000;
+  list-style-type: none;
+  padding: 0.9375rem;
+}
+
+li:hover {
+  color: gray;
+}
+/* NAVBAR STYLESA ENDS */
+
 /* SIDEBAR STYLE STARTS */
 .sidebar {
   position: fixed;
@@ -101,45 +143,6 @@
   color: gray;
 }
 /* SIDEBAR STYLES ENDS */
-
-/* NAVBAR STYLES STARTS */
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-}
-
-.navbar-div {
-  display: flex;
-  width: 80%;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 auto;
-  background: #fff;
-  z-index: 100;
-}
-
-ul {
-  display: inline-flex;
-  font-size: 1.4375rem;
-}
-
-a {
-  text-decoration: none;
-}
-
-li {
-  color: #000;
-  list-style-type: none;
-  padding: 0.9375rem;
-}
-
-li:hover {
-  color: gray;
-}
-/* NAVBAR STYLESA ENDS */
 
 /* API TABLE STARTS */
 
