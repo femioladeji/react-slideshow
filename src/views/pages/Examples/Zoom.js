@@ -7,14 +7,14 @@ class ZoomExample extends Component {
     super();
     this.state = {
       zoomOutImages: [
-        'images/slide_2.jpg',
-        'images/slide_7.jpg',
-        'images/slide_5.jpg'
+        'assets/images/slide_2.jpg',
+        'assets/images/slide_7.jpg',
+        'assets/images/slide_5.jpg'
       ],
       fadeImages: [
-        'images/slide_5.jpg',
-        'images/slide_6.jpg',
-        'images/slide_7.jpg'
+        'assets/images/slide_5.jpg',
+        'assets/images/slide_6.jpg',
+        'assets/images/slide_7.jpg'
       ]
     };
   }

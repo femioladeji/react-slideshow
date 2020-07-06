@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ toggleSidebar }) => {
+const Navbar = ({ toggleSidebar, isOpen }) => {
   return (
     <div className="navbar">
       <div className="navbar-div">
@@ -23,7 +23,19 @@ const Navbar = ({ toggleSidebar }) => {
           </ul>
         </div>
         <div className="menu-bar" onMouseDown={toggleSidebar}>
-          <img className="menu-img" src="images/icons/list.svg" alt="" />
+          {isOpen === false ? (
+            <img
+              className="menu-img menu"
+              src="assets/images/icons/list.svg"
+              alt=""
+            />
+          ) : (
+            <img
+              className="menu-img cancle"
+              src="assets/images/icons/cancle.svg"
+              alt=""
+            />
+          )}
         </div>
       </div>
     </div>

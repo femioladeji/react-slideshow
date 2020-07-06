@@ -7,9 +7,9 @@ class SlideExample extends Component {
     super();
     this.state = {
       slideImages: [
-        'images/slide_2.jpg',
-        'images/slide_3.jpg',
-        'images/slide_4.jpg'
+        'assets/images/slide_2.jpg',
+        'assets/images/slide_3.jpg',
+        'assets/images/slide_4.jpg'
       ]
     };
   }

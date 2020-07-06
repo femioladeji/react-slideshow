@@ -7,9 +7,9 @@ class FadeExample extends Component {
     super();
     this.state = {
       fadeImages: [
-        'images/slide_5.jpg',
-        'images/slide_6.jpg',
-        'images/slide_7.jpg'
+        'assets/images/slide_5.jpg',
+        'assets/images/slide_6.jpg',
+        'assets/images/slide_7.jpg'
       ]
     };
   }

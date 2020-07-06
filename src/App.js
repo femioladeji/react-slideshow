@@ -11,6 +11,7 @@ import FadeExample from './views/pages//Examples/Fade';
 import ZoomExample from './views/pages//Examples/Zoom';
 import Next from './views/pages/Next';
 import './views/styles.css';
+// import './assets/fonts/CircularStd-Black.otf';
 
 const App = () => {
   const [sidebar, setSidebar] = useState(false);
@@ -27,7 +28,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Navbar toggleSidebar={toggleSidebar} />
+      <Navbar toggleSidebar={toggleSidebar} isOpen={sidebar} />
       <Sidebar />
       <div className="app-container">
         <Switch>

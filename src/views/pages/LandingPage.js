@@ -17,19 +17,19 @@ class LandingPage extends Component {
     super();
     this.state = {
       zoomOutImages: [
-        'images/slide_2.jpg',
-        'images/slide_7.jpg',
-        'images/slide_5.jpg'
+        'assets/images/slide_2.jpg',
+        'assets/images/slide_7.jpg',
+        'assets/images/slide_5.jpg'
       ],
       slideImages: [
-        'images/slide_2.jpg',
-        'images/slide_3.jpg',
-        'images/slide_4.jpg'
+        'assets/images/slide_2.jpg',
+        'assets/images/slide_3.jpg',
+        'assets/images/slide_4.jpg'
       ],
       fadeImages: [
-        'images/slide_5.jpg',
-        'images/slide_6.jpg',
-        'images/slide_7.jpg'
+        'assets/images/slide_5.jpg',
+        'assets/images/slide_6.jpg',
+        'assets/images/slide_7.jpg'
       ]
     };
   }
@@ -196,22 +196,6 @@ class LandingPage extends Component {
           <SyntaxHighlighter language="css" style={dark}>
             {cssCodeString}
           </SyntaxHighlighter>
-        </div>
-        <br />
-        <h3>Next</h3>
-        <div className="ld-sections">
-          <p>
-            For those using 'Next.js' . You need the import the package
-            dynamically and set ssr property to false. The snippet below imports
-            the Fade effect.
-          </p>
-          <SyntaxHighlighter language="javascript" style={dark}>
-            {nextCodeString}
-          </SyntaxHighlighter>
-          <p>
-            HTML properties like className, data-* attributes and others will be
-            applied to the parent div.
-          </p>
         </div>
       </div>
     );

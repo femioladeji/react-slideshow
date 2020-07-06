@@ -1,13 +1,22 @@
+/* @font-face {
+  font-family: 'CircularStd';
+  src: url('./assets/fonts/CircularStd-Black.otf') format('opentype');
+} */
+
 body {
+  /* font-family: CircularStd; */
   margin: 0;
-  padding: 0; }
+  padding: 0;
+}
 
 .slide-container {
   width: 70%;
-  margin: auto; }
+  margin: auto;
+}
 
 h3 {
-  text-align: center; }
+  text-align: center;
+}
 
 .each-slide > div {
   display: flex;
