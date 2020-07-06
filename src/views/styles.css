@@ -4,8 +4,8 @@ body {
 }
 
 .app-container {
-  margin-top: 100px !important;
-  padding-top: 10px !important;
+  margin-top: 100px;
+  padding-top: 10px;
 }
 
 /* NAVBAR STYLES STARTS */
