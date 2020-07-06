@@ -50,11 +50,12 @@ li:hover {
 
 /* SIDEBAR STYLE STARTS */
 .sidebar {
+  display: block;
   position: fixed;
   top: 102px;
   left: 0;
   height: 150vh;
-  width: 10%;
+  width: 13%;
   margin-left: 0;
   background: #ddd;
   color: gray;
@@ -89,11 +90,10 @@ li:hover {
 }
 
 .sidebar-items > .dropdown-container > a {
-  padding: 15px;
+  padding: 5px 5px 5px 40px;
   text-decoration: none !important;
   font-size: 20px;
   cursor: pointer;
-  margin: 0 auto;
   width: 100%;
   color: #000;
   box-sizing: border-box;
@@ -116,9 +116,7 @@ li:hover {
   display: flex;
   flex-direction: column;
   position: relative;
-  padding-left: 1.5625rem;
   line-height: 1.875rem;
-  margin: 0.3125rem auto;
   box-sizing: border-box;
   transition: all 1.5s;
   opacity: 1;
@@ -196,18 +194,18 @@ tr:nth-child(odd) {
 
 @media only screen and (max-width: 768px) {
   .div-sec {
-    width: 90%;
+    width: 100%;
   }
   .table-div {
     overflow-x: auto;
   }
 
   .ld-sections {
-    width: 90%;
+    width: 100%;
   }
 
   .ld-page {
-    width: 90%;
+    width: 100%;
   }
 
   .sidebar {
@@ -215,7 +213,7 @@ tr:nth-child(odd) {
     top: 80px;
     margin-left: -50%;
     height: 150vh;
-    transition: 1s;
+    transition: 500ms;
   }
 
   .navbar {

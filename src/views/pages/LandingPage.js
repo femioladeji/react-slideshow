@@ -5,7 +5,6 @@ import { Slide, Fade, Zoom } from '../../lib';
 import {
   cssCodeString,
   customizingIndicatorCodeString,
-  nextCodeString,
   zoomEffectCodeString,
   slideEffectCodeString,
   fadeEffectCodeString

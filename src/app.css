@@ -1,10 +1,10 @@
-/* @font-face {
+@font-face {
   font-family: 'CircularStd';
   src: url('./assets/fonts/CircularStd-Black.otf') format('opentype');
-} */
+}
 
 body {
-  /* font-family: CircularStd; */
+  font-family: CircularStd;
   margin: 0;
   padding: 0;
 }
