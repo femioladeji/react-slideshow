@@ -243,9 +243,6 @@ tr:nth-child(odd) {
     }
   }
 
-  .menu {
-  }
-
   .cancle {
     opacity: 1;
     animation-name: menu;
