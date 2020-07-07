@@ -16,6 +16,7 @@ body {
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
   background: #fff;
+  z-index: 500;
 }
 
 .navbar-div {
@@ -24,8 +25,6 @@ body {
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  background: #fff;
-  z-index: 100;
 }
 
 ul {
@@ -101,6 +100,11 @@ li:hover {
 
 .is-active {
   background: rgb(181, 176, 176);
+}
+
+.menu-icon {
+  width: 30px;
+  height: 30px;
 }
 
 @keyframes dropdown {

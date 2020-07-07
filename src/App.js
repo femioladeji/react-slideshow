@@ -15,6 +15,15 @@ import './assets/fonts/CircularStd-Black.otf';
 
 const App = () => {
   const [sidebar, setSidebar] = useState(false);
+  const sideBarItem = document.querySelector('.sidebar');
+
+  window.onresize = () => {
+    if (window.screen.width > 768) {
+      sideBarItem.style.marginLeft = '0';
+    } else {
+      sideBarItem.style.marginLeft = '-50%';
+    }
+  };
 
   const toggleSidebar = () => {
     const sideBarItems = document.querySelector('.sidebar');
