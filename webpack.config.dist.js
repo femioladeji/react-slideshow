@@ -1,15 +1,16 @@
-var webpack = require("webpack");
-var path = require("path");
+const webpack = require("webpack");
+const path = require("path");
 
 module.exports = {
   mode: "production",
 
-  entry: "./src/lib/index",
+  entry: "./src/index",
 
   output: {
     library: "react-slideshow-image",
     libraryTarget: "umd",
     path: path.join(__dirname, "dist"),
+    globalObject: 'this',
     filename: "react-slideshow-image.min.js"
   },
 
@@ -21,10 +22,6 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -57,6 +54,4 @@ module.exports = {
   performance: {
     hints: "warning"
   },
-
-  plugins: []
 };

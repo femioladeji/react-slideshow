@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "1.5.3",
+  "version": "2.0.1",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
@@ -37,6 +37,7 @@
     "babel-jest": "^26.0.1",
     "babel-loader": "^8.0.6",
     "codecov": "^3.1.0",
+    "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^3.5.3",
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "file-loader": "^6.0.0",
@@ -52,7 +53,8 @@
     "react-syntax-highlighter": "^12.2.1",
     "serve": "^10.0.2",
     "style-loader": "^1.2.1",
-    "webpack": "^4.35.0",
+    "uglifycss": "0.0.29",
+    "webpack": "^4.42.0",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.11.0"
   },
@@ -69,15 +71,16 @@
   "main": "dist/react-slideshow-image.min.js",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "webpack --config webpack.config.dist.js",
-    "heroku-postbuild": "npm i --only=dev && webpack && cp -r src/images public",
+    "build": "webpack --config webpack.config.dist.js && uglifycss src/css/styles.css > dist/styles.css   ",
+    "heroku-postbuild": "npm i --only=dev && webpack",
     "start": "serve public/",
     "precommit": "lint-staged",
     "test": "jest && codecov",
-    "prepublish": "NODE_ENV=production babel src/lib --out-dir lib --copy-files && npm run build"
+    "prepublish": "NODE_ENV=production babel src --out-dir lib --copy-files && npm run build"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^18.1.2",
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.5.10",
+    "resize-observer-polyfill": "^1.5.1"
   }
 }

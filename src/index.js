@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-
-ReactDOM.render(<App />, document.getElementById('root'));
+export { default as Slide } from './slide';
+export { default as Fade } from './fade';
+export { default as Zoom } from './zoom';
