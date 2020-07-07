@@ -11,7 +11,7 @@ import FadeExample from './views/pages//Examples/Fade';
 import ZoomExample from './views/pages//Examples/Zoom';
 import Next from './views/pages/Next';
 import './views/styles.css';
-import './assets/fonts/CircularStd-Black.otf';
+import './assets/fonts/proxima-nova-regular.otf';
 
 const App = () => {
   const [sidebar, setSidebar] = useState(false);
