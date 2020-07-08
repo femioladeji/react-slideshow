@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Slide } from '../../../lib';
-import '../../../app.css';
+import React, { Component } from "react";
+import { Slide } from "../../../../src";
+import "../../../app.css";
 
 class SlideExample extends Component {
   constructor() {
     super();
     this.state = {
       slideImages: [
-        'assets/images/slide_2.jpg',
-        'assets/images/slide_3.jpg',
-        'assets/images/slide_4.jpg'
+        "assets/images/slide_2.jpg",
+        "assets/images/slide_3.jpg",
+        "assets/images/slide_4.jpg"
       ]
     };
   }

@@ -73,7 +73,7 @@
     "dev": "webpack-dev-server",
     "build": "webpack --config webpack.config.dist.js && uglifycss src/css/styles.css > dist/styles.css   ",
     "heroku-postbuild": "npm i --only=dev && webpack",
-    "start": "serve public/",
+    "start": "serve docs/",
     "precommit": "lint-staged",
     "test": "jest && codecov",
     "prepublish": "NODE_ENV=production babel src --out-dir lib --copy-files && npm run build"

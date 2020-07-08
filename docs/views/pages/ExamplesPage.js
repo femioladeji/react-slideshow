@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import { Slide, Fade, Zoom } from '../../lib';
-import '../../app.css';
+import React, { Component } from "react";
+import { Slide, Fade, Zoom } from "../../../src";
+import "../../app.css";
 
 class Examples extends Component {
   constructor() {
     super();
     this.state = {
       zoomOutImages: [
-        'assets/images/slide_2.jpg',
-        'assets/images/slide_7.jpg',
-        'assets/images/slide_5.jpg'
+        "assets/images/slide_2.jpg",
+        "assets/images/slide_7.jpg",
+        "assets/images/slide_5.jpg"
       ],
       slideImages: [
-        'assets/images/slide_2.jpg',
-        'assets/images/slide_3.jpg',
-        'assets/images/slide_4.jpg'
+        "assets/images/slide_2.jpg",
+        "assets/images/slide_3.jpg",
+        "assets/images/slide_4.jpg"
       ],
       fadeImages: [
-        'assets/images/slide_5.jpg',
-        'assets/images/slide_6.jpg',
-        'assets/images/slide_7.jpg'
+        "assets/images/slide_5.jpg",
+        "assets/images/slide_6.jpg",
+        "assets/images/slide_7.jpg"
       ]
     };
   }
@@ -113,7 +113,7 @@ class Examples extends Component {
         <div className="slide-container">
           <Zoom {...zoomOutProperties}>
             {zoomOutImages.map((each, index) => (
-              <img key={index} style={{ width: '100%' }} src={each} />
+              <img key={index} style={{ width: "100%" }} src={each} />
             ))}
           </Zoom>
         </div>
@@ -122,7 +122,7 @@ class Examples extends Component {
         <div className="slide-container">
           <Zoom {...zoomInProperties}>
             {fadeImages.map((each, index) => (
-              <img key={index} style={{ width: '100%' }} src={each} />
+              <img key={index} style={{ width: "100%" }} src={each} />
             ))}
           </Zoom>
         </div>

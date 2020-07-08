@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Fade } from '../../../lib';
-import '../../../app.css';
+import React, { Component } from "react";
+import { Fade } from "../../../../src";
+import "../../../app.css";
 
 class FadeExample extends Component {
   constructor() {
     super();
     this.state = {
       fadeImages: [
-        'assets/images/slide_5.jpg',
-        'assets/images/slide_6.jpg',
-        'assets/images/slide_7.jpg'
+        "assets/images/slide_5.jpg",
+        "assets/images/slide_6.jpg",
+        "assets/images/slide_7.jpg"
       ]
     };
   }
