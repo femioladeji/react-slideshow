@@ -1,11 +1,13 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar = forwardRef(function Sidebar(props, ref) {
+const Sidebar = ({ isOpen }) => {
   const [dropDowns, setDropDowns] = useState(false);
 
+  const setMargin = isOpen ? "0" : "-50%";
+
   return (
-    <div className="sidebar" {...props} ref={ref}>
+    <div className="sidebar" style={{ marginLeft: setMargin }}>
       <div className="sidebar-items">
         <NavLink activeClassName="is-active" exact={true} to="/">
           Docs
@@ -40,6 +42,6 @@ const Sidebar = forwardRef(function Sidebar(props, ref) {
       </div>
     </div>
   );
-});
+};
 
 export default Sidebar;
