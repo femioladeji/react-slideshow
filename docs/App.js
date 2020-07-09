@@ -23,7 +23,6 @@ const App = () => {
     } else {
       setSidebar(false);
     }
-    return sidebar;
   };
 
   const toggleSidebar = () => setSidebar(!sidebar);
