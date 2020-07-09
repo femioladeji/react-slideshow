@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Navbar from "./views/components/NavBar";
 import Sidebar from "./views/components/SideBar";
@@ -16,21 +16,25 @@ import "./assets/fonts/proxima-nova-regular.otf";
 
 const App = () => {
   const [sidebar, setSidebar] = useState(false);
+  const sidebarRef = useRef();
 
-  const toggleSidebar = () => {
-    const sideBarItem = document.querySelector(".sidebar");
-    if (sidebar) {
-      sideBarItem.style.marginLeft = "-50%";
+  const sliderEffect = condition => {
+    if (condition) {
+      sidebarRef.current.style.marginLeft = "0";
     } else {
-      sideBarItem.style.marginLeft = "0";
+      sidebarRef.current.style.marginLeft = "-50%";
     }
-    setSidebar(!sidebar);
+    return setSidebar(!sidebar);
   };
+
+  window.onresize = () => sliderEffect(window.screen.width > 768);
+
+  const toggleSidebar = () => sliderEffect(!sidebar);
 
   return (
     <BrowserRouter>
       <Navbar toggleSidebar={toggleSidebar} isOpen={sidebar} />
-      <Sidebar />
+      <Sidebar ref={sidebarRef} />
       <div className="app-container">
         <Switch>
           <Route exact path="/" component={LandingPage} />
