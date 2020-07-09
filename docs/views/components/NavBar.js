@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ toggleSidebar, isOpen }) => {
   return (
@@ -22,7 +22,7 @@ const Navbar = ({ toggleSidebar, isOpen }) => {
             </a>
           </ul>
         </div>
-        <div className="menu-bar" onMouseDown={toggleSidebar}>
+        <a className="menu-bar" onClick={toggleSidebar}>
           {isOpen === false ? (
             <img
               className="menu-img menu"
@@ -32,11 +32,11 @@ const Navbar = ({ toggleSidebar, isOpen }) => {
           ) : (
             <img
               className="menu-img cancle"
-              src="assets/images/icons/cancle.svg"
+              src="assets/images/icons/cancel.svg"
               alt=""
             />
           )}
-        </div>
+        </a>
       </div>
     </div>
   );

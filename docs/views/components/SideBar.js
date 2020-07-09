@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const [dropDowns, setDropDowns] = useState(false);
+  const sidebarDiv = useRef();
+
+  window.onresize = () => {
+    if (window.screen.width > 768) {
+      sidebarDiv.current.style.marginLeft = "0";
+    } else {
+      sidebarDiv.current.style.marginLeft = "-50%";
+    }
+  };
 
   return (
-    <div className="sidebar">
+    <div className="sidebar" ref={sidebarDiv}>
       <div className="sidebar-items">
         <NavLink activeClassName="is-active" exact={true} to="/">
           Docs

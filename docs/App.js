@@ -16,22 +16,13 @@ import "./assets/fonts/proxima-nova-regular.otf";
 
 const App = () => {
   const [sidebar, setSidebar] = useState(false);
-  const sideBarItem = document.querySelector(".sidebar");
-
-  window.onresize = () => {
-    if (window.screen.width > 768) {
-      sideBarItem.style.marginLeft = "0";
-    } else {
-      sideBarItem.style.marginLeft = "-50%";
-    }
-  };
 
   const toggleSidebar = () => {
-    const sideBarItems = document.querySelector(".sidebar");
+    const sideBarItem = document.querySelector(".sidebar");
     if (sidebar) {
-      sideBarItems.style.marginLeft = "-50%";
+      sideBarItem.style.marginLeft = "-50%";
     } else {
-      sideBarItems.style.marginLeft = "0";
+      sideBarItem.style.marginLeft = "0";
     }
     setSidebar(!sidebar);
   };
