@@ -19,10 +19,11 @@ const App = () => {
 
   window.onresize = () => {
     if (window.screen.width > 768) {
-      return setSidebar(true);
+      setSidebar(true);
     } else {
-      return setSidebar(false);
+      setSidebar(false);
     }
+    return sidebar;
   };
 
   const toggleSidebar = () => setSidebar(!sidebar);
