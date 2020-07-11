@@ -1,11 +1,14 @@
 body {
   margin: 0;
   padding: 0;
+  background: #f4f4f4;
 }
 
 .app-container {
-  margin-top: 100px;
-  padding-top: 10px;
+  margin-top: calc(80px + 20px);
+  margin-left: 13%;
+  background: #fff;
+  padding: 10px 3%;
 }
 
 /* NAVBAR STYLES STARTS */
@@ -13,14 +16,13 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
   z-index: 500;
+  background: #f4f4f4;
 }
 
 .navbar-div {
   display: flex;
+  height: 80px;
   width: 80%;
   justify-content: space-between;
   align-items: center;
@@ -51,20 +53,18 @@ li:hover {
 .sidebar {
   display: block;
   position: fixed;
-  top: 102px;
+  top: 80px;
   left: 0;
   height: 100vh;
   width: 13%;
   margin-left: 0;
-  background: #ddd;
-  color: gray;
   z-index: 200;
+  padding-top: 20px;
 }
 
 .sidebar-items {
   display: flex;
   flex-direction: column;
-  margin: 0.3125rem auto;
   box-sizing: border-box;
   width: 100%;
 }
@@ -99,7 +99,7 @@ li:hover {
 }
 
 .is-active {
-  background: rgb(181, 176, 176);
+  background: #e5e5e5;
 }
 
 .menu-icon {
@@ -178,10 +178,10 @@ tr:nth-child(odd) {
 }
 /*  API TABLE ENDS */
 
-.ld-sections {
+/* .ld-sections {
   width: 70%;
   margin: auto;
-}
+} */
 
 .div-sec {
   width: 60%;
@@ -218,10 +218,6 @@ tr:nth-child(odd) {
     margin-left: -50%;
     height: 150vh;
     transition: 500ms;
-  }
-
-  .navbar {
-    height: 80px;
   }
 
   .nav-item {

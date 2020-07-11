@@ -1,6 +1,11 @@
 import React from "react";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Fade } from "../../../../src";
-import "../../../app.css";
+import {
+  fadeEffectCodeString,
+  fadeEffectCSS,
+} from "../../codeStrings";
 
 const FadeExample = () => {
   const fadeImages = [
@@ -10,41 +15,37 @@ const FadeExample = () => {
   ];
 
   const fadeProperties = {
-    duration: 5000,
-    transitionDuration: 500,
-    indicators: true,
-    infinite: false,
-    pauseOnHover: true,
-    onChange: (oldIndex, newIndex) => {
-      console.log(`Fade transition finished from ${oldIndex} to ${newIndex}`);
-    }
+    indicators: true
   };
 
   return (
     <div>
-      <h3>Fade Effect</h3>
-      <div className="slide-container">
+      <h2>Fade Effect</h2>
+      Here's the code for the fade effect.
+      <SyntaxHighlighter language="react" style={dark}>
+        {fadeEffectCodeString}
+      </SyntaxHighlighter>
+      <br />
+      <div>
         <Fade {...fadeProperties}>
           <div className="each-fade">
-            <div className="image-container">
-              <img src={fadeImages[0]} />
-            </div>
+            <img src={fadeImages[0]} />
             <h2>First Slide</h2>
           </div>
           <div className="each-fade">
             <h2>Second Slide</h2>
-            <div className="image-container">
-              <img src={fadeImages[1]} />
-            </div>
+            <img src={fadeImages[1]} />
           </div>
           <div className="each-fade">
-            <div className="image-container">
-              <img src={fadeImages[2]} />
-            </div>
+            <img src={fadeImages[2]} />
             <h2>Third Slide</h2>
           </div>
         </Fade>
       </div>
+      Below is the css used to accomplish this layout.
+      <SyntaxHighlighter language="react" style={dark}>
+        {fadeEffectCSS}
+      </SyntaxHighlighter>
     </div>
   );
 };

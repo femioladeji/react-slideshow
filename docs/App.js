@@ -15,7 +15,7 @@ import "../src/css/styles.css";
 import "./assets/fonts/proxima-nova-regular.otf";
 
 const App = () => {
-  const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(true);
 
   window.onresize = () => {
     if (window.screen.width > 768) {

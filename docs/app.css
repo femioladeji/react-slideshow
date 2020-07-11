@@ -10,8 +10,7 @@ body {
 }
 
 .slide-container {
-  width: 70%;
-  margin: auto;
+  width: 100%;
 }
 
 h3 {
@@ -23,7 +22,7 @@ h3 {
   align-items: center;
   justify-content: center;
   background-size: cover;
-  height: 300px;
+  height: 350px;
 }
 
 .each-slide span {
@@ -37,13 +36,8 @@ h3 {
   display: flex;
 }
 
-.each-fade .image-container {
+.each-fade  img {
   width: 75%;
-  overflow: hidden;
-}
-
-.each-fade .image-container img {
-  width: 100%;
 }
 
 .each-fade h2 {

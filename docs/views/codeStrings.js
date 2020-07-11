@@ -42,99 +42,114 @@ export const forTS = `
 `;
 
 export const slideEffectCodeString = `
-  import React from 'react';
-  import { Slide } from 'react-slideshow-image';
+import React from 'react';
+import { Slide } from 'react-slideshow-image';
 
-  const slideImages = [
-    'images/slide_2.jpg',
-    'images/slide_3.jpg',
-    'images/slide_4.jpg'
-  ];
+const slideImages = [
+  'images/slide_2.jpg',
+  'images/slide_3.jpg',
+  'images/slide_4.jpg'
+];
 
-  const properties = {
-    duration: 5000,
-    transitionDuration: 500,
-    infinite: true,
-    indicators: true,
-    arrows: true,
-    pauseOnHover: true,
-    onChange: (oldIndex, newIndex) => {
-      console.log(\`slide transition from \${oldIndex} to \${newIndex}\`\);
-    }
-  }
+const Slideshow = () => {
+    return (
+      <div>
+        <Slide>
+          <div className="each-slide">
+            <div style={{'backgroundImage': \`url(\${slideImages[0]})\`\}}>
+              <span>Slide 1</span>
+            </div>
+          </div>
+          <div className="each-slide">
+            <div style={{'backgroundImage': \`url(\${slideImages[1]})\`\}}>
+              <span>Slide 2</span>
+            </div>
+          </div>
+          <div className="each-slide">
+            <div style={{'backgroundImage': \`url(\${slideImages[2]})\`\}}>
+              <span>Slide 3</span>
+            </div>
+          </div>
+        </Slide>
+      </div>
+    )
+};
 
-  const Slideshow = () => {
-      return (
-        <div className="slide-container">
-          <Slide {...properties}>
-            <div className="each-slide">
-              <div style={{'backgroundImage': \`url(\${slideImages[0]})\`\}}>
-                <span>Slide 1</span>
-              </div>
-            </div>
-            <div className="each-slide">
-              <div style={{'backgroundImage': \`url(\${slideImages[1]})\`\}}>
-                <span>Slide 2</span>
-              </div>
-            </div>
-            <div className="each-slide">
-              <div style={{'backgroundImage': \`url(\${slideImages[2]})\`\}}>
-                <span>Slide 3</span>
-              </div>
-            </div>
-          </Slide>
-        </div>
-      )
-  }
+export default Slideshow;
+`;
+
+export const SlideEffectCSSString = `
+.each-slide > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  height: 350px;
+}
+
+.each-slide span {
+  padding: 20px;
+  font-size: 20px;
+  background: #efefef;
+  text-align: center;
+}
 `;
 
 export const fadeEffectCodeString = `
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
 
-const fadeImages = [
-  'images/slide_5.jpg',
-  'images/slide_6.jpg',
-  'images/slide_7.jpg'
-];
+const FadeExample = () => {
+  const fadeImages = [
+    "assets/images/slide_5.jpg",
+    "assets/images/slide_6.jpg",
+    "assets/images/slide_7.jpg"
+  ];
 
-const fadeProperties = {
-  duration: 5000,
-  transitionDuration: 500,
-  infinite: false,
-  indicators: true,
-  onChange: (oldIndex, newIndex) => {
-    console.log(\`fade transition from \${oldIndex} to \${newIndex}\`\);
-  }
-}
-
-const Slideshow = () => {
   return (
-    <div className="slide-container">
-      <Fade {...fadeProperties}>
-        <div className="each-fade">
-          <div className="image-container">
+    <div>
+      <h2>Fade Effect</h2>
+      <div className="slide-container">
+        <Fade>
+          <div className="each-fade">
             <img src={fadeImages[0]} />
+            <h2>First Slide</h2>
           </div>
-          <h2>First Slide</h2>
-        </div>
-        <div className="each-fade">
-          <div className="image-container">
+          <div className="each-fade">
+            <h2>Second Slide</h2>
             <img src={fadeImages[1]} />
           </div>
-          <h2>Second Slide</h2>
-        </div>
-        <div className="each-fade">
-          <div className="image-container">
+          <div className="each-fade">
             <img src={fadeImages[2]} />
+            <h2>Third Slide</h2>
           </div>
-          <h2>Third Slide</h2>
-        </div>
-      </Fade>
+        </Fade>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default FadeExample;
 `;
+
+export const fadeEffectCSS = `
+.each-fade {
+  display: flex;
+}
+
+.each-fade  img {
+  width: 75%;
+}
+
+.each-fade h2 {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background: #adceed;
+}
+`
 
 export const zoomEffectCodeString = `
   import React from 'react';
