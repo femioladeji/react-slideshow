@@ -1,6 +1,5 @@
 import React from "react";
 import { Slide } from "../../../../src";
-import "../../../app.css";
 
 const SlideExample = () => {
   const slideImages = [

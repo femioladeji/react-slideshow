@@ -48,3 +48,15 @@ h3 {
   margin: 0;
   background: #adceed;
 }
+
+.indicator {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  border: 1px #666 solid
+}
+
+.active .indicator {
+  color: #fff;
+  background: #666;
+}

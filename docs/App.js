@@ -9,10 +9,19 @@ import ForTypescript from "./views/pages/ForTypescript";
 import SlideExample from "./views/pages//Examples/Slide";
 import FadeExample from "./views/pages//Examples/Fade";
 import ZoomExample from "./views/pages//Examples/Zoom";
+import ZoomOutExample from "./views/pages//Examples/ZoomOut";
+import CustomArrow from "./views/pages//Examples/CustomArrow";
+import CustomIndicator from "./views/pages//Examples/CustomIndicator";
+import PauseHover from "./views/pages//Examples/PauseHover";
+import Autoplay from "./views/pages//Examples/Autoplay";
+import Methods from "./views/pages//Examples/Methods";
+import Callback from "./views/pages//Examples/Callback";
 import Next from "./views/pages/Next";
 import "./views/styles.css";
+import "./app.css";
+
+// package css
 import "../src/css/styles.css";
-import "./assets/fonts/proxima-nova-regular.otf";
 
 const App = () => {
   const [sidebar, setSidebar] = useState(true);
@@ -39,7 +48,14 @@ const App = () => {
           <Route exact path="/typescript" component={ForTypescript} />
           <Route exact path="/slide-effect" component={SlideExample} />
           <Route exact path="/fade-effect" component={FadeExample} />
-          <Route exact path="/zoom-effect" component={ZoomExample} />
+          <Route exact path="/zoom-in" component={ZoomExample} />
+          <Route exact path="/zoom-out" component={ZoomOutExample} />
+          <Route exact path="/custom-arrows" component={CustomArrow} />
+          <Route exact path="/custom-indicators" component={CustomIndicator} />
+          <Route exact path="/pause-hover" component={PauseHover} />
+          <Route exact path="/autoplay" component={Autoplay} />
+          <Route exact path="/methods" component={Methods} />
+          <Route exact path="/callback" component={Callback} />
           <Route exact path="/next" component={Next} />
         </Switch>
       </div>

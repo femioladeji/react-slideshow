@@ -11,6 +11,10 @@ body {
   padding: 10px 3%;
 }
 
+p {
+  line-height: 1.5rem;
+}
+
 /* NAVBAR STYLES STARTS */
 .navbar {
   position: fixed;
@@ -59,6 +63,7 @@ li:hover {
   width: 13%;
   margin-left: 0;
   z-index: 200;
+  background: #f4f4f4;
   padding-top: 20px;
 }
 
@@ -163,7 +168,7 @@ th {
 table,
 th,
 td {
-  border: 1px solid #000;
+  border: 1px solid #ccc;
   border-collapse: collapse;
 }
 th,
@@ -174,7 +179,7 @@ tr:nth-child(even) {
   background-color: #fff;
 }
 tr:nth-child(odd) {
-  background-color: #ddd;
+  background-color: #f4f4f4;
 }
 /*  API TABLE ENDS */
 
@@ -197,6 +202,10 @@ tr:nth-child(odd) {
 }
 
 @media only screen and (max-width: 768px) {
+  .app-container {
+    margin-left: 0;
+  }
+  
   .div-sec {
     width: 100%;
   }
@@ -246,4 +255,26 @@ tr:nth-child(odd) {
     animation-name: menu;
     animation-duration: 1.5s;
   }
+}
+
+.autoplay-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.autoplay-buttons button {
+  border: none;
+  outline: none;
+  padding: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.autoplay-buttons button:last-of-type {
+  margin-right: 0;
+}
+
+.autoplay-buttons select {
+  margin-left: 20px;
 }

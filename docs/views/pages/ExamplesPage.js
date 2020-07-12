@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Slide, Fade, Zoom } from "../../../src";
-import "../../app.css";
 
 class Examples extends Component {
   constructor() {

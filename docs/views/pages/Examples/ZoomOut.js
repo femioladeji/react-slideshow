@@ -2,7 +2,7 @@ import React from "react";
 import { Zoom } from "../../../../src";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { zoomInEffectCodeString } from "../../codeStrings";
+import { zoomOutEffectCodeString } from "../../codeStrings";
 
 const ZoomExample = () => {
   const images = [
@@ -11,22 +11,22 @@ const ZoomExample = () => {
     "assets/images/slide_5.jpg"
   ];
 
-  const zoomInProperties = {
+  const zoomOutProperties = {
     indicators: true,
-    scale: 1.4
+    scale: 0.4
   };
 
   return (
     <div>
-      <h2>Zoom in Effect</h2>
+      <h2>Zoom out Effect</h2>
       <p>Here's the code for the zoom in effect. The scale property indicates the
-        zoom level. A scale greater than 1 is a zoom in effect</p>
+        zoom level. A scale less than 1 is a zoom out effect</p>
       <SyntaxHighlighter language="react" style={dark}>
-        {zoomInEffectCodeString}
+        {zoomOutEffectCodeString}
       </SyntaxHighlighter>
       <br />
       <div>
-        <Zoom {...zoomInProperties}>
+        <Zoom {...zoomOutProperties}>
           {images.map((each, index) => (
             <img key={index} style={{ width: "100%" }} src={each} />
           ))}

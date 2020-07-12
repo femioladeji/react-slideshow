@@ -7,7 +7,6 @@ import {
   slideEffectCodeString,
   SlideEffectCSSString,
 } from "../codeStrings";
-import "../../app.css";
 
 const LandingPage = () => {
   const slideImages = [
