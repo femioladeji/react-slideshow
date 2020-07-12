@@ -30,10 +30,11 @@ or to your css file
 You can use three different effects of the slideshow. Check [examples](https://react-slideshow.herokuapp.com)
 
 ## Slide Effect
-You can use this [playground](https://codesandbox.com) to tweak some values
+You can use this [playground](https://codesandbox.io/s/serene-lalande-yjmol) to tweak some values
 ```js
 import React from 'react';
 import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 const slideImages = [
   'images/slide_2.jpg',
@@ -67,10 +68,11 @@ const Slideshow = () => {
 ```
 
 ## Fade Effect
-You can use this [playground](https://codesandbox.com) to tweak some values
+You can use this [playground](https://codesandbox.io/s/admiring-wave-17e0j) to tweak some values
 ```js
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 const fadeImages = [
   'images/slide_5.jpg',
@@ -107,10 +109,11 @@ const Slideshow = () => {
 ```
 
 ## Zoom Effect
-You can use this [playground](https://codesandbox.com) to tweak some values
+You can use this [playground](https://codesandbox.io/s/priceless-bohr-ggirf) to tweak some values
 ```js
 import React from 'react';
 import { Zoom } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 const images = [
   'images/slide_2.jpg',
