@@ -155,14 +155,16 @@ class Zoom extends Component {
 
   showIndicators() {
     const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator && 'each-slideshow-indicator';
+    const className = !isCustomIndicator ? 'each-slideshow-indicator' : '';
     return (
       <div className="indicators">
         {this.props.children.map((each, key) => (
           <div
             key={key}
             data-key={key}
-            className={`${className} ${this.state.index === key && 'active'}`}
+            className={`${className} ${
+              this.state.index === key ? 'active' : ''
+            }`}
             onClick={this.navigate}
           >
             {isCustomIndicator && this.props.indicators(key)}
@@ -174,7 +176,7 @@ class Zoom extends Component {
 
   showPreviousArrow() {
     const { arrows, prevArrow, infinite } = this.props;
-    let className = '';
+    let className = 'custom-nav';
     if (!prevArrow) {
       className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
     }
@@ -189,7 +191,7 @@ class Zoom extends Component {
 
   showNextArrow() {
     const { arrows, nextArrow, infinite, children } = this.props;
-    let className = '';
+    let className = 'custom-nav';
     if (!nextArrow) {
       className = `nav ${this.state.index === children.length - 1 &&
         !infinite &&

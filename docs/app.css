@@ -1,20 +1,28 @@
+@font-face {
+  font-family: 'proxima nova';
+  src: url('./assets/fonts/proxima-nova-regular.otf') format('opentype');
+}
+
 body {
+  font-family: proxima nova;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+}
 
 .slide-container {
-  width: 70%;
-  margin: auto; }
+  width: 100%;
+}
 
 h3 {
-  text-align: center; }
+  text-align: center;
+}
 
 .each-slide > div {
   display: flex;
   align-items: center;
   justify-content: center;
   background-size: cover;
-  height: 300px;
+  height: 350px;
 }
 
 .each-slide span {
@@ -28,13 +36,8 @@ h3 {
   display: flex;
 }
 
-.each-fade .image-container {
+.each-fade  img {
   width: 75%;
-  overflow: hidden;
-}
-
-.each-fade .image-container img {
-  width: 100%;
 }
 
 .each-fade h2 {
@@ -44,4 +47,16 @@ h3 {
   align-items: center;
   margin: 0;
   background: #adceed;
+}
+
+.indicator {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  border: 1px #666 solid
+}
+
+.active .indicator {
+  color: #fff;
+  background: #666;
 }
