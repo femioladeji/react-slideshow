@@ -1,12 +1,13 @@
 {
   "name": "react-slideshow-image",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
     "lib",
     "dist"
   ],
+  "homepage": "https://react-slideshow.herokuapp.com",
   "npmFileMap": [
     {
       "basePath": "/dist/",
