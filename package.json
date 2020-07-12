@@ -63,7 +63,7 @@
     "react-dom": "^16.2.0"
   },
   "lint-staged": {
-    "{src,__tests__}/**/*.{js,jsx,json,css}": [
+    "{src,__tests__,docs}/**/*.{js,jsx,json,css}": [
       "prettier --single-quote --write",
       "git add ."
     ]
