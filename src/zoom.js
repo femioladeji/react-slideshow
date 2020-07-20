@@ -1,7 +1,11 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
-import { getUnhandledProps } from './helpers.js';
+import {
+  getUnhandledProps,
+  showNextArrow,
+  showPreviousArrow
+} from './helpers.js';
 
 class Zoom extends Component {
   constructor(props) {
@@ -174,38 +178,6 @@ class Zoom extends Component {
     );
   }
 
-  showPreviousArrow() {
-    const { arrows, prevArrow, infinite } = this.props;
-    let className = 'custom-nav';
-    if (!prevArrow) {
-      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="prev" onClick={this.preZoom}>
-          {prevArrow ? prevArrow : <span />}
-        </div>
-      )
-    );
-  }
-
-  showNextArrow() {
-    const { arrows, nextArrow, infinite, children } = this.props;
-    let className = 'custom-nav';
-    if (!nextArrow) {
-      className = `nav ${this.state.index === children.length - 1 &&
-        !infinite &&
-        'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="next" onClick={this.preZoom}>
-          {nextArrow ? nextArrow : <span />}
-        </div>
-      )
-    );
-  }
-
   render() {
     const { indicators, arrows, infinite, children } = this.props;
     const { index } = this.state;
@@ -218,7 +190,7 @@ class Zoom extends Component {
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >
-          {this.showPreviousArrow()}
+          {showPreviousArrow(this.props, this.state.index, this.preZoom)}
           <div
             className="react-slideshow-zoom-wrapper"
             ref={ref => (this.wrapper = ref)}
@@ -241,7 +213,7 @@ class Zoom extends Component {
               ))}
             </div>
           </div>
-          {this.showNextArrow()}
+          {showNextArrow(this.props, this.state.index, this.preZoom)}
         </div>
         {indicators && this.showIndicators()}
       </div>
@@ -326,7 +298,7 @@ Zoom.defaultProps = {
   arrows: true,
   autoplay: true,
   infinite: true,
-  pauseOnHover: false
+  pauseOnHover: true
 };
 
 Zoom.propTypes = {

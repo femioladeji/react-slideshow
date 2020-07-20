@@ -4,10 +4,14 @@
 }
 
 .react-slideshow-container .nav {
+  z-index: 10;
+}
+
+.react-slideshow-container .default-nav {
   height: 30px;
   background: rgba(255, 255, 255, 0.6);
   width: 30px;
-  z-index: 10;
+  border: none;
   text-align: center;
   cursor: pointer;
   color: #fff;
@@ -17,11 +21,9 @@
   justify-content: center;
 }
 
-.react-slideshow-container .custom-nav {
-  z-index: 10;
-}
+/* .react-slideshow-container .default-nav */
 
-.react-slideshow-container .nav span {
+.react-slideshow-container .default-nav span {
   display: block;
   width: 10px;
   height: 10px;
@@ -30,36 +32,36 @@
   transform: rotate(45deg);
 }
 
-.react-slideshow-container .nav.disabled span {
+.react-slideshow-container .default-nav.disabled span {
   border-color: #666;
 }
 
-.react-slideshow-container .nav:hover {
-  background: white;
+.react-slideshow-container .default-nav:hover {
+  background: #fff;
   color: #666;
 }
 
-.react-slideshow-container .nav.disabled:hover {
+.react-slideshow-container .default-nav.disabled:hover {
   cursor: not-allowed;
 }
 
-.react-slideshow-container .nav:first-of-type {
+.react-slideshow-container .default-nav:first-of-type {
   margin-right: -30px;
   border-right: none;
   border-top: none;
 }
 
-.react-slideshow-container .nav:first-of-type span {
+.react-slideshow-container .default-nav:first-of-type span {
   margin-left: 5px;
   border-right: none;
   border-top: none;
 }
 
-.react-slideshow-container .nav:last-of-type {
+.react-slideshow-container .default-nav:last-of-type {
   margin-left: -30px;
 }
 
-.react-slideshow-container .nav:last-of-type span {
+.react-slideshow-container .default-nav:last-of-type span {
   margin-right: 5px;
   border-left: none;
   border-bottom: none;
@@ -76,6 +78,7 @@
   width: 7px;
   height: 7px;
   margin: 0 5px 10px;
+  border: none;
   border-radius: 50%;
   background: #ccc;
   cursor: pointer;

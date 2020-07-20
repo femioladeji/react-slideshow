@@ -197,6 +197,10 @@ tr:nth-child(odd) {
   overflow-x: auto;
 }
 
+.table-div thead th {
+  font-size: 18px;
+}
+
 .menu-bar {
   display: none;
 }
@@ -205,7 +209,7 @@ tr:nth-child(odd) {
   .app-container {
     margin-left: 0;
   }
-  
+
   .div-sec {
     width: 100%;
   }

@@ -2,7 +2,11 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
 import ResizeObserver from 'resize-observer-polyfill';
-import { getUnhandledProps } from './helpers.js';
+import {
+  getUnhandledProps,
+  showNextArrow,
+  showPreviousArrow
+} from './helpers.js';
 
 class Fade extends Component {
   constructor(props) {
@@ -176,38 +180,6 @@ class Fade extends Component {
     );
   }
 
-  showPreviousArrow() {
-    const { arrows, prevArrow, infinite } = this.props;
-    let className = 'custom-nav';
-    if (!prevArrow) {
-      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="prev" onClick={this.preFade}>
-          {prevArrow ? prevArrow : <span />}
-        </div>
-      )
-    );
-  }
-
-  showNextArrow() {
-    const { arrows, nextArrow, infinite, children } = this.props;
-    let className = 'custom-nav';
-    if (!nextArrow) {
-      className = `nav ${this.state.index === children.length - 1 &&
-        !infinite &&
-        'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="next" onClick={this.preFade}>
-          {nextArrow ? nextArrow : <span />}
-        </div>
-      )
-    );
-  }
-
   render() {
     const { indicators, children } = this.props;
     const { index } = this.state;
@@ -220,7 +192,7 @@ class Fade extends Component {
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >
-          {this.showPreviousArrow()}
+          {showPreviousArrow(this.props, this.state.index, this.preFade)}
           <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
             <div
               className="react-slideshow-fade-images-wrap"
@@ -240,7 +212,7 @@ class Fade extends Component {
               ))}
             </div>
           </div>
-          {this.showNextArrow()}
+          {showNextArrow(this.props, this.state.index, this.preFade)}
         </div>
         {indicators && this.showIndicators()}
       </div>
@@ -313,7 +285,7 @@ Fade.defaultProps = {
   arrows: true,
   autoplay: true,
   infinite: true,
-  pauseOnHover: false
+  pauseOnHover: true
 };
 
 Fade.propTypes = {
