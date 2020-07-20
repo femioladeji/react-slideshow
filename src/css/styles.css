@@ -21,8 +21,6 @@
   justify-content: center;
 }
 
-/* .react-slideshow-container .default-nav */
-
 .react-slideshow-container .default-nav span {
   display: block;
   width: 10px;
@@ -36,9 +34,11 @@
   border-color: #666;
 }
 
-.react-slideshow-container .default-nav:hover {
+.react-slideshow-container .default-nav:hover,
+.react-slideshow-container .default-nav:focus {
   background: #fff;
   color: #666;
+  outline: none;
 }
 
 .react-slideshow-container .default-nav.disabled:hover {

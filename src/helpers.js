@@ -25,7 +25,9 @@ const showPreviousArrow = (
   };
   if (prevArrow) {
     return React.cloneElement(prevArrow, {
-      class: `nav ${isDisabled ? 'disabled' : ''}`,
+      className: `${prevArrow.props.className} nav ${
+        isDisabled ? 'disabled' : ''
+      }`,
       ...props
     });
   }
@@ -54,7 +56,9 @@ const showNextArrow = (
   };
   if (nextArrow) {
     return React.cloneElement(nextArrow, {
-      class: `nav ${isDisabled ? 'disabled' : ''}`,
+      className: `${nextArrow.props.className} nav ${
+        isDisabled ? 'disabled' : ''
+      }`,
       ...props
     });
   }
