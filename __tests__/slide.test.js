@@ -149,7 +149,7 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
       expect(childrenElements[2].classList).toContain('active');
     },
     {
-      timeout: options.duration + options.transitionDuration
+      timeout: options.duration + options.transitionDuration + 1000
     }
   );
 });
