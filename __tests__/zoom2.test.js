@@ -23,7 +23,7 @@ test('Clicking on the indicator should show the right slide', async () => {
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
-  const indicators = baseElement.querySelectorAll('.indicators > div');
+  const indicators = baseElement.querySelectorAll('.indicators li button');
   fireEvent.click(indicators[1]);
   await waitForDomChange({
     container: baseElement.querySelector('.indicators')

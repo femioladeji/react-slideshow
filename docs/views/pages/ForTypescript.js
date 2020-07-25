@@ -14,13 +14,13 @@ const ForTypescript = () => {
             {tsConfigCodeString}
           </SyntaxHighlighter>
         </div>
-        <p>
+        <div>
           2. Create a file in this directory{' '}
           <SyntaxHighlighter
             language="javascript"
             style={dark}
           >{`types/react-slideshow-image/index.d.ts`}</SyntaxHighlighter>
-        </p>
+        </div>
         <p>3. Copy and paste this into it</p>
         <div>
           <SyntaxHighlighter language="javascript" style={dark}>

@@ -2,7 +2,12 @@ import React, { Component, createRef } from 'react';
 import TWEEN from '@tweenjs/tween.js';
 import ResizeObserver from 'resize-observer-polyfill';
 import PropTypes from 'prop-types';
-import { getUnhandledProps } from './helpers.js';
+import {
+  getUnhandledProps,
+  showNextArrow,
+  showPreviousArrow,
+  showIndicators
+} from './helpers.js';
 
 class Slideshow extends Component {
   constructor(props) {
@@ -144,59 +149,6 @@ class Slideshow extends Component {
     this.slideImages(index - 1);
   }
 
-  showIndicators() {
-    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator ? 'each-slideshow-indicator' : '';
-    return (
-      <div className="indicators">
-        {this.props.children.map((_, key) => (
-          <div
-            key={key}
-            data-key={key}
-            className={`${className} ${
-              this.state.index === key ? 'active' : ''
-            }`}
-            onClick={this.goToSlide}
-          >
-            {isCustomIndicator && this.props.indicators(key)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  showPreviousArrow() {
-    const { arrows, prevArrow, infinite } = this.props;
-    let className = `custom-nav`;
-    if (!prevArrow) {
-      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="prev" onClick={this.moveSlides}>
-          {prevArrow ? prevArrow : <span />}
-        </div>
-      )
-    );
-  }
-
-  showNextArrow() {
-    const { arrows, nextArrow, infinite, children } = this.props;
-    let className = 'custom-nav';
-    if (!nextArrow) {
-      className = `nav ${this.state.index === children.length - 1 &&
-        !infinite &&
-        'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="next" onClick={this.moveSlides}>
-          {nextArrow ? nextArrow : <span />}
-        </div>
-      )
-    );
-  }
-
   render() {
     const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
@@ -206,14 +158,15 @@ class Slideshow extends Component {
     };
 
     return (
-      <div {...unhandledProps}>
+      <div aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >
-          {this.showPreviousArrow()}
+          {arrows &&
+            showPreviousArrow(this.props, this.state.index, this.moveSlides)}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -223,22 +176,38 @@ class Slideshow extends Component {
               style={style}
               ref={ref => (this.imageContainer = ref)}
             >
-              <div data-index="-1">{children[children.length - 1]}</div>
+              <div
+                data-index="-1"
+                aria-roledescription="slide"
+                aria-hidden="false"
+              >
+                {children[children.length - 1]}
+              </div>
               {children.map((each, key) => (
                 <div
                   data-index={key}
                   key={key}
                   className={key === index ? 'active' : ''}
+                  aria-roledescription="slide"
+                  aria-hidden={key === index ? 'false' : 'true'}
                 >
                   {each}
                 </div>
               ))}
-              <div data-index="-1">{children[0]}</div>
+              <div
+                data-index="-1"
+                aria-roledescription="slide"
+                aria-hidden="false"
+              >
+                {children[0]}
+              </div>
             </div>
           </div>
-          {this.showNextArrow()}
+          {arrows &&
+            showNextArrow(this.props, this.state.index, this.moveSlides)}
         </div>
-        {indicators && this.showIndicators()}
+        {indicators &&
+          showIndicators(this.props, this.state.index, this.goToSlide)}
       </div>
     );
   }
@@ -310,7 +279,7 @@ Slideshow.defaultProps = {
   autoplay: true,
   indicators: false,
   arrows: true,
-  pauseOnHover: false
+  pauseOnHover: true
 };
 
 Slideshow.propTypes = {

@@ -1,7 +1,12 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
-import { getUnhandledProps } from './helpers.js';
+import {
+  getUnhandledProps,
+  showNextArrow,
+  showPreviousArrow,
+  showIndicators
+} from './helpers.js';
 
 class Zoom extends Component {
   constructor(props) {
@@ -153,72 +158,20 @@ class Zoom extends Component {
     }
   }
 
-  showIndicators() {
-    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator ? 'each-slideshow-indicator' : '';
-    return (
-      <div className="indicators">
-        {this.props.children.map((each, key) => (
-          <div
-            key={key}
-            data-key={key}
-            className={`${className} ${
-              this.state.index === key ? 'active' : ''
-            }`}
-            onClick={this.navigate}
-          >
-            {isCustomIndicator && this.props.indicators(key)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  showPreviousArrow() {
-    const { arrows, prevArrow, infinite } = this.props;
-    let className = 'custom-nav';
-    if (!prevArrow) {
-      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="prev" onClick={this.preZoom}>
-          {prevArrow ? prevArrow : <span />}
-        </div>
-      )
-    );
-  }
-
-  showNextArrow() {
-    const { arrows, nextArrow, infinite, children } = this.props;
-    let className = 'custom-nav';
-    if (!nextArrow) {
-      className = `nav ${this.state.index === children.length - 1 &&
-        !infinite &&
-        'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="next" onClick={this.preZoom}>
-          {nextArrow ? nextArrow : <span />}
-        </div>
-      )
-    );
-  }
-
   render() {
-    const { indicators, arrows, infinite, children } = this.props;
+    const { indicators, arrows, children } = this.props;
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
     return (
-      <div {...unhandledProps}>
+      <div aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >
-          {this.showPreviousArrow()}
+          {arrows &&
+            showPreviousArrow(this.props, this.state.index, this.preZoom)}
           <div
             className="react-slideshow-zoom-wrapper"
             ref={ref => (this.wrapper = ref)}
@@ -235,15 +188,18 @@ class Zoom extends Component {
                   }}
                   data-index={key}
                   key={key}
+                  aria-roledescription="slide"
+                  aria-hidden={key === index ? 'false' : 'true'}
                 >
                   {each}
                 </div>
               ))}
             </div>
           </div>
-          {this.showNextArrow()}
+          {arrows && showNextArrow(this.props, this.state.index, this.preZoom)}
         </div>
-        {indicators && this.showIndicators()}
+        {indicators &&
+          showIndicators(this.props, this.state.index, this.navigate)}
       </div>
     );
   }
@@ -326,7 +282,7 @@ Zoom.defaultProps = {
   arrows: true,
   autoplay: true,
   infinite: true,
-  pauseOnHover: false
+  pauseOnHover: true
 };
 
 Zoom.propTypes = {

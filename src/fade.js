@@ -2,7 +2,12 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
 import ResizeObserver from 'resize-observer-polyfill';
-import { getUnhandledProps } from './helpers.js';
+import {
+  getUnhandledProps,
+  showNextArrow,
+  showPreviousArrow,
+  showIndicators
+} from './helpers.js';
 
 class Fade extends Component {
   constructor(props) {
@@ -155,72 +160,20 @@ class Fade extends Component {
     }
   }
 
-  showIndicators() {
-    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator ? 'each-slideshow-indicator' : '';
-    return (
-      <div className="indicators">
-        {this.props.children.map((each, key) => (
-          <div
-            key={key}
-            data-key={key}
-            className={`${className} ${
-              this.state.index === key ? 'active' : ''
-            }`}
-            onClick={this.navigate}
-          >
-            {isCustomIndicator && this.props.indicators(key)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  showPreviousArrow() {
-    const { arrows, prevArrow, infinite } = this.props;
-    let className = 'custom-nav';
-    if (!prevArrow) {
-      className = `nav ${this.state.index <= 0 && !infinite && 'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="prev" onClick={this.preFade}>
-          {prevArrow ? prevArrow : <span />}
-        </div>
-      )
-    );
-  }
-
-  showNextArrow() {
-    const { arrows, nextArrow, infinite, children } = this.props;
-    let className = 'custom-nav';
-    if (!nextArrow) {
-      className = `nav ${this.state.index === children.length - 1 &&
-        !infinite &&
-        'disabled'}`;
-    }
-    return (
-      arrows && (
-        <div className={className} data-type="next" onClick={this.preFade}>
-          {nextArrow ? nextArrow : <span />}
-        </div>
-      )
-    );
-  }
-
   render() {
-    const { indicators, children } = this.props;
+    const { indicators, children, arrows } = this.props;
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
-      <div {...unhandledProps}>
+      <div aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >
-          {this.showPreviousArrow()}
+          {arrows &&
+            showPreviousArrow(this.props, this.state.index, this.preFade)}
           <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
             <div
               className="react-slideshow-fade-images-wrap"
@@ -234,15 +187,18 @@ class Fade extends Component {
                   }}
                   data-index={key}
                   key={key}
+                  aria-roledescription="slide"
+                  aria-hidden={key === index ? 'false' : 'true'}
                 >
                   {each}
                 </div>
               ))}
             </div>
           </div>
-          {this.showNextArrow()}
+          {arrows && showNextArrow(this.props, this.state.index, this.preFade)}
         </div>
-        {indicators && this.showIndicators()}
+        {indicators &&
+          showIndicators(this.props, this.state.index, this.navigate)}
       </div>
     );
   }
@@ -313,7 +269,7 @@ Fade.defaultProps = {
   arrows: true,
   autoplay: true,
   infinite: true,
-  pauseOnHover: false
+  pauseOnHover: true
 };
 
 Fade.propTypes = {

@@ -11,7 +11,7 @@ const paths = {
 
 // Webpack configuration
 module.exports = {
-  mode: "production",
+  mode: process.env.NODE_ENV,
   entry: path.join(paths.JS, "index.js"),
   output: {
     path: paths.DIST,

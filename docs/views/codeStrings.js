@@ -149,7 +149,7 @@ export const fadeEffectCSS = `
   margin: 0;
   background: #adceed;
 }
-`
+`;
 
 export const zoomInEffectCodeString = `
 import React from 'react';
@@ -320,7 +320,7 @@ const CustomArrowExample = () => {
 };
 
 export default CustomArrowExample;
-`
+`;
 
 export const customIndicators = `
 import React from 'react';
@@ -358,7 +358,7 @@ export const customIndicatorCSS = `
   border: 1px #666 solid
 }
 
-.active .indicator {
+.indicator.active {
   color: #fff;
   background: #666;
 }
@@ -511,7 +511,7 @@ const MethodsExample = () => {
 };
 
 export default MethodsExample;
-`
+`;
 
 export const callbackCode = `
 import React, { useState } from "react";
@@ -561,4 +561,4 @@ const CallbackExample = () => {
 
 export default CallbackExample;
 
-`
+`;
