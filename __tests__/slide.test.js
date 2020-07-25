@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   cleanup,
   wait,
@@ -36,7 +37,11 @@ test('Navigation arrows should show if not specified', () => {
 });
 
 test('Previous navigation array should be disabled if infinite option is false', async () => {
-  const { baseElement } = renderSlide({ ...options, infinite: false });
+  const { baseElement } = renderSlide({
+    ...options,
+    infinite: false,
+    prevArrow: <div>previous</div>
+  });
   let nav = baseElement.querySelectorAll('.nav');
   expect(nav[0].classList).toContain('disabled');
   fireEvent.click(nav[0]);
@@ -71,7 +76,12 @@ test('When next is clicked, the second child should have an active class', async
 test('If infinite is false and next is clicked on the last image everything should remain the same', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderSlide(
-    { ...options, infinite: false, defaultIndex: 2 },
+    {
+      ...options,
+      infinite: false,
+      defaultIndex: 2,
+      nextArrow: <div>Next</div>
+    },
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
