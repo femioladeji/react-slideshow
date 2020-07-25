@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react';
+import ResizeObserver from 'resize-observer-polyfill';
 import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
 import {
