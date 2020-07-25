@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   cleanup,
   wait,
@@ -24,7 +25,7 @@ test('All slide children dom elements were loaded, the first and last are loaded
 test('indciators should show with the exact number of children dots', () => {
   const { container } = renderSlide(options);
   let indicators = container.querySelectorAll('.indicators');
-  let dots = container.querySelectorAll('.indicators > div');
+  let dots = container.querySelectorAll('.indicators > li');
   expect(indicators.length).toBe(1);
   expect(dots.length).toBe(images.length);
 });
@@ -35,10 +36,25 @@ test('Navigation arrows should show if not specified', () => {
   expect(nav.length).toBe(2);
 });
 
-test('Previous navigation array should be disabled if infinite option is false', () => {
-  const { container } = renderSlide({ ...options, infinite: false });
-  let nav = container.querySelectorAll('.nav');
+test('Previous navigation array should be disabled if infinite option is false', async () => {
+  const { baseElement } = renderSlide({
+    ...options,
+    infinite: false,
+    prevArrow: <div>previous</div>
+  });
+  let nav = baseElement.querySelectorAll('.nav');
   expect(nav[0].classList).toContain('disabled');
+  fireEvent.click(nav[0]);
+  await wait(
+    () => {
+      expect(baseElement.querySelector('[data-index="0"]').classList).toContain(
+        'active'
+      );
+    },
+    {
+      timeout: options.transitionDuration
+    }
+  );
 });
 
 test('When next is clicked, the second child should have an active class', async () => {
@@ -50,6 +66,30 @@ test('When next is clicked, the second child should have an active class', async
   await wait(
     () => {
       expect(childrenElements[1].classList).toContain('active');
+    },
+    {
+      timeout: options.transitionDuration
+    }
+  );
+});
+
+test('If infinite is false and next is clicked on the last image everything should remain the same', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderSlide(
+    {
+      ...options,
+      infinite: false,
+      defaultIndex: 2,
+      nextArrow: <div>Next</div>
+    },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
+  const nav = baseElement.querySelectorAll('.nav');
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(childrenElements[3].classList).toContain('active');
     },
     {
       timeout: options.transitionDuration
@@ -109,7 +149,7 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
       expect(childrenElements[2].classList).toContain('active');
     },
     {
-      timeout: options.duration + options.transitionDuration
+      timeout: options.duration + options.transitionDuration + 1000
     }
   );
 });

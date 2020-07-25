@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import TWEEN from '@tweenjs/tween.js';
-import { getUnhandledProps } from '../../helpers.js';
+import ResizeObserver from 'resize-observer-polyfill';
+import {
+  getUnhandledProps,
+  showNextArrow,
+  showPreviousArrow,
+  showIndicators
+} from './helpers.js';
 
-import './zoom.css';
-
-class Zoom extends Component {
+class Fade extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,18 +22,29 @@ class Zoom extends Component {
     this.divsContainer = null;
     this.wrapper = null;
     this.setWidth = this.setWidth.bind(this);
-    this.resizeListener = this.resizeListener.bind(this);
+    this.handleResize = this.handleResize.bind(this);
     this.navigate = this.navigate.bind(this);
-    this.preZoom = this.preZoom.bind(this);
+    this.preFade = this.preFade.bind(this);
     this.pauseSlides = this.pauseSlides.bind(this);
     this.startSlides = this.startSlides.bind(this);
+    this.initResizeObserver = this.initResizeObserver.bind(this);
     this.tweenGroup = new TWEEN.Group();
+    this.reactSlideshowWrapper = createRef();
+    this.wrapper = createRef();
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeListener);
     this.setWidth();
     this.play();
+    this.initResizeObserver();
+  }
+
+  initResizeObserver() {
+    this.resizeObserver = new ResizeObserver(entries => {
+      if (!entries) return;
+      this.handleResize();
+    });
+    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
   }
 
   play() {
@@ -38,16 +53,10 @@ class Zoom extends Component {
     if (autoplay && children.length > 1) {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(
-        () => this.zoomTo(index + 1),
+        () => this.fadeImages(index + 1),
         this.props.duration
       );
     }
-  }
-
-  componentWillUnmount() {
-    this.willUnmount = true;
-    clearTimeout(this.timeout);
-    window.removeEventListener('resize', this.resizeListener);
   }
 
   componentDidUpdate(props) {
@@ -64,12 +73,28 @@ class Zoom extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.willUnmount = true;
+    clearTimeout(this.timeout);
+    this.removeResizeObserver();
+  }
+
+  removeResizeObserver() {
+    if (
+      this.resizeObserver &&
+      this.reactSlideshowWrapper &&
+      this.reactSlideshowWrapper.current
+    ) {
+      this.resizeObserver.unobserve(this.reactSlideshowWrapper.current);
+    }
+  }
+
   setWidth() {
-    this.width = this.wrapper.clientWidth;
+    this.width = this.wrapper.current.clientWidth;
     this.applyStyle();
   }
 
-  resizeListener() {
+  handleResize() {
     this.setWidth();
   }
 
@@ -104,7 +129,7 @@ class Zoom extends Component {
     if (!infinite && index === children.length - 1) {
       return;
     }
-    this.zoomTo((index + 1) % children.length);
+    this.fadeImages((index + 1) % children.length);
   }
 
   goBack() {
@@ -113,11 +138,7 @@ class Zoom extends Component {
     if (!infinite && index === 0) {
       return;
     }
-    this.zoomTo(index === 0 ? children.length - 1 : index - 1);
-  }
-
-  goTo(index) {
-    this.zoomTo(index);
+    this.fadeImages(index === 0 ? children.length - 1 : index - 1);
   }
 
   navigate({ currentTarget: { dataset } }) {
@@ -126,7 +147,11 @@ class Zoom extends Component {
     }
   }
 
-  preZoom({ currentTarget }) {
+  goTo(index) {
+    this.fadeImages(index);
+  }
+
+  preFade({ currentTarget }) {
     if (currentTarget.dataset.type === 'prev') {
       this.goBack();
     } else {
@@ -134,51 +159,23 @@ class Zoom extends Component {
     }
   }
 
-  showIndicators() {
-    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator && 'each-slideshow-indicator';
-    return (
-      <div className="indicators">
-        {this.props.children.map((each, key) => (
-          <div
-            key={key}
-            data-key={key}
-            className={`${className} ${this.state.index === key && 'active'}`}
-            onClick={this.navigate}
-          >
-            {isCustomIndicator && this.props.indicators(key)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   render() {
-    const { indicators, arrows, infinite, children } = this.props;
+    const { indicators, children, arrows } = this.props;
     const { index } = this.state;
-    const unhandledProps = getUnhandledProps(Zoom.propTypes, this.props);
+    const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
-      <div {...unhandledProps}>
+      <div aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
+          ref={this.reactSlideshowWrapper}
         >
-          {arrows && (
+          {arrows &&
+            showPreviousArrow(this.props, this.state.index, this.preFade)}
+          <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
             <div
-              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
-              data-type="prev"
-              onClick={this.preZoom}
-            >
-              <span />
-            </div>
-          )}
-          <div
-            className="react-slideshow-zoom-wrapper"
-            ref={ref => (this.wrapper = ref)}
-          >
-            <div
-              className="zoom-wrapper"
+              className="react-slideshow-fade-images-wrap"
               ref={wrap => (this.divsContainer = wrap)}
             >
               {children.map((each, key) => (
@@ -189,38 +186,30 @@ class Zoom extends Component {
                   }}
                   data-index={key}
                   key={key}
+                  aria-roledescription="slide"
+                  aria-hidden={key === index ? 'false' : 'true'}
                 >
                   {each}
                 </div>
               ))}
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${index === children.length - 1 &&
-                !infinite &&
-                'disabled'}`}
-              data-type="next"
-              onClick={this.preZoom}
-            >
-              <span />
-            </div>
-          )}
+          {arrows && showNextArrow(this.props, this.state.index, this.preFade)}
         </div>
-        {indicators && this.showIndicators()}
+        {indicators &&
+          showIndicators(this.props, this.state.index, this.navigate)}
       </div>
     );
   }
 
-  zoomTo(newIndex) {
+  fadeImages(newIndex) {
     const { index } = this.state;
     const {
-      children,
-      scale,
       autoplay,
+      children,
       infinite,
-      transitionDuration,
       duration,
+      transitionDuration,
       onChange
     } = this.props;
     const existingTweens = this.tweenGroup.getAll();
@@ -229,12 +218,9 @@ class Zoom extends Component {
         newIndex = 0;
       }
       clearTimeout(this.timeout);
-      const value = {
-        opacity: 0,
-        scale: 1
-      };
+      const value = { opacity: 0 };
 
-      let animate = () => {
+      const animate = () => {
         if (this.willUnmount) {
           this.tweenGroup.removeAll();
           return;
@@ -246,13 +232,10 @@ class Zoom extends Component {
       animate();
 
       const tween = new TWEEN.Tween(value, this.tweenGroup)
-        .to({ opacity: 1, scale }, transitionDuration)
+        .to({ opacity: 1 }, transitionDuration)
         .onUpdate(value => {
           this.divsContainer.children[newIndex].style.opacity = value.opacity;
           this.divsContainer.children[index].style.opacity = 1 - value.opacity;
-          this.divsContainer.children[
-            index
-          ].style.transform = `scale(${value.scale})`;
         })
         .start();
 
@@ -260,21 +243,16 @@ class Zoom extends Component {
         if (this.willUnmount) {
           return;
         }
+        this.setState({
+          index: newIndex
+        });
         if (typeof onChange === 'function') {
           onChange(index, newIndex);
         }
-        this.setState(
-          {
-            index: newIndex
-          },
-          () => {
-            this.divsContainer.children[index].style.transform = `scale(1)`;
-          }
-        );
         if (autoplay && (infinite || newIndex < children.length - 1)) {
           clearTimeout(this.timeout);
           this.timeout = setTimeout(() => {
-            this.zoomTo((newIndex + 1) % children.length);
+            this.fadeImages((newIndex + 1) % children.length);
           }, duration);
         }
       });
@@ -282,4 +260,4 @@ class Zoom extends Component {
   }
 }
 
-export default Zoom;
+export default Fade;

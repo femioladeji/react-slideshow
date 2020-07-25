@@ -1,3 +1,4 @@
+import React from 'react';
 import { cleanup, wait, fireEvent } from '@testing-library/react';
 import { renderFade, images } from '../test-utils';
 
@@ -55,12 +56,13 @@ test('Nav arrow should be disabled on the first slide for infinite:false props',
   const { container } = renderFade({ ...fadeProperties2, infinite: false });
   let nav = container.querySelectorAll('.nav');
   expect(nav[0].classList).toContain('disabled');
+  expect(nav[0].disabled).toBe(true);
 });
 
 test("It shouldn't navigate if infinite false and previous arrow is clicked", async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(
-    { ...fadeProperties2, infinite: false },
+    { ...fadeProperties2, infinite: false, prevArrow: <div>Previous</div> },
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
@@ -81,10 +83,59 @@ test("It shouldn't navigate if infinite false and previous arrow is clicked", as
   );
 });
 
+test("It shouldn't navigate to next if infinite false and next arrow is clicked on the last slide", async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    {
+      ...fadeProperties2,
+      defaultIndex: 2,
+      infinite: false,
+      nextArrow: <div>Next</div>
+    },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  const nav = baseElement.querySelectorAll('.nav');
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
+      expect(parseFloat(childrenElements[2].style.opacity)).toBe(1);
+    },
+    {
+      timeout: fadeProperties2.transitionDuration
+    }
+  );
+});
+
+test('It should show the previous image if back is clicked', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    { ...fadeProperties2, defaultIndex: 1 },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  const nav = baseElement.querySelectorAll('.nav');
+  fireEvent.click(nav[0]);
+  await wait(
+    () => {
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
+      expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
+    },
+    {
+      timeout: fadeProperties2.transitionDuration
+    }
+  );
+});
+
 test('indciators should show with the exact number of children dots', () => {
   const { container } = renderFade(fadeProperties);
   let indicators = container.querySelectorAll('.indicators');
-  let dots = container.querySelectorAll('.indicators > div');
+  let dots = container.querySelectorAll('.indicators > li');
   expect(indicators.length).toBe(1);
   expect(dots.length).toBe(images.length);
 });

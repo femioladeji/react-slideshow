@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import TWEEN from '@tweenjs/tween.js';
-import { getUnhandledProps } from '../../helpers.js';
-
-import './slide.css';
+import ResizeObserver from 'resize-observer-polyfill';
+import {
+  getUnhandledProps,
+  showNextArrow,
+  showPreviousArrow,
+  showIndicators
+} from './helpers.js';
 
 class Slideshow extends Component {
   constructor(props) {
@@ -20,24 +24,44 @@ class Slideshow extends Component {
     this.moveSlides = this.moveSlides.bind(this);
     this.pauseSlides = this.pauseSlides.bind(this);
     this.startSlides = this.startSlides.bind(this);
-    this.resizeListener = this.resizeListener.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+    this.initResizeObserver = this.initResizeObserver.bind(this);
+    this.reactSlideshowWrapper = createRef();
     this.goToSlide = this.goToSlide.bind(this);
     this.tweenGroup = new TWEEN.Group();
   }
 
   componentDidMount() {
     this.setWidth();
-    window.addEventListener('resize', this.resizeListener);
+    this.initResizeObserver();
     const { autoplay, duration } = this.props;
     if (autoplay) {
       this.timeout = setTimeout(() => this.goNext(), duration);
     }
   }
 
+  initResizeObserver() {
+    this.resizeObserver = new ResizeObserver(entries => {
+      if (!entries) return;
+      this.handleResize();
+    });
+    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+  }
+
   componentWillUnmount() {
     this.willUnmount = true;
     clearTimeout(this.timeout);
-    window.removeEventListener('resize', this.resizeListener);
+    this.removeResizeObserver();
+  }
+
+  removeResizeObserver() {
+    if (
+      this.resizeObserver &&
+      this.reactSlideshowWrapper &&
+      this.reactSlideshowWrapper.current
+    ) {
+      this.resizeObserver.unobserve(this.reactSlideshowWrapper.current);
+    }
   }
 
   setWidth() {
@@ -67,7 +91,7 @@ class Slideshow extends Component {
     }
   }
 
-  resizeListener() {
+  handleResize() {
     this.setWidth();
   }
 
@@ -124,25 +148,6 @@ class Slideshow extends Component {
     this.slideImages(index - 1);
   }
 
-  showIndicators() {
-    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator && 'each-slideshow-indicator';
-    return (
-      <div className="indicators">
-        {this.props.children.map((_, key) => (
-          <div
-            key={key}
-            data-key={key}
-            className={`${className} ${this.state.index === key && 'active'}`}
-            onClick={this.goToSlide}
-          >
-            {isCustomIndicator && this.props.indicators(key)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   render() {
     const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
@@ -152,21 +157,15 @@ class Slideshow extends Component {
     };
 
     return (
-      <div {...unhandledProps}>
+      <div aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
+          ref={this.reactSlideshowWrapper}
         >
-          {arrows && (
-            <div
-              className={`nav ${index <= 0 && !infinite && 'disabled'}`}
-              data-type="prev"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {arrows &&
+            showPreviousArrow(this.props, this.state.index, this.moveSlides)}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -176,32 +175,38 @@ class Slideshow extends Component {
               style={style}
               ref={ref => (this.imageContainer = ref)}
             >
-              <div data-index="-1">{children[children.length - 1]}</div>
+              <div
+                data-index="-1"
+                aria-roledescription="slide"
+                aria-hidden="false"
+              >
+                {children[children.length - 1]}
+              </div>
               {children.map((each, key) => (
                 <div
                   data-index={key}
                   key={key}
                   className={key === index ? 'active' : ''}
+                  aria-roledescription="slide"
+                  aria-hidden={key === index ? 'false' : 'true'}
                 >
                   {each}
                 </div>
               ))}
-              <div data-index="-1">{children[0]}</div>
+              <div
+                data-index="-1"
+                aria-roledescription="slide"
+                aria-hidden="false"
+              >
+                {children[0]}
+              </div>
             </div>
           </div>
-          {arrows && (
-            <div
-              className={`nav ${index === children.length - 1 &&
-                !infinite &&
-                'disabled'}`}
-              data-type="next"
-              onClick={this.moveSlides}
-            >
-              <span />
-            </div>
-          )}
+          {arrows &&
+            showNextArrow(this.props, this.state.index, this.moveSlides)}
         </div>
-        {indicators && this.showIndicators()}
+        {indicators &&
+          showIndicators(this.props, this.state.index, this.goToSlide)}
       </div>
     );
   }

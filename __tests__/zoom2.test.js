@@ -4,6 +4,7 @@ import {
   fireEvent,
   waitForDomChange
 } from '@testing-library/react';
+import React from 'react';
 import { renderZoom, renderZoom2, images } from '../test-utils';
 
 afterEach(cleanup);
@@ -22,7 +23,7 @@ test('Clicking on the indicator should show the right slide', async () => {
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
-  const indicators = baseElement.querySelectorAll('.indicators > div');
+  const indicators = baseElement.querySelectorAll('.indicators li button');
   fireEvent.click(indicators[1]);
   await waitForDomChange({
     container: baseElement.querySelector('.indicators')
@@ -90,6 +91,78 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
     },
     {
       timeout: zoomOut.duration + zoomOut.transitionDuration
+    }
+  );
+});
+
+test('When a valid defaultIndex prop is set, it shows that particular index first', () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderZoom2(
+    { ...zoomOut, defaultIndex: 1 },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+  expect(parseInt(childrenElements[0].style.opacity)).toBe(0);
+  expect(parseInt(childrenElements[1].style.opacity)).toBe(1);
+});
+
+test('shows custom indicators if it exists', () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderZoom2(
+    {
+      ...zoomOut,
+      indicators: index => <div className="custom-indicator">{index + 1}</div>
+    },
+    wrapperElement
+  );
+  const indicators = baseElement.querySelectorAll('.custom-indicator');
+  expect(indicators).toHaveLength(2);
+  expect(indicators[0].innerHTML).toBe('1');
+  expect(indicators[1].innerHTML).toBe('2');
+});
+
+test('Custom nextArrow indicator can be set', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderZoom(
+    {
+      ...zoomOut,
+      nextArrow: <div className="next">Next</div>
+    },
+    wrapperElement
+  );
+  expect(baseElement.querySelector('.next')).toBeTruthy();
+  fireEvent.click(baseElement.querySelector('[data-type="next"]'));
+  await wait(
+    () => {
+      expect(
+        Math.round(baseElement.querySelector('[data-index="1"]').style.opacity)
+      ).toBe(1);
+    },
+    {
+      timeout: zoomOut.transitionDuration
+    }
+  );
+});
+
+test('Custom prevArrow indicator can be set', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderZoom(
+    {
+      ...zoomOut,
+      prevArrow: <div className="previous">Previous</div>
+    },
+    wrapperElement
+  );
+  expect(baseElement.querySelector('.previous')).toBeTruthy();
+  fireEvent.click(baseElement.querySelector('[data-type="prev"]'));
+  await wait(
+    () => {
+      expect(
+        Math.round(baseElement.querySelector('[data-index="2"]').style.opacity)
+      ).toBe(1);
+    },
+    {
+      timeout: zoomOut.transitionDuration
     }
   );
 });

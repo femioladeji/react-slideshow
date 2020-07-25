@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
-import { Slide, Fade, Zoom } from './lib';
-import './app.css';
+import { Slide, Fade, Zoom } from '../../../src';
 
-class App extends Component {
+class Examples extends Component {
   constructor() {
     super();
     this.state = {
       zoomOutImages: [
-        'images/slide_2.jpg',
-        'images/slide_7.jpg',
-        'images/slide_5.jpg'
+        'assets/images/slide_2.jpg',
+        'assets/images/slide_7.jpg',
+        'assets/images/slide_5.jpg'
       ],
       slideImages: [
-        'images/slide_2.jpg',
-        'images/slide_3.jpg',
-        'images/slide_4.jpg'
+        'assets/images/slide_2.jpg',
+        'assets/images/slide_3.jpg',
+        'assets/images/slide_4.jpg'
       ],
       fadeImages: [
-        'images/slide_5.jpg',
-        'images/slide_6.jpg',
-        'images/slide_7.jpg'
+        'assets/images/slide_5.jpg',
+        'assets/images/slide_6.jpg',
+        'assets/images/slide_7.jpg'
       ]
     };
   }
@@ -29,25 +28,13 @@ class App extends Component {
       duration: 5000,
       transitionDuration: 500,
       infinite: true,
+      indicators: true,
       pauseOnHover: true,
       onChange: (oldIndex, newIndex) => {
         console.log(
           `Slide transition finished from ${oldIndex} to ${newIndex}`
         );
-      },
-      indicators: i => (
-        <div
-          style={{
-            width: '30px',
-            color: 'blue',
-            textAlign: 'center',
-            cursor: 'pointer',
-            border: '1px blue solid'
-          }}
-        >
-          {i + 1}
-        </div>
-      )
+      }
     };
 
     const fadeProperties = {
@@ -144,4 +131,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Examples;

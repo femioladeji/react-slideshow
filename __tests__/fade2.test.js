@@ -1,3 +1,4 @@
+import React from 'react';
 import { cleanup, wait, fireEvent } from '@testing-library/react';
 import { renderFade } from '../test-utils';
 
@@ -12,7 +13,7 @@ const options = {
 test('When the third indicator dot is clicked, the third child should show', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(options, wrapperElement);
-  let dots = baseElement.querySelectorAll('.indicators > div');
+  let dots = baseElement.querySelectorAll('.indicators li button');
   fireEvent.click(dots[2]);
   await wait(
     () => {
@@ -98,4 +99,81 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       timeout: options.duration + options.transitionDuration
     }
   );
+});
+
+test('When a valid defaultIndex prop is set, it shows that particular index first', () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    { ...options, defaultIndex: 1 },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  expect(parseInt(childrenElements[0].style.opacity)).toBe(0);
+  expect(parseInt(childrenElements[1].style.opacity)).toBe(1);
+});
+
+test('Custom prevArrow indicator can be set', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    {
+      ...options,
+      prevArrow: <div className="previous">Previous</div>
+    },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  expect(baseElement.querySelector('.previous')).toBeTruthy();
+  fireEvent.click(baseElement.querySelector('[data-type="prev"]'));
+  await wait(
+    () => {
+      expect(Math.round(childrenElements[2].style.opacity)).toBe(1);
+    },
+    {
+      timeout: options.transitionDuration
+    }
+  );
+});
+
+test('Custom nextArrow indicator can be set', async () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    {
+      ...options,
+      nextArrow: <div className="next">Next</div>
+    },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll(
+    '.react-slideshow-fade-images-wrap > div'
+  );
+  expect(baseElement.querySelector('.next')).toBeTruthy();
+  fireEvent.click(baseElement.querySelector('[data-type="next"]'));
+  await wait(
+    () => {
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
+    },
+    {
+      timeout: options.transitionDuration
+    }
+  );
+});
+
+test('shows custom indicators if it exists', () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderFade(
+    {
+      ...options,
+      indicators: index => <div className="custom-indicator">{index + 1}</div>
+    },
+    wrapperElement
+  );
+  const indicators = baseElement.querySelectorAll('.custom-indicator');
+  expect(indicators).toHaveLength(3);
+  expect(indicators[0].innerHTML).toBe('1');
+  expect(indicators[1].innerHTML).toBe('2');
+  expect(indicators[2].innerHTML).toBe('3');
 });

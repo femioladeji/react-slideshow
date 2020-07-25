@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   cleanup,
   wait,
@@ -24,7 +25,7 @@ test('All children dom elements were loaded', () => {
 test('indciators should show with the exact number of children dots', () => {
   const { container } = renderZoom(zoomOut);
   let indicators = container.querySelectorAll('.indicators');
-  let dots = container.querySelectorAll('.indicators > div');
+  let dots = container.querySelectorAll('.indicators li button');
   expect(indicators.length).toBe(1);
   expect(dots.length).toBe(images.length);
 });
@@ -45,12 +46,13 @@ test('Nav arrow should be disabled on the first slide for infinite:false props',
   const { container } = renderZoom({ ...zoomOut, infinite: false });
   let nav = container.querySelectorAll('.nav');
   expect(nav[0].classList).toContain('disabled');
+  expect(nav[0].disabled).toBe(true);
 });
 
 test("It shouldn't navigate if infinite false and previous arrow is clicked", async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderZoom(
-    { ...zoomOut, infinite: false },
+    { ...zoomOut, infinite: false, prevArrow: <div>Previous</div> },
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
@@ -72,7 +74,12 @@ test("It shouldn't navigate if infinite false and previous arrow is clicked", as
 test("It shouldn't navigate if infinite false and next arrow is clicked on the last slide", async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderZoom2(
-    { ...zoomOut, infinite: false, autoplay: false },
+    {
+      ...zoomOut,
+      infinite: false,
+      nextArrow: <div>Previous</div>,
+      autoplay: false
+    },
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
