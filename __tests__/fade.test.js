@@ -123,8 +123,8 @@ test('It should show the previous image if back is clicked', async () => {
   fireEvent.click(nav[0]);
   await wait(
     () => {
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(0);
-      expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
+      expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
     },
     {
       timeout: fadeProperties2.transitionDuration
