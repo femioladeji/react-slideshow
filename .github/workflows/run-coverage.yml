@@ -1,0 +1,21 @@
+
+name: 'Run CodeCoverage Report'
+
+on: pull_request
+
+jobs:
+  comment:
+    name: sample comment
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Dump GitHub context'
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Run test coverage
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCRIPT: ${{ '.github/workflows/scripts/coverage.sh' }}
+        run: bash $SCRIPT
