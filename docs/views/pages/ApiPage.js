@@ -9,10 +9,12 @@ const Api = () => {
       <div className="table-div">
         <table>
           <thead>
-            <th>Properties</th>
-            <th>Type</th>
-            <th>DefaultValue</th>
-            <th>Description</th>
+            <tr>
+              <th>Properties</th>
+              <th>Type</th>
+              <th>DefaultValue</th>
+              <th>Description</th>
+            </tr>
           </thead>
           <tbody>
             <tr>
@@ -124,7 +126,7 @@ const Api = () => {
           3. goTo(index) - It can be used to transition the spde to a particular
           index. N.B Index starts from 0
         </p>
-        <p>
+        <div>
           To call the method you can use the slide's ref attribute and then call
           the method.
           <SyntaxHighlighter language="javascript" style={dark}>
@@ -134,7 +136,7 @@ const Api = () => {
           <SyntaxHighlighter language="javascript" style={dark}>
             {`this.slideRef.current.goNext()`}
           </SyntaxHighlighter>
-        </p>
+        </div>
       </div>
     </div>
   );

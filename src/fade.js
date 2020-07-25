@@ -5,7 +5,8 @@ import ResizeObserver from 'resize-observer-polyfill';
 import {
   getUnhandledProps,
   showNextArrow,
-  showPreviousArrow
+  showPreviousArrow,
+  showIndicators
 } from './helpers.js';
 
 class Fade extends Component {
@@ -159,40 +160,20 @@ class Fade extends Component {
     }
   }
 
-  showIndicators() {
-    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator ? 'each-slideshow-indicator' : '';
-    return (
-      <div className="indicators">
-        {this.props.children.map((each, key) => (
-          <div
-            key={key}
-            data-key={key}
-            className={`${className} ${
-              this.state.index === key ? 'active' : ''
-            }`}
-            onClick={this.navigate}
-          >
-            {isCustomIndicator && this.props.indicators(key)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   render() {
-    const { indicators, children } = this.props;
+    const { indicators, children, arrows } = this.props;
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
     return (
-      <div {...unhandledProps}>
+      <div aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >
-          {showPreviousArrow(this.props, this.state.index, this.preFade)}
+          {arrows &&
+            showPreviousArrow(this.props, this.state.index, this.preFade)}
           <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
             <div
               className="react-slideshow-fade-images-wrap"
@@ -206,15 +187,18 @@ class Fade extends Component {
                   }}
                   data-index={key}
                   key={key}
+                  aria-roledescription="slide"
+                  aria-hidden={key === index ? 'false' : 'true'}
                 >
                   {each}
                 </div>
               ))}
             </div>
           </div>
-          {showNextArrow(this.props, this.state.index, this.preFade)}
+          {arrows && showNextArrow(this.props, this.state.index, this.preFade)}
         </div>
-        {indicators && this.showIndicators()}
+        {indicators &&
+          showIndicators(this.props, this.state.index, this.navigate)}
       </div>
     );
   }

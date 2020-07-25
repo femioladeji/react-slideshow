@@ -74,22 +74,39 @@
   margin-top: 20px;
 }
 
-.react-slideshow-container + div.indicators > .each-slideshow-indicator {
+.react-slideshow-container + div.indicators li {
+  position: relative;
   width: 7px;
   height: 7px;
-  margin: 0 5px 10px;
+  padding: 5px;
+  margin: 0;
+}
+
+.react-slideshow-container + div.indicators .each-slideshow-indicator {
   border: none;
-  border-radius: 50%;
-  background: #ccc;
+  opacity: 0.25;
   cursor: pointer;
+  background: transparent;
+  color: transparent;
 }
 
-.react-slideshow-container + div.indicators > .each-slideshow-indicator:hover {
-  background: #666;
-}
-
-.react-slideshow-container + div.indicators > .each-slideshow-indicator.active {
+.react-slideshow-container + div.indicators .each-slideshow-indicator:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  content: '';
   background: #000;
+  text-align: center;
+}
+
+.react-slideshow-container + div.indicators .each-slideshow-indicator:hover,
+.react-slideshow-container + div.indicators .each-slideshow-indicator.active,
+.react-slideshow-container + div.indicators .each-slideshow-indicator:focus {
+  opacity: 0.75;
+  outline: none;
 }
 
 .react-slideshow-fade-wrapper {

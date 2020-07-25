@@ -13,7 +13,7 @@ const options = {
 test('When the third indicator dot is clicked, the third child should show', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(options, wrapperElement);
-  let dots = baseElement.querySelectorAll('.indicators > div');
+  let dots = baseElement.querySelectorAll('.indicators li button');
   fireEvent.click(dots[2]);
   await wait(
     () => {

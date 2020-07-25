@@ -9,13 +9,10 @@ const getUnhandledProps = (ComponentProps, props) => {
 };
 
 const showPreviousArrow = (
-  { arrows, prevArrow, infinite },
+  { prevArrow, infinite },
   currentIndex,
   moveSlides
 ) => {
-  if (!arrows) {
-    return;
-  }
   const isDisabled = currentIndex <= 0 && !infinite;
   const props = {
     'data-type': 'prev',
@@ -40,13 +37,10 @@ const showPreviousArrow = (
 };
 
 const showNextArrow = (
-  { arrows, nextArrow, infinite, children },
+  { nextArrow, infinite, children },
   currentIndex,
   moveSlides
 ) => {
-  if (!arrows) {
-    return;
-  }
   const isDisabled = currentIndex === children.length - 1 && !infinite;
   const props = {
     'data-type': 'next',
@@ -70,4 +64,57 @@ const showNextArrow = (
   );
 };
 
-export { showNextArrow, showPreviousArrow, getUnhandledProps };
+const showDefaultIndicator = (currentIndex, key, indicatorProps) => {
+  return (
+    <li key={key}>
+      <button
+        className={`each-slideshow-indicator ${
+          currentIndex === key ? 'active' : ''
+        }`}
+        {...indicatorProps}
+      />
+    </li>
+  );
+};
+
+const showCustomIndicator = (
+  currentIndex,
+  key,
+  indicatorProps,
+  eachIndicator
+) => {
+  return React.cloneElement(eachIndicator, {
+    className: `${eachIndicator.props.className} ${
+      currentIndex === key ? 'active' : ''
+    }`,
+    key,
+    ...indicatorProps
+  });
+};
+
+const showIndicators = (props, currentIndex, navigate) => {
+  const { children, indicators } = props;
+  const isCustomIndicator = typeof indicators !== 'boolean';
+
+  return (
+    <div className="indicators">
+      {children.map((_, key) => {
+        const indicatorProps = {
+          'data-key': key,
+          'aria-label': `Go to slide ${key + 1}`,
+          onClick: navigate
+        };
+        return isCustomIndicator
+          ? showCustomIndicator(
+              currentIndex,
+              key,
+              indicatorProps,
+              indicators(key)
+            )
+          : showDefaultIndicator(currentIndex, key, indicatorProps);
+      })}
+    </div>
+  );
+};
+
+export { showNextArrow, showPreviousArrow, getUnhandledProps, showIndicators };

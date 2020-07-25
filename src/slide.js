@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import {
   getUnhandledProps,
   showNextArrow,
-  showPreviousArrow
+  showPreviousArrow,
+  showIndicators
 } from './helpers.js';
 
 class Slideshow extends Component {
@@ -148,27 +149,6 @@ class Slideshow extends Component {
     this.slideImages(index - 1);
   }
 
-  showIndicators() {
-    const isCustomIndicator = typeof this.props.indicators !== 'boolean';
-    const className = !isCustomIndicator ? 'each-slideshow-indicator' : '';
-    return (
-      <div className="indicators">
-        {this.props.children.map((_, key) => (
-          <div
-            key={key}
-            data-key={key}
-            className={`${className} ${
-              this.state.index === key ? 'active' : ''
-            }`}
-            onClick={this.goToSlide}
-          >
-            {isCustomIndicator && this.props.indicators(key)}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   render() {
     const { children, infinite, indicators, arrows } = this.props;
     const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
@@ -185,7 +165,8 @@ class Slideshow extends Component {
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >
-          {showPreviousArrow(this.props, this.state.index, this.moveSlides)}
+          {arrows &&
+            showPreviousArrow(this.props, this.state.index, this.moveSlides)}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -195,7 +176,11 @@ class Slideshow extends Component {
               style={style}
               ref={ref => (this.imageContainer = ref)}
             >
-              <div data-index="-1" aria-roledescription="slide">
+              <div
+                data-index="-1"
+                aria-roledescription="slide"
+                aria-hidden="false"
+              >
                 {children[children.length - 1]}
               </div>
               {children.map((each, key) => (
@@ -204,18 +189,25 @@ class Slideshow extends Component {
                   key={key}
                   className={key === index ? 'active' : ''}
                   aria-roledescription="slide"
+                  aria-hidden={key === index ? 'false' : 'true'}
                 >
                   {each}
                 </div>
               ))}
-              <div data-index="-1" aria-roledescription="slide">
+              <div
+                data-index="-1"
+                aria-roledescription="slide"
+                aria-hidden="false"
+              >
                 {children[0]}
               </div>
             </div>
           </div>
-          {showNextArrow(this.props, this.state.index, this.moveSlides)}
+          {arrows &&
+            showNextArrow(this.props, this.state.index, this.moveSlides)}
         </div>
-        {indicators && this.showIndicators()}
+        {indicators &&
+          showIndicators(this.props, this.state.index, this.goToSlide)}
       </div>
     );
   }

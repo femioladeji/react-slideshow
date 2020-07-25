@@ -24,7 +24,7 @@ test('All slide children dom elements were loaded, the first and last are loaded
 test('indciators should show with the exact number of children dots', () => {
   const { container } = renderSlide(options);
   let indicators = container.querySelectorAll('.indicators');
-  let dots = container.querySelectorAll('.indicators > div');
+  let dots = container.querySelectorAll('.indicators > li');
   expect(indicators.length).toBe(1);
   expect(dots.length).toBe(images.length);
 });

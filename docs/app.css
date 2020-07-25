@@ -36,7 +36,7 @@ h3 {
   display: flex;
 }
 
-.each-fade  img {
+.each-fade img {
   width: 75%;
 }
 
@@ -53,10 +53,10 @@ h3 {
   cursor: pointer;
   padding: 10px;
   text-align: center;
-  border: 1px #666 solid
+  border: 1px #666 solid;
 }
 
-.active .indicator {
+.indicator.active {
   color: #fff;
   background: #666;
 }

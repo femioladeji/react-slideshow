@@ -19,7 +19,7 @@ test('When the second indicator is clicked, the third child should have active c
     { ...options, autoplay: false, onChange },
     wrapperElement
   );
-  let dots = baseElement.querySelectorAll('.indicators > div');
+  let dots = baseElement.querySelectorAll('.indicators li button');
   const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
   fireEvent.click(dots[1]);
   await wait(

@@ -24,7 +24,7 @@ test('All children dom elements were loaded', () => {
 test('indciators should show with the exact number of children dots', () => {
   const { container } = renderZoom(zoomOut);
   let indicators = container.querySelectorAll('.indicators');
-  let dots = container.querySelectorAll('.indicators > div');
+  let dots = container.querySelectorAll('.indicators li button');
   expect(indicators.length).toBe(1);
   expect(dots.length).toBe(images.length);
 });
