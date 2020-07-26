@@ -75,6 +75,7 @@
 }
 
 .react-slideshow-container + div.indicators li {
+  display: inline-block;
   position: relative;
   width: 7px;
   height: 7px;
