@@ -7,6 +7,7 @@ import {
   showPreviousArrow,
   showIndicators
 } from './helpers.js';
+import { validatePropTypes, propTypes, getProps } from './props';
 
 class Slideshow extends Component {
   constructor(props) {
@@ -34,7 +35,8 @@ class Slideshow extends Component {
   componentDidMount() {
     this.setWidth();
     this.initResizeObserver();
-    const { autoplay, duration } = this.props;
+    validatePropTypes(this.props);
+    const { autoplay, duration } = getProps(this.props);
     if (autoplay) {
       this.timeout = setTimeout(() => this.goNext(), duration);
     }
@@ -79,14 +81,15 @@ class Slideshow extends Component {
   }
 
   componentDidUpdate(props) {
-    if (this.props.autoplay !== props.autoplay) {
-      if (this.props.autoplay) {
-        this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+    const { autoplay, duration, children } = getProps(this.props);
+    if (autoplay !== props.autoplay) {
+      if (autoplay) {
+        this.timeout = setTimeout(() => this.goNext(), duration);
       } else {
         clearTimeout(this.timeout);
       }
     }
-    if (this.props.children.length != props.children.length) {
+    if (children.length != props.children.length) {
       this.setWidth();
     }
   }
@@ -102,15 +105,15 @@ class Slideshow extends Component {
   }
 
   pauseSlides() {
-    if (this.props.pauseOnHover) {
+    if (getProps(this.props).pauseOnHover) {
       clearTimeout(this.timeout);
     }
   }
 
   startSlides() {
-    const { pauseOnHover, autoplay } = this.props;
+    const { pauseOnHover, autoplay, duration } = getProps(this.props);
     if (pauseOnHover && autoplay) {
-      this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+      this.timeout = setTimeout(() => this.goNext(), duration);
     }
   }
 
@@ -132,7 +135,7 @@ class Slideshow extends Component {
 
   goNext() {
     const { index } = this.state;
-    const { children, infinite } = this.props;
+    const { children, infinite } = getProps(this.props);
     if (!infinite && index === children.length - 1) {
       return;
     }
@@ -141,7 +144,7 @@ class Slideshow extends Component {
 
   goBack() {
     const { index } = this.state;
-    const { infinite } = this.props;
+    const { infinite } = getProps(this.props);
     if (!infinite && index === 0) {
       return;
     }
@@ -149,8 +152,8 @@ class Slideshow extends Component {
   }
 
   render() {
-    const { children, infinite, indicators, arrows } = this.props;
-    const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
+    const { children, indicators, arrows } = getProps(this.props);
+    const unhandledProps = getUnhandledProps(propTypes, this.props);
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
@@ -165,7 +168,11 @@ class Slideshow extends Component {
           ref={this.reactSlideshowWrapper}
         >
           {arrows &&
-            showPreviousArrow(this.props, this.state.index, this.moveSlides)}
+            showPreviousArrow(
+              getProps(this.props),
+              this.state.index,
+              this.moveSlides
+            )}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -203,10 +210,18 @@ class Slideshow extends Component {
             </div>
           </div>
           {arrows &&
-            showNextArrow(this.props, this.state.index, this.moveSlides)}
+            showNextArrow(
+              getProps(this.props),
+              this.state.index,
+              this.moveSlides
+            )}
         </div>
         {indicators &&
-          showIndicators(this.props, this.state.index, this.goToSlide)}
+          showIndicators(
+            getProps(this.props),
+            this.state.index,
+            this.goToSlide
+          )}
       </div>
     );
   }
@@ -219,7 +234,7 @@ class Slideshow extends Component {
       infinite,
       duration,
       onChange
-    } = this.props;
+    } = getProps(this.props);
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
