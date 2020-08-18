@@ -28,15 +28,15 @@ const PauseOnHoverExample = () => {
         <Slide {...fadeProperties}>
           <div className="each-fade">
             <img src={fadeImages[0]} />
-            <h2>First Slide</h2>
+            <p>First Slide</p>
           </div>
           <div className="each-fade">
-            <h2>Second Slide</h2>
+            <p>Second Slide</p>
             <img src={fadeImages[1]} />
           </div>
           <div className="each-fade">
             <img src={fadeImages[2]} />
-            <h2>Third Slide</h2>
+            <p>Third Slide</p>
           </div>
         </Slide>
       </div>

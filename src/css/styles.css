@@ -27,6 +27,7 @@
   height: 10px;
   border-color: #000;
   border-style: solid;
+  box-sizing: border-box;
   transform: rotate(45deg);
 }
 

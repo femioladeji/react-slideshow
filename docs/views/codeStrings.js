@@ -141,9 +141,11 @@ export const fadeEffectCSS = `
   width: 75%;
 }
 
-.each-fade h2 {
+.each-fade p {
   width: 25%;
+  font-size: 1em;
   display: flex;
+  text-align: center;
   justify-content: center;
   align-items: center;
   margin: 0;
@@ -386,15 +388,15 @@ const PauseHoverExample = () => {
         <Slide {...fadeProperties}>
           <div className="each-fade">
             <img src={images[0]} />
-            <h2>First Slide</h2>
+            <p>First Slide</p>
           </div>
           <div className="each-fade">
-            <h2>Second Slide</h2>
+            <p>Second Slide</p>
             <img src={images[1]} />
           </div>
           <div className="each-fade">
             <img src={images[2]} />
-            <h2>Third Slide</h2>
+            <p>Third Slide</p>
           </div>
         </Slide>
       </div>

@@ -5,7 +5,7 @@ body {
 }
 
 .app-container {
-  margin-top: calc(80px + 20px);
+  margin-top: calc(80px);
   margin-left: 13%;
   background: #fff;
   padding: 10px 3%;
@@ -57,6 +57,8 @@ li:hover {
 .sidebar {
   display: block;
   position: fixed;
+  overflow-y: auto;
+  /* overflow-x: hidden; */
   top: 80px;
   left: 0;
   height: 100vh;
@@ -64,7 +66,6 @@ li:hover {
   margin-left: 0;
   z-index: 200;
   background: #f4f4f4;
-  padding-top: 20px;
 }
 
 .sidebar-items {
@@ -90,6 +91,7 @@ li:hover {
   font-size: 20px;
   cursor: pointer;
   width: 100%;
+  box-sizing: border-box;
   color: #000;
 }
 
@@ -226,10 +228,10 @@ tr:nth-child(odd) {
   }
 
   .sidebar {
-    width: 45%;
+    width: 60%;
     top: 80px;
-    margin-left: -50%;
-    height: 150vh;
+    margin-left: -60%;
+    height: calc(100vh - 80px);
     transition: 500ms;
   }
 

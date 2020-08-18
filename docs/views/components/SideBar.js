@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Sidebar = ({ isOpen }) => {
   const [dropDowns, setDropDowns] = useState(false);
 
-  const setMargin = isOpen ? "0" : "-50%";
+  const setMargin = isOpen ? "0" : "-60%";
 
   return (
     <div className="sidebar" style={{ marginLeft: setMargin }}>
