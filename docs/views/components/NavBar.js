@@ -1,7 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = ({ toggleSidebar, isOpen }) => {
+  let location = useLocation();
+    useEffect(() => {
+      if (window.screen.width <= 768) {
+        toggleSidebar()
+      }
+    }, [location]);
+
   return (
     <div className="navbar">
       <div className="navbar-div">
