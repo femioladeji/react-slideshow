@@ -1,6 +1,10 @@
 .react-slideshow-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .react-slideshow-container .nav {
@@ -16,23 +20,15 @@
   cursor: pointer;
   color: #fff;
   border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.react-slideshow-container .default-nav span {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border-color: #000;
-  border-style: solid;
-  box-sizing: border-box;
-  transform: rotate(45deg);
-}
-
-.react-slideshow-container .default-nav.disabled span {
-  border-color: #666;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .react-slideshow-container .default-nav:hover,
@@ -52,26 +48,21 @@
   border-top: none;
 }
 
-.react-slideshow-container .default-nav:first-of-type span {
-  margin-left: 5px;
-  border-right: none;
-  border-top: none;
-}
 
 .react-slideshow-container .default-nav:last-of-type {
   margin-left: -30px;
 }
 
-.react-slideshow-container .default-nav:last-of-type span {
-  margin-right: 5px;
-  border-left: none;
-  border-bottom: none;
-}
 
 .react-slideshow-container + div.indicators {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   margin-top: 20px;
 }
 
@@ -117,8 +108,11 @@
 }
 
 .react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap > div {
@@ -132,8 +126,11 @@
 }
 
 .react-slideshow-wrapper .images-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .react-slideshow-zoom-wrapper {
@@ -142,12 +139,17 @@
 }
 
 .react-slideshow-zoom-wrapper .zoom-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   overflow: hidden;
 }
 
 .react-slideshow-zoom-wrapper .zoom-wrapper > div {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }

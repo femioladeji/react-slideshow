@@ -10,7 +10,7 @@ const AutoplayExample = () => {
   const style = {
     textAlign: "center",
     background: "teal",
-    padding: "200px",
+    padding: "200px 0",
     fontSize: "30px"
   }
 

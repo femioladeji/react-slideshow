@@ -169,6 +169,7 @@ class Fade extends Component {
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
+          onMouseOver={this.pauseSlides}
           onMouseLeave={this.startSlides}
           ref={this.reactSlideshowWrapper}
         >

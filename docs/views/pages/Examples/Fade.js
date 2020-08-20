@@ -29,16 +29,22 @@ const FadeExample = () => {
       <div>
         <Fade {...fadeProperties}>
           <div className="each-fade">
-            <img src={fadeImages[0]} />
-            <h2>First Slide</h2>
+            <div>
+              <img src={fadeImages[0]} />
+            </div>
+            <p>First Slide</p>
           </div>
           <div className="each-fade">
-            <h2>Second Slide</h2>
-            <img src={fadeImages[1]} />
+            <p>Second Slide</p>
+            <div>
+              <img src={fadeImages[1]} />
+            </div>
           </div>
           <div className="each-fade">
-            <img src={fadeImages[2]} />
-            <h2>Third Slide</h2>
+            <div>
+              <img src={fadeImages[2]} />
+            </div>
+            <p>Third Slide</p>
           </div>
         </Fade>
       </div>
