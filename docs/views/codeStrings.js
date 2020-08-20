@@ -171,7 +171,11 @@ const Slideshow = () => {
   return (
     <div>
       <Zoom {...zoomInProperties}>
-        { images.map((each, index) => <img key={index} style={{width: "100%"}} src={each} />) }
+        {images.map((each, index) => (
+          <div key={index} style={{width: "100%"}}>
+            <img style={{ objectFit: "cover", width: "100%" }} src={each} />
+          </div>
+        ))}
       </Zoom>
     </div>
   )
@@ -198,7 +202,11 @@ const Slideshow = () => {
   return (
     <div>
       <Zoom {...zoomOutProperties}>
-        { images.map((each, index) => <img key={index} style={{width: "100%"}} src={each} />) }
+        {images.map((each, index) => (
+          <div key={index} style={{width: "100%"}}>
+            <img style={{ objectFit: "cover", width: "100%" }} src={each} />
+          </div>
+        ))}
       </Zoom>
     </div>
   )
@@ -417,7 +425,7 @@ const AutoplayExample = () => {
   const style = {
     textAlign: "center",
     background: "teal",
-    padding: "200px",
+    padding: "200px 0",
     fontSize: "30px"
   }
 
@@ -461,7 +469,7 @@ const MethodsExample = () => {
   const style = {
     textAlign: "center",
     background: "teal",
-    padding: "200px",
+    padding: "200px 0",
     fontSize: "30px"
   };
 
@@ -525,7 +533,7 @@ const CallbackExample = () => {
 
   const style = {
     textAlign: "center",
-    padding: "200px",
+    padding: "200px 0",
     fontSize: "30px"
   };
 

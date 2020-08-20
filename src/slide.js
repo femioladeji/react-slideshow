@@ -16,7 +16,8 @@ class Slideshow extends Component {
       index:
         props.defaultIndex && props.defaultIndex < props.children.length
           ? props.defaultIndex
-          : 0
+          : 0,
+      dragging: false
     };
     this.width = 0;
     this.imageContainer = null;
@@ -30,6 +31,10 @@ class Slideshow extends Component {
     this.reactSlideshowWrapper = createRef();
     this.goToSlide = this.goToSlide.bind(this);
     this.tweenGroup = new TWEEN.Group();
+    this.startSwipe = this.startSwipe.bind(this)
+    this.endSwipe = this.endSwipe.bind(this)
+    this.swipe = this.swipe.bind(this)
+    this.distanceSwiped = 0;
   }
 
   componentDidMount() {
@@ -53,6 +58,37 @@ class Slideshow extends Component {
     this.willUnmount = true;
     clearTimeout(this.timeout);
     this.removeResizeObserver();
+  }
+
+  startSwipe(e) {
+    this.startingClientX = e.touches ? e.touches[0].pageX : e.clientX
+    this.setState({ dragging: true })
+    clearTimeout(this.timeout)
+  }
+
+  endSwipe() {
+    this.setState({ dragging: false })
+    if ((Math.abs(this.distanceSwiped) / this.width) > 0.2) {
+      if (this.distanceSwiped < 0) {
+        this.goNext();
+      } else {
+        this.goBack();
+      }
+    } else {
+      if (Math.abs(this.distanceSwiped) > 0) {
+        this.slideImages(this.state.index, 300)
+      }
+    }
+  }
+
+  swipe(e) {
+    const clientX = e.touches ? e.touches[0].pageX : e.clientX;
+    if (this.state.dragging) {
+      let translateValue = this.width * (this.state.index + 1);
+      this.distanceSwiped = clientX - this.startingClientX;
+      translateValue -= this.distanceSwiped;
+      this.imageContainer.style.transform = `translate(-${translateValue}px)`;
+    }
   }
 
   removeResizeObserver() {
@@ -109,9 +145,13 @@ class Slideshow extends Component {
   }
 
   startSlides() {
-    const { pauseOnHover, autoplay } = this.props;
-    if (pauseOnHover && autoplay) {
-      this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+    if (this.state.dragging) {
+      this.endSwipe()
+    } else {
+      const { pauseOnHover, autoplay } = this.props;
+      if (pauseOnHover && autoplay) {
+        this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+      }
     }
   }
 
@@ -162,7 +202,15 @@ class Slideshow extends Component {
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
+          onMouseOver={this.pauseSlides}
           onMouseLeave={this.startSlides}
+          onMouseDown={this.startSwipe}
+          onMouseUp={this.endSwipe}
+          onMouseMove={this.swipe}
+          onTouchStart={this.startSwipe}
+          onTouchEnd={this.endSwipe}
+          onTouchCancel={this.endSwipe}
+          onTouchMove={this.swipe}
           ref={this.reactSlideshowWrapper}
         >
           {arrows &&
@@ -212,7 +260,7 @@ class Slideshow extends Component {
     );
   }
 
-  slideImages(index) {
+  slideImages(index, animationDuration) {
     let {
       children,
       transitionDuration,
@@ -221,10 +269,11 @@ class Slideshow extends Component {
       duration,
       onChange
     } = this.props;
+    transitionDuration = animationDuration || transitionDuration;
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
-      const value = { margin: -this.width * (this.state.index + 1) };
+      const value = { margin: (-this.width * (this.state.index + 1)) + this.distanceSwiped };
       const tween = new TWEEN.Tween(value, this.tweenGroup)
         .to({ margin: -this.width * (index + 1) }, transitionDuration)
         .onUpdate(value => {
@@ -244,6 +293,7 @@ class Slideshow extends Component {
       animate();
 
       tween.onComplete(() => {
+        this.distanceSwiped = 0;
         const newIndex =
           index < 0
             ? children.length - 1
@@ -262,6 +312,7 @@ class Slideshow extends Component {
           },
           () => {
             if (autoplay && (infinite || this.state.index < children.length)) {
+              clearTimeout(this.timeout);
               this.timeout = setTimeout(() => this.goNext(), duration);
             }
           }

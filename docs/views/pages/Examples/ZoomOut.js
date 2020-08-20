@@ -28,7 +28,9 @@ const ZoomExample = () => {
       <div>
         <Zoom {...zoomOutProperties}>
           {images.map((each, index) => (
-            <img key={index} style={{ width: "100%" }} src={each} />
+            <div key={index} style={{width: "100%"}}>
+              <img style={{ objectFit: "cover", width: "100%" }} src={each} />
+            </div>
           ))}
         </Zoom>
       </div>

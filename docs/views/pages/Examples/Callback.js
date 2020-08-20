@@ -10,7 +10,7 @@ const CallbackExample = () => {
 
   const style = {
     textAlign: "center",
-    padding: "200px",
+    padding: "200px 0",
     fontSize: "30px"
   };
 
