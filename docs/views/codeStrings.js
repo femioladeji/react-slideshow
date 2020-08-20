@@ -112,16 +112,22 @@ const FadeExample = () => {
       <div className="slide-container">
         <Fade>
           <div className="each-fade">
-            <img src={fadeImages[0]} />
-            <h2>First Slide</h2>
+            <div>
+              <img src={fadeImages[0]} />
+            </div>
+            <p>First Slide</p>
           </div>
           <div className="each-fade">
-            <h2>Second Slide</h2>
-            <img src={fadeImages[1]} />
+            <p>Second Slide</p>
+            <div>
+              <img src={fadeImages[1]} />
+            </div>
           </div>
           <div className="each-fade">
-            <img src={fadeImages[2]} />
-            <h2>Third Slide</h2>
+            <div>
+              <img src={fadeImages[2]} />
+            </div>
+            <p>Third Slide</p>
           </div>
         </Fade>
       </div>
@@ -135,10 +141,17 @@ export default FadeExample;
 export const fadeEffectCSS = `
 .each-fade {
   display: flex;
+  width: 100%;
 }
 
-.each-fade  img {
+.each-fade > div {
   width: 75%;
+}
+
+.each-fade > div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .each-fade p {
@@ -395,15 +408,21 @@ const PauseHoverExample = () => {
       <div className="slide-container">
         <Slide {...fadeProperties}>
           <div className="each-fade">
-            <img src={images[0]} />
+            <div>
+              <img src={fadeImages[0]} />
+            </div>
             <p>First Slide</p>
           </div>
           <div className="each-fade">
             <p>Second Slide</p>
-            <img src={images[1]} />
+            <div>
+              <img src={fadeImages[1]} />
+            </div>
           </div>
           <div className="each-fade">
-            <img src={images[2]} />
+            <div>
+              <img src={fadeImages[2]} />
+            </div>
             <p>Third Slide</p>
           </div>
         </Slide>
