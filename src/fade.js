@@ -6,7 +6,8 @@ import {
   getUnhandledProps,
   showNextArrow,
   showPreviousArrow,
-  showIndicators
+  showIndicators,
+  getEasing
 } from './helpers.js';
 
 class Fade extends Component {
@@ -212,7 +213,8 @@ class Fade extends Component {
       infinite,
       duration,
       transitionDuration,
-      onChange
+      onChange,
+      easing
     } = this.props;
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
@@ -240,7 +242,7 @@ class Fade extends Component {
           this.divsContainer.children[index].style.opacity = 1 - value.opacity;
         })
         .start();
-
+      tween.easing(getEasing(easing));
       tween.onComplete(() => {
         if (this.willUnmount) {
           return;
@@ -270,7 +272,8 @@ Fade.defaultProps = {
   arrows: true,
   autoplay: true,
   infinite: true,
-  pauseOnHover: true
+  pauseOnHover: true,
+  easing: 'linear'
 };
 
 Fade.propTypes = {
@@ -284,6 +287,7 @@ Fade.propTypes = {
   onChange: PropTypes.func,
   pauseOnHover: PropTypes.bool,
   prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  easing: PropTypes.string
 };
 export default Fade;

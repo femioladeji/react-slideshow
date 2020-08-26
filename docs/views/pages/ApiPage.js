@@ -109,6 +109,15 @@ const Api = () => {
                 oldIndex and newIndex are passed as arguments
               </td>
             </tr>
+            <tr>
+              <td>Easing</td>
+              <td>string</td>
+              <td>linear</td>
+              <td>
+                The timing transition function to use. You can use one of linear,
+                ease, ease-in, ease-out, cubic, cubic-in, cubic-out
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

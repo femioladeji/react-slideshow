@@ -6,7 +6,8 @@ import {
   getUnhandledProps,
   showNextArrow,
   showPreviousArrow,
-  showIndicators
+  showIndicators,
+  getEasing
 } from './helpers.js';
 
 class Slideshow extends Component {
@@ -267,7 +268,8 @@ class Slideshow extends Component {
       autoplay,
       infinite,
       duration,
-      onChange
+      onChange,
+      easing
     } = this.props;
     transitionDuration = animationDuration || transitionDuration;
     const existingTweens = this.tweenGroup.getAll();
@@ -280,7 +282,7 @@ class Slideshow extends Component {
           this.imageContainer.style.transform = `translate(${value.margin}px)`;
         })
         .start();
-
+      tween.easing(getEasing(easing));
       let animate = () => {
         if (this.willUnmount) {
           this.tweenGroup.removeAll();
@@ -293,16 +295,17 @@ class Slideshow extends Component {
       animate();
 
       tween.onComplete(() => {
-        this.distanceSwiped = 0;
-        const newIndex =
-          index < 0
-            ? children.length - 1
-            : index >= children.length
-            ? 0
-            : index;
         if (this.willUnmount) {
           return;
         }
+        this.distanceSwiped = 0;
+        let newIndex = index;
+        if (newIndex < 0) {
+          newIndex = children.length - 1;
+        } else if (newIndex >= children.length) {
+          newIndex = 0;
+        }
+
         if (typeof onChange === 'function') {
           onChange(this.state.index, newIndex);
         }
@@ -330,7 +333,8 @@ Slideshow.defaultProps = {
   autoplay: true,
   indicators: false,
   arrows: true,
-  pauseOnHover: true
+  pauseOnHover: true,
+  easing: 'linear'
 };
 
 Slideshow.propTypes = {
@@ -344,6 +348,7 @@ Slideshow.propTypes = {
   onChange: PropTypes.func,
   pauseOnHover: PropTypes.bool,
   prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  easing: PropTypes.string
 };
 export default Slideshow;

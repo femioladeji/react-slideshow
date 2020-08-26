@@ -41,7 +41,7 @@ const LandingPage = () => {
       </div>
       <h2>Simple Slide Example</h2>
       <div>
-        <Slide>
+        <Slide easing="ease">
           {slideImages.map((each, index) => (
             <div key={index} className="each-slide">
               <div style={{ backgroundImage: `url(${each})` }}>
