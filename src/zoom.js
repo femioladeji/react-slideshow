@@ -6,7 +6,8 @@ import {
   getUnhandledProps,
   showNextArrow,
   showPreviousArrow,
-  showIndicators
+  showIndicators,
+  getEasing
 } from './helpers.js';
 
 class Zoom extends Component {
@@ -215,7 +216,8 @@ class Zoom extends Component {
       infinite,
       transitionDuration,
       duration,
-      onChange
+      onChange,
+      easing
     } = this.props;
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
@@ -249,7 +251,7 @@ class Zoom extends Component {
           ].style.transform = `scale(${value.scale})`;
         })
         .start();
-
+      tween.easing(getEasing(easing));
       tween.onComplete(() => {
         if (this.willUnmount) {
           return;
@@ -284,7 +286,8 @@ Zoom.defaultProps = {
   arrows: true,
   autoplay: true,
   infinite: true,
-  pauseOnHover: true
+  pauseOnHover: true,
+  easing: 'linear'
 };
 
 Zoom.propTypes = {
@@ -299,6 +302,7 @@ Zoom.propTypes = {
   onChange: PropTypes.func,
   pauseOnHover: PropTypes.bool,
   prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  easing: PropTypes.string
 };
 export default Zoom;

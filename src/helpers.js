@@ -1,4 +1,19 @@
 import React from 'react';
+import TWEEN from '@tweenjs/tween.js';
+
+const EASING_METHODS = {
+  linear: TWEEN.Easing.Linear.None,
+  ease: TWEEN.Easing.Quadratic.InOut,
+  'ease-in': TWEEN.Easing.Quadratic.In,
+  'ease-out': TWEEN.Easing.Quadratic.Out,
+  cubic: TWEEN.Easing.Cubic.InOut,
+  'cubic-in': TWEEN.Easing.Cubic.In,
+  'cubic-out': TWEEN.Easing.Cubic.Out
+}
+
+const getEasing = (easeMethod) => {
+  return EASING_METHODS[easeMethod] || EASING_METHODS.linear
+}
 
 const getUnhandledProps = (ComponentProps, props) => {
   const handledProps = Object.keys(ComponentProps);
@@ -104,17 +119,20 @@ const showIndicators = (props, currentIndex, navigate) => {
           'aria-label': `Go to slide ${key + 1}`,
           onClick: navigate
         };
-        return isCustomIndicator
-          ? showCustomIndicator(
-              currentIndex,
-              key,
-              indicatorProps,
-              indicators(key)
-            )
-          : showDefaultIndicator(currentIndex, key, indicatorProps);
+        if (isCustomIndicator) {
+          return showCustomIndicator(
+            currentIndex,
+            key,
+            indicatorProps,
+            indicators(key)
+          )
+        }
+        return showDefaultIndicator(currentIndex, key, indicatorProps);
       })}
     </div>
   );
 };
 
-export { showNextArrow, showPreviousArrow, getUnhandledProps, showIndicators };
+
+
+export { getEasing, showNextArrow, showPreviousArrow, getUnhandledProps, showIndicators };
