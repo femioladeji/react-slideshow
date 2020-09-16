@@ -77,7 +77,7 @@
     "start": "serve public -s",
     "precommit": "lint-staged",
     "test": "jest && codecov",
-    "prepublish": "NODE_ENV=production babel src --out-dir lib --copy-files && npm run build"
+    "prepublishOnly": "NODE_ENV=production babel src --out-dir lib --copy-files && npm run build"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^18.1.2",
