@@ -33,7 +33,6 @@ const defaultProps = {
   };
   
   export const validatePropTypes = props => {
-    // const propKeys = Object.keys(propTypes)
     for (const key in props) {
       const propValueType = typeof props[key];
       if (propTypes[key]) {
