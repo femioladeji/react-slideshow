@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
@@ -81,7 +81,6 @@
   },
   "dependencies": {
     "@tweenjs/tween.js": "^18.1.2",
-    "prop-types": "^15.5.10",
     "resize-observer-polyfill": "^1.5.1"
   }
 }

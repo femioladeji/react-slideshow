@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
-import PropTypes from 'prop-types';
 import TWEEN from '@tweenjs/tween.js';
 import ResizeObserver from 'resize-observer-polyfill';
+import { validatePropTypes, propTypes, getProps } from './props';
 import {
   getUnhandledProps,
   showNextArrow,
@@ -39,6 +39,7 @@ class Fade extends Component {
     this.setWidth();
     this.play();
     this.initResizeObserver();
+    validatePropTypes(this.props);
   }
 
   initResizeObserver() {
@@ -50,26 +51,27 @@ class Fade extends Component {
   }
 
   play() {
-    const { autoplay, children } = this.props;
+    const { autoplay, children, duration } = getProps(this.props);
     const { index } = this.state;
     if (autoplay && children.length > 1) {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(
         () => this.fadeImages(index + 1),
-        this.props.duration
+        duration
       );
     }
   }
 
   componentDidUpdate(props) {
-    if (this.props.autoplay !== props.autoplay) {
-      if (this.props.autoplay) {
+    const { autoplay, children } = getProps(this.props);
+    if (autoplay !== props.autoplay) {
+      if (autoplay) {
         this.play();
       } else {
         clearTimeout(this.timeout);
       }
     }
-    if (this.props.children.length != props.children.length) {
+    if (children.length != props.children.length) {
       this.applyStyle();
       this.play();
     }
@@ -113,21 +115,21 @@ class Fade extends Component {
   }
 
   pauseSlides() {
-    if (this.props.pauseOnHover) {
+    if (getProps(this.props).pauseOnHover) {
       clearTimeout(this.timeout);
     }
   }
 
   startSlides() {
-    const { pauseOnHover, autoplay } = this.props;
+    const { pauseOnHover, autoplay, duration } = getProps(this.props);
     if (pauseOnHover && autoplay) {
-      this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+      this.timeout = setTimeout(() => this.goNext(), duration);
     }
   }
 
   goNext() {
     const { index } = this.state;
-    const { children, infinite } = this.props;
+    const { children, infinite } = getProps(this.props);
     if (!infinite && index === children.length - 1) {
       return;
     }
@@ -136,7 +138,7 @@ class Fade extends Component {
 
   goBack() {
     const { index } = this.state;
-    const { children, infinite } = this.props;
+    const { children, infinite } = getProps(this.props);
     if (!infinite && index === 0) {
       return;
     }
@@ -162,9 +164,9 @@ class Fade extends Component {
   }
 
   render() {
-    const { indicators, children, arrows } = this.props;
+    const { indicators, children, arrows } = getProps(this.props);
     const { index } = this.state;
-    const unhandledProps = getUnhandledProps(Fade.propTypes, this.props);
+    const unhandledProps = getUnhandledProps(propTypes, this.props);
     return (
       <div aria-roledescription="carousel" {...unhandledProps}>
         <div
@@ -175,7 +177,7 @@ class Fade extends Component {
           ref={this.reactSlideshowWrapper}
         >
           {arrows &&
-            showPreviousArrow(this.props, this.state.index, this.preFade)}
+            showPreviousArrow(getProps(this.props), this.state.index, this.preFade)}
           <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
             <div
               className="react-slideshow-fade-images-wrap"
@@ -197,10 +199,10 @@ class Fade extends Component {
               ))}
             </div>
           </div>
-          {arrows && showNextArrow(this.props, this.state.index, this.preFade)}
+          {arrows && showNextArrow(getProps(this.props), this.state.index, this.preFade)}
         </div>
         {indicators &&
-          showIndicators(this.props, this.state.index, this.navigate)}
+          showIndicators(getProps(this.props), this.state.index, this.navigate)}
       </div>
     );
   }
@@ -215,7 +217,7 @@ class Fade extends Component {
       transitionDuration,
       onChange,
       easing
-    } = this.props;
+    } = getProps(this.props);
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
       if (!this.divsContainer.children[newIndex]) {
@@ -264,30 +266,4 @@ class Fade extends Component {
   }
 }
 
-Fade.defaultProps = {
-  duration: 5000,
-  transitionDuration: 1000,
-  defaultIndex: 0,
-  indicators: false,
-  arrows: true,
-  autoplay: true,
-  infinite: true,
-  pauseOnHover: true,
-  easing: 'linear'
-};
-
-Fade.propTypes = {
-  duration: PropTypes.number,
-  transitionDuration: PropTypes.number,
-  defaultIndex: PropTypes.number,
-  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  arrows: PropTypes.bool,
-  autoplay: PropTypes.bool,
-  infinite: PropTypes.bool,
-  onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool,
-  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  easing: PropTypes.string
-};
 export default Fade;

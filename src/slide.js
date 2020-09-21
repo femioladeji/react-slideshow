@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 import TWEEN from '@tweenjs/tween.js';
 import ResizeObserver from 'resize-observer-polyfill';
-import PropTypes from 'prop-types';
+import { validatePropTypes, propTypes, getProps } from './props';
 import {
   getUnhandledProps,
   showNextArrow,
@@ -41,7 +41,8 @@ class Slideshow extends Component {
   componentDidMount() {
     this.setWidth();
     this.initResizeObserver();
-    const { autoplay, duration } = this.props;
+    validatePropTypes(this.props);
+    const { autoplay, duration } = getProps(this.props);
     if (autoplay) {
       this.timeout = setTimeout(() => this.goNext(), duration);
     }
@@ -117,14 +118,15 @@ class Slideshow extends Component {
   }
 
   componentDidUpdate(props) {
-    if (this.props.autoplay !== props.autoplay) {
-      if (this.props.autoplay) {
-        this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+    const { autoplay, duration, children } = getProps(this.props);
+    if (autoplay !== props.autoplay) {
+      if (autoplay) {
+        this.timeout = setTimeout(() => this.goNext(), duration);
       } else {
         clearTimeout(this.timeout);
       }
     }
-    if (this.props.children.length != props.children.length) {
+    if (children.length != props.children.length) {
       this.setWidth();
     }
   }
@@ -140,18 +142,18 @@ class Slideshow extends Component {
   }
 
   pauseSlides() {
-    if (this.props.pauseOnHover) {
+    if (getProps(this.props).pauseOnHover) {
       clearTimeout(this.timeout);
     }
   }
 
   startSlides() {
+    const { pauseOnHover, autoplay, duration } = getProps(this.props);
     if (this.state.dragging) {
       this.endSwipe()
     } else {
-      const { pauseOnHover, autoplay } = this.props;
       if (pauseOnHover && autoplay) {
-        this.timeout = setTimeout(() => this.goNext(), this.props.duration);
+        this.timeout = setTimeout(() => this.goNext(), duration);
       }
     }
   }
@@ -174,7 +176,7 @@ class Slideshow extends Component {
 
   goNext() {
     const { index } = this.state;
-    const { children, infinite } = this.props;
+    const { children, infinite } = getProps(this.props);
     if (!infinite && index === children.length - 1) {
       return;
     }
@@ -183,7 +185,7 @@ class Slideshow extends Component {
 
   goBack() {
     const { index } = this.state;
-    const { infinite } = this.props;
+    const { infinite } = getProps(this.props);
     if (!infinite && index === 0) {
       return;
     }
@@ -191,8 +193,8 @@ class Slideshow extends Component {
   }
 
   render() {
-    const { children, infinite, indicators, arrows } = this.props;
-    const unhandledProps = getUnhandledProps(Slideshow.propTypes, this.props);
+    const { children, indicators, arrows } = getProps(this.props);
+    const unhandledProps = getUnhandledProps(propTypes, this.props);
     const { index } = this.state;
     const style = {
       transform: `translate(-${(index + 1) * this.width}px)`
@@ -215,7 +217,7 @@ class Slideshow extends Component {
           ref={this.reactSlideshowWrapper}
         >
           {arrows &&
-            showPreviousArrow(this.props, this.state.index, this.moveSlides)}
+            showPreviousArrow(getProps(this.props), this.state.index, this.moveSlides)}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -253,10 +255,10 @@ class Slideshow extends Component {
             </div>
           </div>
           {arrows &&
-            showNextArrow(this.props, this.state.index, this.moveSlides)}
+            showNextArrow(getProps(this.props), this.state.index, this.moveSlides)}
         </div>
         {indicators &&
-          showIndicators(this.props, this.state.index, this.goToSlide)}
+          showIndicators(getProps(this.props), this.state.index, this.goToSlide)}
       </div>
     );
   }
@@ -270,7 +272,7 @@ class Slideshow extends Component {
       duration,
       onChange,
       easing
-    } = this.props;
+    } = getProps(this.props);
     transitionDuration = animationDuration || transitionDuration;
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
@@ -325,30 +327,4 @@ class Slideshow extends Component {
   }
 }
 
-Slideshow.defaultProps = {
-  duration: 5000,
-  transitionDuration: 1000,
-  defaultIndex: 0,
-  infinite: true,
-  autoplay: true,
-  indicators: false,
-  arrows: true,
-  pauseOnHover: true,
-  easing: 'linear'
-};
-
-Slideshow.propTypes = {
-  duration: PropTypes.number,
-  transitionDuration: PropTypes.number,
-  defaultIndex: PropTypes.number,
-  infinite: PropTypes.bool,
-  indicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  autoplay: PropTypes.bool,
-  arrows: PropTypes.bool,
-  onChange: PropTypes.func,
-  pauseOnHover: PropTypes.bool,
-  prevArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  nextArrow: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  easing: PropTypes.string
-};
 export default Slideshow;
