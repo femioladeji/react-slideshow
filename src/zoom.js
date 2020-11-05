@@ -12,7 +12,7 @@ import {
 
 class Zoom extends Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       index:
         props.defaultIndex && props.defaultIndex < props.children.length
