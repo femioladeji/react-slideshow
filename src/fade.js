@@ -12,7 +12,7 @@ import {
 
 class Fade extends Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       index:
         props.defaultIndex && props.defaultIndex < props.children.length
