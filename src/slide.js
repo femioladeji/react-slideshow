@@ -12,15 +12,15 @@ import {
 
 class Slideshow extends Component {
   constructor(props) {
-    super(props);
+    super()
     this.state = {
       index:
         props.defaultIndex && props.defaultIndex < props.children.length
           ? props.defaultIndex
-          : 0,
-      dragging: false
+          : 0
     };
     this.width = 0;
+    this.dragging = false;
     this.imageContainer = null;
     this.wrapper = null;
     this.timeout = null;
@@ -64,12 +64,12 @@ class Slideshow extends Component {
 
   startSwipe(e) {
     this.startingClientX = e.touches ? e.touches[0].pageX : e.clientX
-    this.setState({ dragging: true })
     clearTimeout(this.timeout)
+    this.dragging = true
   }
 
   endSwipe() {
-    this.setState({ dragging: false })
+    this.dragging = false
     if ((Math.abs(this.distanceSwiped) / this.width) > 0.2) {
       if (this.distanceSwiped < 0) {
         this.goNext();
@@ -85,7 +85,7 @@ class Slideshow extends Component {
 
   swipe(e) {
     const clientX = e.touches ? e.touches[0].pageX : e.clientX;
-    if (this.state.dragging) {
+    if (this.dragging) {
       let translateValue = this.width * (this.state.index + 1);
       this.distanceSwiped = clientX - this.startingClientX;
       translateValue -= this.distanceSwiped;
