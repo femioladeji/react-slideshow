@@ -149,7 +149,7 @@ class Slideshow extends Component {
 
   startSlides() {
     const { pauseOnHover, autoplay, duration } = getProps(this.props);
-    if (this.state.dragging) {
+    if (this.dragging) {
       this.endSwipe()
     } else {
       if (pauseOnHover && autoplay) {
