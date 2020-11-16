@@ -84,12 +84,15 @@ class Slideshow extends Component {
   }
 
   swipe(e) {
-    const clientX = e.touches ? e.touches[0].pageX : e.clientX;
-    if (this.dragging) {
-      let translateValue = this.width * (this.state.index + 1);
-      this.distanceSwiped = clientX - this.startingClientX;
-      translateValue -= this.distanceSwiped;
-      this.imageContainer.style.transform = `translate(-${translateValue}px)`;
+    const { canSwipe } = getProps(this.props);
+    if (canSwipe){
+      const clientX = e.touches ? e.touches[0].pageX : e.clientX;
+      if (this.dragging) {
+        let translateValue = this.width * (this.state.index + 1);
+        this.distanceSwiped = clientX - this.startingClientX;
+        translateValue -= this.distanceSwiped;
+        this.imageContainer.style.transform = `translate(-${translateValue}px)`;
+      }
     }
   }
 
