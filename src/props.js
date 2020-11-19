@@ -8,7 +8,8 @@ const defaultProps = {
     arrows: true,
     pauseOnHover: true,
     scale: 1,
-    easing: 'linear'
+    easing: 'linear',
+    canSwipe: true
   };
   
   export const getProps = componentProps => ({
@@ -29,7 +30,8 @@ const defaultProps = {
     prevArrow: ['object', 'function'],
     nextArrow: ['object', 'function'],
     scale: 'number',
-    easing: 'string'
+    easing: 'string',
+    canSwipe: 'boolean'
   };
   
   export const validatePropTypes = props => {
