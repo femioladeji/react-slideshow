@@ -63,9 +63,12 @@ class Slideshow extends Component {
   }
 
   startSwipe(e) {
-    this.startingClientX = e.touches ? e.touches[0].pageX : e.clientX
-    clearTimeout(this.timeout)
-    this.dragging = true
+    const { canSwipe } = getProps(this.props);
+    if (canSwipe){
+      this.startingClientX = e.touches ? e.touches[0].pageX : e.clientX
+      clearTimeout(this.timeout)
+      this.dragging = true
+    }
   }
 
   endSwipe() {
