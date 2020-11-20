@@ -12,7 +12,7 @@ import {
 
 class Slideshow extends Component {
   constructor(props) {
-    super()
+    super();
     this.state = {
       index:
         props.defaultIndex && props.defaultIndex < props.children.length
@@ -32,9 +32,9 @@ class Slideshow extends Component {
     this.reactSlideshowWrapper = createRef();
     this.goToSlide = this.goToSlide.bind(this);
     this.tweenGroup = new TWEEN.Group();
-    this.startSwipe = this.startSwipe.bind(this)
-    this.endSwipe = this.endSwipe.bind(this)
-    this.swipe = this.swipe.bind(this)
+    this.startSwipe = this.startSwipe.bind(this);
+    this.endSwipe = this.endSwipe.bind(this);
+    this.swipe = this.swipe.bind(this);
     this.distanceSwiped = 0;
   }
 
@@ -63,33 +63,42 @@ class Slideshow extends Component {
   }
 
   startSwipe(e) {
-    this.startingClientX = e.touches ? e.touches[0].pageX : e.clientX
-    clearTimeout(this.timeout)
-    this.dragging = true
+    const { canSwipe } = getProps(this.props);
+    if (canSwipe) {
+      this.startingClientX = e.touches ? e.touches[0].pageX : e.clientX;
+      clearTimeout(this.timeout);
+      this.dragging = true;
+    }
   }
 
   endSwipe() {
-    this.dragging = false
-    if ((Math.abs(this.distanceSwiped) / this.width) > 0.2) {
-      if (this.distanceSwiped < 0) {
-        this.goNext();
+    const { canSwipe } = getProps(this.props);
+    if (canSwipe) {
+      this.dragging = false;
+      if (Math.abs(this.distanceSwiped) / this.width > 0.2) {
+        if (this.distanceSwiped < 0) {
+          this.goNext();
+        } else {
+          this.goBack();
+        }
       } else {
-        this.goBack();
-      }
-    } else {
-      if (Math.abs(this.distanceSwiped) > 0) {
-        this.slideImages(this.state.index, 300)
+        if (Math.abs(this.distanceSwiped) > 0) {
+          this.slideImages(this.state.index, 300);
+        }
       }
     }
   }
 
   swipe(e) {
-    const clientX = e.touches ? e.touches[0].pageX : e.clientX;
-    if (this.dragging) {
-      let translateValue = this.width * (this.state.index + 1);
-      this.distanceSwiped = clientX - this.startingClientX;
-      translateValue -= this.distanceSwiped;
-      this.imageContainer.style.transform = `translate(-${translateValue}px)`;
+    const { canSwipe } = getProps(this.props);
+    if (canSwipe) {
+      const clientX = e.touches ? e.touches[0].pageX : e.clientX;
+      if (this.dragging) {
+        let translateValue = this.width * (this.state.index + 1);
+        this.distanceSwiped = clientX - this.startingClientX;
+        translateValue -= this.distanceSwiped;
+        this.imageContainer.style.transform = `translate(-${translateValue}px)`;
+      }
     }
   }
 
@@ -149,8 +158,8 @@ class Slideshow extends Component {
 
   startSlides() {
     const { pauseOnHover, autoplay, duration } = getProps(this.props);
-    if (this.state.dragging) {
-      this.endSwipe()
+    if (this.dragging) {
+      this.endSwipe();
     } else {
       if (pauseOnHover && autoplay) {
         this.timeout = setTimeout(() => this.goNext(), duration);
@@ -217,7 +226,11 @@ class Slideshow extends Component {
           ref={this.reactSlideshowWrapper}
         >
           {arrows &&
-            showPreviousArrow(getProps(this.props), this.state.index, this.moveSlides)}
+            showPreviousArrow(
+              getProps(this.props),
+              this.state.index,
+              this.moveSlides
+            )}
           <div
             className={`react-slideshow-wrapper slide`}
             ref={ref => (this.wrapper = ref)}
@@ -255,10 +268,18 @@ class Slideshow extends Component {
             </div>
           </div>
           {arrows &&
-            showNextArrow(getProps(this.props), this.state.index, this.moveSlides)}
+            showNextArrow(
+              getProps(this.props),
+              this.state.index,
+              this.moveSlides
+            )}
         </div>
         {indicators &&
-          showIndicators(getProps(this.props), this.state.index, this.goToSlide)}
+          showIndicators(
+            getProps(this.props),
+            this.state.index,
+            this.goToSlide
+          )}
       </div>
     );
   }
@@ -277,7 +298,9 @@ class Slideshow extends Component {
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
-      const value = { margin: (-this.width * (this.state.index + 1)) + this.distanceSwiped };
+      const value = {
+        margin: -this.width * (this.state.index + 1) + this.distanceSwiped
+      };
       const tween = new TWEEN.Tween(value, this.tweenGroup)
         .to({ margin: -this.width * (index + 1) }, transitionDuration)
         .onUpdate(value => {

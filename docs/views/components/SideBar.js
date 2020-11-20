@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({ isOpen }) => {
   const [dropDowns, setDropDowns] = useState(false);
 
-  const setMargin = isOpen ? "0" : "-60%";
+  const setMargin = isOpen ? '0' : '-60%';
 
   return (
     <div className="sidebar" style={{ marginLeft: setMargin }}>
@@ -35,6 +35,9 @@ const Sidebar = ({ isOpen }) => {
             <NavLink activeClassName="is-active" to="/pause-hover">
               Pause on hover
             </NavLink>
+            <NavLink activeClassName="is-active" to="/can-swipe">
+              Can swipe
+            </NavLink>
             <NavLink activeClassName="is-active" to="/autoplay">
               Autoplay toggle
             </NavLink>
@@ -46,7 +49,7 @@ const Sidebar = ({ isOpen }) => {
             </NavLink>
           </div>
         ) : (
-          ""
+          ''
         )}
         <NavLink activeClassName="is-active" to="/api">
           Props &amp; Methods

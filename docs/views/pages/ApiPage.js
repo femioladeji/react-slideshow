@@ -101,6 +101,15 @@ const Api = () => {
               </td>
             </tr>
             <tr>
+              <td>canSwipe</td>
+              <td>boolean</td>
+              <td>true</td>
+              <td>
+                Determines whether the user can go to next or previous slide by
+                the mouse or by touching
+              </td>
+            </tr>
+            <tr>
               <td>onChange</td>
               <td>function</td>
               <td></td>
@@ -114,8 +123,8 @@ const Api = () => {
               <td>string</td>
               <td>linear</td>
               <td>
-                The timing transition function to use. You can use one of linear,
-                ease, ease-in, ease-out, cubic, cubic-in, cubic-out
+                The timing transition function to use. You can use one of
+                linear, ease, ease-in, ease-out, cubic, cubic-in, cubic-out
               </td>
             </tr>
           </tbody>
