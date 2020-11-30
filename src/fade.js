@@ -64,7 +64,8 @@ class Fade extends Component {
 
   componentDidUpdate(props) {
     const { autoplay, children } = getProps(this.props);
-    if (autoplay !== props.autoplay) {
+    const newProps = getProps(props);
+    if (autoplay !== newProps.autoplay) {
       if (autoplay) {
         this.play();
       } else {
@@ -73,6 +74,7 @@ class Fade extends Component {
     }
     if (children.length != props.children.length) {
       this.applyStyle();
+      clearTimeout(this.timeout);
       this.play();
     }
   }

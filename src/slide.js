@@ -128,7 +128,8 @@ class Slideshow extends Component {
 
   componentDidUpdate(props) {
     const { autoplay, duration, children } = getProps(this.props);
-    if (autoplay !== props.autoplay) {
+    const newProps = getProps(props);
+    if (autoplay !== newProps.autoplay) {
       if (autoplay) {
         this.timeout = setTimeout(() => this.goNext(), duration);
       } else {
@@ -137,6 +138,8 @@ class Slideshow extends Component {
     }
     if (children.length != props.children.length) {
       this.setWidth();
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => this.goNext(), duration);
     }
   }
 
