@@ -72,7 +72,7 @@ class Fade extends Component {
         clearTimeout(this.timeout);
       }
     }
-    if (children.length != props.children.length) {
+    if (children.length != newProps.children.length) {
       this.applyStyle();
       clearTimeout(this.timeout);
       this.play();

@@ -136,7 +136,7 @@ class Slideshow extends Component {
         clearTimeout(this.timeout);
       }
     }
-    if (children.length != props.children.length) {
+    if (children.length != newProps.children.length) {
       this.setWidth();
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => this.goNext(), duration);
