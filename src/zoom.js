@@ -79,15 +79,17 @@ class Zoom extends Component {
 
   componentDidUpdate(props) {
     const { autoplay, children } = getProps(this.props);
-    if (autoplay !== props.autoplay) {
+    const newProps = getProps(props);
+    if (autoplay !== newProps.autoplay) {
       if (autoplay) {
         this.play();
       } else {
         clearTimeout(this.timeout);
       }
     }
-    if (children.length != props.children.length) {
+    if (children.length != newProps.children.length) {
       this.applyStyle();
+      clearTimeout(this.timeout);
       this.play();
     }
   }
