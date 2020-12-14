@@ -112,7 +112,7 @@ const showIndicators = (props, currentIndex, navigate) => {
   const isCustomIndicator = typeof indicators !== 'boolean';
 
   return (
-    <div className="indicators">
+    <ul className="indicators">
       {children.map((_, key) => {
         const indicatorProps = {
           'data-key': key,
@@ -129,7 +129,7 @@ const showIndicators = (props, currentIndex, navigate) => {
         }
         return showDefaultIndicator(currentIndex, key, indicatorProps);
       })}
-    </div>
+    </ul>
   );
 };
 
