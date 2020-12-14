@@ -54,7 +54,7 @@
 }
 
 
-.react-slideshow-container + div.indicators {
+.react-slideshow-container + ul.indicators {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -66,7 +66,7 @@
   margin-top: 20px;
 }
 
-.react-slideshow-container + div.indicators li {
+.react-slideshow-container + ul.indicators li {
   display: inline-block;
   position: relative;
   width: 7px;
@@ -75,7 +75,7 @@
   margin: 0;
 }
 
-.react-slideshow-container + div.indicators .each-slideshow-indicator {
+.react-slideshow-container + ul.indicators .each-slideshow-indicator {
   border: none;
   opacity: 0.25;
   cursor: pointer;
@@ -83,7 +83,7 @@
   color: transparent;
 }
 
-.react-slideshow-container + div.indicators .each-slideshow-indicator:before {
+.react-slideshow-container + ul.indicators .each-slideshow-indicator:before {
   position: absolute;
   top: 0;
   left: 0;
@@ -95,9 +95,9 @@
   text-align: center;
 }
 
-.react-slideshow-container + div.indicators .each-slideshow-indicator:hover,
-.react-slideshow-container + div.indicators .each-slideshow-indicator.active,
-.react-slideshow-container + div.indicators .each-slideshow-indicator:focus {
+.react-slideshow-container + ul.indicators .each-slideshow-indicator:hover,
+.react-slideshow-container + ul.indicators .each-slideshow-indicator.active,
+.react-slideshow-container + ul.indicators .each-slideshow-indicator:focus {
   opacity: 0.75;
   outline: none;
 }
