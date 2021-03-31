@@ -119,7 +119,8 @@ class Slideshow extends Component {
       0
     );
     this.width = this.wrapper.clientWidth;
-    const fullwidth = this.width * (this.props.children.length + 2);
+    const fullwidth =
+      this.width * (React.Children.count(this.props.children) + 2);
     this.imageContainer.style.width = `${fullwidth}px`;
     this.imageContainer.style.transform = `translate(-${this.width *
       (this.state.index + 1)}px)`;
@@ -162,7 +163,7 @@ class Slideshow extends Component {
   startSlides() {
     const { pauseOnHover, autoplay, duration } = getProps(this.props);
     if (this.dragging) {
-      this.endSwipe()
+      this.endSwipe();
     } else {
       if (pauseOnHover && autoplay) {
         this.timeout = setTimeout(() => this.goNext(), duration);

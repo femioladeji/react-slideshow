@@ -12,10 +12,17 @@ const defaultProps = {
   canSwipe: true
 };
 
-export const getProps = componentProps => ({
-  ...defaultProps,
-  ...componentProps
-});
+export const getProps = componentProps => {
+  let children = componentProps.children;
+  if (!Array.isArray(children)) {
+    children = [children];
+  }
+  return {
+    ...defaultProps,
+    ...componentProps,
+    children
+  };
+};
 
 export const propTypes = {
   duration: 'number',
