@@ -55,10 +55,7 @@ class Fade extends Component {
     const { index } = this.state;
     if (autoplay && children.length > 1) {
       clearTimeout(this.timeout);
-      this.timeout = setTimeout(
-        () => this.fadeImages(index + 1),
-        duration
-      );
+      this.timeout = setTimeout(() => this.fadeImages(index + 1), duration);
     }
   }
 
@@ -105,7 +102,7 @@ class Fade extends Component {
   }
 
   applyStyle() {
-    const fullwidth = this.width * this.props.children.length;
+    const fullwidth = this.width * React.Children.count(this.props.children);
     this.divsContainer.style.width = `${fullwidth}px`;
     for (let index = 0; index < this.divsContainer.children.length; index++) {
       const eachDiv = this.divsContainer.children[index];
@@ -179,7 +176,11 @@ class Fade extends Component {
           ref={this.reactSlideshowWrapper}
         >
           {arrows &&
-            showPreviousArrow(getProps(this.props), this.state.index, this.preFade)}
+            showPreviousArrow(
+              getProps(this.props),
+              this.state.index,
+              this.preFade
+            )}
           <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
             <div
               className="react-slideshow-fade-images-wrap"
@@ -201,7 +202,8 @@ class Fade extends Component {
               ))}
             </div>
           </div>
-          {arrows && showNextArrow(getProps(this.props), this.state.index, this.preFade)}
+          {arrows &&
+            showNextArrow(getProps(this.props), this.state.index, this.preFade)}
         </div>
         {indicators &&
           showIndicators(getProps(this.props), this.state.index, this.navigate)}
