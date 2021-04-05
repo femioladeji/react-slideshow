@@ -42,11 +42,13 @@ class Zoom extends Component {
   }
 
   initResizeObserver() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      if (!entries) return;
-      this.handleResize();
-    });
-    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+    if (this.reactSlideshowWrapper.current) {
+      this.resizeObserver = new ResizeObserver(entries => {
+        if (!entries) return;
+        this.handleResize();
+      });
+      this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+    }
   }
 
   play() {
@@ -92,7 +94,9 @@ class Zoom extends Component {
   }
 
   setWidth() {
-    this.width = this.wrapper.clientWidth;
+    if (this.wrapper) {
+      this.width = this.wrapper.clientWidth;
+    }
     this.applyStyle();
   }
 
@@ -102,12 +106,14 @@ class Zoom extends Component {
 
   applyStyle() {
     const fullwidth = this.width * React.Children.count(this.props.children);
-    this.divsContainer.style.width = `${fullwidth}px`;
-    for (let index = 0; index < this.divsContainer.children.length; index++) {
-      const eachDiv = this.divsContainer.children[index];
-      if (eachDiv) {
-        eachDiv.style.width = `${this.width}px`;
-        eachDiv.style.left = `${index * -this.width}px`;
+    if (this.divsContainer) {
+      this.divsContainer.style.width = `${fullwidth}px`;
+      for (let index = 0; index < this.divsContainer.children.length; index++) {
+        const eachDiv = this.divsContainer.children[index];
+        if (eachDiv) {
+          eachDiv.style.width = `${this.width}px`;
+          eachDiv.style.left = `${index * -this.width}px`;
+        }
       }
     }
   }
@@ -227,7 +233,7 @@ class Zoom extends Component {
     } = getProps(this.props);
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
-      if (!this.divsContainer.children[newIndex]) {
+      if (this.divsContainer && !this.divsContainer.children[newIndex]) {
         newIndex = 0;
       }
       clearTimeout(this.timeout);
@@ -250,11 +256,14 @@ class Zoom extends Component {
       const tween = new TWEEN.Tween(value, this.tweenGroup)
         .to({ opacity: 1, scale }, transitionDuration)
         .onUpdate(value => {
-          this.divsContainer.children[newIndex].style.opacity = value.opacity;
-          this.divsContainer.children[index].style.opacity = 1 - value.opacity;
-          this.divsContainer.children[
-            index
-          ].style.transform = `scale(${value.scale})`;
+          if (this.divsContainer) {
+            this.divsContainer.children[newIndex].style.opacity = value.opacity;
+            this.divsContainer.children[index].style.opacity =
+              1 - value.opacity;
+            this.divsContainer.children[
+              index
+            ].style.transform = `scale(${value.scale})`;
+          }
         })
         .start();
       tween.easing(getEasing(easing));
@@ -265,14 +274,11 @@ class Zoom extends Component {
         if (typeof onChange === 'function') {
           onChange(index, newIndex);
         }
-        this.setState(
-          {
-            index: newIndex
-          },
-          () => {
+        this.setState({ index: newIndex }, () => {
+          if (this.divsContainer) {
             this.divsContainer.children[index].style.transform = `scale(1)`;
           }
-        );
+        });
         if (autoplay && (infinite || newIndex < children.length - 1)) {
           clearTimeout(this.timeout);
           this.timeout = setTimeout(() => {
