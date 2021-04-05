@@ -43,11 +43,13 @@ class Fade extends Component {
   }
 
   initResizeObserver() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      if (!entries) return;
-      this.handleResize();
-    });
-    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+    if (this.reactSlideshowWrapper.current) {
+      this.resizeObserver = new ResizeObserver(entries => {
+        if (!entries) return;
+        this.handleResize();
+      });
+      this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+    }
   }
 
   play() {
@@ -93,7 +95,9 @@ class Fade extends Component {
   }
 
   setWidth() {
-    this.width = this.wrapper.current.clientWidth;
+    if (this.wrapper.current) {
+      this.width = this.wrapper.current.clientWidth;
+    }
     this.applyStyle();
   }
 
@@ -103,12 +107,14 @@ class Fade extends Component {
 
   applyStyle() {
     const fullwidth = this.width * React.Children.count(this.props.children);
-    this.divsContainer.style.width = `${fullwidth}px`;
-    for (let index = 0; index < this.divsContainer.children.length; index++) {
-      const eachDiv = this.divsContainer.children[index];
-      if (eachDiv) {
-        eachDiv.style.width = `${this.width}px`;
-        eachDiv.style.left = `${index * -this.width}px`;
+    if (this.divsContainer) {
+      this.divsContainer.style.width = `${fullwidth}px`;
+      for (let index = 0; index < this.divsContainer.children.length; index++) {
+        const eachDiv = this.divsContainer.children[index];
+        if (eachDiv) {
+          eachDiv.style.width = `${this.width}px`;
+          eachDiv.style.left = `${index * -this.width}px`;
+        }
       }
     }
   }

@@ -53,7 +53,9 @@ class Slideshow extends Component {
       if (!entries) return;
       this.handleResize();
     });
-    this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+    if (this.reactSlideshowWrapper.current) {
+      this.resizeObserver.observe(this.reactSlideshowWrapper.current);
+    }
   }
 
   componentWillUnmount() {
@@ -114,16 +116,21 @@ class Slideshow extends Component {
 
   setWidth() {
     // the .slice.call was needed to support ie11
-    this.allImages = Array.prototype.slice.call(
-      this.wrapper.querySelectorAll(`.images-wrap > div`),
-      0
-    );
-    this.width = this.wrapper.clientWidth;
+    this.allImages =
+      (this.wrapper &&
+        Array.prototype.slice.call(
+          this.wrapper.querySelectorAll(`.images-wrap > div`),
+          0
+        )) ||
+      [];
+    this.width = (this.wrapper && this.wrapper.clientWidth) || 0;
     const fullwidth =
       this.width * (React.Children.count(this.props.children) + 2);
-    this.imageContainer.style.width = `${fullwidth}px`;
-    this.imageContainer.style.transform = `translate(-${this.width *
-      (this.state.index + 1)}px)`;
+    if (this.imageContainer) {
+      this.imageContainer.style.width = `${fullwidth}px`;
+      this.imageContainer.style.transform = `translate(-${this.width *
+        (this.state.index + 1)}px)`;
+    }
     this.applySlideStyle();
   }
 
@@ -308,7 +315,9 @@ class Slideshow extends Component {
       const tween = new TWEEN.Tween(value, this.tweenGroup)
         .to({ margin: -this.width * (index + 1) }, transitionDuration)
         .onUpdate(value => {
-          this.imageContainer.style.transform = `translate(${value.margin}px)`;
+          if (this.imageContainer) {
+            this.imageContainer.style.transform = `translate(${value.margin}px)`;
+          }
         })
         .start();
       tween.easing(getEasing(easing));
