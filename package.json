@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "3.4.6",
+  "version": "3.4.7",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
@@ -57,7 +57,7 @@
     "uglifycss": "0.0.29",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^1.16.5"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0",
