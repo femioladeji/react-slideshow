@@ -1,3 +1,5 @@
+import React from 'react';
+
 const defaultProps = {
   duration: 5000,
   transitionDuration: 1000,
@@ -13,7 +15,7 @@ const defaultProps = {
 };
 
 export const getProps = componentProps => {
-  let children = componentProps.children;
+  let children = React.Children.map(componentProps.children, each => each);
   if (!Array.isArray(children)) {
     children = [children];
   }
