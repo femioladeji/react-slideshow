@@ -173,7 +173,7 @@ class Fade extends Component {
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(propTypes, this.props);
     return (
-      <div aria-roledescription="carousel" {...unhandledProps}>
+      <div dir="ltr" aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
