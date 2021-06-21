@@ -30,7 +30,6 @@ class Examples extends Component {
       infinite: true,
       indicators: true,
       pauseOnHover: true,
-      dir: 'ltr',
       onChange: (oldIndex, newIndex) => {
         console.log(
           `Slide transition finished from ${oldIndex} to ${newIndex}`
