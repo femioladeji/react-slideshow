@@ -221,7 +221,7 @@ class Slideshow extends Component {
     };
 
     return (
-      <div aria-roledescription="carousel" {...unhandledProps}>
+      <div dir="ltr" aria-roledescription="carousel" {...unhandledProps}>
         <div
           className="react-slideshow-container"
           onMouseEnter={this.pauseSlides}
