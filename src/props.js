@@ -11,14 +11,13 @@ const defaultProps = {
   pauseOnHover: true,
   scale: 1,
   easing: 'linear',
-  canSwipe: true
+  canSwipe: true,
+  slidesToShow: 1,
+  slidesToScroll: 1
 };
 
 export const getProps = componentProps => {
   let children = React.Children.map(componentProps.children, each => each);
-  if (!Array.isArray(children)) {
-    children = [children];
-  }
   return {
     ...defaultProps,
     ...componentProps,
@@ -40,7 +39,9 @@ export const propTypes = {
   nextArrow: ['object', 'function'],
   scale: 'number',
   easing: 'string',
-  canSwipe: 'boolean'
+  canSwipe: 'boolean',
+  slidesToShow: 'number',
+  slidesToScroll: 'number'
 };
 
 export const validatePropTypes = props => {
