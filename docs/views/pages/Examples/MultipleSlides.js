@@ -2,7 +2,7 @@ import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Slide } from '../../../../src';
-import { pauseOnHover, fadeEffectCSS } from '../../codeStrings';
+import { multipleSlides } from '../../codeStrings';
 
 const MultipleSlides = () => {
   const style = {
@@ -14,21 +14,18 @@ const MultipleSlides = () => {
 
   const properties = {
     duration: 3000,
-    pauseOnHover: true,
     slidesToShow: 2,
     slidesToScroll: 1,
-    autoplay: false
+    autoplay: false,
+    indicators: true
   };
 
   return (
     <div>
-      <h2>Pause on hover</h2>
-      <p>
-        The slide effect gets paused when the user hovers on the slide and it
-        continues playing on mouse out
-      </p>
+      <h2>Multiple Slides</h2>
+      <p>The slide effect has support for multiple slides on a page.</p>
       <SyntaxHighlighter language="react" style={dark}>
-        {pauseOnHover}
+        {multipleSlides}
       </SyntaxHighlighter>
       <br />
       <div>
@@ -36,13 +33,14 @@ const MultipleSlides = () => {
           <div style={style}>First Slide</div>
           <div style={style}>Second Slide</div>
           <div style={style}>Third Slide</div>
+          <div style={style}>Fourth Slide</div>
+          <div style={style}>Fifth Slide</div>
+          <div style={style}>sixth Slide</div>
+          <div style={style}>Seventh Slide</div>
+          <div style={style}>Eight Slide</div>
         </Slide>
       </div>
       <br />
-      Here is the css used to accomplish this layout.
-      <SyntaxHighlighter language="react" style={dark}>
-        {fadeEffectCSS}
-      </SyntaxHighlighter>
     </div>
   );
 };

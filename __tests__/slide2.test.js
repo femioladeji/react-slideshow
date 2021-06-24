@@ -169,3 +169,27 @@ test('Custom prevArrow indicator can be set', async () => {
     }
   );
 });
+
+test('it calls onChange callback after every slide change', async () => {
+  const wrapperElement = document.createElement('div');
+  const mockFunction = jest.fn();
+  const { baseElement } = renderSlide(
+    {
+      ...options,
+      onChange: mockFunction,
+      autoplay: false
+    },
+    wrapperElement
+  );
+  const nav = baseElement.querySelectorAll('.nav');
+
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(mockFunction).toHaveBeenCalledWith(0, 1);
+    },
+    {
+      timeout: options.transitionDuration + 1
+    }
+  );
+});
