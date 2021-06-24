@@ -11,12 +11,6 @@ body {
   padding: 10px 3%;
 }
 
-.two {
-  border: solid 2px blue;
-  border-radius: 50px;
-  background: red;
-}
-
 p {
   line-height: 1.5rem;
 }
