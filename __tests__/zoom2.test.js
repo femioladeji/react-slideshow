@@ -166,3 +166,14 @@ test('Custom prevArrow indicator can be set', async () => {
     }
   );
 });
+
+test('cssClass prop exists on element when it is passed', () => {
+  const { container } = renderZoom2({
+    ...zoomOut,
+    cssClass: 'myStyle'
+  });
+  let elementToStyle = container.querySelectorAll(
+    '.react-slideshow-zoom-wrapper'
+  );
+  expect(elementToStyle.length).toBe(1);
+});

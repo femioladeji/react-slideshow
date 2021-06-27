@@ -153,3 +153,14 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
     }
   );
 });
+
+test('cssClass prop exists on element when it is passed', () => {
+  const { container } = renderSlide({
+    ...options,
+    cssClass: 'myStyle'
+  });
+  let elementToStyle = container.querySelectorAll(
+    '.react-slideshow-wrapper, .slide'
+  );
+  expect(elementToStyle.length).toBe(1);
+});

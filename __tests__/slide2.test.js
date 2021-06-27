@@ -169,3 +169,14 @@ test('Custom prevArrow indicator can be set', async () => {
     }
   );
 });
+
+test('cssClass prop exists on element when it is passed', () => {
+  const { container } = renderSlide({
+    ...options,
+    cssClass: 'myStyle'
+  });
+  let elementToStyle = container.querySelectorAll(
+    '.react-slideshow-wrapper, .slide'
+  );
+  expect(elementToStyle.length).toBe(1);
+});

@@ -177,3 +177,14 @@ test('shows custom indicators if it exists', () => {
   expect(indicators[1].innerHTML).toBe('2');
   expect(indicators[2].innerHTML).toBe('3');
 });
+
+test('cssClass prop exists on element when it is passed', () => {
+  const { container } = renderFade({
+    ...options,
+    cssClass: 'myStyle'
+  });
+  let elementToStyle = container.querySelectorAll(
+    '.react-slideshow-fade-wrapper'
+  );
+  expect(elementToStyle.length).toBe(1);
+});
