@@ -235,12 +235,17 @@ class Slideshow extends Component {
     this.slideImages(previousIndex);
   }
 
+  isSlideActive(key) {
+    const { slidesToShow } = getProps(this.props);
+    return key < this.state.index + slidesToShow && key >= this.state.index;
+  }
+
   renderPreceedingSlides(children, slidesToShow) {
     return children.slice(-slidesToShow).map((each, index) => (
       <div
         data-index={index - slidesToShow}
         aria-roledescription="slide"
-        aria-hidden="false"
+        aria-hidden="true"
         key={index - slidesToShow}
       >
         {each}
@@ -253,7 +258,7 @@ class Slideshow extends Component {
       <div
         data-index={children.length + index}
         aria-roledescription="slide"
-        aria-hidden="false"
+        aria-hidden="true"
         key={children.length + index}
       >
         {each}
@@ -301,19 +306,20 @@ class Slideshow extends Component {
               ref={ref => (this.imageContainer = ref)}
             >
               {this.renderPreceedingSlides(children, slidesToShow)}
-              {children.map((each, key) => (
-                <div
-                  data-index={key}
-                  key={key}
-                  className={key === index ? 'active' : ''}
-                  aria-roledescription="slide"
-                  aria-hidden={
-                    Math.floor(key / slidesToShow) === index ? 'false' : 'true'
-                  }
-                >
-                  {each}
-                </div>
-              ))}
+              {children.map((each, key) => {
+                const isSlideActive = this.isSlideActive(key);
+                return (
+                  <div
+                    data-index={key}
+                    key={key}
+                    className={isSlideActive ? 'active' : ''}
+                    aria-roledescription="slide"
+                    aria-hidden={isSlideActive ? 'false' : 'true'}
+                  >
+                    {each}
+                  </div>
+                );
+              })}
               {this.renderTrailingSlides(children, slidesToShow)}
             </div>
           </div>

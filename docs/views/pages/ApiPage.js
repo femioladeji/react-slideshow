@@ -127,6 +127,18 @@ const Api = () => {
                 linear, ease, ease-in, ease-out, cubic, cubic-in, cubic-out
               </td>
             </tr>
+            <tr>
+              <td>slidesToShow</td>
+              <td>number</td>
+              <td>1</td>
+              <td>The number of slides to show on each page</td>
+            </tr>
+            <tr>
+              <td>slidesToScroll</td>
+              <td>number</td>
+              <td>1</td>
+              <td>The number of slides to scroll</td>
+            </tr>
           </tbody>
         </table>
       </div>

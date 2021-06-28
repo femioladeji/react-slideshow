@@ -53,12 +53,10 @@ const showPreviousArrow = (
   );
 };
 
-const showNextArrow = (
-  { nextArrow, infinite, children },
-  currentIndex,
-  moveSlides
-) => {
-  const isDisabled = currentIndex === children.length - 1 && !infinite;
+const showNextArrow = (properties, currentIndex, moveSlides) => {
+  const { nextArrow, infinite, children, slidesToScroll } = properties;
+  const isDisabled =
+    currentIndex >= children.length - slidesToScroll && !infinite;
   const props = {
     'data-type': 'next',
     'aria-label': 'Next Slide',

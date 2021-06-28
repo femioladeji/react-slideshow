@@ -18,9 +18,38 @@ const options = {
 
 afterEach(cleanup);
 
-test('It shows it shows two slides on the page', () => {
-  const { container, debug } = renderSlide(options);
-  console.log(debug());
+test('It adds preceeding and trailing slides based on number of slides to show', () => {
+  const { container } = renderSlide(options);
   const childrenElements = container.querySelectorAll('.images-wrap > div');
-  expect(childrenElements.length).toEqual(images.length + 4);
+  expect(childrenElements.length).toEqual(
+    images.length + options.slidesToShow * 2
+  );
+});
+
+test('It shows 2 slides on the first page', () => {
+  const { container } = renderSlide(options);
+  const activeChildren = container.querySelectorAll(
+    '.images-wrap > div.active'
+  );
+  const allChildren = container.querySelectorAll('.images-wrap > div');
+  expect(activeChildren.length).toEqual(options.slidesToShow);
+  // the first 2 are preceeding slides that's why the index 2 & 3 are the active ones
+  expect(allChildren[2].classList).toContain('active');
+  expect(allChildren[3].classList).toContain('active');
+});
+
+test('it uses the default value of slideToScroll (1) if prop is not passed', async () => {
+  const { container } = renderSlide(options);
+  const nav = container.querySelectorAll('.nav');
+  const allChildren = container.querySelectorAll('.images-wrap > div');
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(allChildren[3].classList).toContain('active');
+      expect(allChildren[4].classList).toContain('active');
+    },
+    {
+      timeout: options.transitionDuration + 1
+    }
+  );
 });
