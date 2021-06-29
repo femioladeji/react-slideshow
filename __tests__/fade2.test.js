@@ -183,6 +183,6 @@ test('cssClass prop exists on element when it is passed', () => {
     ...options,
     cssClass: 'myStyle'
   });
-  let wrapper = container.querySelectorAll('.react-slideshow-fade-wrapper');
-  expect(wrapper[0].classList).toContain('myStyle');
+  let wrapper = container.querySelector('.react-slideshow-fade-wrapper');
+  expect(wrapper.classList).toContain('myStyle');
 });
