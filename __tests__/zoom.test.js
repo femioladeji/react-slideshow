@@ -157,14 +157,3 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
     }
   );
 });
-
-test('cssClass prop exists on element when it is passed', () => {
-  const { container } = renderZoom({
-    ...zoomOut,
-    cssClass: 'myStyle'
-  });
-  let elementToStyle = container.querySelectorAll(
-    '.react-slideshow-zoom-wrapper'
-  );
-  expect(elementToStyle.length).toBe(1);
-});

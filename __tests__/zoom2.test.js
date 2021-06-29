@@ -172,8 +172,6 @@ test('cssClass prop exists on element when it is passed', () => {
     ...zoomOut,
     cssClass: 'myStyle'
   });
-  let elementToStyle = container.querySelectorAll(
-    '.react-slideshow-zoom-wrapper'
-  );
-  expect(elementToStyle.length).toBe(1);
+  let wrapper = container.querySelectorAll('.react-slideshow-zoom-wrapper');
+  expect(wrapper[0].classList).toContain('myStyle');
 });

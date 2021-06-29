@@ -127,6 +127,16 @@ const Api = () => {
                 linear, ease, ease-in, ease-out, cubic, cubic-in, cubic-out
               </td>
             </tr>
+            <tr>
+              <td>cssClass</td>
+              <td>string</td>
+              <td>""</td>
+              <td>
+                Use this prop to add your custom css to the wrapper containing
+                the sliders. Pass your css className as value for the cssClass
+                prop
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
