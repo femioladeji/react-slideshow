@@ -168,7 +168,7 @@ class Zoom extends Component {
   }
 
   render() {
-    const { indicators, arrows, children } = getProps(this.props);
+    const { indicators, arrows, children, cssClass } = getProps(this.props);
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(propTypes, this.props);
     return (
@@ -187,7 +187,7 @@ class Zoom extends Component {
               this.preZoom
             )}
           <div
-            className="react-slideshow-zoom-wrapper"
+            className={`react-slideshow-zoom-wrapper ${cssClass}`}
             ref={ref => (this.wrapper = ref)}
           >
             <div
