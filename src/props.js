@@ -12,14 +12,13 @@ const defaultProps = {
   scale: 1,
   easing: 'linear',
   canSwipe: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
   cssClass: ''
 };
 
 export const getProps = componentProps => {
   let children = React.Children.map(componentProps.children, each => each);
-  if (!Array.isArray(children)) {
-    children = [children];
-  }
   return {
     ...defaultProps,
     ...componentProps,
@@ -42,6 +41,8 @@ export const propTypes = {
   scale: 'number',
   easing: 'string',
   canSwipe: 'boolean',
+  slidesToShow: 'number',
+  slidesToScroll: 'number',
   cssClass: 'string'
 };
 

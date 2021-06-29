@@ -9,11 +9,11 @@ const EASING_METHODS = {
   cubic: TWEEN.Easing.Cubic.InOut,
   'cubic-in': TWEEN.Easing.Cubic.In,
   'cubic-out': TWEEN.Easing.Cubic.Out
-}
+};
 
-const getEasing = (easeMethod) => {
-  return EASING_METHODS[easeMethod] || EASING_METHODS.linear
-}
+const getEasing = easeMethod => {
+  return EASING_METHODS[easeMethod] || EASING_METHODS.linear;
+};
 
 const getUnhandledProps = (ComponentProps, props) => {
   const handledProps = Object.keys(ComponentProps);
@@ -46,17 +46,17 @@ const showPreviousArrow = (
   const className = `nav default-nav ${isDisabled ? 'disabled' : ''}`;
   return (
     <button className={className} {...props}>
-      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+      </svg>
     </button>
   );
 };
 
-const showNextArrow = (
-  { nextArrow, infinite, children },
-  currentIndex,
-  moveSlides
-) => {
-  const isDisabled = currentIndex === children.length - 1 && !infinite;
+const showNextArrow = (properties, currentIndex, moveSlides) => {
+  const { nextArrow, infinite, children, slidesToScroll } = properties;
+  const isDisabled =
+    currentIndex >= children.length - slidesToScroll && !infinite;
   const props = {
     'data-type': 'next',
     'aria-label': 'Next Slide',
@@ -74,17 +74,19 @@ const showNextArrow = (
   const className = `nav default-nav ${isDisabled ? 'disabled' : ''}`;
   return (
     <button className={className} {...props}>
-      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+      </svg>
     </button>
   );
 };
 
-const showDefaultIndicator = (currentIndex, key, indicatorProps) => {
+const showDefaultIndicator = (isCurrentPageActive, key, indicatorProps) => {
   return (
     <li key={key}>
       <button
         className={`each-slideshow-indicator ${
-          currentIndex === key ? 'active' : ''
+          isCurrentPageActive ? 'active' : ''
         }`}
         {...indicatorProps}
       />
@@ -93,14 +95,14 @@ const showDefaultIndicator = (currentIndex, key, indicatorProps) => {
 };
 
 const showCustomIndicator = (
-  currentIndex,
+  isCurrentPageActive,
   key,
   indicatorProps,
   eachIndicator
 ) => {
   return React.cloneElement(eachIndicator, {
     className: `${eachIndicator.props.className} ${
-      currentIndex === key ? 'active' : ''
+      isCurrentPageActive ? 'active' : ''
     }`,
     key,
     ...indicatorProps
@@ -108,31 +110,38 @@ const showCustomIndicator = (
 };
 
 const showIndicators = (props, currentIndex, navigate) => {
-  const { children, indicators } = props;
+  const { children, indicators, slidesToScroll } = props;
   const isCustomIndicator = typeof indicators !== 'boolean';
-
+  const pages = Math.ceil(children.length / slidesToScroll);
   return (
     <ul className="indicators">
-      {children.map((_, key) => {
+      {Array.from({ length: pages }, (_, key) => {
         const indicatorProps = {
           'data-key': key,
           'aria-label': `Go to slide ${key + 1}`,
           onClick: navigate
         };
+        const isCurrentPageActive =
+          Math.floor((currentIndex + slidesToScroll - 1) / slidesToScroll) ===
+          key;
         if (isCustomIndicator) {
           return showCustomIndicator(
-            currentIndex,
+            isCurrentPageActive,
             key,
             indicatorProps,
             indicators(key)
-          )
+          );
         }
-        return showDefaultIndicator(currentIndex, key, indicatorProps);
+        return showDefaultIndicator(isCurrentPageActive, key, indicatorProps);
       })}
     </ul>
   );
 };
 
-
-
-export { getEasing, showNextArrow, showPreviousArrow, getUnhandledProps, showIndicators };
+export {
+  getEasing,
+  showNextArrow,
+  showPreviousArrow,
+  getUnhandledProps,
+  showIndicators
+};

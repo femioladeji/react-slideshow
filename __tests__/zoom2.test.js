@@ -5,7 +5,7 @@ import {
   waitForDomChange
 } from '@testing-library/react';
 import React from 'react';
-import { renderZoom, renderZoom2, images } from '../test-utils';
+import { renderZoom, renderZoom2 } from '../test-utils';
 
 afterEach(cleanup);
 
@@ -163,6 +163,30 @@ test('Custom prevArrow indicator can be set', async () => {
     },
     {
       timeout: zoomOut.transitionDuration
+    }
+  );
+});
+
+test('it calls onChange callback after every slide change', async () => {
+  const wrapperElement = document.createElement('div');
+  const mockFunction = jest.fn();
+  const { baseElement } = renderZoom(
+    {
+      ...zoomOut,
+      onChange: mockFunction,
+      autoplay: false
+    },
+    wrapperElement
+  );
+  const nav = baseElement.querySelectorAll('.nav');
+
+  fireEvent.click(nav[1]);
+  await wait(
+    () => {
+      expect(mockFunction).toHaveBeenCalledWith(0, 1);
+    },
+    {
+      timeout: zoomOut.transitionDuration + 1
     }
   );
 });

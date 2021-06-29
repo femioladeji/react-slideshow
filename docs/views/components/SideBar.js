@@ -35,6 +35,9 @@ const Sidebar = ({ isOpen }) => {
             <NavLink activeClassName="is-active" to="/pause-hover">
               Pause on hover
             </NavLink>
+            <NavLink activeClassName="is-active" to="/multiple-slides">
+              Multiple Slides
+            </NavLink>
             <NavLink activeClassName="is-active" to="/can-swipe">
               Can swipe
             </NavLink>

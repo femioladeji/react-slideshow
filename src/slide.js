@@ -92,11 +92,11 @@ class Slideshow extends Component {
   }
 
   swipe(e) {
-    const { canSwipe } = getProps(this.props);
+    const { canSwipe, slidesToShow } = getProps(this.props);
     if (canSwipe) {
       const clientX = e.touches ? e.touches[0].pageX : e.clientX;
       if (this.dragging) {
-        let translateValue = this.width * (this.state.index + 1);
+        let translateValue = this.width * (this.state.index + slidesToShow);
         this.distanceSwiped = clientX - this.startingClientX;
         translateValue -= this.distanceSwiped;
         this.imageContainer.style.transform = `translate(-${translateValue}px)`;
@@ -123,13 +123,15 @@ class Slideshow extends Component {
           0
         )) ||
       [];
-    this.width = (this.wrapper && this.wrapper.clientWidth) || 0;
-    const fullwidth =
-      this.width * (React.Children.count(this.props.children) + 2);
+    const { slidesToShow } = getProps(this.props);
+    this.width =
+      ((this.wrapper && this.wrapper.clientWidth) || 0) / slidesToShow;
+    const numberOfSlides = React.Children.count(this.props.children);
+    const fullwidth = this.width * (numberOfSlides + slidesToShow * 2);
     if (this.imageContainer) {
       this.imageContainer.style.width = `${fullwidth}px`;
       this.imageContainer.style.transform = `translate(-${this.width *
-        (this.state.index + 1)}px)`;
+        (this.state.index + slidesToShow)}px)`;
     }
     this.applySlideStyle();
   }
@@ -187,37 +189,91 @@ class Slideshow extends Component {
   }
 
   goToSlide({ currentTarget }) {
-    this.goTo(parseInt(currentTarget.dataset.key));
+    const { slidesToScroll } = getProps(this.props);
+    this.goTo(parseInt(currentTarget.dataset.key * slidesToScroll));
   }
 
   goTo(index) {
-    this.slideImages(index);
+    this.slideImages(this.calculateIndex(index));
+  }
+
+  calculateIndex(nextIndex) {
+    const { children, slidesToScroll } = getProps(this.props);
+    if (
+      nextIndex < children.length &&
+      nextIndex + slidesToScroll > children.length
+    ) {
+      if ((children.length - slidesToScroll) % slidesToScroll) {
+        return children.length - slidesToScroll;
+      }
+      return nextIndex;
+    }
+    return nextIndex;
   }
 
   goNext() {
     const { index } = this.state;
-    const { children, infinite } = getProps(this.props);
-    if (!infinite && index === children.length - 1) {
+    const { children, infinite, slidesToScroll } = getProps(this.props);
+    if (!infinite && index === children.length - slidesToScroll) {
       return;
     }
-    this.slideImages(index + 1);
+    const nextIndex = this.calculateIndex(index + slidesToScroll);
+    this.slideImages(nextIndex);
   }
 
   goBack() {
     const { index } = this.state;
-    const { infinite } = getProps(this.props);
+    const { infinite, slidesToScroll } = getProps(this.props);
     if (!infinite && index === 0) {
       return;
     }
-    this.slideImages(index - 1);
+    let previousIndex = index - slidesToScroll;
+    if (previousIndex % slidesToScroll) {
+      previousIndex =
+        Math.ceil(previousIndex / slidesToScroll) * slidesToScroll;
+    }
+    this.slideImages(previousIndex);
+  }
+
+  isSlideActive(key) {
+    const { slidesToShow } = getProps(this.props);
+    return key < this.state.index + slidesToShow && key >= this.state.index;
+  }
+
+  renderPreceedingSlides(children, slidesToShow) {
+    return children.slice(-slidesToShow).map((each, index) => (
+      <div
+        data-index={index - slidesToShow}
+        aria-roledescription="slide"
+        aria-hidden="true"
+        key={index - slidesToShow}
+      >
+        {each}
+      </div>
+    ));
+  }
+
+  renderTrailingSlides(children, slidesToShow) {
+    return children.slice(0, slidesToShow).map((each, index) => (
+      <div
+        data-index={children.length + index}
+        aria-roledescription="slide"
+        aria-hidden="true"
+        key={children.length + index}
+      >
+        {each}
+      </div>
+    ));
   }
 
   render() {
-    const { children, indicators, arrows, cssClass } = getProps(this.props);
+    const { children, indicators, arrows, cssClass, slidesToShow } = getProps(
+      this.props
+    );
     const unhandledProps = getUnhandledProps(propTypes, this.props);
     const { index } = this.state;
     const style = {
-      transform: `translate(-${(index + 1) * this.width}px)`
+      transform: `translate(-${(index + slidesToShow) * this.width}px)`
     };
 
     return (
@@ -251,31 +307,22 @@ class Slideshow extends Component {
               style={style}
               ref={ref => (this.imageContainer = ref)}
             >
-              <div
-                data-index="-1"
-                aria-roledescription="slide"
-                aria-hidden="false"
-              >
-                {children[children.length - 1]}
-              </div>
-              {children.map((each, key) => (
-                <div
-                  data-index={key}
-                  key={key}
-                  className={key === index ? 'active' : ''}
-                  aria-roledescription="slide"
-                  aria-hidden={key === index ? 'false' : 'true'}
-                >
-                  {each}
-                </div>
-              ))}
-              <div
-                data-index="-1"
-                aria-roledescription="slide"
-                aria-hidden="false"
-              >
-                {children[0]}
-              </div>
+              {this.renderPreceedingSlides(children, slidesToShow)}
+              {children.map((each, key) => {
+                const isSlideActive = this.isSlideActive(key);
+                return (
+                  <div
+                    data-index={key}
+                    key={key}
+                    className={isSlideActive ? 'active' : ''}
+                    aria-roledescription="slide"
+                    aria-hidden={isSlideActive ? 'false' : 'true'}
+                  >
+                    {each}
+                  </div>
+                );
+              })}
+              {this.renderTrailingSlides(children, slidesToShow)}
             </div>
           </div>
           {arrows &&
@@ -303,17 +350,23 @@ class Slideshow extends Component {
       infinite,
       duration,
       onChange,
-      easing
+      easing,
+      slidesToShow,
+      slidesToScroll
     } = getProps(this.props);
     transitionDuration = animationDuration || transitionDuration;
     const existingTweens = this.tweenGroup.getAll();
     if (!existingTweens.length) {
       clearTimeout(this.timeout);
       const value = {
-        margin: -this.width * (this.state.index + 1) + this.distanceSwiped
+        margin:
+          -this.width * (this.state.index + slidesToShow) + this.distanceSwiped
       };
       const tween = new TWEEN.Tween(value, this.tweenGroup)
-        .to({ margin: -this.width * (index + 1) }, transitionDuration)
+        .to(
+          { margin: -this.width * (index + slidesToShow) },
+          transitionDuration
+        )
         .onUpdate(value => {
           if (this.imageContainer) {
             this.imageContainer.style.transform = `translate(${value.margin}px)`;
@@ -339,7 +392,7 @@ class Slideshow extends Component {
         this.distanceSwiped = 0;
         let newIndex = index;
         if (newIndex < 0) {
-          newIndex = children.length - 1;
+          newIndex = children.length - slidesToScroll;
         } else if (newIndex >= children.length) {
           newIndex = 0;
         }
