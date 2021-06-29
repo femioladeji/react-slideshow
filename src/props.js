@@ -13,7 +13,8 @@ const defaultProps = {
   easing: 'linear',
   canSwipe: true,
   slidesToShow: 1,
-  slidesToScroll: 1
+  slidesToScroll: 1,
+  cssClass: ''
 };
 
 export const getProps = componentProps => {
@@ -41,7 +42,8 @@ export const propTypes = {
   easing: 'string',
   canSwipe: 'boolean',
   slidesToShow: 'number',
-  slidesToScroll: 'number'
+  slidesToScroll: 'number',
+  cssClass: 'string'
 };
 
 export const validatePropTypes = props => {

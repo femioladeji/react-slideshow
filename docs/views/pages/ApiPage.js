@@ -128,6 +128,16 @@ const Api = () => {
               </td>
             </tr>
             <tr>
+              <td>cssClass</td>
+              <td>string</td>
+              <td>""</td>
+              <td>
+                Use this prop to add your custom css to the wrapper containing
+                the sliders. Pass your css className as value for the cssClass
+                prop
+              </td>
+            </tr>
+            <tr>
               <td>slidesToShow</td>
               <td>number</td>
               <td>1</td>

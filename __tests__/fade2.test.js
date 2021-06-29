@@ -201,3 +201,12 @@ test('it calls onChange callback after every slide change', async () => {
     }
   );
 });
+
+test('cssClass prop exists on element when it is passed', () => {
+  const { container } = renderFade({
+    ...options,
+    cssClass: 'myStyle'
+  });
+  let wrapper = container.querySelector('.react-slideshow-fade-wrapper');
+  expect(wrapper.classList).toContain('myStyle');
+});

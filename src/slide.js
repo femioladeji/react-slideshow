@@ -267,7 +267,9 @@ class Slideshow extends Component {
   }
 
   render() {
-    const { children, indicators, arrows, slidesToShow } = getProps(this.props);
+    const { children, indicators, arrows, cssClass, slidesToShow } = getProps(
+      this.props
+    );
     const unhandledProps = getUnhandledProps(propTypes, this.props);
     const { index } = this.state;
     const style = {
@@ -297,7 +299,7 @@ class Slideshow extends Component {
               this.moveSlides
             )}
           <div
-            className={`react-slideshow-wrapper slide`}
+            className={`react-slideshow-wrapper slide ${cssClass}`}
             ref={ref => (this.wrapper = ref)}
           >
             <div

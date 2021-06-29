@@ -169,7 +169,7 @@ class Fade extends Component {
   }
 
   render() {
-    const { indicators, children, arrows } = getProps(this.props);
+    const { indicators, children, arrows, cssClass } = getProps(this.props);
     const { index } = this.state;
     const unhandledProps = getUnhandledProps(propTypes, this.props);
     return (
@@ -187,7 +187,10 @@ class Fade extends Component {
               this.state.index,
               this.preFade
             )}
-          <div className="react-slideshow-fade-wrapper" ref={this.wrapper}>
+          <div
+            className={`react-slideshow-fade-wrapper ${cssClass}`}
+            ref={this.wrapper}
+          >
             <div
               className="react-slideshow-fade-images-wrap"
               ref={wrap => (this.divsContainer = wrap)}
