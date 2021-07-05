@@ -37,30 +37,31 @@ import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 const slideImages = [
-  'images/slide_2.jpg',
-  'images/slide_3.jpg',
-  'images/slide_4.jpg'
+  {
+    url: 'images/slide_2.jpg',
+    caption: 'Slide 1'
+  },
+  {
+    url: 'images/slide_3.jpg',
+    caption: 'Slide 2'
+  },
+  {
+    url: 'images/slide_4.jpg',
+    caption: 'Slide 3'
+  },
 ];
 
 const Slideshow = () => {
     return (
       <div className="slide-container">
         <Slide>
-          <div className="each-slide">
-            <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
-              <span>Slide 1</span>
+         {slideImages.map((slideImage, index)=> (
+            <div className="each-slide" key={index}>
+              <div style={{'backgroundImage': `url(${slideImage.url})`}}>
+                <span>{slideImage.caption}</span>
+              </div>
             </div>
-          </div>
-          <div className="each-slide">
-            <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
-              <span>Slide 2</span>
-            </div>
-          </div>
-          <div className="each-slide">
-            <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
-              <span>Slide 3</span>
-            </div>
-          </div>
+          ))} 
         </Slide>
       </div>
     )
@@ -75,33 +76,32 @@ import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 const fadeImages = [
-  'images/slide_5.jpg',
-  'images/slide_6.jpg',
-  'images/slide_7.jpg'
+  {
+  url: 'images/slide_5.jpg',
+  caption: 'First Slide'
+  },
+  {
+  url: 'images/slide_6.jpg',
+  caption: 'Second Slide'
+  },
+  {
+  url: 'images/slide_7.jpg',
+  caption: 'Third Slide'
+  },
 ];
 
 const Slideshow = () => {
   return (
     <div className="slide-container">
       <Fade>
-        <div className="each-fade">
-          <div className="image-container">
-            <img src={fadeImages[0]} />
+        {fadeImages.map(fadeImage, index) => (
+          <div className="each-fade" key={index}>
+            <div className="image-container">
+              <img src={fadeImage.url} />
+            </div>
+            <h2>{fadeImage.caption}</h2>
           </div>
-          <h2>First Slide</h2>
-        </div>
-        <div className="each-fade">
-          <div className="image-container">
-            <img src={fadeImages[1]} />
-          </div>
-          <h2>Second Slide</h2>
-        </div>
-        <div className="each-fade">
-          <div className="image-container">
-            <img src={fadeImages[2]} />
-          </div>
-          <h2>Third Slide</h2>
-        </div>
+        )}
       </Fade>
     </div>
   )
