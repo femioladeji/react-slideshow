@@ -33,7 +33,12 @@ export const forTS = `
         autoplay?: boolean,
         infinite?: boolean,
         onChange?(oldIndex: number, newIndex: number): void,
-        pauseOnHover?: boolean
+        pauseOnHover?: boolean,
+        slidesToShow?: number,
+        slidesToScroll?: number,
+        canSwipe?: boolean,
+        easing?: string,
+        cssClass?: string
     }
     export interface ZoomProps extends SlideshowProps {
         scale: number
