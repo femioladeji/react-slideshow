@@ -92,12 +92,33 @@ class Slideshow extends Component {
   }
 
   swipe(e) {
-    const { canSwipe, slidesToShow } = getProps(this.props);
+    const {
+      canSwipe,
+      slidesToShow,
+      children,
+      infinite,
+      slidesToScroll
+    } = getProps(this.props);
     if (canSwipe) {
       const clientX = e.touches ? e.touches[0].pageX : e.clientX;
       if (this.dragging) {
         let translateValue = this.width * (this.state.index + slidesToShow);
-        this.distanceSwiped = clientX - this.startingClientX;
+        const distance = clientX - this.startingClientX;
+        if (
+          !infinite &&
+          this.state.index === children.length - slidesToScroll &&
+          distance < 0
+        ) {
+          // if it is the last and infinite is false and you're swiping left
+          // then nothing happens
+          return;
+        }
+        if (!infinite && this.state.index === 0 && distance > 0) {
+          // if it is the first and infinite is false and you're swiping right
+          // then nothing happens
+          return;
+        }
+        this.distanceSwiped = distance;
         translateValue -= this.distanceSwiped;
         this.imageContainer.style.transform = `translate(-${translateValue}px)`;
       }

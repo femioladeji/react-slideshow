@@ -1,13 +1,13 @@
 {
   "name": "react-slideshow-image",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
     "lib",
     "dist"
   ],
-  "homepage": "https://react-slideshow.herokuapp.com",
+  "homepage": "https://react-slideshow-image.netlify.com",
   "npmFileMap": [
     {
       "basePath": "/dist/",
