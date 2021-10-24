@@ -32,6 +32,8 @@ class Zoom extends Component {
     this.tweenGroup = new TWEEN.Group();
     this.initResizeObserver = this.initResizeObserver.bind(this);
     this.reactSlideshowWrapper = createRef();
+    this.startSwipe = this.startSwipe.bind(this);
+    this.endSwipe = this.endSwipe.bind(this);
   }
 
   componentDidMount() {
@@ -167,6 +169,31 @@ class Zoom extends Component {
     }
   }
 
+  startSwipe(e) {
+    const { canSwipe } = getProps(this.props);
+    if (canSwipe) {
+      this.startingClientX = e.touches ? e.touches[0].pageX : e.clientX;
+      clearTimeout(this.timeout);
+      this.dragging = true;
+    }
+  }
+
+  endSwipe(e) {
+    const clientX = e.changedTouches ? e.changedTouches[0].pageX : e.clientX;
+    const distance = clientX - this.startingClientX;
+    const { canSwipe } = getProps(this.props);
+    if (canSwipe) {
+      this.dragging = false;
+      if (Math.abs(distance) / this.width > 0.2) {
+        if (distance < 0) {
+          this.goNext();
+        } else {
+          this.goBack();
+        }
+      }
+    }
+  }
+
   render() {
     const { indicators, arrows, children, cssClass } = getProps(this.props);
     const { index } = this.state;
@@ -178,6 +205,11 @@ class Zoom extends Component {
           onMouseEnter={this.pauseSlides}
           onMouseOver={this.pauseSlides}
           onMouseLeave={this.startSlides}
+          onMouseDown={this.startSwipe}
+          onMouseUp={this.endSwipe}
+          onTouchStart={this.startSwipe}
+          onTouchEnd={this.endSwipe}
+          onTouchCancel={this.endSwipe}
           ref={this.reactSlideshowWrapper}
         >
           {arrows &&
