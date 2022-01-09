@@ -103,7 +103,9 @@ class Slideshow extends Component {
     if (canSwipe) {
       const clientX = e.touches ? e.touches[0].pageX : e.clientX;
       if (this.dragging) {
-        let translateValue = this.width * (this.state.index + slidesToShow);
+        let translateValue =
+          this.width *
+          (this.state.index + this.getOffset(infinite, slidesToShow));
         const distance = clientX - this.startingClientX;
         if (
           !infinite &&
@@ -145,7 +147,7 @@ class Slideshow extends Component {
           0
         )) ||
       [];
-    const { slidesToShow } = getProps(this.props);
+    const { slidesToShow, infinite } = getProps(this.props);
     if (this.state.slidesToShow !== slidesToShow) {
       this.setState({ slidesToShow });
     }
@@ -157,7 +159,7 @@ class Slideshow extends Component {
     if (this.imageContainer) {
       this.imageContainer.style.width = `${fullwidth}px`;
       this.imageContainer.style.transform = `translate(-${this.width *
-        (this.state.index + slidesToShow)}px)`;
+        (this.state.index + this.getOffset(infinite, slidesToShow))}px)`;
     }
     this.applySlideStyle();
   }
@@ -292,14 +294,28 @@ class Slideshow extends Component {
     ));
   }
 
+  getOffset(infinite, slidesToShow) {
+    if (!infinite) {
+      return 0;
+    }
+    return slidesToShow;
+  }
+
   render() {
-    const { children, indicators, arrows, cssClass, slidesToShow } = getProps(
-      this.props
-    );
+    const {
+      children,
+      indicators,
+      arrows,
+      cssClass,
+      slidesToShow,
+      infinite
+    } = getProps(this.props);
     const unhandledProps = getUnhandledProps(propTypes, this.props);
     const { index } = this.state;
     const style = {
-      transform: `translate(-${(index + slidesToShow) * this.width}px)`
+      transform: `translate(-${(index +
+        this.getOffset(infinite, slidesToShow)) *
+        this.width}px)`
     };
 
     return (
@@ -333,7 +349,9 @@ class Slideshow extends Component {
               style={style}
               ref={ref => (this.imageContainer = ref)}
             >
-              {this.renderPreceedingSlides(children, slidesToShow)}
+              {infinite
+                ? this.renderPreceedingSlides(children, slidesToShow)
+                : ''}
               {children.map((each, key) => {
                 const isSlideActive = this.isSlideActive(key);
                 return (
@@ -348,7 +366,9 @@ class Slideshow extends Component {
                   </div>
                 );
               })}
-              {this.renderTrailingSlides(children, slidesToShow)}
+              {infinite
+                ? this.renderTrailingSlides(children, slidesToShow)
+                : ''}
             </div>
           </div>
           {arrows &&
@@ -386,11 +406,16 @@ class Slideshow extends Component {
       clearTimeout(this.timeout);
       const value = {
         margin:
-          -this.width * (this.state.index + slidesToShow) + this.distanceSwiped
+          -this.width *
+            (this.state.index + this.getOffset(infinite, slidesToShow)) +
+          this.distanceSwiped
       };
       const tween = new TWEEN.Tween(value, this.tweenGroup)
         .to(
-          { margin: -this.width * (index + slidesToShow) },
+          {
+            margin:
+              -this.width * (index + this.getOffset(infinite, slidesToShow))
+          },
           transitionDuration
         )
         .onUpdate(value => {
