@@ -73,6 +73,21 @@ test('When next is clicked, the second child should have an active class', async
   );
 });
 
+test("If infinite is false, it doesn't render extra slides", () => {
+  const wrapperElement = document.createElement('div');
+  const { baseElement } = renderSlide(
+    {
+      ...options,
+      infinite: false,
+      defaultIndex: 2,
+      nextArrow: <div>Next</div>
+    },
+    wrapperElement
+  );
+  const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
+  expect(childrenElements).toHaveLength(3);
+});
+
 test('If infinite is false and next is clicked on the last image everything should remain the same', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderSlide(
@@ -89,7 +104,7 @@ test('If infinite is false and next is clicked on the last image everything shou
   fireEvent.click(nav[1]);
   await wait(
     () => {
-      expect(childrenElements[3].classList).toContain('active');
+      expect(childrenElements[2].classList).toContain('active');
     },
     {
       timeout: options.transitionDuration
