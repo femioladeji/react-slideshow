@@ -69,6 +69,7 @@ module.exports = {
   devServer: {
     contentBase: paths.SRC,
     publicPath: "/",
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 8081
   }
 };

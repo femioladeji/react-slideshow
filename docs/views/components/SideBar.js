@@ -6,6 +6,57 @@ const Sidebar = ({ isOpen }) => {
 
   const setMargin = isOpen ? '0' : '-60%';
 
+  const menuList = [
+    {
+      title: 'Zoom In Effect',
+      path: '/zoom-in'
+    },
+    {
+      title: 'Zoom Out Effect',
+      path: '/zoom-out'
+    },
+    {
+      title: 'Fade Effect',
+      path: 'fade-effect'
+    },
+    {
+      title: 'Custom Arrow',
+      path: '/custom-arrows'
+    },
+    {
+      title: 'Custom Indicators',
+      path: '/custom-indicators'
+    },
+    {
+      title: 'Pause on hover',
+      path: '/pause-hover'
+    },
+    {
+      title: 'Multiple Slides',
+      path: '/multiple-slides'
+    },
+    {
+      title: 'Responsive',
+      path: '/responsive'
+    },
+    {
+      title: 'Can swipe',
+      path: '/can-swipe'
+    },
+    {
+      title: 'Autoplay toggle',
+      path: '/autoplay'
+    },
+    {
+      title: 'Methods',
+      path: '/methods'
+    },
+    {
+      title: 'Callback',
+      path: '/callback'
+    }
+  ];
+
   return (
     <div className="sidebar" style={{ marginLeft: setMargin }}>
       <div className="sidebar-items">
@@ -17,39 +68,15 @@ const Sidebar = ({ isOpen }) => {
         </div>
         {dropDowns ? (
           <div className="dropdown-container">
-            <NavLink activeClassName="is-active" to="/zoom-in">
-              Zoom In Effect
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/zoom-out">
-              Zoom Out Effect
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/fade-effect">
-              Fade Effect
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/custom-arrows">
-              Custom Arrow
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/custom-indicators">
-              Custom Indicators
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/pause-hover">
-              Pause on hover
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/multiple-slides">
-              Multiple Slides
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/can-swipe">
-              Can swipe
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/autoplay">
-              Autoplay toggle
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/methods">
-              Methods
-            </NavLink>
-            <NavLink activeClassName="is-active" to="/callback">
-              Callback
-            </NavLink>
+            {menuList.map(each => (
+              <NavLink
+                key={each.path}
+                activeClassName="is-active"
+                to={each.path}
+              >
+                {each.title}
+              </NavLink>
+            ))}
           </div>
         ) : (
           ''

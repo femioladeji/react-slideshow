@@ -14,6 +14,7 @@ import CustomArrow from './views/pages//Examples/CustomArrow';
 import CustomIndicator from './views/pages//Examples/CustomIndicator';
 import PauseHover from './views/pages//Examples/PauseHover';
 import MultipleSlides from './views/pages/Examples/MultipleSlides';
+import ResponsiveSlides from './views/pages/Examples/Responsive';
 import CanSwipe from './views/pages//Examples/CanSwipe';
 import Autoplay from './views/pages//Examples/Autoplay';
 import Methods from './views/pages//Examples/Methods';
@@ -58,6 +59,7 @@ const App = () => {
           <Route exact path="/multiple-slides" component={MultipleSlides} />
           <Route exact path="/can-swipe" component={CanSwipe} />
           <Route exact path="/autoplay" component={Autoplay} />
+          <Route exact path="/responsive" component={ResponsiveSlides} />
           <Route exact path="/methods" component={Methods} />
           <Route exact path="/callback" component={Callback} />
           <Route exact path="/next" component={Next} />

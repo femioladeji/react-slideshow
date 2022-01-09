@@ -14,14 +14,34 @@ const defaultProps = {
   canSwipe: true,
   slidesToShow: 1,
   slidesToScroll: 1,
-  cssClass: ''
+  cssClass: '',
+  responsive: []
+};
+
+const getResponsiveSettings = (windowWidth, responsive) => {
+  return responsive.find(each => each.breakpoint <= windowWidth);
 };
 
 export const getProps = componentProps => {
   let children = React.Children.map(componentProps.children, each => each);
+  let settings = {};
+  if (
+    typeof window !== 'undefined' &&
+    Array.isArray(componentProps.responsive)
+  ) {
+    const windowWidth = window.innerWidth;
+    const responsiveSettings = getResponsiveSettings(
+      windowWidth,
+      componentProps.responsive
+    );
+    if (responsiveSettings) {
+      ({ settings } = responsiveSettings);
+    }
+  }
   return {
     ...defaultProps,
     ...componentProps,
+    ...settings,
     children
   };
 };
@@ -43,13 +63,15 @@ export const propTypes = {
   canSwipe: 'boolean',
   slidesToShow: 'number',
   slidesToScroll: 'number',
-  cssClass: 'string'
+  cssClass: 'string',
+  responsive: 'array'
 };
 
 export const validatePropTypes = props => {
   for (const key in props) {
     const propValueType = typeof props[key];
     if (propTypes[key]) {
+      console.log(props[key]);
       if (
         Array.isArray(propTypes[key]) &&
         !propTypes[key].includes(propValueType)
@@ -57,6 +79,8 @@ export const validatePropTypes = props => {
         console.warn(
           `${key} must be of one of type ${propTypes[key].join(', ')}`
         );
+      } else if (propTypes[key] === 'array' && !Array.isArray(props[key])) {
+        console.warn(`${key} must be of type ${propTypes[key]}`);
       } else if (
         !Array.isArray(propTypes[key]) &&
         propValueType !== propTypes[key]

@@ -2,6 +2,127 @@ import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
+const properties = [
+  {
+    title: 'duration',
+    type: 'integer',
+    default: '5000',
+    description: 'Time it takes (milliseconds) before next transition starts'
+  },
+  {
+    title: 'transitionDuration',
+    type: 'integer',
+    default: '1000',
+    description: 'Determines how long the transition takes'
+  },
+  {
+    title: 'defaultIndex',
+    type: 'integer',
+    default: '0',
+    description: 'Specifies the first slide to display'
+  },
+  {
+    title: 'infinite',
+    type: 'boolean',
+    default: 'true',
+    description: 'Specifies if the transition should loop throughout'
+  },
+  {
+    title: 'indicators',
+    type: 'boolean or function',
+    default: 'false',
+    description:
+      'For specifying if there should be dots below the slideshow. If function, it will render the returned element'
+  },
+  {
+    title: 'scale',
+    type: 'number',
+    default: '',
+    description:
+      'Required when using zoom to specify the scale the current slide should be zoomed to'
+  },
+  {
+    title: 'arrows',
+    type: 'boolean',
+    default: 'true',
+    description:
+      'Determines if there should be a navigational arrow for going to the next or previous slide'
+  },
+  {
+    title: 'prevArrow',
+    type: 'object or function',
+    default: 'null',
+    description: 'A custom element to serve as previous arrow'
+  },
+  {
+    title: 'nextArrow',
+    type: 'object or function',
+    default: 'true',
+    description: 'A custom element to serve as next arrow'
+  },
+  {
+    title: 'autoplay',
+    type: 'boolean',
+    default: 'true',
+    description:
+      'Responsible for determining if the slideshow should start automatically'
+  },
+  {
+    title: 'pauseOnHover',
+    type: 'boolean',
+    default: 'true',
+    description:
+      'Determines whether the transition effect applies when the mouse hovers the slider'
+  },
+  {
+    title: 'canSwipe',
+    type: 'boolean',
+    default: 'true',
+    description:
+      'Determines whether the user can go to next or previous slide by the mouse or by touching'
+  },
+  {
+    title: 'onChange',
+    type: 'function',
+    default: '',
+    description:
+      'Callback that gets triggered at the end of every transition. The oldIndex and newIndex are passed as arguments'
+  },
+  {
+    title: 'Easing',
+    type: 'string',
+    default: 'linear',
+    description:
+      'The timing transition function to use. You can use one of linear, ease, ease-in, ease-out, cubic, cubic-in, cubic-out'
+  },
+  {
+    title: 'cssClass',
+    type: 'string',
+    default: '',
+    description:
+      'Use this prop to add your custom css to the wrapper containing the sliders. Pass your css className as value for the cssClass prop'
+  },
+  {
+    title: 'slidesToShow',
+    type: 'number',
+    default: '1',
+    description: 'The number of slides to show on each page'
+  },
+  {
+    title: 'slidesToScroll',
+    type: 'number',
+    default: '1',
+    description: 'The number of slides to scroll'
+  },
+  {
+    title: 'responsive',
+    type: 'array',
+    default: '[]',
+    description:
+      'Set slidesToShow & slidesToScroll based on screen size. [{ breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 }}]'
+  }
+];
+
 const Api = () => {
   return (
     <div className="div-sec">
@@ -17,138 +138,14 @@ const Api = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>duration</td>
-              <td>integer</td>
-              <td>5000</td>
-              <td>
-                Time it takes (milliseconds) before next transition starts
-              </td>
-            </tr>
-            <tr>
-              <td>transitionDuration</td>
-              <td>integer</td>
-              <td>1000</td>
-              <td>Determines how long the transition takes</td>
-            </tr>
-            <tr>
-              <td>defaultIndex</td>
-              <td>integer</td>
-              <td>0</td>
-              <td>Specifies the first slide to display</td>
-            </tr>
-            <tr>
-              <td>infinite</td>
-              <td>boolean</td>
-              <td>true</td>
-              <td>Specifies if the transition should loop throughout</td>
-            </tr>
-            <tr>
-              <td>indicators</td>
-              <td>boolean or function </td>
-              <td>false</td>
-              <td>
-                For specifying if there should be dots below the slideshow. If
-                function, it will render the returned element
-              </td>
-            </tr>
-            <tr>
-              <td>scale</td>
-              <td>number</td>
-              <td></td>
-              <td>
-                Required when using zoom to specify the scale the current slide
-                should be zoomed to
-              </td>
-            </tr>
-            <tr>
-              <td>arrows</td>
-              <td>boolean</td>
-              <td>true</td>
-              <td>
-                Determines if there should be a navigational arrow for going to
-                the next or previous slide
-              </td>
-            </tr>
-            <tr>
-              <td>prevArrow</td>
-              <td>object or function</td>
-              <td>null</td>
-              <td>A custom element to serve as previous arrow</td>
-            </tr>
-            <tr>
-              <td>nextArrow</td>
-              <td>object or function</td>
-              <td>null</td>
-              <td>A custom element to serve as next arrow</td>
-            </tr>
-            <tr>
-              <td>autoplay</td>
-              <td>boolean</td>
-              <td>true</td>
-              <td>
-                Responsible for determining if the slideshow should start
-                automatically
-              </td>
-            </tr>
-            <tr>
-              <td>pauseOnHover</td>
-              <td>boolean</td>
-              <td>true</td>
-              <td>
-                Determines whether the transition effect applies when the mouse
-                hovers the slider
-              </td>
-            </tr>
-            <tr>
-              <td>canSwipe</td>
-              <td>boolean</td>
-              <td>true</td>
-              <td>
-                Determines whether the user can go to next or previous slide by
-                the mouse or by touching
-              </td>
-            </tr>
-            <tr>
-              <td>onChange</td>
-              <td>function</td>
-              <td></td>
-              <td>
-                Callback that gets triggered at the end of every transition. The
-                oldIndex and newIndex are passed as arguments
-              </td>
-            </tr>
-            <tr>
-              <td>Easing</td>
-              <td>string</td>
-              <td>linear</td>
-              <td>
-                The timing transition function to use. You can use one of
-                linear, ease, ease-in, ease-out, cubic, cubic-in, cubic-out
-              </td>
-            </tr>
-            <tr>
-              <td>cssClass</td>
-              <td>string</td>
-              <td>""</td>
-              <td>
-                Use this prop to add your custom css to the wrapper containing
-                the sliders. Pass your css className as value for the cssClass
-                prop
-              </td>
-            </tr>
-            <tr>
-              <td>slidesToShow</td>
-              <td>number</td>
-              <td>1</td>
-              <td>The number of slides to show on each page</td>
-            </tr>
-            <tr>
-              <td>slidesToScroll</td>
-              <td>number</td>
-              <td>1</td>
-              <td>The number of slides to scroll</td>
-            </tr>
+            {properties.map(each => (
+              <tr key={each.title}>
+                <td>{each.title}</td>
+                <td>{each.type}</td>
+                <td>{each.default}</td>
+                <td>{each.description}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
