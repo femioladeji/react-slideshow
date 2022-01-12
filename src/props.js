@@ -71,7 +71,6 @@ export const validatePropTypes = props => {
   for (const key in props) {
     const propValueType = typeof props[key];
     if (propTypes[key]) {
-      console.log(props[key]);
       if (
         Array.isArray(propTypes[key]) &&
         !propTypes[key].includes(propValueType)
@@ -82,6 +81,7 @@ export const validatePropTypes = props => {
       } else if (propTypes[key] === 'array' && !Array.isArray(props[key])) {
         console.warn(`${key} must be of type ${propTypes[key]}`);
       } else if (
+        propTypes[key] !== 'array' &&
         !Array.isArray(propTypes[key]) &&
         propValueType !== propTypes[key]
       ) {

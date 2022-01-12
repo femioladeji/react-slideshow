@@ -149,13 +149,16 @@ class Slideshow extends Component {
       [];
     const { slidesToShow, infinite } = getProps(this.props);
     if (this.state.slidesToShow !== slidesToShow) {
-      this.setState({ slidesToShow });
+      console.log(this.calculateIndex(this.state.index));
+      this.setState({
+        slidesToShow,
+        index: this.calculateIndex(this.state.index)
+      });
     }
     this.width =
       ((this.wrapper && this.wrapper.clientWidth) || 0) / slidesToShow;
     const numberOfSlides = React.Children.count(this.props.children);
     const fullwidth = this.width * (numberOfSlides + slidesToShow * 2);
-    // console.log("full width", fullwidth)
     if (this.imageContainer) {
       this.imageContainer.style.width = `${fullwidth}px`;
       this.imageContainer.style.transform = `translate(-${this.width *

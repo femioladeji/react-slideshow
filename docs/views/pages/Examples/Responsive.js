@@ -17,6 +17,7 @@ const ResponsiveSlides = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: false,
+    infinite: false,
     indicators: true,
     responsive: [
       {
@@ -50,10 +51,10 @@ const ResponsiveSlides = () => {
           <div style={style}>Second Slide</div>
           <div style={style}>Third Slide</div>
           <div style={style}>Fourth Slide</div>
-          <div style={style}>Fifth Slide</div>
+          {/* <div style={style}>Fifth Slide</div>
           <div style={style}>sixth Slide</div>
           <div style={style}>Seventh Slide</div>
-          <div style={style}>Eight Slide</div>
+          <div style={style}>Eight Slide</div> */}
         </Slide>
       </div>
       <br />
