@@ -283,7 +283,13 @@ class Slideshow extends Component {
     ));
   }
 
-  renderTrailingSlides(children, slidesToShow) {
+  renderTrailingSlides() {
+    const { children, slidesToShow, slidesToScroll, infinite } = getProps(
+      this.props
+    );
+    if (!infinite && slidesToShow === slidesToScroll) {
+      return;
+    }
     return children.slice(0, slidesToShow).map((each, index) => (
       <div
         data-index={children.length + index}
@@ -368,9 +374,7 @@ class Slideshow extends Component {
                   </div>
                 );
               })}
-              {infinite
-                ? this.renderTrailingSlides(children, slidesToShow)
-                : ''}
+              {this.renderTrailingSlides()}
             </div>
           </div>
           {arrows &&
