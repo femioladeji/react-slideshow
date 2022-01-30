@@ -72,8 +72,8 @@
   "main": "dist/react-slideshow-image.min.js",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "webpack --config webpack.config.dist.js && uglifycss src/css/styles.css > dist/styles.css   ",
-    "heroku-postbuild": "npm i --only=dev && webpack --prod",
+    "build": "webpack --config webpack.config.dist.js && uglifycss src/css/styles.css > dist/styles.css",
+    "heroku-postbuild": "npm i --only=dev && webpack --prod && echo '/* /index.html 200' | cat >public/_redirects",
     "start": "serve public -s",
     "precommit": "lint-staged",
     "test": "jest && codecov",
