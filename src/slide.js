@@ -149,10 +149,9 @@ class Slideshow extends Component {
       [];
     const { slidesToShow, infinite } = getProps(this.props);
     if (this.state.slidesToShow !== slidesToShow) {
-      console.log(this.calculateIndex(this.state.index));
       this.setState({
         slidesToShow,
-        index: this.calculateIndex(this.state.index)
+        index: 0
       });
     }
     this.width =
