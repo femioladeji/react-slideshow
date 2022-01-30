@@ -70,6 +70,5 @@ module.exports = {
     contentBase: paths.SRC,
     publicPath: "/",
     historyApiFallback: true,
-    port: 8081
   }
 };
