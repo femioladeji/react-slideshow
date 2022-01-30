@@ -14,6 +14,7 @@ class Slideshow extends Component {
   constructor(props) {
     super();
     this.state = {
+      slidesToShow: props.slidesToShow || 1,
       index:
         props.defaultIndex && props.defaultIndex < props.children.length
           ? props.defaultIndex
@@ -147,6 +148,12 @@ class Slideshow extends Component {
         )) ||
       [];
     const { slidesToShow, infinite } = getProps(this.props);
+    if (this.state.slidesToShow !== slidesToShow) {
+      this.setState({
+        slidesToShow,
+        index: 0
+      });
+    }
     this.width =
       ((this.wrapper && this.wrapper.clientWidth) || 0) / slidesToShow;
     const numberOfSlides = React.Children.count(this.props.children);
