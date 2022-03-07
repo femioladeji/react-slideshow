@@ -94,14 +94,14 @@ const Slideshow = () => {
   return (
     <div className="slide-container">
       <Fade>
-        {fadeImages.map(fadeImage, index) => (
+        {fadeImages.map((fadeImage, index) => (
           <div className="each-fade" key={index}>
             <div className="image-container">
               <img src={fadeImage.url} />
             </div>
             <h2>{fadeImage.caption}</h2>
           </div>
-        )}
+        ))}
       </Fade>
     </div>
   )
