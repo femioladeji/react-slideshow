@@ -3,17 +3,16 @@ const path = require("path");
 
 module.exports = {
   mode: "production",
-
   entry: "./src/index",
-
   output: {
     library: "react-slideshow-image",
     libraryTarget: "umd",
     path: path.join(__dirname, "dist"),
     globalObject: 'this',
-    filename: "react-slideshow-image.min.js"
+    filename: "react-slideshow-image.min.js",
+    clean: true,
   },
-
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -25,11 +24,9 @@ module.exports = {
       }
     ]
   },
-
   resolve: {
     extensions: [".js", ".jsx"]
   },
-
   externals: {
     react: {
       root: "React",
@@ -43,15 +40,5 @@ module.exports = {
       commonjs: "react-dom",
       amd: "react-dom"
     }
-  },
-
-  node: {
-    Buffer: false
-  },
-
-  devtool: "source-map",
-
-  performance: {
-    hints: "warning"
   },
 };
