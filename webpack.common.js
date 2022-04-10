@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
 const paths = {
@@ -11,21 +11,20 @@ const paths = {
 
 // Webpack configuration
 module.exports = {
-  mode: process.env.NODE_ENV,
   entry: path.join(paths.JS, "index.js"),
   output: {
     path: paths.DIST,
-    filename: "app.bundle.js"
+    filename: "app.bundle.js",
+    publicPath: "/",
   },
-
   /* plugins */
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(paths.SRC, "index.html")
     }),
-    new ExtractTextPlugin("style.bundle.css"),
+    new MiniCssExtractPlugin({ filename: "style.bundle.css" }),
     new CopyPlugin({
-      patterns: [{ from: "docs/assets", to: "assets" }]
+      patterns: [{ from: "docs/assets/images", to: "assets/images" }]
     })
   ],
 
@@ -46,18 +45,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          use: "css-loader"
-        })
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf)$/,
         use: ["file-loader"]
       },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ["file-loader"]
-      }
     ]
   },
 
@@ -65,10 +58,8 @@ module.exports = {
     extensions: [".js", ".jsx"]
   },
 
-  /*server */
   devServer: {
-    contentBase: paths.SRC,
-    publicPath: "/",
     historyApiFallback: true,
+    port: 8081,
   }
 };

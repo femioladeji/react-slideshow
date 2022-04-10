@@ -11,7 +11,8 @@ module.exports = {
     libraryTarget: "umd",
     path: path.join(__dirname, "dist"),
     globalObject: 'this',
-    filename: "react-slideshow-image.min.js"
+    filename: "react-slideshow-image.min.js",
+    clean: true,
   },
 
   module: {
@@ -44,13 +45,6 @@ module.exports = {
       amd: "react-dom"
     }
   },
-
-  node: {
-    Buffer: false
-  },
-
-  devtool: "source-map",
-
   performance: {
     hints: "warning"
   },
