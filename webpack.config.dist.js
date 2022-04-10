@@ -3,9 +3,7 @@ const path = require("path");
 
 module.exports = {
   mode: "production",
-
   entry: "./src/index",
-
   output: {
     library: "react-slideshow-image",
     libraryTarget: "umd",
@@ -14,7 +12,7 @@ module.exports = {
     filename: "react-slideshow-image.min.js",
     clean: true,
   },
-
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -26,11 +24,9 @@ module.exports = {
       }
     ]
   },
-
   resolve: {
     extensions: [".js", ".jsx"]
   },
-
   externals: {
     react: {
       root: "React",
@@ -44,8 +40,5 @@ module.exports = {
       commonjs: "react-dom",
       amd: "react-dom"
     }
-  },
-  performance: {
-    hints: "warning"
   },
 };
