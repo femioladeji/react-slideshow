@@ -81,7 +81,7 @@ class Fade extends Component {
   }
 
   componentWillUnmount() {
-    this.willUnmount = true;
+    this.tweenGroup.removeAll();
     clearTimeout(this.timeout);
     this.removeResizeObserver();
   }
@@ -272,10 +272,6 @@ class Fade extends Component {
       const value = { opacity: 0 };
 
       const animate = () => {
-        if (this.willUnmount) {
-          this.tweenGroup.removeAll();
-          return;
-        }
         requestAnimationFrame(animate);
         this.tweenGroup.update();
       };
@@ -291,9 +287,6 @@ class Fade extends Component {
         .start();
       tween.easing(getEasing(easing));
       tween.onComplete(() => {
-        if (this.willUnmount) {
-          return;
-        }
         this.setState({
           index: newIndex
         });

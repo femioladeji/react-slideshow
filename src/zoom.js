@@ -63,7 +63,7 @@ class Zoom extends Component {
   }
 
   componentWillUnmount() {
-    this.willUnmount = true;
+    this.tweenGroup.removeAll();
     clearTimeout(this.timeout);
     this.removeResizeObserver();
   }
@@ -275,10 +275,6 @@ class Zoom extends Component {
       };
 
       let animate = () => {
-        if (this.willUnmount) {
-          this.tweenGroup.removeAll();
-          return;
-        }
         requestAnimationFrame(animate);
         this.tweenGroup.update();
       };
@@ -300,9 +296,6 @@ class Zoom extends Component {
         .start();
       tween.easing(getEasing(easing));
       tween.onComplete(() => {
-        if (this.willUnmount) {
-          return;
-        }
         if (typeof onChange === 'function') {
           onChange(index, newIndex);
         }

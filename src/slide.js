@@ -60,7 +60,7 @@ class Slideshow extends Component {
   }
 
   componentWillUnmount() {
-    this.willUnmount = true;
+    this.tweenGroup.removeAll();
     clearTimeout(this.timeout);
     this.removeResizeObserver();
   }
@@ -432,10 +432,6 @@ class Slideshow extends Component {
         .start();
       tween.easing(getEasing(easing));
       let animate = () => {
-        if (this.willUnmount) {
-          this.tweenGroup.removeAll();
-          return;
-        }
         requestAnimationFrame(animate);
         this.tweenGroup.update();
       };
@@ -443,9 +439,6 @@ class Slideshow extends Component {
       animate();
 
       tween.onComplete(() => {
-        if (this.willUnmount) {
-          return;
-        }
         this.distanceSwiped = 0;
         let newIndex = index;
         if (newIndex < 0) {
