@@ -60,7 +60,10 @@ const Sidebar = ({ isOpen }) => {
   return (
     <div className="sidebar" style={{ marginLeft: setMargin }}>
       <div className="sidebar-items">
-        <NavLink activeClassName="is-active" exact={true} to="/">
+        <NavLink
+          className={({ isActive }) => (isActive ? ' is-active' : '')}
+          to="/"
+        >
           Getting started
         </NavLink>
         <div className="dropdown" onClick={() => setDropDowns(!dropDowns)}>
@@ -71,7 +74,7 @@ const Sidebar = ({ isOpen }) => {
             {menuList.map(each => (
               <NavLink
                 key={each.path}
-                activeClassName="is-active"
+                className={({ isActive }) => (isActive ? ' is-active' : '')}
                 to={each.path}
               >
                 {each.title}
@@ -81,13 +84,19 @@ const Sidebar = ({ isOpen }) => {
         ) : (
           ''
         )}
-        <NavLink activeClassName="is-active" to="/api">
+        <NavLink
+          className={({ isActive }) => (isActive ? ' is-active' : '')}
+          to="/api"
+        >
           Props &amp; Methods
         </NavLink>
-        <NavLink activeClassName="is-active" to="/typescript">
+        <NavLink
+          className={({ isActive }) => (isActive ? ' is-active' : '')}
+          to="/typescript"
+        >
           Typescript
         </NavLink>
-        {/* <NavLink activeClassName="is-active" to="/next">
+        {/* <NavLink className={({ isActive }) => isActive ? " is-active" : ""} to="/next">
           Next
         </NavLink> */}
       </div>

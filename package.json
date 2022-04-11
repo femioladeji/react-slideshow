@@ -1,10 +1,9 @@
 {
   "name": "react-slideshow-image",
-  "version": "3.7.2",
+  "version": "3.7.3",
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
-    "lib",
     "dist"
   ],
   "homepage": "https://react-slideshow-image.netlify.com",
@@ -47,10 +46,10 @@
     "lint-staged": "^12.3.7",
     "mini-css-extract-plugin": "^2.6.0",
     "prettier": "^1.14.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
     "react-syntax-highlighter": "^15.4.3",
     "serve": "^13.0.2",
     "uglifycss": "0.0.29",
@@ -72,12 +71,11 @@
   "main": "dist/react-slideshow-image.min.js",
   "scripts": {
     "dev": "webpack serve --config=webpack.config.dev.js",
-    "build": "webpack --config webpack.config.dist.js && uglifycss src/css/styles.css > dist/styles.css",
     "docs-build": "webpack --config=webpack.config.prod.js && echo '/* /index.html 200' | cat >public/_redirects",
     "start": "serve public -s",
     "precommit": "lint-staged",
     "test": "jest && codecov",
-    "prepublishOnly": "NODE_ENV=production babel src --out-dir lib --copy-files && npm run build"
+    "prepublishOnly": "webpack --config webpack.config.dist.js && uglifycss src/css/styles.css > dist/styles.css"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^18.6.4",

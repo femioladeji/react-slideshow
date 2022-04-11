@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './views/components/NavBar';
 import Sidebar from './views/components/SideBar';
 import ExamplesPage from './views/pages/ExamplesPage';
@@ -44,26 +44,30 @@ const App = () => {
       <Navbar toggleSidebar={toggleSidebar} isOpen={sidebar} />
       <Sidebar isOpen={sidebar} />
       <div className="app-container">
-        <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/all-examples" component={ExamplesPage} />
-          <Route exact path="/api" component={ApiPage} />
-          <Route exact path="/typescript" component={ForTypescript} />
-          <Route exact path="/slide-effect" component={SlideExample} />
-          <Route exact path="/fade-effect" component={FadeExample} />
-          <Route exact path="/zoom-in" component={ZoomExample} />
-          <Route exact path="/zoom-out" component={ZoomOutExample} />
-          <Route exact path="/custom-arrows" component={CustomArrow} />
-          <Route exact path="/custom-indicators" component={CustomIndicator} />
-          <Route exact path="/pause-hover" component={PauseHover} />
-          <Route exact path="/multiple-slides" component={MultipleSlides} />
-          <Route exact path="/can-swipe" component={CanSwipe} />
-          <Route exact path="/autoplay" component={Autoplay} />
-          <Route exact path="/responsive" component={ResponsiveSlides} />
-          <Route exact path="/methods" component={Methods} />
-          <Route exact path="/callback" component={Callback} />
-          <Route exact path="/next" component={Next} />
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={<LandingPage />} />
+          <Route exact path="/all-examples" element={<ExamplesPage />} />
+          <Route exact path="/api" element={<ApiPage />} />
+          <Route exact path="/typescript" element={<ForTypescript />} />
+          <Route exact path="/slide-effect" element={<SlideExample />} />
+          <Route exact path="/fade-effect" element={<FadeExample />} />
+          <Route exact path="/zoom-in" element={<ZoomExample />} />
+          <Route exact path="/zoom-out" element={<ZoomOutExample />} />
+          <Route exact path="/custom-arrows" element={<CustomArrow />} />
+          <Route
+            exact
+            path="/custom-indicators"
+            element={<CustomIndicator />}
+          />
+          <Route exact path="/pause-hover" element={<PauseHover />} />
+          <Route exact path="/multiple-slides" element={<MultipleSlides />} />
+          <Route exact path="/can-swipe" element={<CanSwipe />} />
+          <Route exact path="/autoplay" element={<Autoplay />} />
+          <Route exact path="/responsive" element={<ResponsiveSlides />} />
+          <Route exact path="/methods" element={<Methods />} />
+          <Route exact path="/callback" element={<Callback />} />
+          <Route exact path="/next" element={<Next />} />
+        </Routes>
       </div>
     </BrowserRouter>
   );
