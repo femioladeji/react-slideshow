@@ -4,7 +4,6 @@
   "author": "Femi Oladeji",
   "description": "An image slideshow with react",
   "files": [
-    "lib",
     "dist"
   ],
   "homepage": "https://react-slideshow-image.netlify.com",
