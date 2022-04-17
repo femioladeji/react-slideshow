@@ -5,7 +5,7 @@
 [![Package Quality](http://npm.packagequality.com/shield/react-slideshow-image.svg)](http://packagequality.com/#?package=react-slideshow-image)
 [![downloads](https://img.shields.io/npm/dm/react-slideshow-image.svg)](https://www.npmjs.com/package/react-slideshow-image)
 
-A simple slideshow component built with react that supports slide, fade and zoom effects. For full documentation click [here](https://react-slideshow.herokuapp.com)
+A simple slideshow component built with react that supports slide, fade and zoom effects. For full documentation click [here](https://react-slideshow-image.netlify.app/)
 
 ## Installation
 ```
@@ -27,7 +27,7 @@ or to your css file
 
 ```
 
-You can use three different effects of the slideshow. Check [examples](https://react-slideshow.herokuapp.com)
+You can use three different effects of the slideshow. Check [examples](https://react-slideshow-image.netlify.app/)
 
 ## Slide Effect
 You can use this [playground](https://codesandbox.io/s/serene-lalande-yjmol) to tweak some values
@@ -138,11 +138,11 @@ const Slideshow = () => {
 ```
 
 ## Properties
-Click [here](https://react-slideshow.herokuapp.com/api) for all the properties you can use to customize the behavior of the slideshow.
+Click [here](https://react-slideshow-image.netlify.app/api) for all the properties you can use to customize the behavior of the slideshow.
 
 ## methods
-Click [here](https://react-slideshow.herokuapp.com/api#methods) for all the methods you can call on the slideshow
+Click [here](https://react-slideshow-image.netlify.app/api#methods) for all the methods you can call on the slideshow
 
 
 ## Typescript
-The type bindings have not been added yet to the types registry yet. It's a WIP. You can follow [this instruction](https://react-slideshow.herokuapp.com/typescript)
+The type bindings have not been added yet to the types registry yet. It's a WIP. You can follow [this instruction](https://react-slideshow-image.netlify.app/typescript)
