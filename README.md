@@ -141,7 +141,7 @@ const Slideshow = () => {
 Click [here](https://react-slideshow-image.netlify.app/api) for all the properties you can use to customize the behavior of the slideshow.
 
 ## methods
-Click [here](hhttps://react-slideshow-image.netlify.app/api#methods) for all the methods you can call on the slideshow
+Click [here](https://react-slideshow-image.netlify.app/api#methods) for all the methods you can call on the slideshow
 
 
 ## Typescript
