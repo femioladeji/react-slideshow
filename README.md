@@ -5,7 +5,7 @@
 [![Package Quality](http://npm.packagequality.com/shield/react-slideshow-image.svg)](http://packagequality.com/#?package=react-slideshow-image)
 [![downloads](https://img.shields.io/npm/dm/react-slideshow-image.svg)](https://www.npmjs.com/package/react-slideshow-image)
 
-A simple slideshow component built with react that supports slide, fade and zoom effects. For full documentation click [here](https://react-slideshow.herokuapp.com)
+A simple slideshow component built with react that supports slide, fade and zoom effects. For full documentation click [here](https://react-slideshow-image.netlify.app/)
 
 ## Installation
 ```
