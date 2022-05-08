@@ -190,7 +190,7 @@ class Slideshow extends Component {
   applySlideStyle() {
     this.allImages.forEach((eachImage, index) => {
       eachImage.style.width = `${this.width}px`;
-      eachImage.style.visibility = `visible`;
+      eachImage.style.display = `block`;
     });
   }
 
