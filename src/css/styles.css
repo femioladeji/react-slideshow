@@ -3,8 +3,8 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .react-slideshow-container .nav {
@@ -24,11 +24,11 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .react-slideshow-container .default-nav:hover,
@@ -48,21 +48,19 @@
   border-top: none;
 }
 
-
 .react-slideshow-container .default-nav:last-of-type {
   margin-left: -30px;
 }
-
 
 .react-slideshow-container + ul.indicators {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   margin-top: 20px;
 }
 
@@ -112,12 +110,18 @@
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap > div {
   position: relative;
   opacity: 0;
+}
+
+.react-slideshow-wrapper
+  .react-slideshow-fade-images-wrap
+  > div[aria-hidden='true'] {
+  visibility: hidden;
 }
 
 .react-slideshow-wrapper.slide {
@@ -130,7 +134,11 @@
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.react-slideshow-wrapper .images-wrap > div[aria-hidden='true'] {
+  visibility: hidden;
 }
 
 .react-slideshow-zoom-wrapper {
@@ -143,7 +151,7 @@
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   overflow: hidden;
 }
 
@@ -152,4 +160,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.react-slideshow-zoom-wrapper .zoom-wrapper > div[aria-hidden='true'] {
+  visibility: hidden;
 }

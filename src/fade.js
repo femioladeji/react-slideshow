@@ -116,6 +116,7 @@ class Fade extends Component {
         if (eachDiv) {
           eachDiv.style.width = `${this.width}px`;
           eachDiv.style.left = `${index * -this.width}px`;
+          eachDiv.style.visibility = `visible`;
         }
       }
     }
