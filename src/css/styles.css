@@ -162,6 +162,6 @@
   display: flex;
 }
 
-.react-slideshow-zoom-wrapper .zoom-wrapper > div {
+.react-slideshow-zoom-wrapper .zoom-wrapper > div[aria-hidden='true'] {
   visibility: hidden;
 }
