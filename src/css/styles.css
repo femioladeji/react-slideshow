@@ -121,7 +121,7 @@
 .react-slideshow-wrapper
   .react-slideshow-fade-images-wrap
   > div[aria-hidden='true'] {
-  visibility: hidden;
+  display: none;
 }
 
 .react-slideshow-wrapper.slide {
@@ -138,7 +138,7 @@
 }
 
 .react-slideshow-wrapper .images-wrap > div[aria-hidden='true'] {
-  visibility: hidden;
+  display: none;
 }
 
 .react-slideshow-zoom-wrapper {
@@ -163,5 +163,5 @@
 }
 
 .react-slideshow-zoom-wrapper .zoom-wrapper > div[aria-hidden='true'] {
-  visibility: hidden;
+  display: none;
 }
