@@ -58,9 +58,7 @@ export interface SlideProps extends BaseProps {
   slidesToScroll?: number;
 }
 
-export type ButtonClick = (
-  event: React.SyntheticEvent<HTMLButtonElement>
-) => void;
+export type ButtonClick = (event: React.SyntheticEvent<HTMLButtonElement>) => void;
 
 export type IndicatorPropsType = {
   'data-key': number;

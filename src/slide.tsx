@@ -12,26 +12,18 @@ import { ButtonClick, SlideProps } from './types';
 import { defaultProps } from './props';
 
 export const Slide: FC<SlideProps> = props => {
-    const [index, setIndex] = useState(
-        getStartingIndex(props.children, props.defaultIndex)
-    );
+    const [index, setIndex] = useState(getStartingIndex(props.children, props.defaultIndex));
     const [wrapperWidth, setWrapperWidth] = useState<number>(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = new TWEEN.Group();
     const reactSlideshowWrapperRef = useRef<any>(null);
-    const slidesToScroll = useMemo(() => props.slidesToScroll || 1, [
-        props.slidesToScroll,
-    ]);
-    const slidesToShow = useMemo(() => props.slidesToShow || 1, [
-        props.slidesToShow,
-    ]);
-    const childrenCount = useMemo(() => React.Children.count(props.children), [
-        props.children,
-    ]);
+    const slidesToScroll = useMemo(() => props.slidesToScroll || 1, [props.slidesToScroll]);
+    const slidesToShow = useMemo(() => props.slidesToShow || 1, [props.slidesToShow]);
+    const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
     const eachChildWidth = wrapperWidth / slidesToShow;
-    let timeout: any;
-    let resizeObserver: any;
+    const timeout = useRef<NodeJS.Timeout>();
+    const resizeObserver = useRef<any>();
     let startingClientX: number;
     let dragging: boolean = false;
     let distanceSwiped: number = 0;
@@ -39,14 +31,9 @@ export const Slide: FC<SlideProps> = props => {
 
     const applyStyle = () => {
         if (innerWrapperRef.current) {
-            const fullwidth =
-                wrapperWidth * innerWrapperRef.current.children.length;
+            const fullwidth = wrapperWidth * innerWrapperRef.current.children.length;
             innerWrapperRef.current.style.width = `${fullwidth}px`;
-            for (
-                let index = 0;
-                index < innerWrapperRef.current.children.length;
-                index++
-            ) {
+            for (let index = 0; index < innerWrapperRef.current.children.length; index++) {
                 const eachDiv = innerWrapperRef.current.children[index];
                 if (eachDiv) {
                     eachDiv.style.width = `${eachChildWidth}px`;
@@ -64,7 +51,7 @@ export const Slide: FC<SlideProps> = props => {
         initResizeObserver();
         return () => {
             tweenGroup.removeAll();
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
             removeResizeObserver();
         };
     }, [wrapperRef]);
@@ -72,20 +59,20 @@ export const Slide: FC<SlideProps> = props => {
     useEffect(() => {
         const { autoplay, infinite, duration } = props;
         if (autoplay && (infinite || index < childrenCount - 1)) {
-            clearTimeout(timeout);
-            timeout = setTimeout(goNext, duration);
+            clearTimeout(timeout.current);
+            timeout.current = setTimeout(goNext, duration);
         }
     }, [index]);
 
     const removeResizeObserver = () => {
         if (resizeObserver && reactSlideshowWrapperRef.current) {
-            resizeObserver.unobserve(reactSlideshowWrapperRef.current);
+            resizeObserver.current.unobserve(reactSlideshowWrapperRef.current);
         }
     };
 
     const pauseSlides = () => {
         if (props.pauseOnHover) {
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
         }
     };
 
@@ -98,11 +85,7 @@ export const Slide: FC<SlideProps> = props => {
             if (dragging) {
                 let translateValue = wrapperWidth * (index + getOffset());
                 const distance = clientX - startingClientX;
-                if (
-                    !props.infinite &&
-                    index === childrenCount - slidesToScroll &&
-                    distance < 0
-                ) {
+                if (!props.infinite && index === childrenCount - slidesToScroll && distance < 0) {
                     // if it is the last and infinite is false and you're swiping left
                     // then nothing happens
                     return;
@@ -133,8 +116,7 @@ export const Slide: FC<SlideProps> = props => {
         }
         let previousIndex = index - slidesToScroll;
         if (previousIndex % slidesToScroll) {
-            previousIndex =
-                Math.ceil(previousIndex / slidesToScroll) * slidesToScroll;
+            previousIndex = Math.ceil(previousIndex / slidesToScroll) * slidesToScroll;
         }
         transitionSlide(previousIndex);
     };
@@ -152,10 +134,7 @@ export const Slide: FC<SlideProps> = props => {
     };
 
     const calculateIndex = (nextIndex: number): number => {
-        if (
-            nextIndex < childrenCount &&
-            nextIndex + slidesToScroll > childrenCount
-        ) {
+        if (nextIndex < childrenCount && nextIndex + slidesToScroll > childrenCount) {
             if ((childrenCount - slidesToScroll) % slidesToScroll) {
                 return childrenCount - slidesToScroll;
             }
@@ -168,7 +147,7 @@ export const Slide: FC<SlideProps> = props => {
         if (dragging) {
             endSwipe();
         } else if (props.pauseOnHover && props.autoplay) {
-            timeout = setTimeout(goNext, props.duration);
+            timeout.current = setTimeout(goNext, props.duration);
         }
     };
 
@@ -221,11 +200,11 @@ export const Slide: FC<SlideProps> = props => {
 
     const initResizeObserver = () => {
         if (reactSlideshowWrapperRef.current) {
-            resizeObserver = new ResizeObserver(entries => {
+            resizeObserver.current = new ResizeObserver(entries => {
                 if (!entries) return;
                 setWidth();
             });
-            resizeObserver.observe(reactSlideshowWrapperRef.current);
+            resizeObserver.current.observe(reactSlideshowWrapperRef.current);
         }
     };
 
@@ -235,7 +214,7 @@ export const Slide: FC<SlideProps> = props => {
                 event.nativeEvent instanceof TouchEvent
                     ? event.nativeEvent.touches[0].pageX
                     : event.nativeEvent.clientX;
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
             dragging = true;
         }
     };
@@ -258,25 +237,20 @@ export const Slide: FC<SlideProps> = props => {
     };
 
     const transitionSlide = (toIndex: number, animationDuration?: number) => {
-        const transitionDuration =
-            animationDuration || props.transitionDuration;
+        const transitionDuration = animationDuration || props.transitionDuration;
         const currentIndex = index;
         const existingTweens = tweenGroup.getAll();
         if (!wrapperRef.current) {
             return;
         }
         if (!existingTweens.length) {
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
             const value = {
-                margin:
-                    -eachChildWidth * (currentIndex + getOffset()) +
-                    distanceSwiped,
+                margin: -eachChildWidth * (currentIndex + getOffset()) + distanceSwiped,
             };
+            console.log(wrapperWidth, eachChildWidth)
             const tween = new TWEEN.Tween(value, tweenGroup)
-                .to(
-                    { margin: -eachChildWidth * (toIndex + getOffset()) },
-                    transitionDuration
-                )
+                .to({ margin: -eachChildWidth * (toIndex + getOffset()) }, transitionDuration)
                 .onUpdate(value => {
                     if (innerWrapperRef.current) {
                         innerWrapperRef.current.style.transform = `translate(${value.margin}px)`;
@@ -341,39 +315,27 @@ export const Slide: FC<SlideProps> = props => {
             >
                 {props.arrows && showPreviousArrow(props, index, moveSlides)}
                 <div
-                    className={`react-slideshow-wrapper slide ${props.cssClass ||
-                        ''}`}
+                    className={`react-slideshow-wrapper slide ${props.cssClass || ''}`}
                     ref={wrapperRef}
                 >
-                    <div
-                        className="images-wrap"
-                        style={style}
-                        ref={innerWrapperRef}
-                    >
+                    <div className="images-wrap" style={style} ref={innerWrapperRef}>
                         {props.infinite && renderPreceedingSlides()}
-                        {(
-                            React.Children.map(
-                                props.children,
-                                thisArg => thisArg
-                            ) || []
-                        ).map((each, key) => {
-                            const isThisSlideActive = isSlideActive(key);
-                            return (
-                                <div
-                                    data-index={key}
-                                    key={key}
-                                    className={
-                                        isThisSlideActive ? 'active' : ''
-                                    }
-                                    aria-roledescription="slide"
-                                    aria-hidden={
-                                        isThisSlideActive ? 'false' : 'true'
-                                    }
-                                >
-                                    {each}
-                                </div>
-                            );
-                        })}
+                        {(React.Children.map(props.children, thisArg => thisArg) || []).map(
+                            (each, key) => {
+                                const isThisSlideActive = isSlideActive(key);
+                                return (
+                                    <div
+                                        data-index={key}
+                                        key={key}
+                                        className={isThisSlideActive ? 'active' : ''}
+                                        aria-roledescription="slide"
+                                        aria-hidden={isThisSlideActive ? 'false' : 'true'}
+                                    >
+                                        {each}
+                                    </div>
+                                );
+                            }
+                        )}
                         {renderTrailingSlides()}
                     </div>
                 </div>

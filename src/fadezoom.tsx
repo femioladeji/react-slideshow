@@ -19,21 +19,16 @@ export const FadeZoom: FC<ZoomProps> = props => {
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = new TWEEN.Group();
     const reactSlideshowWrapperRef = useRef<any>(null);
-    let timeout: any;
-    let resizeObserver: any;
+    const timeout = useRef<NodeJS.Timeout>();
+    const resizeObserver = useRef<any>();
     // const unhandledProps = getUnhandledProps(propTypes, props);
 
     const applyStyle = () => {
         if (innerWrapperRef.current && wrapperRef.current) {
             const wrapperWidth = wrapperRef.current.clientWidth;
-            const fullwidth =
-                wrapperWidth * React.Children.count(props.children);
+            const fullwidth = wrapperWidth * React.Children.count(props.children);
             innerWrapperRef.current.style.width = `${fullwidth}px`;
-            for (
-                let index = 0;
-                index < innerWrapperRef.current.children.length;
-                index++
-            ) {
+            for (let index = 0; index < innerWrapperRef.current.children.length; index++) {
                 const eachDiv = innerWrapperRef.current.children[index];
                 if (eachDiv) {
                     eachDiv.style.width = `${wrapperWidth}px`;
@@ -49,40 +44,31 @@ export const FadeZoom: FC<ZoomProps> = props => {
         play();
         return () => {
             tweenGroup.removeAll();
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
             removeResizeObserver();
         };
-    });
+    }, []);
 
     useEffect(() => {
-        const { autoplay, infinite, children, duration } = props;
-        if (
-            autoplay &&
-            (infinite || index < React.Children.count(children) - 1)
-        ) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                transitionSlide((index + 1) % React.Children.count(children));
-            }, duration);
-        }
+        play();
     }, [index]);
 
     const removeResizeObserver = () => {
-        if (resizeObserver && reactSlideshowWrapperRef.current) {
-            resizeObserver.unobserve(reactSlideshowWrapperRef.current);
+        if (resizeObserver.current && reactSlideshowWrapperRef.current) {
+            resizeObserver.current.unobserve(reactSlideshowWrapperRef.current);
         }
     };
 
     const pauseSlides = () => {
         if (props.pauseOnHover) {
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
         }
     };
 
     const startSlides = () => {
         const { pauseOnHover, autoplay, duration } = props;
         if (pauseOnHover && autoplay) {
-            timeout = setTimeout(() => goNext(), duration);
+            timeout.current = setTimeout(() => goNext(), duration);
         }
     };
 
@@ -99,9 +85,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
         if (!infinite && index === 0) {
             return;
         }
-        transitionSlide(
-            index === 0 ? React.Children.count(children) - 1 : index - 1
-        );
+        transitionSlide(index === 0 ? React.Children.count(children) - 1 : index - 1);
     };
 
     const preTransition: ButtonClick = event => {
@@ -115,19 +99,23 @@ export const FadeZoom: FC<ZoomProps> = props => {
 
     const initResizeObserver = () => {
         if (reactSlideshowWrapperRef.current) {
-            resizeObserver = new ResizeObserver(entries => {
+            resizeObserver.current = new ResizeObserver(entries => {
                 if (!entries) return;
                 applyStyle();
             });
-            resizeObserver.observe(reactSlideshowWrapperRef.current);
+            resizeObserver.current.observe(reactSlideshowWrapperRef.current);
         }
     };
 
     const play = () => {
-        const { autoplay, children, duration } = props;
-        if (autoplay && React.Children.count(children) > 1) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => transitionSlide(index + 1), duration);
+        const { autoplay, children, duration, infinite } = props;
+        if (
+            autoplay &&
+            React.Children.count(children) > 1 &&
+            (infinite || index < React.Children.count(children) - 1)
+        ) {
+            clearTimeout(timeout.current);
+            timeout.current = setTimeout(goNext, duration);
         }
     };
 
@@ -137,7 +125,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
             if (!innerWrapperRef.current?.children[newIndex]) {
                 newIndex = 0;
             }
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
             const value = { opacity: 0, scale: 1 };
 
             const animate = () => {
@@ -148,18 +136,13 @@ export const FadeZoom: FC<ZoomProps> = props => {
             animate();
 
             const tween = new TWEEN.Tween(value, tweenGroup)
-                .to(
-                    { opacity: 1, scale: props.scale },
-                    props.transitionDuration
-                )
+                .to({ opacity: 1, scale: props.scale }, props.transitionDuration)
                 .onUpdate(value => {
                     if (!innerWrapperRef.current) {
                         return;
                     }
-                    innerWrapperRef.current.children[newIndex].style.opacity =
-                        value.opacity;
-                    innerWrapperRef.current.children[index].style.opacity =
-                        1 - value.opacity;
+                    innerWrapperRef.current.children[newIndex].style.opacity = value.opacity;
+                    innerWrapperRef.current.children[index].style.opacity = 1 - value.opacity;
                     innerWrapperRef.current.children[
                         index
                     ].style.transform = `scale(${value.scale})`;
@@ -169,9 +152,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
             tween.onComplete(() => {
                 setIndex(newIndex);
                 if (innerWrapperRef.current) {
-                    innerWrapperRef.current.children[
-                        index
-                    ].style.transform = `scale(1)`;
+                    innerWrapperRef.current.children[index].style.transform = `scale(1)`;
                 }
                 if (typeof props.onChange === 'function') {
                     props.onChange(index, newIndex);
@@ -208,29 +189,23 @@ export const FadeZoom: FC<ZoomProps> = props => {
                     className={`react-slideshow-fadezoom-wrapper ${props.cssClass}`}
                     ref={wrapperRef}
                 >
-                    <div
-                        className="react-slideshow-fadezoom-images-wrap"
-                        ref={innerWrapperRef}
-                    >
-                        {(
-                            React.Children.map(
-                                props.children,
-                                thisArg => thisArg
-                            ) || []
-                        ).map((each, key) => (
-                            <div
-                                style={{
-                                    opacity: key === index ? '1' : '0',
-                                    zIndex: key === index ? '1' : '0',
-                                }}
-                                data-index={key}
-                                key={key}
-                                aria-roledescription="slide"
-                                aria-hidden={key === index ? 'false' : 'true'}
-                            >
-                                {each}
-                            </div>
-                        ))}
+                    <div className="react-slideshow-fadezoom-images-wrap" ref={innerWrapperRef}>
+                        {(React.Children.map(props.children, thisArg => thisArg) || []).map(
+                            (each, key) => (
+                                <div
+                                    style={{
+                                        opacity: key === index ? '1' : '0',
+                                        zIndex: key === index ? '1' : '0',
+                                    }}
+                                    data-index={key}
+                                    key={key}
+                                    aria-roledescription="slide"
+                                    aria-hidden={key === index ? 'false' : 'true'}
+                                >
+                                    {each}
+                                </div>
+                            )
+                        )}
                     </div>
                 </div>
                 {props.arrows && showNextArrow(props, index, preTransition)}
