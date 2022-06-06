@@ -1,0 +1,88 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Zoom } from '../src';
+
+<Meta title="Examples/CustomIndicators" component={Zoom} />
+
+## Customizing Indicators
+
+The indicators shown below the slide can be customized to your design specification.
+It takes a boolean or a function. If it is set to true, it shows the default indicator style.
+If a function is passed then it displays the element returned in that function.
+The indicator for the current slide has an active class that can be used in styling it
+
+```tsx
+import React from 'react';
+import { Zoom } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
+const indicators = (index) => (<div className="indicator">{index + 1}</div>);
+
+const Example = () => {
+
+  return (
+    <div>
+        <Zoom indicators={indicators} scale={1.4}>
+            {/* children here */}
+        </Zoom>
+    </div>
+  );
+};
+
+export default Example;
+```
+
+You can also style the indicator
+```css
+.indicator {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  border: 1px #666 solid;
+  margin: 0;
+}
+
+.indicator.active {
+  color: #fff;
+  background: #666;
+}
+```
+<Canvas>
+    <Zoom
+        indicators={(index) => (<div className="indicator">{index + 1}</div>)}
+        scale={1.4}
+        >
+        <div className="each-slide-effect">
+            <div
+            style={{
+                backgroundImage: 'url(https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80)'
+            }}
+            >
+            <span>
+                Slide 1
+            </span>
+            </div>
+        </div>
+        <div className="each-slide-effect">
+            <div
+            style={{
+                backgroundImage: 'url(https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80)'
+            }}
+            >
+            <span>
+                Slide 2
+            </span>
+            </div>
+        </div>
+        <div className="each-slide-effect">
+            <div
+            style={{
+                backgroundImage: 'url(https://images.unsplash.com/photo-1444525873963-75d329ef9e1b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80)'
+            }}
+            >
+            <span>
+                Slide 3
+            </span>
+            </div>
+        </div>
+    </Zoom>
+</Canvas>

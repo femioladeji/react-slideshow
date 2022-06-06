@@ -1,0 +1,31 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Slide } from '../src';
+
+<Meta title="Examples/Methods34" component={Slide} />
+
+## Methods Slides
+
+The package supports three methods that can be used to control navigation. The `goBack()` method shows the previous slide while `goNext()` shows the next slide.
+The `goTo(index)` method goes to a particular index. It takes an integer as the parameter.
+
+```tsx
+import React from 'react';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
+const Example = () => {
+    return (
+        <div>
+            <Slide indicators={true}>
+                {/* children here */}
+            </Slide>
+        </div>
+    );
+};
+
+export default Example;
+```
+
+<Canvas>
+     <Story id='examples-methods--default' />
+</Canvas>
