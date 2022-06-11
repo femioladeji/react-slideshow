@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  cleanup,
-  wait,
-  fireEvent,
-  waitForDomChange
-} from '@testing-library/react';
+import { cleanup, waitFor, fireEvent } from '@testing-library/react';
 import { renderZoom, renderZoom2, images } from '../test-utils';
 
 afterEach(cleanup);
@@ -18,7 +13,7 @@ const zoomOut = {
 
 test('All children dom elements were loaded', () => {
   const { container } = renderZoom(zoomOut);
-  const childrenElements = container.querySelectorAll('.zoom-wrapper > div');
+  const childrenElements = container.querySelectorAll('.react-slideshow-fadezoom-images-wrap > div');
   expect(childrenElements.length).toEqual(images.length);
 });
 
@@ -52,17 +47,15 @@ test('Nav arrow should be disabled on the first slide for infinite:false props',
 test("It shouldn't navigate if infinite false and previous arrow is clicked", async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderZoom(
-    { ...zoomOut, infinite: false, prevArrow: <div>Previous</div> },
+    { ...zoomOut, infinite: false, arrows: true },
     wrapperElement
   );
-  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+  const childrenElements = baseElement.querySelectorAll('.react-slideshow-fadezoom-images-wrap > div');
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[0]);
-  await wait(
+  await waitFor(
     () => {
-      expect(
-        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
-      ).toBe(0);
+      expect(parseFloat(childrenElements[childrenElements.length - 1].style.opacity)).toBe(0);
       expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
     },
     {
@@ -77,26 +70,19 @@ test("It shouldn't navigate if infinite false and next arrow is clicked on the l
     {
       ...zoomOut,
       infinite: false,
-      nextArrow: <div>Previous</div>,
-      autoplay: false
+      arrows: true,
+      defaultIndex: 1,
+      autoplay: false,
     },
     wrapperElement
   );
-  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+  const childrenElements = baseElement.querySelectorAll('.react-slideshow-fadezoom-images-wrap > div');
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[1]);
-  // wait for the active indicator to change
-  await waitForDomChange({
-    container: baseElement.querySelector('.indicators')
-  });
-  expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
-  fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
-      expect(
-        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
-      ).toBe(1);
+      expect(parseFloat(childrenElements[childrenElements.length - 1].style.opacity)).toBe(1);
     },
     {
       timeout: zoomOut.transitionDuration
@@ -107,14 +93,14 @@ test("It shouldn't navigate if infinite false and next arrow is clicked on the l
 test(`The second child should start transition to opacity and zIndex of 1 after ${zoomOut.duration}ms`, async () => {
   const onChange = jest.fn();
   const { container } = renderZoom({ ...zoomOut, onChange });
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = container.querySelectorAll(
-        '.zoom-wrapper > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(parseFloat(childrenElements[1].style.opacity)).toBeGreaterThan(0);
       expect(onChange).toBeCalledWith(0, 1);
-      // expect(childrenElements[1].style.zIndex).toBe('1');
+      expect(childrenElements[1].style.zIndex).toBe('1');
     },
     {
       timeout: zoomOut.duration + zoomOut.transitionDuration + 1000
@@ -128,29 +114,25 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
     { ...zoomOut, autoplay: true, pauseOnHover: true },
     wrapperElement
   );
-  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+  const childrenElements = baseElement.querySelectorAll('.react-slideshow-fadezoom-images-wrap > div');
 
   fireEvent.mouseEnter(baseElement.querySelector('.react-slideshow-container'));
-  await wait(
+  await waitFor(
     () => {
       expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
       expect(parseFloat(childrenElements[1].style.opacity)).toBe(0);
-      expect(
-        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
-      ).toBe(0);
+      expect(parseFloat(childrenElements[childrenElements.length - 1].style.opacity)).toBe(0);
     },
     {
       timeout: zoomOut.duration + zoomOut.transitionDuration
     }
   );
   fireEvent.mouseLeave(baseElement.querySelector('.react-slideshow-container'));
-  await wait(
+  await waitFor(
     () => {
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
-      expect(
-        Math.round(childrenElements[childrenElements.length - 1].style.opacity)
-      ).toBe(0);
+      expect(Math.round(childrenElements[childrenElements.length - 1].style.opacity)).toBe(0);
     },
     {
       timeout: zoomOut.duration + zoomOut.transitionDuration

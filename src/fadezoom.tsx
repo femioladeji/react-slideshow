@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, { FC, useState, useRef, useEffect, useMemo } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
@@ -7,6 +7,7 @@ import {
     showIndicators,
     showNextArrow,
     showPreviousArrow,
+    getOtherProps,
 } from './helpers';
 import { ButtonClick, ZoomProps } from './types';
 import { defaultProps } from './props';
@@ -21,12 +22,13 @@ export const FadeZoom: FC<ZoomProps> = props => {
     const reactSlideshowWrapperRef = useRef<any>(null);
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
-    // const unhandledProps = getUnhandledProps(propTypes, props);
+    const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
+    const otherProps = useMemo(() => getOtherProps(props), [props]);
 
     const applyStyle = () => {
         if (innerWrapperRef.current && wrapperRef.current) {
             const wrapperWidth = wrapperRef.current.clientWidth;
-            const fullwidth = wrapperWidth * React.Children.count(props.children);
+            const fullwidth = wrapperWidth * childrenCount;
             innerWrapperRef.current.style.width = `${fullwidth}px`;
             for (let index = 0; index < innerWrapperRef.current.children.length; index++) {
                 const eachDiv = innerWrapperRef.current.children[index];
@@ -41,7 +43,6 @@ export const FadeZoom: FC<ZoomProps> = props => {
 
     useEffect(() => {
         initResizeObserver();
-        play();
         return () => {
             tweenGroup.removeAll();
             clearTimeout(timeout.current);
@@ -50,8 +51,13 @@ export const FadeZoom: FC<ZoomProps> = props => {
     }, []);
 
     useEffect(() => {
+        clearTimeout(timeout.current);
         play();
-    }, [index]);
+    }, [index, props.autoplay]);
+
+    useEffect(() => {
+        applyStyle();
+    }, [childrenCount]);
 
     const removeResizeObserver = () => {
         if (resizeObserver.current && reactSlideshowWrapperRef.current) {
@@ -114,7 +120,6 @@ export const FadeZoom: FC<ZoomProps> = props => {
             React.Children.count(children) > 1 &&
             (infinite || index < React.Children.count(children) - 1)
         ) {
-            clearTimeout(timeout.current);
             timeout.current = setTimeout(goNext, duration);
         }
     };
@@ -178,11 +183,12 @@ export const FadeZoom: FC<ZoomProps> = props => {
     return (
         <div dir="ltr" aria-roledescription="carousel">
             <div
-                className="react-slideshow-container"
+                className={`react-slideshow-container ${props.className || ''}`}
                 onMouseEnter={pauseSlides}
                 onMouseOver={pauseSlides}
                 onMouseLeave={startSlides}
                 ref={reactSlideshowWrapperRef}
+                {...otherProps}
             >
                 {props.arrows && showPreviousArrow(props, index, preTransition)}
                 <div

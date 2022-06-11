@@ -1,9 +1,4 @@
-import {
-  cleanup,
-  wait,
-  fireEvent,
-  waitForDomChange
-} from '@testing-library/react';
+import { cleanup, waitFor, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { renderZoom, renderZoom2 } from '../test-utils';
 
@@ -22,13 +17,15 @@ test('Clicking on the indicator should show the right slide', async () => {
     { ...zoomOut, infinite: false, autoplay: false },
     wrapperElement
   );
-  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+  const childrenElements = baseElement.querySelectorAll('.react-slideshow-fadezoom-images-wrap > div');
   const indicators = baseElement.querySelectorAll('.indicators li button');
   fireEvent.click(indicators[1]);
-  await waitForDomChange({
-    container: baseElement.querySelector('.indicators')
-  });
-  expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+  await waitFor(
+    () => {
+      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+    },
+    { timeout: zoomOut.transitionDuration + 10 }
+  );
 });
 
 test('When the autoplay prop changes from false to true the slideshow plays again', async () => {
@@ -38,10 +35,10 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
     wrapperElement
   );
   // nothing changes after duration and transitionDuration
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.zoom-wrapper > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
     },
@@ -50,10 +47,10 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
     }
   );
   renderZoom2({ ...zoomOut, autoplay: true }, false, rerender);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.zoom-wrapper > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
@@ -70,10 +67,10 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
     wrapperElement
   );
   // the slide plays since autoplay is true changes after duration and transitionDuration
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.zoom-wrapper > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
@@ -82,10 +79,10 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
     }
   );
   renderZoom2({ ...zoomOut, autoplay: false }, false, rerender);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.zoom-wrapper > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
     },
@@ -101,7 +98,7 @@ test('When a valid defaultIndex prop is set, it shows that particular index firs
     { ...zoomOut, defaultIndex: 1 },
     wrapperElement
   );
-  const childrenElements = baseElement.querySelectorAll('.zoom-wrapper > div');
+  const childrenElements = baseElement.querySelectorAll('.react-slideshow-fadezoom-images-wrap > div');
   expect(parseInt(childrenElements[0].style.opacity)).toBe(0);
   expect(parseInt(childrenElements[1].style.opacity)).toBe(1);
 });
@@ -132,7 +129,7 @@ test('Custom nextArrow indicator can be set', async () => {
   );
   expect(baseElement.querySelector('.next')).toBeTruthy();
   fireEvent.click(baseElement.querySelector('[data-type="next"]'));
-  await wait(
+  await waitFor(
     () => {
       expect(
         Math.round(baseElement.querySelector('[data-index="1"]').style.opacity)
@@ -155,7 +152,7 @@ test('Custom prevArrow indicator can be set', async () => {
   );
   expect(baseElement.querySelector('.previous')).toBeTruthy();
   fireEvent.click(baseElement.querySelector('[data-type="prev"]'));
-  await wait(
+  await waitFor(
     () => {
       expect(
         Math.round(baseElement.querySelector('[data-index="2"]').style.opacity)
@@ -181,13 +178,11 @@ test('it calls onChange callback after every slide change', async () => {
   const nav = baseElement.querySelectorAll('.nav');
 
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(mockFunction).toHaveBeenCalledWith(0, 1);
     },
-    {
-      timeout: zoomOut.transitionDuration + 1
-    }
+    { timeout: zoomOut.transitionDuration + 10 }
   );
 });
 
@@ -196,6 +191,6 @@ test('cssClass prop exists on element when it is passed', () => {
     ...zoomOut,
     cssClass: 'myStyle'
   });
-  let wrapper = container.querySelector('.react-slideshow-zoom-wrapper');
+  let wrapper = container.querySelector('.react-slideshow-fadezoom-wrapper');
   expect(wrapper.classList).toContain('myStyle');
 });

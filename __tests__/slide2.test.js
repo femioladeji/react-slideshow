@@ -1,7 +1,6 @@
-import { cleanup, fireEvent, wait } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 import { renderSlide } from '../test-utils';
-import { prettyDOM } from '@testing-library/dom';
 
 const options = {
   duration: 1000,
@@ -22,7 +21,7 @@ test('When the second indicator is clicked, the third child should have active c
   let dots = baseElement.querySelectorAll('.indicators li button');
   const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
   fireEvent.click(dots[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(childrenElements[2].classList).toContain('active');
       expect(onChange).toBeCalledWith(0, 1);
@@ -40,7 +39,7 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
     wrapperElement
   );
   // nothing changes after duration and transitionDuration
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
         '.images-wrap > div'
@@ -52,7 +51,7 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
     }
   );
   renderSlide({ ...options, autoplay: true }, false, rerender);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
         '.images-wrap > div'
@@ -72,7 +71,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
     wrapperElement
   );
   // the slide plays since autoplay is true changes after duration and transitionDuration
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
         '.images-wrap > div'
@@ -84,7 +83,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
     }
   );
   renderSlide({ ...options, autoplay: false }, false, rerender);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
         '.images-wrap > div'
@@ -135,15 +134,11 @@ test('Custom nextArrow indicator can be set', async () => {
   );
   expect(baseElement.querySelector('.next')).toBeTruthy();
   fireEvent.click(baseElement.querySelector('[data-type="next"]'));
-  await wait(
+  await waitFor(
     () => {
-      expect(baseElement.querySelector('[data-index="1"]').classList).toContain(
-        'active'
-      );
+      expect(baseElement.querySelector('[data-index="1"]').classList).toContain('active');
     },
-    {
-      timeout: options.transitionDuration + 200
-    }
+    { timeout: options.transitionDuration + 10 }
   );
 });
 
@@ -158,15 +153,11 @@ test('Custom prevArrow indicator can be set', async () => {
   );
   expect(baseElement.querySelector('.previous')).toBeTruthy();
   fireEvent.click(baseElement.querySelector('[data-type="prev"]'));
-  await wait(
+  await waitFor(
     () => {
-      expect(baseElement.querySelector('[data-index="2"]').classList).toContain(
-        'active'
-      );
+      expect(baseElement.querySelector('[data-index="2"]').classList).toContain('active');
     },
-    {
-      timeout: options.transitionDuration + 200
-    }
+    { timeout: options.transitionDuration + 10 }
   );
 });
 
@@ -184,13 +175,11 @@ test('it calls onChange callback after every slide change', async () => {
   const nav = baseElement.querySelectorAll('.nav');
 
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(mockFunction).toHaveBeenCalledWith(0, 1);
     },
-    {
-      timeout: options.transitionDuration + 1
-    }
+    { timeout: options.transitionDuration + 10 }
   );
 });
 

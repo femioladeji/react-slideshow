@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, wait, fireEvent } from '@testing-library/react';
+import { cleanup, waitFor, fireEvent } from '@testing-library/react';
 import { renderFade } from '../test-utils';
 
 afterEach(cleanup);
@@ -13,19 +13,17 @@ const options = {
 test('When the third indicator dot is clicked, the third child should show', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(options, wrapperElement);
-  let dots = baseElement.querySelectorAll('.indicators li button');
+  const dots = baseElement.querySelectorAll('.indicators li button');
   fireEvent.click(dots[2]);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.react-slideshow-fade-images-wrap > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[2].style.opacity)).toBe(1);
       expect(childrenElements[2].style.zIndex).toBe('1');
     },
-    {
-      timeout: options.duration + options.transitionDuration
-    }
+    { timeout: options.duration + options.transitionDuration }
   );
 });
 
@@ -36,32 +34,28 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
     wrapperElement
   );
   // nothing changes after duration and transitionDuration
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.react-slideshow-fade-images-wrap > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
       expect(childrenElements[0].style.zIndex).toBe('1');
       expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
       expect(childrenElements[1].style.zIndex).toBe('0');
     },
-    {
-      timeout: options.duration + options.transitionDuration
-    }
+    { timeout: options.duration + options.transitionDuration }
   );
   renderFade({ ...options, autoplay: true }, false, rerender);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.react-slideshow-fade-images-wrap > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
-    {
-      timeout: options.duration + options.transitionDuration
-    }
+    { timeout: options.duration + options.transitionDuration }
   );
 });
 
@@ -72,32 +66,28 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
     wrapperElement
   );
   // the slide plays since autoplay is true changes after duration and transitionDuration
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.react-slideshow-fade-images-wrap > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
-    {
-      timeout: options.duration + options.transitionDuration
-    }
+    { timeout: options.duration + options.transitionDuration }
   );
   renderFade({ ...options, autoplay: false }, false, rerender);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
-        '.react-slideshow-fade-images-wrap > div'
+        '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
       expect(childrenElements[1].style.zIndex).toBe('1');
       expect(Math.round(childrenElements[2].style.opacity)).toBe(0);
       expect(childrenElements[2].style.zIndex).toBe('0');
     },
-    {
-      timeout: options.duration + options.transitionDuration
-    }
+    { timeout: options.duration + options.transitionDuration }
   );
 });
 
@@ -108,7 +98,7 @@ test('When a valid defaultIndex prop is set, it shows that particular index firs
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   expect(parseInt(childrenElements[0].style.opacity)).toBe(0);
   expect(parseInt(childrenElements[1].style.opacity)).toBe(1);
@@ -124,17 +114,15 @@ test('Custom prevArrow indicator can be set', async () => {
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   expect(baseElement.querySelector('.previous')).toBeTruthy();
   fireEvent.click(baseElement.querySelector('[data-type="prev"]'));
-  await wait(
+  await waitFor(
     () => {
       expect(Math.round(childrenElements[2].style.opacity)).toBe(1);
     },
-    {
-      timeout: options.transitionDuration
-    }
+    { timeout: options.transitionDuration }
   );
 });
 
@@ -148,17 +136,15 @@ test('Custom nextArrow indicator can be set', async () => {
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   expect(baseElement.querySelector('.next')).toBeTruthy();
   fireEvent.click(baseElement.querySelector('[data-type="next"]'));
-  await wait(
+  await waitFor(
     () => {
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
-    {
-      timeout: options.transitionDuration
-    }
+    { timeout: options.transitionDuration }
   );
 });
 
@@ -190,15 +176,12 @@ test('it calls onChange callback after every slide change', async () => {
     wrapperElement
   );
   const nav = baseElement.querySelectorAll('.nav');
-
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(mockFunction).toHaveBeenCalledWith(0, 1);
     },
-    {
-      timeout: options.transitionDuration + 1
-    }
+    { timeout: options.transitionDuration + 10 }
   );
 });
 
@@ -207,6 +190,6 @@ test('cssClass prop exists on element when it is passed', () => {
     ...options,
     cssClass: 'myStyle'
   });
-  let wrapper = container.querySelector('.react-slideshow-fade-wrapper');
+  const wrapper = container.querySelector('.react-slideshow-fadezoom-wrapper');
   expect(wrapper.classList).toContain('myStyle');
 });

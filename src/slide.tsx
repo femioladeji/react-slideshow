@@ -3,6 +3,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
     getEasing,
+    getOtherProps,
     getStartingIndex,
     showIndicators,
     showNextArrow,
@@ -21,13 +22,13 @@ export const Slide: FC<SlideProps> = props => {
     const slidesToScroll = useMemo(() => props.slidesToScroll || 1, [props.slidesToScroll]);
     const slidesToShow = useMemo(() => props.slidesToShow || 1, [props.slidesToShow]);
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
-    const eachChildWidth = wrapperWidth / slidesToShow;
+    const eachChildWidth = useMemo(() => wrapperWidth / slidesToShow, [wrapperWidth, slidesToShow]);
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
     let startingClientX: number;
     let dragging: boolean = false;
     let distanceSwiped: number = 0;
-    // const unhandledProps = getUnhandledProps(propTypes, props);
+    const otherProps = useMemo(() => getOtherProps(props), [props]);
 
     const applyStyle = () => {
         if (innerWrapperRef.current) {
@@ -57,12 +58,16 @@ export const Slide: FC<SlideProps> = props => {
     }, [wrapperRef]);
 
     useEffect(() => {
+        clearTimeout(timeout.current);
+        play();
+    }, [index, props.autoplay]);
+
+    const play = () => {
         const { autoplay, infinite, duration } = props;
         if (autoplay && (infinite || index < childrenCount - 1)) {
-            clearTimeout(timeout.current);
             timeout.current = setTimeout(goNext, duration);
         }
-    }, [index]);
+    };
 
     const removeResizeObserver = () => {
         if (resizeObserver && reactSlideshowWrapperRef.current) {
@@ -243,14 +248,14 @@ export const Slide: FC<SlideProps> = props => {
         if (!wrapperRef.current) {
             return;
         }
+        const childWidth = wrapperRef.current.clientWidth / slidesToShow;
         if (!existingTweens.length) {
             clearTimeout(timeout.current);
             const value = {
-                margin: -eachChildWidth * (currentIndex + getOffset()) + distanceSwiped,
+                margin: -childWidth * (currentIndex + getOffset()) + distanceSwiped,
             };
-            console.log(wrapperWidth, eachChildWidth)
             const tween = new TWEEN.Tween(value, tweenGroup)
-                .to({ margin: -eachChildWidth * (toIndex + getOffset()) }, transitionDuration)
+                .to({ margin: -childWidth * (toIndex + getOffset()) }, transitionDuration)
                 .onUpdate(value => {
                     if (innerWrapperRef.current) {
                         innerWrapperRef.current.style.transform = `translate(${value.margin}px)`;
@@ -312,6 +317,7 @@ export const Slide: FC<SlideProps> = props => {
                 onTouchCancel={endSwipe}
                 onTouchMove={swipe}
                 ref={reactSlideshowWrapperRef}
+                {...otherProps}
             >
                 {props.arrows && showPreviousArrow(props, index, moveSlides)}
                 <div
