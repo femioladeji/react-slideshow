@@ -105,7 +105,7 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
         transitionSlide(index === 0 ? React.Children.count(children) - 1 : index - 1);
     };
 
-    const preTransition: ButtonClick = event => {
+    const preTransition: ButtonClick = (event) => {
         const { currentTarget } = event;
         if (currentTarget.dataset.type === 'prev') {
             moveBack();
@@ -116,7 +116,7 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
 
     const initResizeObserver = () => {
         if (wrapperRef.current) {
-            resizeObserver.current = new ResizeObserver(entries => {
+            resizeObserver.current = new ResizeObserver((entries) => {
                 if (!entries) return;
                 applyStyle();
             });
@@ -153,7 +153,7 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
 
             const tween = new TWEEN.Tween(value, tweenGroup)
                 .to({ opacity: 1, scale: props.scale }, props.transitionDuration)
-                .onUpdate(value => {
+                .onUpdate((value) => {
                     if (!innerWrapperRef.current) {
                         return;
                     }
@@ -181,7 +181,7 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
         transitionSlide(index);
     };
 
-    const navigate: ButtonClick = event => {
+    const navigate: ButtonClick = (event) => {
         const { currentTarget } = event;
         if (!currentTarget.dataset.key) {
             return;
@@ -207,7 +207,7 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
                     ref={wrapperRef}
                 >
                     <div className="react-slideshow-fadezoom-images-wrap" ref={innerWrapperRef}>
-                        {(React.Children.map(props.children, thisArg => thisArg) || []).map(
+                        {(React.Children.map(props.children, (thisArg) => thisArg) || []).map(
                             (each, key) => (
                                 <div
                                     style={{

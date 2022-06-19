@@ -46,7 +46,7 @@ export const getOtherProps = (props: ZoomProps | FadeProps | SlideProps): any =>
         'nextArrow',
         'onChange',
     ]);
-    keysToRemove.forEach(eachKey => {
+    keysToRemove.forEach((eachKey) => {
         delete rest[eachKey];
     });
     return rest as any;

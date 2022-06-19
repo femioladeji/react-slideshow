@@ -216,7 +216,7 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
 
     const initResizeObserver = () => {
         if (wrapperRef.current) {
-            resizeObserver.current = new ResizeObserver(entries => {
+            resizeObserver.current = new ResizeObserver((entries) => {
                 if (!entries) return;
                 setWidth();
             });
@@ -267,7 +267,7 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
             };
             const tween = new TWEEN.Tween(value, tweenGroup)
                 .to({ margin: -childWidth * (toIndex + getOffset()) }, transitionDuration)
-                .onUpdate(value => {
+                .onUpdate((value) => {
                     if (innerWrapperRef.current) {
                         innerWrapperRef.current.style.transform = `translate(${value.margin}px)`;
                     }
@@ -335,7 +335,7 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
                 >
                     <div className="images-wrap" style={style} ref={innerWrapperRef}>
                         {props.infinite && renderPreceedingSlides()}
-                        {(React.Children.map(props.children, thisArg => thisArg) || []).map(
+                        {(React.Children.map(props.children, (thisArg) => thisArg) || []).map(
                             (each, key) => {
                                 const isThisSlideActive = isSlideActive(key);
                                 return (
