@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useImperativeHandle } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
@@ -12,14 +12,13 @@ import {
 import { ButtonClick, ZoomProps } from './types';
 import { defaultProps } from './props';
 
-export const FadeZoom: FC<ZoomProps> = props => {
+export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
     const [index, setIndex] = useState<number>(
         getStartingIndex(props.children, props.defaultIndex)
     );
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = new TWEEN.Group();
-    const reactSlideshowWrapperRef = useRef<any>(null);
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
@@ -59,9 +58,21 @@ export const FadeZoom: FC<ZoomProps> = props => {
         applyStyle();
     }, [childrenCount]);
 
+    useImperativeHandle(ref, () => ({
+        goNext: () => {
+            moveNext();
+        },
+        goBack: () => {
+            moveBack();
+        },
+        goTo: (index: number) => {
+            moveTo(index);
+        },
+    }));
+
     const removeResizeObserver = () => {
-        if (resizeObserver.current && reactSlideshowWrapperRef.current) {
-            resizeObserver.current.unobserve(reactSlideshowWrapperRef.current);
+        if (resizeObserver.current && wrapperRef.current) {
+            resizeObserver.current.unobserve(wrapperRef.current);
         }
     };
 
@@ -74,11 +85,11 @@ export const FadeZoom: FC<ZoomProps> = props => {
     const startSlides = () => {
         const { pauseOnHover, autoplay, duration } = props;
         if (pauseOnHover && autoplay) {
-            timeout.current = setTimeout(() => goNext(), duration);
+            timeout.current = setTimeout(() => moveNext(), duration);
         }
     };
 
-    const goNext = () => {
+    const moveNext = () => {
         const { children, infinite } = props;
         if (!infinite && index === React.Children.count(children) - 1) {
             return;
@@ -86,7 +97,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
         transitionSlide((index + 1) % React.Children.count(children));
     };
 
-    const goBack = () => {
+    const moveBack = () => {
         const { children, infinite } = props;
         if (!infinite && index === 0) {
             return;
@@ -97,19 +108,19 @@ export const FadeZoom: FC<ZoomProps> = props => {
     const preTransition: ButtonClick = event => {
         const { currentTarget } = event;
         if (currentTarget.dataset.type === 'prev') {
-            goBack();
+            moveBack();
         } else {
-            goNext();
+            moveNext();
         }
     };
 
     const initResizeObserver = () => {
-        if (reactSlideshowWrapperRef.current) {
+        if (wrapperRef.current) {
             resizeObserver.current = new ResizeObserver(entries => {
                 if (!entries) return;
                 applyStyle();
             });
-            resizeObserver.current.observe(reactSlideshowWrapperRef.current);
+            resizeObserver.current.observe(wrapperRef.current);
         }
     };
 
@@ -120,7 +131,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
             React.Children.count(children) > 1 &&
             (infinite || index < React.Children.count(children) - 1)
         ) {
-            timeout.current = setTimeout(goNext, duration);
+            timeout.current = setTimeout(moveNext, duration);
         }
     };
 
@@ -166,7 +177,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
         }
     };
 
-    const goTo = (index: number) => {
+    const moveTo = (index: number) => {
         transitionSlide(index);
     };
 
@@ -176,7 +187,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
             return;
         }
         if (parseInt(currentTarget.dataset.key) !== index) {
-            goTo(parseInt(currentTarget.dataset.key));
+            moveTo(parseInt(currentTarget.dataset.key));
         }
     };
 
@@ -187,7 +198,7 @@ export const FadeZoom: FC<ZoomProps> = props => {
                 onMouseEnter={pauseSlides}
                 onMouseOver={pauseSlides}
                 onMouseLeave={startSlides}
-                ref={reactSlideshowWrapperRef}
+                ref={props.ref}
                 {...otherProps}
             >
                 {props.arrows && showPreviousArrow(props, index, preTransition)}
@@ -219,6 +230,6 @@ export const FadeZoom: FC<ZoomProps> = props => {
             {props.indicators && showIndicators(props, index, navigate)}
         </div>
     );
-};
+});
 
 FadeZoom.defaultProps = defaultProps;

@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useImperativeHandle } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
@@ -12,13 +12,12 @@ import {
 import { ButtonClick, SlideProps } from './types';
 import { defaultProps } from './props';
 
-export const Slide: FC<SlideProps> = props => {
+export const Slide = React.forwardRef((props: SlideProps, ref) => {
     const [index, setIndex] = useState(getStartingIndex(props.children, props.defaultIndex));
     const [wrapperWidth, setWrapperWidth] = useState<number>(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = new TWEEN.Group();
-    const reactSlideshowWrapperRef = useRef<any>(null);
     const slidesToScroll = useMemo(() => props.slidesToScroll || 1, [props.slidesToScroll]);
     const slidesToShow = useMemo(() => props.slidesToShow || 1, [props.slidesToShow]);
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
@@ -62,16 +61,28 @@ export const Slide: FC<SlideProps> = props => {
         play();
     }, [index, props.autoplay]);
 
+    useImperativeHandle(ref, () => ({
+        goNext: () => {
+            moveNext();
+        },
+        goBack: () => {
+            moveBack();
+        },
+        goTo: (index: number) => {
+            moveTo(index);
+        },
+    }));
+
     const play = () => {
         const { autoplay, infinite, duration } = props;
         if (autoplay && (infinite || index < childrenCount - 1)) {
-            timeout.current = setTimeout(goNext, duration);
+            timeout.current = setTimeout(moveNext, duration);
         }
     };
 
     const removeResizeObserver = () => {
-        if (resizeObserver && reactSlideshowWrapperRef.current) {
-            resizeObserver.current.unobserve(reactSlideshowWrapperRef.current);
+        if (resizeObserver && wrapperRef.current) {
+            resizeObserver.current.unobserve(wrapperRef.current);
         }
     };
 
@@ -107,7 +118,7 @@ export const Slide: FC<SlideProps> = props => {
         }
     };
 
-    const goNext = () => {
+    const moveNext = () => {
         if (!props.infinite && index === childrenCount - slidesToScroll) {
             return;
         }
@@ -115,7 +126,7 @@ export const Slide: FC<SlideProps> = props => {
         transitionSlide(nextIndex);
     };
 
-    const goBack = () => {
+    const moveBack = () => {
         if (!props.infinite && index === 0) {
             return;
         }
@@ -131,10 +142,10 @@ export const Slide: FC<SlideProps> = props => {
             return;
         }
         const datasetKey = parseInt(currentTarget.dataset.key);
-        goTo(datasetKey * slidesToScroll);
+        moveTo(datasetKey * slidesToScroll);
     };
 
-    const goTo = (index: number) => {
+    const moveTo = (index: number) => {
         transitionSlide(calculateIndex(index));
     };
 
@@ -152,15 +163,15 @@ export const Slide: FC<SlideProps> = props => {
         if (dragging) {
             endSwipe();
         } else if (props.pauseOnHover && props.autoplay) {
-            timeout.current = setTimeout(goNext, props.duration);
+            timeout.current = setTimeout(moveNext, props.duration);
         }
     };
 
     const moveSlides: ButtonClick = ({ currentTarget: { dataset } }) => {
         if (dataset.type === 'next') {
-            goNext();
+            moveNext();
         } else {
-            goBack();
+            moveBack();
         }
     };
 
@@ -204,12 +215,12 @@ export const Slide: FC<SlideProps> = props => {
     };
 
     const initResizeObserver = () => {
-        if (reactSlideshowWrapperRef.current) {
+        if (wrapperRef.current) {
             resizeObserver.current = new ResizeObserver(entries => {
                 if (!entries) return;
                 setWidth();
             });
-            resizeObserver.current.observe(reactSlideshowWrapperRef.current);
+            resizeObserver.current.observe(wrapperRef.current);
         }
     };
 
@@ -229,9 +240,9 @@ export const Slide: FC<SlideProps> = props => {
             dragging = false;
             if (Math.abs(distanceSwiped) / wrapperWidth > 0.2) {
                 if (distanceSwiped < 0) {
-                    goNext();
+                    moveNext();
                 } else {
-                    goBack();
+                    moveBack();
                 }
             } else {
                 if (Math.abs(distanceSwiped) > 0) {
@@ -301,7 +312,6 @@ export const Slide: FC<SlideProps> = props => {
     const style = {
         transform: `translate(-${(index + getOffset()) * eachChildWidth}px)`,
     };
-
     return (
         <div dir="ltr" aria-roledescription="carousel">
             <div
@@ -316,7 +326,6 @@ export const Slide: FC<SlideProps> = props => {
                 onTouchEnd={endSwipe}
                 onTouchCancel={endSwipe}
                 onTouchMove={swipe}
-                ref={reactSlideshowWrapperRef}
                 {...otherProps}
             >
                 {props.arrows && showPreviousArrow(props, index, moveSlides)}
@@ -350,6 +359,6 @@ export const Slide: FC<SlideProps> = props => {
             {props.indicators && showIndicators(props, index, goToSlide)}
         </div>
     );
-};
+});
 
 Slide.defaultProps = defaultProps;

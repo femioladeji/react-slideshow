@@ -13,6 +13,7 @@ export const defaultProps = {
   easing: 'linear',
   canSwipe: true,
   cssClass: '',
+  responsive: [],
 };
 // const defaultProps: Required<FadeProps> = {
 //     duration: 5000,

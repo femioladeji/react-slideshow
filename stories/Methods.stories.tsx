@@ -28,14 +28,14 @@ const Template: Story<SlideProps> = args => {
             <div style={{textAlign: 'center', background: 'green', padding: '200px 0', fontSize: '30px'}}>Fourth Slide</div>
         </Slide>
         <div style={{display: 'flex', justifyContent: 'center', margin: '50px 0'}}>
-            <button type="button" style={{marginRight: '20px'}} onClick={() => {console.log(slideRef)}}>Back</button>
-            <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.goNext()}>Next</button>
-            <select>
-            <option>--Select--</option>
-            <option value="0">First</option>
-            <option value="1">Second</option>
-            <option value="2">Third</option>
-            <option value="3">Fourth</option>
+            <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.goBack()}>Back</button>
+            <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.next()}>Next</button>
+            <select onChange={(event) => slideRef.current.goTo(parseInt(event.currentTarget.value))}>
+                <option>--Select--</option>
+                <option value="0">First</option>
+                <option value="1">Second</option>
+                <option value="2">Third</option>
+                <option value="3">Fourth</option>
             </select>
         </div>
     </>
