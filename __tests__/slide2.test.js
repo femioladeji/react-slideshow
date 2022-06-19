@@ -157,7 +157,7 @@ test('Custom prevArrow indicator can be set', async () => {
     () => {
       expect(baseElement.querySelector('[data-index="2"]').classList).toContain('active');
     },
-    { timeout: options.transitionDuration + 10 }
+    { timeout: options.transitionDuration + 50 }
   );
 });
 
@@ -179,7 +179,7 @@ test('it calls onChange callback after every slide change', async () => {
     () => {
       expect(mockFunction).toHaveBeenCalledWith(0, 1);
     },
-    { timeout: options.transitionDuration + 10 }
+    { timeout: options.transitionDuration + 50 }
   );
 });
 

@@ -110,7 +110,7 @@ test('When back is clicked, the third child should have an active class', async 
     const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
     // index 3 was used because there are two extra divs, one at the beginning and end
     expect(childrenElements[3].classList).toContain('active');
-  }, { timeout: options.transitionDuration + 10 });
+  }, { timeout: options.transitionDuration + 80 });
 });
 
 test('It should automatically show second child after first slide', async () => {

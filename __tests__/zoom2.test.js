@@ -22,7 +22,7 @@ test('Clicking on the indicator should show the right slide', async () => {
   fireEvent.click(indicators[1]);
   await waitFor(
     () => {
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(parseFloat(Math.round(childrenElements[1].style.opacity))).toBe(1);
     },
     { timeout: zoomOut.transitionDuration + 10 }
   );
@@ -182,7 +182,7 @@ test('it calls onChange callback after every slide change', async () => {
     () => {
       expect(mockFunction).toHaveBeenCalledWith(0, 1);
     },
-    { timeout: zoomOut.transitionDuration + 10 }
+    { timeout: zoomOut.transitionDuration + 50 }
   );
 });
 

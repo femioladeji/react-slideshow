@@ -42,6 +42,6 @@ test('it uses the default value of slideToScroll (1) if prop is not passed', asy
       expect(allChildren[3].classList).toContain('active');
       expect(allChildren[4].classList).toContain('active');
     },
-    { timeout: options.transitionDuration + 1 }
+    { timeout: options.transitionDuration + 50 }
   );
 });
