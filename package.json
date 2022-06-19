@@ -9,9 +9,6 @@
     "dist",
     "src"
   ],
-  "engines": {
-    "node": ">=10"
-  },
   "homepage": "https://react-slideshow-image.netlify.com",
   "keywords": [
     "image",
