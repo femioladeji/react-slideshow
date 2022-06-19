@@ -181,7 +181,7 @@ test('it calls onChange callback after every slide change', async () => {
     () => {
       expect(mockFunction).toHaveBeenCalledWith(0, 1);
     },
-    { timeout: options.transitionDuration + 10 }
+    { timeout: options.transitionDuration + 50 }
   );
 });
 

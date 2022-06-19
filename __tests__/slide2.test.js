@@ -138,7 +138,7 @@ test('Custom nextArrow indicator can be set', async () => {
     () => {
       expect(baseElement.querySelector('[data-index="1"]').classList).toContain('active');
     },
-    { timeout: options.transitionDuration + 10 }
+    { timeout: options.transitionDuration + 50 }
   );
 });
 
