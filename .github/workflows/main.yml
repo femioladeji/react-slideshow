@@ -26,7 +26,7 @@ jobs:
         run: npm run lint
 
       - name: Test
-        run: npm test --ci --coverage --maxWorkers=2
+        run: npm test --ci
 
       - name: Build
         run: npm build
