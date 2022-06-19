@@ -75,7 +75,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
     {
-      timeout: zoomOut.duration + zoomOut.transitionDuration
+      timeout: zoomOut.duration + zoomOut.transitionDuration + 50
     }
   );
   renderZoom2({ ...zoomOut, autoplay: false }, false, rerender);
