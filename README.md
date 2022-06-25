@@ -137,12 +137,7 @@ const Slideshow = () => {
 }
 ```
 
-## Properties
-Click [here](https://react-slideshow-image.netlify.app/api) for all the properties you can use to customize the behavior of the slideshow.
-
-## methods
-Click [here](https://react-slideshow-image.netlify.app/api#methods) for all the methods you can call on the slideshow
-
-
-## Typescript
-The type bindings have not been added yet to the types registry yet. It's a WIP. You can follow [this instruction](https://react-slideshow-image.netlify.app/typescript)
+## Development
+If you want to run the app in development mode, you can run `npm start` to build the file in watch mode or `npm build` and then `npm pack` if you want to use it as a module in another project on your laptop.
+To run the storybook just run `npm run storybook`
+*Note* For node >=16 in order to run the storybook you must install the dependencies with the `--legacy-peer-deps` flag i.e `npm i --legacy-peer-deps`
