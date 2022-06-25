@@ -43,19 +43,12 @@ export interface BaseProps {
   ref?: any;
 }
 
-export interface FadeProps
-  extends BaseProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'onChange'> {}
-export interface Props extends Required<BaseProps> {}
-export interface ZoomProps
-  extends BaseProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'onChange'> {
+export interface FadeProps extends BaseProps{}
+export interface ZoomProps extends BaseProps{
   /** Required when using zoom to specify the scale the current slide should be zoomed to. A number greater than 1 indicates zoom in. A number less than 1, indicates zoom out */
   scale: number;
 }
-export interface SlideProps
-  extends BaseProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'onChange'> {
+export interface SlideProps extends BaseProps {
   /** Set slidesToShow & slidesToScroll based on screen size. */
   responsive?: Array<Responsive>;
   /** The number of slides to show on each page */

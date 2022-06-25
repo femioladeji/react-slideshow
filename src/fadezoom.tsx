@@ -194,7 +194,7 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
     return (
         <div dir="ltr" aria-roledescription="carousel">
             <div
-                className={`react-slideshow-container ${props.className || ''}`}
+                className={`react-slideshow-container ${props.cssClass || ''}`}
                 onMouseEnter={pauseSlides}
                 onMouseOver={pauseSlides}
                 onMouseLeave={startSlides}

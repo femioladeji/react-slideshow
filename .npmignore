@@ -4,6 +4,8 @@ scripts
 config
 coverage
 build
+.storybok
+stories
 __tests__
 __mocks__
 node_modules
