@@ -43,8 +43,8 @@ export interface BaseProps {
   ref?: any;
 }
 
-export interface FadeProps extends BaseProps{}
-export interface ZoomProps extends BaseProps{
+export interface FadeProps extends BaseProps {}
+export interface ZoomProps extends BaseProps {
   /** Required when using zoom to specify the scale the current slide should be zoomed to. A number greater than 1 indicates zoom in. A number less than 1, indicates zoom out */
   scale: number;
 }
