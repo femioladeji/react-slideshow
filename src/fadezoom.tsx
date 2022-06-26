@@ -164,8 +164,8 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
                 .start();
             tween.easing(getEasing(props.easing));
             tween.onComplete(() => {
-                setIndex(newIndex);
                 if (innerWrapperRef.current) {
+                    setIndex(newIndex);
                     innerWrapperRef.current.children[index].style.transform = `scale(1)`;
                 }
                 if (typeof props.onChange === 'function') {

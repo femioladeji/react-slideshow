@@ -135,7 +135,7 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
       expect(Math.round(childrenElements[childrenElements.length - 1].style.opacity)).toBe(0);
     },
     {
-      timeout: zoomOut.duration + zoomOut.transitionDuration
+      timeout: zoomOut.duration + zoomOut.transitionDuration + 100
     }
   );
 });
