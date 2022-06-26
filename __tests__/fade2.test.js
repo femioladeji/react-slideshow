@@ -23,7 +23,7 @@ test('When the third indicator dot is clicked, the third child should show', asy
       expect(Math.round(childrenElements[2].style.opacity)).toBe(1);
       expect(childrenElements[2].style.zIndex).toBe('1');
     },
-    { timeout: options.duration + options.transitionDuration }
+    { timeout: options.duration + options.transitionDuration + 100 }
   );
 });
 
@@ -44,7 +44,7 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
       expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
       expect(childrenElements[1].style.zIndex).toBe('0');
     },
-    { timeout: options.duration + options.transitionDuration }
+    { timeout: options.duration + options.transitionDuration + 100 }
   );
   renderFade({ ...options, autoplay: true }, false, rerender);
   await waitFor(
@@ -55,7 +55,7 @@ test('When the autoplay prop changes from false to true the slideshow plays agai
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
-    { timeout: options.duration + options.transitionDuration }
+    { timeout: options.duration + options.transitionDuration + 100 }
   );
 });
 
@@ -74,7 +74,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
-    { timeout: options.duration + options.transitionDuration }
+    { timeout: options.duration + options.transitionDuration + 100 }
   );
   renderFade({ ...options, autoplay: false }, false, rerender);
   await waitFor(
@@ -87,7 +87,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       expect(Math.round(childrenElements[2].style.opacity)).toBe(0);
       expect(childrenElements[2].style.zIndex).toBe('0');
     },
-    { timeout: options.duration + options.transitionDuration }
+    { timeout: options.duration + options.transitionDuration + 100 }
   );
 });
 
