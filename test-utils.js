@@ -23,16 +23,12 @@ export const renderFade = (props = {}, container, rerender) => {
   if (rerender) {
     slideShow = rerender(
       <Fade {...props}>
-        {images.map((each, index) => (
-          <img key={index} src={each} />
-        ))}
+        {images.map((each, index) => (<img key={index} src={each} />))}
       </Fade>, options);
   } else {
     slideShow = render(
         <Fade {...props}>
-          {images.map((each, index) => (
-            <img key={index} src={each} />
-          ))}
+          {images.map((each, index) => (<img key={index} src={each} />))}
         </Fade>, options);
   }
   return slideShow;
@@ -48,9 +44,7 @@ export const renderZoom = (props = {}, container) => {
   }
   let slideShow = render(
       <Zoom {...props}>
-        {images.map((each, index) => (
-          <img key={index} src={each} />
-        ))}
+        {images.map((each, index) => (<img key={index} src={each} />))}
       </Zoom>, options);
   return slideShow;
 }
@@ -74,9 +68,7 @@ export const renderZoom2 = (props = {}, container, rerender) => {
   } else {
     slideShow = render(
         <Zoom {...props}>
-          {images.slice(0, 2).map((each, index) => (
-            <img key={index} src={each} />
-          ))}
+          {images.slice(0, 2).map((each, index) => (<img key={index} src={each} />))}
         </Zoom>, options);
   }
   return slideShow;
@@ -101,9 +93,7 @@ export const renderSlide = (props = {}, container, rerender) => {
   } else {
     slideShow = render(
         <Slide {...props}>
-          {images.map((each, index) => (
-            <img key={index} src={each} />
-          ))}
+          {images.map((each, index) => (<img key={index} src={each} />))}
         </Slide>, options);
   }
   return slideShow;

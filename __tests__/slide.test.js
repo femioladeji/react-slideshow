@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  cleanup,
-  wait,
-  fireEvent,
-  waitForDomChange
-} from '@testing-library/react';
+import { cleanup, waitFor, fireEvent } from '@testing-library/react';
 import { renderSlide, images } from '../test-utils';
 
 const options = {
@@ -45,15 +40,13 @@ test('Previous navigation array should be disabled if infinite option is false',
   let nav = baseElement.querySelectorAll('.nav');
   expect(nav[0].classList).toContain('disabled');
   fireEvent.click(nav[0]);
-  await wait(
+  await waitFor(
     () => {
       expect(baseElement.querySelector('[data-index="0"]').classList).toContain(
         'active'
       );
     },
-    {
-      timeout: options.transitionDuration
-    }
+    { timeout: options.transitionDuration }
   );
 });
 
@@ -63,13 +56,11 @@ test('When next is clicked, the second child should have an active class', async
   const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(childrenElements[1].classList).toContain('active');
     },
-    {
-      timeout: options.transitionDuration
-    }
+    { timeout: options.transitionDuration }
   );
 });
 
@@ -102,13 +93,11 @@ test('If infinite is false and next is clicked on the last image everything shou
   const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(childrenElements[2].classList).toContain('active');
     },
-    {
-      timeout: options.transitionDuration
-    }
+    { timeout: options.transitionDuration }
   );
 });
 
@@ -117,18 +106,17 @@ test('When back is clicked, the third child should have an active class', async 
   const { baseElement } = renderSlide(options, wrapperElement);
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[0]);
-  await waitForDomChange({
-    container: baseElement.querySelector('.indicators')
-  });
-  const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
-  // index 3 was used because there are two extra divs, one at the beginning and end
-  expect(childrenElements[3].classList).toContain('active');
+  await waitFor(() => {
+    const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
+    // index 3 was used because there are two extra divs, one at the beginning and end
+    expect(childrenElements[3].classList).toContain('active');
+  }, { timeout: options.transitionDuration + 80 });
 });
 
 test('It should automatically show second child after first slide', async () => {
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderSlide(options, wrapperElement);
-  await wait(
+  await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
         '.images-wrap > div'
@@ -150,7 +138,7 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
   const childrenElements = baseElement.querySelectorAll('.images-wrap > div');
 
   fireEvent.mouseEnter(baseElement.querySelector('.react-slideshow-container'));
-  await wait(
+  await waitFor(
     () => {
       expect(childrenElements[1].classList).toContain('active');
     },
@@ -159,7 +147,7 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
     }
   );
   fireEvent.mouseLeave(baseElement.querySelector('.react-slideshow-container'));
-  await wait(
+  await waitFor(
     () => {
       expect(childrenElements[2].classList).toContain('active');
     },

@@ -1,10 +1,4 @@
-import React from 'react';
-import {
-  cleanup,
-  wait,
-  fireEvent,
-  waitForDomChange
-} from '@testing-library/react';
+import { cleanup, waitFor, fireEvent } from '@testing-library/react';
 import { renderSlide, images } from '../test-utils';
 
 const options = {
@@ -43,13 +37,11 @@ test('it uses the default value of slideToScroll (1) if prop is not passed', asy
   const nav = container.querySelectorAll('.nav');
   const allChildren = container.querySelectorAll('.images-wrap > div');
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(allChildren[3].classList).toContain('active');
       expect(allChildren[4].classList).toContain('active');
     },
-    {
-      timeout: options.transitionDuration + 1
-    }
+    { timeout: options.transitionDuration + 50 }
   );
 });

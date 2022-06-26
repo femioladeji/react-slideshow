@@ -1,0 +1,81 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Slide } from '../src';
+
+<Meta title="Examples/CustomArrows" component={Slide} />
+
+## Customizing Previous & Next arrow
+
+You can customize the previous and next arrow by setting the property as shown below
+
+```tsx
+import React from 'react';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
+const buttonStyle = {
+    width: "30px",
+    background: 'none',
+    border: '0px'
+};
+
+const properties = {
+    prevArrow: <button style={{ ...buttonStyle }}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#fff"><path d="M242 180.6v-138L0 256l242 213.4V331.2h270V180.6z"/></svg></button>,
+    nextArrow: <button style={{ ...buttonStyle }}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#fff"><path d="M512 256L270 42.6v138.2H0v150.6h270v138z"/></svg></button>
+}
+
+const Example = () => {
+  return (
+    <div>
+        <Slide {...properties}>
+            {/* children here */}
+        </Slide>
+    </div>
+  );
+};
+
+export default Example;
+```
+
+You can also style the indicator
+```css
+.indicator {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  border: 1px #666 solid;
+  margin: 0;
+}
+
+.indicator.active {
+  color: #fff;
+  background: #666;
+}
+```
+<Canvas>
+    <Slide
+        nextArrow={<button style={{background: 'none', border: '0px', marginLeft: '-30px', width: '30px'}}><svg fill="#fff" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M512 256L270 42.6v138.2H0v150.6h270v138z" /></svg></button>}
+        prevArrow={<button style={{background: 'none', border: '0px', marginRight: '-30px', width: '30px'}}><svg fill="#fff" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M242 180.6v-138L0 256l242 213.4V331.2h270V180.6z" /></svg></button>}
+    >
+        <div className="each-slide-effect">
+            <div style={{backgroundImage: 'url(https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80)'}}>
+                <span>
+                    Slide 1
+                </span>
+            </div>
+        </div>
+        <div className="each-slide-effect">
+            <div style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80)'}}>
+                <span>
+                    Slide 2
+                </span>
+            </div>
+        </div>
+        <div className="each-slide-effect">
+            <div style={{backgroundImage: 'url(https://images.unsplash.com/photo-1444525873963-75d329ef9e1b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80)'}}>
+                <span>
+                    Slide 3
+                </span>
+            </div>
+        </div>
+    </Slide>
+</Canvas>

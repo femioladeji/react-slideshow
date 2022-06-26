@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, wait, fireEvent } from '@testing-library/react';
+import { cleanup, waitFor, fireEvent } from '@testing-library/react';
 import { renderFade, images } from '../test-utils';
 
 afterEach(cleanup);
@@ -7,7 +7,7 @@ afterEach(cleanup);
 test('All children dom elements were loaded', () => {
   const { container } = renderFade();
   const childrenElements = container.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   expect(childrenElements.length).toEqual(images.length);
 });
@@ -15,7 +15,7 @@ test('All children dom elements were loaded', () => {
 test('The opacity and z-index of the first child are 1', () => {
   const { container } = renderFade();
   const childrenElements = container.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   expect(childrenElements[0].style.opacity).toBe('1');
   expect(childrenElements[0].style.zIndex).toBe('1');
@@ -66,20 +66,16 @@ test("It shouldn't navigate if infinite false and previous arrow is clicked", as
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[0]);
-  await wait(
+  await waitFor(
     () => {
-      expect(
-        parseFloat(childrenElements[childrenElements.length - 1].style.opacity)
-      ).toBe(0);
+      expect(parseFloat(childrenElements[childrenElements.length - 1].style.opacity)).toBe(0);
       expect(parseFloat(childrenElements[0].style.opacity)).toBe(1);
     },
-    {
-      timeout: fadeProperties2.transitionDuration
-    }
+    { timeout: fadeProperties2.transitionDuration }
   );
 });
 
@@ -95,11 +91,11 @@ test("It shouldn't navigate to next if infinite false and next arrow is clicked 
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(parseFloat(childrenElements[0].style.opacity)).toBe(0);
       expect(parseFloat(childrenElements[2].style.opacity)).toBe(1);
@@ -117,18 +113,16 @@ test('It should show the previous image if back is clicked', async () => {
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[0]);
-  await wait(
+  await waitFor(
     () => {
       expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
     },
-    {
-      timeout: fadeProperties2.transitionDuration
-    }
+    { timeout: fadeProperties2.transitionDuration }
   );
 });
 
@@ -144,42 +138,34 @@ test('When next or previous arrow is clicked, the right child shows up', async (
   const wrapperElement = document.createElement('div');
   const { baseElement } = renderFade(fadeProperties2, wrapperElement);
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
   const nav = baseElement.querySelectorAll('.nav');
   fireEvent.click(nav[1]);
-  await wait(
+  await waitFor(
     () => {
       expect(parseFloat(childrenElements[1].style.opacity)).toBeGreaterThan(0);
     },
-    {
-      timeout: fadeProperties2.transitionDuration
-    }
+    { timeout: fadeProperties2.transitionDuration }
   );
 
   fireEvent.click(nav[0]);
-  await wait(
+  await waitFor(
     () => {
       expect(parseFloat(childrenElements[0].style.opacity)).toBeGreaterThan(0);
     },
-    {
-      timeout: fadeProperties2.transitionDuration
-    }
+    { timeout: fadeProperties2.transitionDuration }
   );
 });
 
 test(`The second child should start transition to opacity after ${fadeProperties.duration}ms`, async () => {
   const { container } = renderFade(fadeProperties);
-  await wait(
+  await waitFor(
     () => {
-      const childrenElements = container.querySelectorAll(
-        '.react-slideshow-fade-images-wrap > div'
-      );
+      const childrenElements = container.querySelectorAll('.react-slideshow-fadezoom-images-wrap > div');
       expect(parseFloat(childrenElements[1].style.opacity)).toBeGreaterThan(0);
     },
-    {
-      timeout: fadeProperties.duration + fadeProperties.transitionDuration
-    }
+    { timeout:  fadeProperties.duration + fadeProperties.transitionDuration }
   );
 });
 
@@ -190,31 +176,27 @@ test('When the pauseOnHover prop is true and the mouse hovers the container the 
     wrapperElement
   );
   const childrenElements = baseElement.querySelectorAll(
-    '.react-slideshow-fade-images-wrap > div'
+    '.react-slideshow-fadezoom-images-wrap > div'
   );
 
   fireEvent.mouseEnter(baseElement.querySelector('.react-slideshow-container'));
   // nothing happens on mouse enter
-  await wait(
+  await waitFor(
     () => {
       expect(Math.round(childrenElements[0].style.opacity)).toBe(1);
       expect(childrenElements[0].style.zIndex).toBe('1');
       expect(Math.round(childrenElements[1].style.opacity)).toBe(0);
       expect(childrenElements[1].style.zIndex).toBe('0');
     },
-    {
-      timeout: fadeProperties.duration + fadeProperties.transitionDuration
-    }
+    { timeout: fadeProperties.duration + fadeProperties.transitionDuration }
   );
   fireEvent.mouseLeave(baseElement.querySelector('.react-slideshow-container'));
   // it resumes
-  await wait(
+  await waitFor(
     () => {
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
-    {
-      timeout: fadeProperties.duration + fadeProperties.transitionDuration
-    }
+    { timeout: fadeProperties.duration + fadeProperties.transitionDuration }
   );
 });

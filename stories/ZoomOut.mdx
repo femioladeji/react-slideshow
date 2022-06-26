@@ -1,0 +1,37 @@
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
+import { Zoom } from '../src'
+
+## Zoom out Effect
+
+Here's the javascript code
+```tsx
+import React from 'react';
+import { Zoom } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
+const ZoomOutExample = () => {
+    const images = [
+        "https://source.unsplash.com/random/300x300",
+        "https://source.unsplash.com/random/300x300",
+        "https://source.unsplash.com/random/300x300",
+    ];
+
+  return (
+    <Zoom scale={0.7} indicators={true}>
+      {images.map((each, index) => (
+          <div key={index} style={{ width: "100%" }}>
+              <img style={{ objectFit: "cover", width: "100%" }} alt="Slide Image" src={each} />
+          </div>
+      ))}
+    </Zoom>
+  );
+};
+
+export default ZoomOutExample;
+```
+
+<Canvas>
+    <Story id='examples-zoomout--default' height="500px" />
+</Canvas>
+
+<ArgsTable of={Zoom} />

@@ -100,12 +100,12 @@
   outline: none;
 }
 
-.react-slideshow-fade-wrapper {
+.react-slideshow-fadezoom-wrapper {
   width: 100%;
   overflow: hidden;
 }
 
-.react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap {
+.react-slideshow-fadezoom-wrapper .react-slideshow-fadezoom-images-wrap {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -113,7 +113,7 @@
   flex-wrap: wrap;
 }
 
-.react-slideshow-fade-wrapper .react-slideshow-fade-images-wrap > div {
+.react-slideshow-fadezoom-wrapper .react-slideshow-fadezoom-images-wrap > div {
   position: relative;
   opacity: 0;
 }
@@ -138,30 +138,5 @@
 }
 
 .react-slideshow-wrapper .images-wrap > div[aria-hidden='true'] {
-  display: none;
-}
-
-.react-slideshow-zoom-wrapper {
-  width: 100%;
-  overflow: hidden;
-}
-
-.react-slideshow-zoom-wrapper .zoom-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  overflow: hidden;
-}
-
-.react-slideshow-zoom-wrapper .zoom-wrapper > div {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.react-slideshow-zoom-wrapper .zoom-wrapper > div[aria-hidden='true'] {
   display: none;
 }

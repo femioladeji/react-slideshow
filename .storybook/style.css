@@ -1,0 +1,55 @@
+.each-slide {
+  display: flex;
+  width: 100%;
+  height: 400px;
+}
+
+.each-slide>div {
+  width: 75%;
+}
+
+.each-slide>div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.each-slide p {
+  width: 25%;
+  font-size: 1em;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background: #adceed;
+}
+
+
+.each-slide-effect > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  height: 350px;
+}
+
+.each-slide-effect span {
+  padding: 20px;
+  font-size: 20px;
+  background: #efefef;
+  text-align: center;
+}
+
+.indicator {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  border: 1px #666 solid;
+  margin: 0;
+}
+
+.indicator.active {
+  color: #fff;
+  background: #666;
+}
