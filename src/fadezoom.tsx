@@ -1,4 +1,11 @@
-import React, { useState, useRef, useEffect, useMemo, useImperativeHandle } from 'react';
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useMemo,
+    useImperativeHandle,
+    useCallback,
+} from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
@@ -22,7 +29,7 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
     const resizeObserver = useRef<any>();
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
 
-    const applyStyle = () => {
+    const applyStyle = useCallback(() => {
         if (innerWrapperRef.current && wrapperRef.current) {
             const wrapperWidth = wrapperRef.current.clientWidth;
             const fullwidth = wrapperWidth * childrenCount;
@@ -36,7 +43,29 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
                 }
             }
         }
-    };
+    }, [wrapperRef, innerWrapperRef, childrenCount]);
+
+    const initResizeObserver = useCallback(() => {
+        if (wrapperRef.current) {
+            resizeObserver.current = new ResizeObserver((entries) => {
+                if (!entries) return;
+                applyStyle();
+            });
+            resizeObserver.current.observe(wrapperRef.current);
+        }
+    }, [wrapperRef, applyStyle]);
+
+    const play = useCallback(() => {
+        const { autoplay, children, duration, infinite } = props;
+        if (
+            autoplay &&
+            React.Children.count(children) > 1 &&
+            (infinite || index < React.Children.count(children) - 1)
+        ) {
+            timeout.current = setTimeout(moveNext, duration);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props, index]);
 
     useEffect(() => {
         initResizeObserver();
@@ -45,16 +74,16 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
             clearTimeout(timeout.current);
             removeResizeObserver();
         };
-    }, []);
+    }, [initResizeObserver, tweenGroup]);
 
     useEffect(() => {
         clearTimeout(timeout.current);
         play();
-    }, [index, props.autoplay]);
+    }, [index, props.autoplay, play]);
 
     useEffect(() => {
         applyStyle();
-    }, [childrenCount]);
+    }, [childrenCount, applyStyle]);
 
     useImperativeHandle(ref, () => ({
         goNext: () => {
@@ -109,27 +138,6 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
             moveBack();
         } else {
             moveNext();
-        }
-    };
-
-    const initResizeObserver = () => {
-        if (wrapperRef.current) {
-            resizeObserver.current = new ResizeObserver((entries) => {
-                if (!entries) return;
-                applyStyle();
-            });
-            resizeObserver.current.observe(wrapperRef.current);
-        }
-    };
-
-    const play = () => {
-        const { autoplay, children, duration, infinite } = props;
-        if (
-            autoplay &&
-            React.Children.count(children) > 1 &&
-            (infinite || index < React.Children.count(children) - 1)
-        ) {
-            timeout.current = setTimeout(moveNext, duration);
         }
     };
 

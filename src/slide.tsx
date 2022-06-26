@@ -1,4 +1,11 @@
-import React, { useState, useRef, useEffect, useMemo, useImperativeHandle } from 'react';
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useMemo,
+    useImperativeHandle,
+    useCallback,
+} from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
@@ -27,7 +34,7 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
     let dragging: boolean = false;
     let distanceSwiped: number = 0;
 
-    const applyStyle = () => {
+    const applyStyle = useCallback(() => {
         if (innerWrapperRef.current) {
             const fullwidth = wrapperWidth * innerWrapperRef.current.children.length;
             innerWrapperRef.current.style.width = `${fullwidth}px`;
@@ -39,11 +46,29 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
                 }
             }
         }
-    };
+    }, [wrapperWidth, eachChildWidth]);
+
+    const initResizeObserver = useCallback(() => {
+        if (wrapperRef.current) {
+            resizeObserver.current = new ResizeObserver((entries) => {
+                if (!entries) return;
+                setWidth();
+            });
+            resizeObserver.current.observe(wrapperRef.current);
+        }
+    }, [wrapperRef]);
+
+    const play = useCallback(() => {
+        const { autoplay, infinite, duration } = props;
+        if (autoplay && (infinite || index < childrenCount - 1)) {
+            timeout.current = setTimeout(moveNext, duration);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props, childrenCount, index]);
 
     useEffect(() => {
         applyStyle();
-    }, [wrapperWidth]);
+    }, [wrapperWidth, applyStyle]);
 
     useEffect(() => {
         initResizeObserver();
@@ -52,12 +77,12 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
             clearTimeout(timeout.current);
             removeResizeObserver();
         };
-    }, [wrapperRef]);
+    }, [wrapperRef, initResizeObserver, tweenGroup]);
 
     useEffect(() => {
         clearTimeout(timeout.current);
         play();
-    }, [index, props.autoplay]);
+    }, [index, props.autoplay, play]);
 
     useImperativeHandle(ref, () => ({
         goNext: () => {
@@ -70,13 +95,6 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
             moveTo(index);
         },
     }));
-
-    const play = () => {
-        const { autoplay, infinite, duration } = props;
-        if (autoplay && (infinite || index < childrenCount - 1)) {
-            timeout.current = setTimeout(moveNext, duration);
-        }
-    };
 
     const removeResizeObserver = () => {
         if (resizeObserver && wrapperRef.current) {
@@ -209,16 +227,6 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
     const setWidth = () => {
         if (wrapperRef.current) {
             setWrapperWidth(wrapperRef.current.clientWidth);
-        }
-    };
-
-    const initResizeObserver = () => {
-        if (wrapperRef.current) {
-            resizeObserver.current = new ResizeObserver((entries) => {
-                if (!entries) return;
-                setWidth();
-            });
-            resizeObserver.current.observe(wrapperRef.current);
         }
     };
 

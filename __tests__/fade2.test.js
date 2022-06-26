@@ -74,18 +74,16 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       expect(Math.round(childrenElements[0].style.opacity)).toBe(0);
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
-    { timeout: options.duration + options.transitionDuration + 100 }
+    { timeout: options.duration + options.transitionDuration + 300 }
   );
-  renderFade({ ...options, autoplay: false }, false, rerender);
+  renderFade({ ...options, autoplay: false }, wrapperElement, rerender);
   await waitFor(
     () => {
       const childrenElements = baseElement.querySelectorAll(
         '.react-slideshow-fadezoom-images-wrap > div'
       );
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
-      expect(childrenElements[1].style.zIndex).toBe('1');
       expect(Math.round(childrenElements[2].style.opacity)).toBe(0);
-      expect(childrenElements[2].style.zIndex).toBe('0');
     },
     { timeout: options.duration + options.transitionDuration + 100 }
   );

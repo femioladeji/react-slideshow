@@ -75,7 +75,7 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
     {
-      timeout: zoomOut.duration + zoomOut.transitionDuration + 50
+      timeout: zoomOut.duration + zoomOut.transitionDuration + 100
     }
   );
   renderZoom2({ ...zoomOut, autoplay: false }, false, rerender);
@@ -84,10 +84,10 @@ test('When the autoplay prop changes from true to false the slideshow stops', as
       const childrenElements = baseElement.querySelectorAll(
         '.react-slideshow-fadezoom-images-wrap > div'
       );
-      expect(parseFloat(childrenElements[1].style.opacity)).toBe(1);
+      expect(Math.round(childrenElements[1].style.opacity)).toBe(1);
     },
     {
-      timeout: zoomOut.duration + zoomOut.transitionDuration
+      timeout: zoomOut.duration + zoomOut.transitionDuration + 100
     }
   );
 });
