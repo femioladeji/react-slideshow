@@ -3,7 +3,6 @@ import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
     getEasing,
-    getOtherProps,
     getStartingIndex,
     showIndicators,
     showNextArrow,
@@ -27,7 +26,6 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
     let startingClientX: number;
     let dragging: boolean = false;
     let distanceSwiped: number = 0;
-    const otherProps = useMemo(() => getOtherProps(props), [props]);
 
     const applyStyle = () => {
         if (innerWrapperRef.current) {
@@ -326,7 +324,6 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
                 onTouchEnd={endSwipe}
                 onTouchCancel={endSwipe}
                 onTouchMove={swipe}
-                {...otherProps}
             >
                 {props.arrows && showPreviousArrow(props, index, moveSlides)}
                 <div

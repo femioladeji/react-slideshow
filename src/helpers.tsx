@@ -8,7 +8,6 @@ import {
     ZoomProps,
 } from './types';
 import TWEEN from '@tweenjs/tween.js';
-import { defaultProps } from './props';
 
 export const getStartingIndex = (children: ReactNode, defaultIndex?: number): number => {
     if (defaultIndex && defaultIndex < React.Children.count(children)) {
@@ -32,24 +31,6 @@ export const getEasing = (easeMethod?: string): TweenEasingFn => {
         return EASING_METHODS[easeMethod];
     }
     return EASING_METHODS.linear;
-};
-
-export const getOtherProps = (props: ZoomProps | FadeProps | SlideProps): any => {
-    const rest: any = { ...props };
-    const keysToRemove = Object.keys(defaultProps).concat([
-        'scale',
-        'children',
-        'slidesToShow',
-        'slidesToScroll',
-        'responsive',
-        'prevArrow',
-        'nextArrow',
-        'onChange',
-    ]);
-    keysToRemove.forEach((eachKey) => {
-        delete rest[eachKey];
-    });
-    return rest as any;
 };
 
 export const showPreviousArrow = (

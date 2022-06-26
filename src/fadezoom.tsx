@@ -7,7 +7,6 @@ import {
     showIndicators,
     showNextArrow,
     showPreviousArrow,
-    getOtherProps,
 } from './helpers';
 import { ButtonClick, ZoomProps } from './types';
 import { defaultProps } from './props';
@@ -22,7 +21,6 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
-    const otherProps = useMemo(() => getOtherProps(props), [props]);
 
     const applyStyle = () => {
         if (innerWrapperRef.current && wrapperRef.current) {
@@ -199,7 +197,6 @@ export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
                 onMouseOver={pauseSlides}
                 onMouseLeave={startSlides}
                 ref={props.ref}
-                {...otherProps}
             >
                 {props.arrows && showPreviousArrow(props, index, preTransition)}
                 <div
