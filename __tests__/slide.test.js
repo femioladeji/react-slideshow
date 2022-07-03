@@ -124,7 +124,7 @@ test('It should automatically show second child after first slide', async () => 
       expect(childrenElements[2].classList).toContain('active');
     },
     {
-      timeout: options.duration + options.transitionDuration + 20
+      timeout: options.duration + options.transitionDuration + 700
     }
   );
 });
