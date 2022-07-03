@@ -121,10 +121,10 @@ test('It should automatically show second child after first slide', async () => 
       const childrenElements = baseElement.querySelectorAll(
         '.images-wrap > div'
       );
-      expect(childrenElements[1].classList).toContain('active');
+      expect(childrenElements[2].classList).toContain('active');
     },
     {
-      timeout: options.duration + options.transitionDuration
+      timeout: options.duration + options.transitionDuration + 20
     }
   );
 });
