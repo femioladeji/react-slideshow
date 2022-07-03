@@ -47,7 +47,7 @@ export const showPreviousArrow = (
     };
     if (prevArrow) {
         return React.cloneElement(prevArrow, {
-            className: `${prevArrow.props.className} nav ${isDisabled ? 'disabled' : ''}`,
+            className: `${prevArrow.props.className || ''} nav ${isDisabled ? 'disabled' : ''}`,
             ...props,
         });
     }
@@ -80,7 +80,7 @@ export const showNextArrow = (
     };
     if (nextArrow) {
         return React.cloneElement(nextArrow, {
-            className: `${nextArrow.props.className} nav ${isDisabled ? 'disabled' : ''}`,
+            className: `${nextArrow.props.className || ''} nav ${isDisabled ? 'disabled' : ''}`,
             ...props,
         });
     }

@@ -82,7 +82,7 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
     useEffect(() => {
         clearTimeout(timeout.current);
         play();
-    }, [index, props.autoplay, play]);
+    }, [index, wrapperWidth, props.autoplay, play]);
 
     useImperativeHandle(ref, () => ({
         goNext: () => {
@@ -115,7 +115,7 @@ export const Slide = React.forwardRef((props: SlideProps, ref) => {
                     ? event.nativeEvent.touches[0].pageX
                     : event.nativeEvent.clientX;
             if (dragging) {
-                let translateValue = wrapperWidth * (index + getOffset());
+                let translateValue = eachChildWidth * (index + getOffset());
                 const distance = clientX - startingClientX;
                 if (!props.infinite && index === childrenCount - slidesToScroll && distance < 0) {
                     // if it is the last and infinite is false and you're swiping left

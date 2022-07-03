@@ -5,10 +5,21 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  position: relative;
 }
 
 .react-slideshow-container .nav {
   z-index: 10;
+  position: absolute;
+  cursor: pointer;
+}
+
+.react-slideshow-container .nav:first-of-type {
+  left: 0;
+}
+
+.react-slideshow-container .nav:last-of-type {
+  right: 0;
 }
 
 .react-slideshow-container .default-nav {
@@ -17,7 +28,6 @@
   width: 30px;
   border: none;
   text-align: center;
-  cursor: pointer;
   color: #fff;
   border-radius: 50%;
   display: -webkit-box;
@@ -52,7 +62,7 @@
   margin-left: -30px;
 }
 
-.react-slideshow-container + ul.indicators {
+.react-slideshow-container+ul.indicators {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -64,7 +74,7 @@
   margin-top: 20px;
 }
 
-.react-slideshow-container + ul.indicators li {
+.react-slideshow-container+ul.indicators li {
   display: inline-block;
   position: relative;
   width: 7px;
@@ -73,7 +83,7 @@
   margin: 0;
 }
 
-.react-slideshow-container + ul.indicators .each-slideshow-indicator {
+.react-slideshow-container+ul.indicators .each-slideshow-indicator {
   border: none;
   opacity: 0.25;
   cursor: pointer;
@@ -81,7 +91,7 @@
   color: transparent;
 }
 
-.react-slideshow-container + ul.indicators .each-slideshow-indicator:before {
+.react-slideshow-container+ul.indicators .each-slideshow-indicator:before {
   position: absolute;
   top: 0;
   left: 0;
@@ -93,9 +103,8 @@
   text-align: center;
 }
 
-.react-slideshow-container + ul.indicators .each-slideshow-indicator:hover,
-.react-slideshow-container + ul.indicators .each-slideshow-indicator.active,
-.react-slideshow-container + ul.indicators .each-slideshow-indicator:focus {
+.react-slideshow-container+ul.indicators .each-slideshow-indicator:hover,
+.react-slideshow-container+ul.indicators .each-slideshow-indicator.active {
   opacity: 0.75;
   outline: none;
 }
@@ -113,14 +122,12 @@
   flex-wrap: wrap;
 }
 
-.react-slideshow-fadezoom-wrapper .react-slideshow-fadezoom-images-wrap > div {
+.react-slideshow-fadezoom-wrapper .react-slideshow-fadezoom-images-wrap>div {
   position: relative;
   opacity: 0;
 }
 
-.react-slideshow-wrapper
-  .react-slideshow-fade-images-wrap
-  > div[aria-hidden='true'] {
+.react-slideshow-wrapper .react-slideshow-fade-images-wrap>div[aria-hidden='true'] {
   display: none;
 }
 
@@ -137,6 +144,6 @@
   flex-wrap: wrap;
 }
 
-.react-slideshow-wrapper .images-wrap > div[aria-hidden='true'] {
+.react-slideshow-wrapper .images-wrap>div[aria-hidden='true'] {
   display: none;
 }
