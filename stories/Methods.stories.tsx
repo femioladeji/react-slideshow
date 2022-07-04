@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { Slide } from '../src';
+import { Slide, SlideshowRef } from '../src';
 import type { SlideProps } from '../src';
 import mdx from './Methods.mdx';
-import { useRef } from '@storybook/addons';
 
 const meta: Meta = {
     title: 'Examples/Methods',
@@ -19,7 +18,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<SlideProps> = args => {
-    const slideRef = useRef(null)
+    const slideRef = useRef<SlideshowRef>(null)
     return <>
         <Slide indicators={true} ref={slideRef}>
             <div style={{textAlign: 'center', background: 'red', padding: '200px 0', fontSize: '30px'}}>First Slide</div>
@@ -29,7 +28,7 @@ const Template: Story<SlideProps> = args => {
         </Slide>
         <div style={{display: 'flex', justifyContent: 'center', margin: '50px 0'}}>
             <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.goBack()}>Back</button>
-            <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.next()}>Next</button>
+            <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.goNext()}>Next</button>
             <select onChange={(event) => slideRef.current.goTo(parseInt(event.currentTarget.value))}>
                 <option>--Select--</option>
                 <option value="0">First</option>

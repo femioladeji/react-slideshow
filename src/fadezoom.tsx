@@ -15,10 +15,10 @@ import {
     showNextArrow,
     showPreviousArrow,
 } from './helpers';
-import { ButtonClick, ZoomProps } from './types';
+import { ButtonClick, SlideshowRef, ZoomProps } from './types';
 import { defaultProps } from './props';
 
-export const FadeZoom = React.forwardRef((props: ZoomProps, ref) => {
+export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) => {
     const [index, setIndex] = useState<number>(
         getStartingIndex(props.children, props.defaultIndex)
     );

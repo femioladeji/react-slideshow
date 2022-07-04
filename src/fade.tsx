@@ -1,9 +1,9 @@
 import React from 'react';
 import { FadeZoom } from './fadezoom';
 import { defaultProps } from './props';
-import { FadeProps } from './types';
+import { FadeProps, SlideshowRef } from './types';
 
-export const Fade = React.forwardRef((props: FadeProps, ref) => {
+export const Fade = React.forwardRef<SlideshowRef, FadeProps>((props, ref) => {
     return <FadeZoom {...props} scale={1} ref={ref} />;
 });
 

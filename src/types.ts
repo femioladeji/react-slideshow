@@ -66,3 +66,9 @@ export type IndicatorPropsType = {
 };
 
 export type TweenEasingFn = (amount: number) => number;
+
+export type SlideshowRef = {
+  goNext: () => void;
+  goBack: () => void;
+  goTo: (index: number) => void
+}
