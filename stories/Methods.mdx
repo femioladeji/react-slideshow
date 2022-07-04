@@ -10,11 +10,11 @@ The `goTo(index)` method goes to a particular index. It takes an integer as the 
 
 ```tsx
 import React from 'react';
-import { Slide } from 'react-slideshow-image';
+import { Slide, SlideshowRef } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 
 const Example = () => {
-    const slideRef = useRef(null)
+    const slideRef = useRef<SlideshowRef>(null)
     return (
         <>
             <Slide indicators={true} ref={slideRef}>
@@ -25,7 +25,7 @@ const Example = () => {
             </Slide>
             <div style={{display: 'flex', justifyContent: 'center', margin: '50px 0'}}>
                 <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.goBack()}>Back</button>
-                <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.next()}>Next</button>
+                <button type="button" style={{marginRight: '20px'}} onClick={() => slideRef.current.goNext()}>Next</button>
                 <select onChange={(event) => slideRef.current.goTo(parseInt(event.currentTarget.value))}>
                     <option>--Select--</option>
                     <option value="0">First</option>

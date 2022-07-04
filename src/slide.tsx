@@ -15,10 +15,10 @@ import {
     showNextArrow,
     showPreviousArrow,
 } from './helpers';
-import { ButtonClick, SlideProps } from './types';
+import { ButtonClick, SlideshowRef, SlideProps } from './types';
 import { defaultProps } from './props';
 
-export const Slide = React.forwardRef((props: SlideProps, ref) => {
+export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => {
     const [index, setIndex] = useState(getStartingIndex(props.children, props.defaultIndex));
     const [wrapperWidth, setWrapperWidth] = useState<number>(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
