@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "4.0.2",
+  "version": "4.0.1",
   "description": "An image slideshow with react",
   "license": "MIT",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AgenChicken24/react-slideshow.git"
+    "url": "git+https://github.com/femioladeji/react-slideshow.git"
   },
   "scripts": {
     "start": "tsdx watch",
