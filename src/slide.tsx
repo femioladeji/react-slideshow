@@ -88,7 +88,6 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     useEffect(() => {
         initResizeObserver();
         return () => {
-            console.log(tweenGroup.current)
             tweenGroup.current.removeAll();
             clearTimeout(timeout.current);
             removeResizeObserver();
