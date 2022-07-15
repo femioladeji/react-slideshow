@@ -3,6 +3,7 @@ import {
     ButtonClick,
     FadeProps,
     IndicatorPropsType,
+    Responsive,
     SlideProps,
     TweenEasingFn,
     ZoomProps,
@@ -14,6 +15,16 @@ export const getStartingIndex = (children: ReactNode, defaultIndex?: number): nu
         return defaultIndex;
     }
     return 0;
+};
+
+export const getResponsiveSettings = (
+    wrapperWidth: number,
+    responsive?: Array<Responsive>
+): Responsive | undefined => {
+    if (typeof window !== 'undefined' && Array.isArray(responsive)) {
+        return responsive.find((each) => each.breakpoint <= wrapperWidth);
+    }
+    return;
 };
 
 const EASING_METHODS: { [key: string]: TweenEasingFn } = {
@@ -126,11 +137,14 @@ const showCustomIndicator = (
 export const showIndicators = (
     props: FadeProps | SlideProps | ZoomProps,
     currentIndex: number,
-    navigate: ButtonClick
+    navigate: ButtonClick,
+    responsiveSettings?: Responsive
 ): ReactNode => {
     const { children, indicators } = props;
     let slidesToScroll = 1;
-    if ('slidesToScroll' in props) {
+    if (responsiveSettings) {
+        slidesToScroll = responsiveSettings?.settings.slidesToScroll;
+    } else if ('slidesToScroll' in props) {
         slidesToScroll = props.slidesToScroll || 1;
     }
     const pages = Math.ceil(React.Children.count(children) / slidesToScroll);

@@ -24,7 +24,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     );
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
-    const tweenGroup = new TWEEN.Group();
+    const tweenGroup = useRef(new TWEEN.Group());
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
@@ -70,7 +70,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     useEffect(() => {
         initResizeObserver();
         return () => {
-            tweenGroup.removeAll();
+            tweenGroup.current.removeAll();
             clearTimeout(timeout.current);
             removeResizeObserver();
         };
@@ -142,7 +142,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     };
 
     const transitionSlide = (newIndex: number) => {
-        const existingTweens = tweenGroup.getAll();
+        const existingTweens = tweenGroup.current.getAll();
         if (!existingTweens.length) {
             if (!innerWrapperRef.current?.children[newIndex]) {
                 newIndex = 0;
@@ -152,12 +152,12 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
 
             const animate = () => {
                 requestAnimationFrame(animate);
-                tweenGroup.update();
+                tweenGroup.current.update();
             };
 
             animate();
 
-            const tween = new TWEEN.Tween(value, tweenGroup)
+            const tween = new TWEEN.Tween(value, tweenGroup.current)
                 .to({ opacity: 1, scale: props.scale }, props.transitionDuration)
                 .onUpdate((value) => {
                     if (!innerWrapperRef.current) {
