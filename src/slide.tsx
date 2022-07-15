@@ -10,6 +10,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import TWEEN from '@tweenjs/tween.js';
 import {
     getEasing,
+    getResponsiveSettings,
     getStartingIndex,
     showIndicators,
     showNextArrow,
@@ -23,9 +24,20 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     const [wrapperWidth, setWrapperWidth] = useState<number>(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
-    const tweenGroup = new TWEEN.Group();
-    const slidesToScroll = useMemo(() => props.slidesToScroll || 1, [props.slidesToScroll]);
-    const slidesToShow = useMemo(() => props.slidesToShow || 1, [props.slidesToShow]);
+    const tweenGroup = useRef(new TWEEN.Group());
+    const responsiveSettings = useMemo(() => getResponsiveSettings(props.responsive), [wrapperWidth]);
+    const slidesToScroll = useMemo(() => {
+        if (responsiveSettings) {
+            return responsiveSettings.settings.slidesToScroll
+        }
+        return props.slidesToScroll || 1
+    }, [responsiveSettings, props.slidesToScroll]);
+    const slidesToShow = useMemo(() => {
+        if (responsiveSettings) {
+            return responsiveSettings.settings.slidesToShow
+        }
+        return props.slidesToShow || 1
+    }, [responsiveSettings, props.slidesToShow]);
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
     const eachChildWidth = useMemo(() => wrapperWidth / slidesToShow, [wrapperWidth, slidesToShow]);
     const timeout = useRef<NodeJS.Timeout>();
@@ -73,7 +85,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     useEffect(() => {
         initResizeObserver();
         return () => {
-            tweenGroup.removeAll();
+            tweenGroup.current.removeAll();
             clearTimeout(timeout.current);
             removeResizeObserver();
         };
@@ -261,7 +273,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     const transitionSlide = (toIndex: number, animationDuration?: number) => {
         const transitionDuration = animationDuration || props.transitionDuration;
         const currentIndex = index;
-        const existingTweens = tweenGroup.getAll();
+        const existingTweens = tweenGroup.current.getAll();
         if (!wrapperRef.current) {
             return;
         }
@@ -271,7 +283,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             const value = {
                 margin: -childWidth * (currentIndex + getOffset()) + distanceSwiped,
             };
-            const tween = new TWEEN.Tween(value, tweenGroup)
+            const tween = new TWEEN.Tween(value, tweenGroup.current)
                 .to({ margin: -childWidth * (toIndex + getOffset()) }, transitionDuration)
                 .onUpdate((value) => {
                     if (innerWrapperRef.current) {
@@ -282,7 +294,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             tween.easing(getEasing(props.easing));
             const animate = () => {
                 requestAnimationFrame(animate);
-                tweenGroup.update();
+                tweenGroup.current.update();
             };
 
             animate();
@@ -361,7 +373,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 </div>
                 {props.arrows && showNextArrow(props, index, moveSlides)}
             </div>
-            {props.indicators && showIndicators(props, index, goToSlide)}
+            {props.indicators && showIndicators(props, index, goToSlide, responsiveSettings)}
         </div>
     );
 });
