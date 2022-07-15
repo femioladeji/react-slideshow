@@ -17,10 +17,12 @@ export const getStartingIndex = (children: ReactNode, defaultIndex?: number): nu
     return 0;
 };
 
-export const getResponsiveSettings = (responsive?: Array<Responsive>): Responsive | undefined => {
+export const getResponsiveSettings = (
+    wrapperWidth: number,
+    responsive?: Array<Responsive>
+): Responsive | undefined => {
     if (typeof window !== 'undefined' && Array.isArray(responsive)) {
-        const windowWidth = window.innerWidth;
-        return responsive.find(each => each.breakpoint <= windowWidth);
+        return responsive.find((each) => each.breakpoint <= wrapperWidth);
     }
     return;
 };
@@ -136,12 +138,12 @@ export const showIndicators = (
     props: FadeProps | SlideProps | ZoomProps,
     currentIndex: number,
     navigate: ButtonClick,
-    responsiveSettings?: Responsive,
+    responsiveSettings?: Responsive
 ): ReactNode => {
     const { children, indicators } = props;
     let slidesToScroll = 1;
     if (responsiveSettings) {
-        slidesToScroll = responsiveSettings?.settings.slidesToScroll
+        slidesToScroll = responsiveSettings?.settings.slidesToScroll;
     } else if ('slidesToScroll' in props) {
         slidesToScroll = props.slidesToScroll || 1;
     }

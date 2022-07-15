@@ -5,8 +5,8 @@ import { Slide } from '../src';
 
 ## Response Slides
 
-The slide effect has support for multiple slides on a page based on the window width.
-You can specify the number of slides to show or scroll based on the current width of the browser window.
+The slide effect has support for multiple slides on a page based on the width of the slideshow.
+You can specify the number of slides to show or scroll based on the current width of the container of the slideshow.
 The breakpoint should be arranged in descending order
 
 ```tsx
@@ -16,14 +16,14 @@ import 'react-slideshow-image/dist/styles.css';
 
 const responsiveSettings = [
     {
-        breakpoint: 1200,
+        breakpoint: 800,
         settings: {
             slidesToShow: 3,
             slidesToScroll: 3
         }
     },
     {
-        breakpoint: 876,
+        breakpoint: 500,
         settings: {
             slidesToShow: 2,
             slidesToScroll: 2
@@ -46,14 +46,14 @@ export default Example;
 <Canvas>
     <Slide slidesToScroll={1} slidesToShow={1} indicators={true} autoplay={false} responsive={[
         {
-            breakpoint: 1024,
+            breakpoint: 800,
             settings: {
                 slidesToShow: 3,
                 slidesToScroll: 3
             }
         },
         {
-            breakpoint: 876,
+            breakpoint: 500,
             settings: {
                 slidesToShow: 2,
                 slidesToScroll: 2

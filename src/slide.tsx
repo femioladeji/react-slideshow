@@ -25,18 +25,21 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = useRef(new TWEEN.Group());
-    const responsiveSettings = useMemo(() => getResponsiveSettings(props.responsive), [wrapperWidth]);
+    const responsiveSettings = useMemo(
+        () => getResponsiveSettings(wrapperWidth, props.responsive),
+        [wrapperWidth, props.responsive]
+    );
     const slidesToScroll = useMemo(() => {
         if (responsiveSettings) {
-            return responsiveSettings.settings.slidesToScroll
+            return responsiveSettings.settings.slidesToScroll;
         }
-        return props.slidesToScroll || 1
+        return props.slidesToScroll || 1;
     }, [responsiveSettings, props.slidesToScroll]);
     const slidesToShow = useMemo(() => {
         if (responsiveSettings) {
-            return responsiveSettings.settings.slidesToShow
+            return responsiveSettings.settings.slidesToShow;
         }
-        return props.slidesToShow || 1
+        return props.slidesToShow || 1;
     }, [responsiveSettings, props.slidesToShow]);
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
     const eachChildWidth = useMemo(() => wrapperWidth / slidesToShow, [wrapperWidth, slidesToShow]);
@@ -85,6 +88,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     useEffect(() => {
         initResizeObserver();
         return () => {
+            console.log(tweenGroup.current)
             tweenGroup.current.removeAll();
             clearTimeout(timeout.current);
             removeResizeObserver();
