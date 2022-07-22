@@ -127,7 +127,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
         if (props.canSwipe && dragging) {
             let clientX;
             if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
-                clientX = event.nativeEvent.touches[0].pageX
+                clientX = event.nativeEvent.touches[0].pageX;
             } else if (event.nativeEvent instanceof MouseEvent) {
                 clientX = event.nativeEvent.clientX;
             }
@@ -252,7 +252,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
                 startingClientX = event.nativeEvent.touches[0].pageX;
             } else if (event.nativeEvent instanceof MouseEvent) {
-                startingClientX = event.nativeEvent.clientX
+                startingClientX = event.nativeEvent.clientX;
             }
             clearTimeout(timeout.current);
             dragging = true;
