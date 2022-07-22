@@ -124,12 +124,14 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const swipe = (event: React.MouseEvent | React.TouchEvent) => {
-        if (props.canSwipe) {
-            const clientX =
-                event.nativeEvent instanceof TouchEvent
-                    ? event.nativeEvent.touches[0].pageX
-                    : event.nativeEvent.clientX;
-            if (dragging) {
+        if (props.canSwipe && dragging) {
+            let clientX;
+            if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
+                clientX = event.nativeEvent.touches[0].pageX;
+            } else if (event.nativeEvent instanceof MouseEvent) {
+                clientX = event.nativeEvent.clientX;
+            }
+            if (clientX && startingClientX) {
                 let translateValue = eachChildWidth * (index + getOffset());
                 const distance = clientX - startingClientX;
                 if (!props.infinite && index === childrenCount - slidesToScroll && distance < 0) {
@@ -247,10 +249,11 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
 
     const startSwipe = (event: React.MouseEvent | React.TouchEvent) => {
         if (props.canSwipe) {
-            startingClientX =
-                event.nativeEvent instanceof TouchEvent
-                    ? event.nativeEvent.touches[0].pageX
-                    : event.nativeEvent.clientX;
+            if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
+                startingClientX = event.nativeEvent.touches[0].pageX;
+            } else if (event.nativeEvent instanceof MouseEvent) {
+                startingClientX = event.nativeEvent.clientX;
+            }
             clearTimeout(timeout.current);
             dragging = true;
         }
