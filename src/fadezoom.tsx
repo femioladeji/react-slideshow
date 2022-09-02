@@ -183,8 +183,10 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
         }
     };
 
-    const moveTo = (index: number) => {
-        transitionSlide(index);
+    const moveTo = (gotoIndex: number) => {
+        if (gotoIndex !== index) {
+            transitionSlide(gotoIndex);
+        }
     };
 
     const navigate: ButtonClick = (event) => {
@@ -204,7 +206,6 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                 onMouseEnter={pauseSlides}
                 onMouseOver={pauseSlides}
                 onMouseLeave={startSlides}
-                ref={props.ref}
             >
                 {props.arrows && showPreviousArrow(props, index, preTransition)}
                 <div
