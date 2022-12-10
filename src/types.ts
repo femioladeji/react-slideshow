@@ -70,5 +70,5 @@ export type TweenEasingFn = (amount: number) => number;
 export type SlideshowRef = {
   goNext: () => void;
   goBack: () => void;
-  goTo: (index: number) => void;
+  goTo: (index: number, options?: { skipTransition?: boolean }) => void;
 };

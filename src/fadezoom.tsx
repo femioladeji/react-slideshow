@@ -92,8 +92,12 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
         goBack: () => {
             moveBack();
         },
-        goTo: (index: number) => {
-            moveTo(index);
+        goTo: (index: number, options?: { skipTransition?: boolean }) => {
+            if (options?.skipTransition) {
+                setIndex(index);
+            } else {
+                moveTo(index);
+            }
         },
     }));
 

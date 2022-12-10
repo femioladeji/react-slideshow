@@ -6,7 +6,8 @@ import { Slide } from '../src';
 ## Methods Slides
 
 The package supports three methods that can be used to control navigation. The `goBack()` method shows the previous slide while `goNext()` shows the next slide.
-The `goTo(index)` method goes to a particular index. It takes an integer as the parameter.
+The `goTo(index)` method goes to a particular index. It takes an integer as the parameter. You can also pass a second parameter of options e.g `{ skipTransition: true }`. This
+will ensure that the next index shows without any transition
 
 ```tsx
 import React from 'react';
