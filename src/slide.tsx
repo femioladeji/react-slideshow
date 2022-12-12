@@ -280,6 +280,11 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
         }
     };
 
+    const animate = () => {
+        requestAnimationFrame(animate);
+        tweenGroup.current.update();
+    };
+
     const transitionSlide = (toIndex: number, animationDuration?: number) => {
         const transitionDuration = animationDuration || props.transitionDuration;
         const currentIndex = index;
@@ -302,10 +307,6 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 })
                 .start();
             tween.easing(getEasing(props.easing));
-            const animate = () => {
-                requestAnimationFrame(animate);
-                tweenGroup.current.update();
-            };
 
             animate();
 

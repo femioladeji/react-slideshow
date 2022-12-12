@@ -145,6 +145,11 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
         }
     };
 
+    const animate = () => {
+        requestAnimationFrame(animate);
+        tweenGroup.current.update();
+    };
+
     const transitionSlide = (newIndex: number) => {
         const existingTweens = tweenGroup.current.getAll();
         if (!existingTweens.length) {
@@ -153,11 +158,6 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
             }
             clearTimeout(timeout.current);
             const value = { opacity: 0, scale: 1 };
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-                tweenGroup.current.update();
-            };
 
             animate();
 
