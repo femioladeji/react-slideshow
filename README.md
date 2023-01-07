@@ -36,17 +36,30 @@ import React from 'react';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
+const spanStyle = {
+  padding: '20px',
+  background: '#efefef',
+  color: '#000000'
+}
+
+const divStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundSize: 'cover',
+  height: '400px'
+}
 const slideImages = [
   {
-    url: 'images/slide_2.jpg',
+    url: 'https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
     caption: 'Slide 1'
   },
   {
-    url: 'images/slide_3.jpg',
+    url: 'https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80',
     caption: 'Slide 2'
   },
   {
-    url: 'images/slide_4.jpg',
+    url: 'https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
     caption: 'Slide 3'
   },
 ];
@@ -56,9 +69,9 @@ const Slideshow = () => {
       <div className="slide-container">
         <Slide>
          {slideImages.map((slideImage, index)=> (
-            <div className="each-slide" key={index}>
-              <div style={{'backgroundImage': `url(${slideImage.url})`}}>
-                <span>{slideImage.caption}</span>
+            <div key={index}>
+              <div style={{ ...divStyle, 'backgroundImage': `url(${slideImage.url})` }}>
+                <span style={spanStyle}>{slideImage.caption}</span>
               </div>
             </div>
           ))} 
@@ -77,16 +90,16 @@ import 'react-slideshow-image/dist/styles.css'
 
 const fadeImages = [
   {
-  url: 'images/slide_5.jpg',
-  caption: 'First Slide'
+    url: 'https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    caption: 'First Slide'
   },
   {
-  url: 'images/slide_6.jpg',
-  caption: 'Second Slide'
+    url: 'https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80',
+    caption: 'Second Slide'
   },
   {
-  url: 'images/slide_7.jpg',
-  caption: 'Third Slide'
+    url: 'https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    caption: 'Third Slide'
   },
 ];
 
@@ -95,10 +108,8 @@ const Slideshow = () => {
     <div className="slide-container">
       <Fade>
         {fadeImages.map((fadeImage, index) => (
-          <div className="each-fade" key={index}>
-            <div className="image-container">
-              <img src={fadeImage.url} />
-            </div>
+          <div key={index}>
+            <img style={{ width: '100%' }} src={fadeImage.url} />
             <h2>{fadeImage.caption}</h2>
           </div>
         ))}
