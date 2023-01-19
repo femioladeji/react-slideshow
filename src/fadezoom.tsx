@@ -175,6 +175,11 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                 })
                 .start();
             tween.easing(getEasing(props.easing));
+            tween.onStart(() => {
+                if (typeof props.onStartChange === 'function') {
+                    props.onStartChange(index, newIndex);
+                }
+            });
             tween.onComplete(() => {
                 if (innerWrapperRef.current) {
                     setIndex(newIndex);
