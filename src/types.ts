@@ -37,6 +37,8 @@ export interface BaseProps {
   easing?: string;
   /** Use this prop to add your custom css to the wrapper containing the sliders. Pass your css className as value for the cssClass prop */
   cssClass?: string;
+  /** Callback that gets triggered at the start of every transition. The oldIndex and newIndex are passed as arguments */
+  onStartChange?: (from: number, to: number) => void;
   /** Callback that gets triggered at the end of every transition. The oldIndex and newIndex are passed as arguments */
   onChange?: (from: number, to: number) => void;
   /** Ref for the slideshow (carousel). This is useful for executing methods like goBack, goNext and goTo on the slideshow */

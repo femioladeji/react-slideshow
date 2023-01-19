@@ -310,15 +310,21 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
 
             animate();
 
+            let newIndex = toIndex;
+            if (newIndex < 0) {
+                newIndex = childrenCount - slidesToScroll;
+            } else if (newIndex >= childrenCount) {
+                newIndex = 0;
+            }
+
+            tween.onStart(() => {
+                if (typeof props.onStartChange === 'function') {
+                    props.onStartChange(index, newIndex);
+                }
+            })
+
             tween.onComplete(() => {
                 distanceSwiped = 0;
-                let newIndex = toIndex;
-                if (newIndex < 0) {
-                    newIndex = childrenCount - slidesToScroll;
-                } else if (newIndex >= childrenCount) {
-                    newIndex = 0;
-                }
-
                 if (typeof props.onChange === 'function') {
                     props.onChange(index, newIndex);
                 }
