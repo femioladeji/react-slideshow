@@ -172,7 +172,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                     innerWrapperRef.current.children[
                         index
                     ].style.transform = `scale(${value.scale})`;
-                })
+                });
             tween.easing(getEasing(props.easing));
             tween.onStart(() => {
                 if (typeof props.onStartChange === 'function') {

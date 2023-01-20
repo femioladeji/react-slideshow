@@ -304,7 +304,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                     if (innerWrapperRef.current) {
                         innerWrapperRef.current.style.transform = `translate(${value.margin}px)`;
                     }
-                })
+                });
             tween.easing(getEasing(props.easing));
 
             animate();
