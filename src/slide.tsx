@@ -305,7 +305,6 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                         innerWrapperRef.current.style.transform = `translate(${value.margin}px)`;
                     }
                 })
-                .start();
             tween.easing(getEasing(props.easing));
 
             animate();
@@ -330,6 +329,8 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 }
                 setIndex(newIndex);
             });
+
+            tween.start();
         }
     };
 

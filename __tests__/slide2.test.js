@@ -14,8 +14,9 @@ afterEach(cleanup);
 test('When the second indicator is clicked, the third child should have active class', async () => {
   const wrapperElement = document.createElement('div');
   const onChange = jest.fn();
+  const onStartChange = jest.fn();
   const { baseElement } = renderSlide(
-    { ...options, autoplay: false, onChange },
+    { ...options, autoplay: false, onChange, onStartChange },
     wrapperElement
   );
   let dots = baseElement.querySelectorAll('.indicators li button');
@@ -24,6 +25,7 @@ test('When the second indicator is clicked, the third child should have active c
   await waitFor(
     () => {
       expect(childrenElements[2].classList).toContain('active');
+      expect(onStartChange).toBeCalledWith(0, 1);
       expect(onChange).toBeCalledWith(0, 1);
     },
     {
