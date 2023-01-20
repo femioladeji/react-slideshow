@@ -164,11 +164,13 @@ test('shows custom indicators if it exists', () => {
 
 test('it calls onChange callback after every slide change', async () => {
   const wrapperElement = document.createElement('div');
-  const mockFunction = jest.fn();
+  const onChange = jest.fn();
+  const onStartChange = jest.fn();
   const { baseElement } = renderFade(
     {
       ...options,
-      onChange: mockFunction,
+      onChange,
+      onStartChange,
       autoplay: false
     },
     wrapperElement
@@ -177,7 +179,8 @@ test('it calls onChange callback after every slide change', async () => {
   fireEvent.click(nav[1]);
   await waitFor(
     () => {
-      expect(mockFunction).toHaveBeenCalledWith(0, 1);
+      expect(onChange).toHaveBeenCalledWith(0, 1);
+      expect(onStartChange).toHaveBeenCalledWith(0, 1);
     },
     { timeout: options.transitionDuration + 50 }
   );
