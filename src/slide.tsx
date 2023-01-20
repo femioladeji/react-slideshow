@@ -321,7 +321,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 if (typeof props.onStartChange === 'function') {
                     props.onStartChange(index, newIndex);
                 }
-            })
+            });
 
             tween.onComplete(() => {
                 distanceSwiped = 0;
