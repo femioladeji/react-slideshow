@@ -8,7 +8,7 @@ import {
     TweenEasingFn,
     ZoomProps,
 } from './types';
-import TWEEN from '@tweenjs/tween.js';
+import { Easing } from '@tweenjs/tween.js';
 
 export const getStartingIndex = (children: ReactNode, defaultIndex?: number): number => {
     if (defaultIndex && defaultIndex < React.Children.count(children)) {
@@ -28,13 +28,13 @@ export const getResponsiveSettings = (
 };
 
 const EASING_METHODS: { [key: string]: TweenEasingFn } = {
-    linear: TWEEN.Easing.Linear.None,
-    ease: TWEEN.Easing.Quadratic.InOut,
-    'ease-in': TWEEN.Easing.Quadratic.In,
-    'ease-out': TWEEN.Easing.Quadratic.Out,
-    cubic: TWEEN.Easing.Cubic.InOut,
-    'cubic-in': TWEEN.Easing.Cubic.In,
-    'cubic-out': TWEEN.Easing.Cubic.Out,
+    linear: Easing.Linear.None,
+    ease: Easing.Quadratic.InOut,
+    'ease-in': Easing.Quadratic.In,
+    'ease-out': Easing.Quadratic.Out,
+    cubic: Easing.Cubic.InOut,
+    'cubic-in': Easing.Cubic.In,
+    'cubic-out': Easing.Cubic.Out,
 };
 
 export const getEasing = (easeMethod?: string): TweenEasingFn => {

@@ -7,7 +7,7 @@ import React, {
     useCallback,
 } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
-import TWEEN from '@tweenjs/tween.js';
+import { Group, Tween } from '@tweenjs/tween.js';
 import {
     getEasing,
     getStartingIndex,
@@ -24,7 +24,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     );
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
-    const tweenGroup = useRef(new TWEEN.Group());
+    const tweenGroup = useRef(new Group());
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
     const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
@@ -161,7 +161,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
 
             animate();
 
-            const tween = new TWEEN.Tween(value, tweenGroup.current)
+            const tween = new Tween(value, tweenGroup.current)
                 .to({ opacity: 1, scale: props.scale }, props.transitionDuration)
                 .onUpdate((value) => {
                     if (!innerWrapperRef.current) {
