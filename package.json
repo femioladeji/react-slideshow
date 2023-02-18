@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "An image slideshow with react",
   "license": "MIT",
   "main": "dist/index.js",

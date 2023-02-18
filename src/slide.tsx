@@ -7,7 +7,7 @@ import React, {
     useCallback,
 } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
-import TWEEN from '@tweenjs/tween.js';
+import { Group, Tween } from '@tweenjs/tween.js';
 import {
     getEasing,
     getResponsiveSettings,
@@ -24,7 +24,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     const [wrapperWidth, setWrapperWidth] = useState<number>(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
-    const tweenGroup = useRef(new TWEEN.Group());
+    const tweenGroup = useRef(new Group());
     const responsiveSettings = useMemo(
         () => getResponsiveSettings(wrapperWidth, props.responsive),
         [wrapperWidth, props.responsive]
@@ -298,7 +298,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             const value = {
                 margin: -childWidth * (currentIndex + getOffset()) + distanceSwiped,
             };
-            const tween = new TWEEN.Tween(value, tweenGroup.current)
+            const tween = new Tween(value, tweenGroup.current)
                 .to({ margin: -childWidth * (toIndex + getOffset()) }, transitionDuration)
                 .onUpdate((value) => {
                     if (innerWrapperRef.current) {
