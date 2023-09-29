@@ -51,7 +51,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     const translateType = props.vertical ? 'translateY' : 'translateX';
     const swipeAttributeType = props.vertical ? 'clientY' : 'clientX';
     const swipePageAttributeType = props.vertical ? 'pageY' : 'pageX';
-    
+
     const applyStyle = useCallback(() => {
         if (innerWrapperRef.current) {
             const fullSize = wrapperSize * innerWrapperRef.current.children.length;
@@ -308,7 +308,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
         if (!wrapperRef.current) {
             return;
         }
-        const attribute = props.vertical ? 'clientHeight' : 'clientWidth'
+        const attribute = props.vertical ? 'clientHeight' : 'clientWidth';
         const childSize = wrapperRef.current[attribute] / slidesToShow;
         if (!existingTweens.length) {
             clearTimeout(timeout.current);
@@ -385,7 +385,11 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                     className={`react-slideshow-wrapper slide ${props.cssClass || ''}`}
                     ref={wrapperRef}
                 >
-                    <div className={`images-wrap ${props.vertical ? 'vertical' : 'horizontal'}`} style={style} ref={innerWrapperRef}>
+                    <div
+                        className={`images-wrap ${props.vertical ? 'vertical' : 'horizontal'}`}
+                        style={style}
+                        ref={innerWrapperRef}
+                    >
                         {props.infinite && renderPreceedingSlides()}
                         {(React.Children.map(props.children, (thisArg) => thisArg) || []).map(
                             (each, key) => {
