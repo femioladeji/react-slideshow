@@ -136,7 +136,7 @@
   overflow: hidden;
 }
 
-.react-slideshow-wrapper .images-wrap {
+.react-slideshow-wrapper .images-wrap.horizontal {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
