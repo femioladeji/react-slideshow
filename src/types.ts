@@ -57,6 +57,8 @@ export interface SlideProps extends BaseProps {
   slidesToShow?: number;
   /** The number of slides to scroll */
   slidesToScroll?: number;
+  /** If slide should scroll vertically */
+  vertical?: boolean;
 }
 
 export type ButtonClick = (event: React.SyntheticEvent<HTMLButtonElement>) => void;
