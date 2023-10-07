@@ -1,5 +1,5 @@
-name: CI
-on: [push, pull_request]
+name: E2E testing
+on: [pull_request]
 jobs:
   build:
     name: Run end to end test
