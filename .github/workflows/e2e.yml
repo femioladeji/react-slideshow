@@ -1,0 +1,32 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    name: Run end to end test
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['18.x']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install deps and build (with cache)
+        uses: bahmutov/npm-install@v1
+
+      - name: Build
+        run: npm run build
+
+      - name: Start storybook
+        run: npm run storybook --ci
+
+      - name: end to end test
+        run: npm run e2e --ci

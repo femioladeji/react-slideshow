@@ -141,8 +141,8 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             let position;
             if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
                 position = event.nativeEvent.touches[0][swipePageAttributeType];
-            } else if (event.nativeEvent instanceof MouseEvent) {
-                position = event.nativeEvent[swipeAttributeType];
+            } else {
+                position = (event.nativeEvent as MouseEvent)[swipeAttributeType];
             }
             if (position && startingSwipePosition) {
                 let translateValue = eachChildSize * (index + getOffset());
@@ -271,8 +271,9 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
         if (props.canSwipe) {
             if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
                 startingSwipePosition = event.nativeEvent.touches[0][swipePageAttributeType];
-            } else if (event.nativeEvent instanceof MouseEvent) {
-                startingSwipePosition = event.nativeEvent[swipeAttributeType];
+            } else {
+                startingSwipePosition = (event.nativeEvent as MouseEvent)[swipeAttributeType];
+                console.log(startingSwipePosition)
             }
             clearTimeout(timeout.current);
             dragging = true;
@@ -412,7 +413,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 </div>
                 {props.arrows && showNextArrow(props, index, moveSlides)}
             </div>
-            {props.indicators && showIndicators(props, index, goToSlide, responsiveSettings)}
+            {!!props.indicators && showIndicators(props, index, goToSlide, responsiveSettings)}
         </div>
     );
 });

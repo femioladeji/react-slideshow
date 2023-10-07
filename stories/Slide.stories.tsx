@@ -19,7 +19,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<SlideProps> = args => <Slide autoplay={false}>
+const Template: Story<SlideProps> = args => <Slide autoplay={false} {...args}>
     <div className="each-slide-effect">
         <div style={{ 'backgroundImage': `url(${images[0]})` }}>
             <span>Slide 1</span>
