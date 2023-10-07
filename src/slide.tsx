@@ -273,7 +273,6 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 startingSwipePosition = event.nativeEvent.touches[0][swipePageAttributeType];
             } else {
                 startingSwipePosition = (event.nativeEvent as MouseEvent)[swipeAttributeType];
-                console.log(startingSwipePosition)
             }
             clearTimeout(timeout.current);
             dragging = true;
