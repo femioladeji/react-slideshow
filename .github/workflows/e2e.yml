@@ -1,32 +1,17 @@
-name: E2E testing
-on: [pull_request]
+name: E2E Tests
+
+on: pull_request
+
 jobs:
-  build:
-    name: Run end to end test
-
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node: ['18.x']
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-
+  cypress-run:
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
-          node-version: ${{ matrix.node }}
-
-      - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
-
-      - name: Build
-        run: npm run build
-
-      - name: Start storybook
-        run: npm run storybook --ci
-
-      - name: end to end test
-        run: npm run e2e --ci
+          build: npm run build
+          start: npm run storybook
