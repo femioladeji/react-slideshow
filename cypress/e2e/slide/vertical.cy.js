@@ -1,6 +1,6 @@
 import { translateYRegex } from '../../support/utils';
 
-describe('slide functionality', () => {
+describe('vertical slide test', () => {
     beforeEach(() => {
         cy.visit('http://localhost:6006/?path=/story/examples-vertical--page');
         cy.get('[title="Go full screen [F]"]').click();
