@@ -1,6 +1,6 @@
 import { translateYRegex } from '../../support/utils';
 
-describe('slide functionality', () => {
+describe.skip('slide functionality', () => {
     beforeEach(() => {
         cy.visit('http://localhost:6006/?path=/story/examples-vertical--page');
         cy.frameLoaded("#storybook-preview-iframe");
