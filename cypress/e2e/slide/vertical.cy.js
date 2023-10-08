@@ -1,13 +1,14 @@
 import { translateYRegex } from '../../support/utils';
 
-describe.skip('slide functionality', () => {
+describe('slide functionality', () => {
     beforeEach(() => {
         cy.visit('http://localhost:6006/?path=/story/examples-vertical--page');
+        cy.get('[title="Go full screen [F]"]').click();
         cy.frameLoaded("#storybook-preview-iframe");
         cy.iframe('#storybook-preview-iframe')
             .find('.react-slideshow-container')
             .as("slide")
-    })
+    });
 
     it('loads the vertical slide and the slide with slide 1', () => {
         cy.get('@slide').should('exist');

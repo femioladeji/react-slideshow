@@ -1,4 +1,4 @@
-import { translateXRegex } from '../../support/utils';
+import { translateXRegex, getAttributeRow } from '../../support/utils';
 
 describe('slide functionality', () => {
     beforeEach(() => {
@@ -28,10 +28,10 @@ describe('slide functionality', () => {
         cy.get('@slide').find('.nav:last-of-type').should('be.visible');
 
         // click on the arrows prop and set it to false
-        cy.get('.docblock-argstable').find('tr:nth-of-type(12)').find('button').click();
+        getAttributeRow("arrows").find('button').click();
         cy.get('@slide').find('.nav').should('have.length', 0);
         // click the label to set it to true again
-        cy.get('.docblock-argstable').find('tr:nth-of-type(12)').find('label').click();
+        getAttributeRow("arrows").find('label').click();
         cy.get('@slide').find('.nav').should('have.length', 2);
     });
 
@@ -40,7 +40,7 @@ describe('slide functionality', () => {
         cy.get('@slide').find('.images-wrap').should('have.css', 'transform').and('match', translateXRegex('-728'))
         cy.get('@slide').next().should('not.exist');
         // change the indicators prop to truthy value
-        cy.get('.docblock-argstable').find('tr:nth-of-type(9)').find('button').click();
+        getAttributeRow("indicators").find('button').click();
         // cy.get('div#root').debug();
         cy.get('@slide').next().should('exist');
         cy.get('@slide').next().should('have.class', 'indicators');
@@ -65,7 +65,7 @@ describe('slide functionality', () => {
         cy.get('@slide').find('.nav:last-of-type').click();
         cy.get('@slide').find('.images-wrap').should('have.css', 'transform').and('match', translateXRegex('-728'));
         // click on the infinite prop and set it to false
-        cy.get('.docblock-argstable').find('tr:nth-of-type(14)').find('button').click();
+        getAttributeRow("infinite").find('button').click();
         // now no need to render extra two slides
         cy.get('@slide').find('.images-wrap > div').should('have.length', 3);
         cy.get('@slide').find('.images-wrap').should('have.css', 'transform').and('match', translateXRegex('0'));
