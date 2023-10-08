@@ -15,5 +15,7 @@ jobs:
         with:
           build: npm run build
           start: npm run storybook
+          browser: chrome
+          headed: true
           wait-on: http://localhost:6006
           config: viewportWidth=1000,viewportHeight=660
