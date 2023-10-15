@@ -4,7 +4,6 @@ describe('vertical slide test', () => {
     beforeEach(() => {
         cy.visit('http://localhost:6006/?path=/story/examples-vertical--page');
         cy.frameLoaded("#storybook-preview-iframe");
-        cy.get('[title="Go full screen [F]"]').click();
         cy.iframe('#storybook-preview-iframe')
             .find('.react-slideshow-container')
             .as("slide")
