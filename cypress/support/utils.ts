@@ -11,3 +11,12 @@ export const translateYRegex = (value: string | number) => {
 export const getAttributeRow = (attribute: string) => {
     return cy.get('.docblock-argstable').find('td').contains(attribute).parents('tr')
 }
+
+export const getSlideshowWidth = () => {
+    return new Promise((resolve) => {
+        cy.get('@slide').then(element => {
+            // @ts-ignore
+            resolve(element.width());
+        });
+    })
+}
