@@ -75,11 +75,14 @@ export const showPreviousArrow = (
 export const showNextArrow = (
     properties: FadeProps | SlideProps | ZoomProps,
     currentIndex: number,
-    moveSlides: ButtonClick
+    moveSlides: ButtonClick,
+    responsiveSettings?: Responsive
 ) => {
     const { nextArrow, infinite, children } = properties;
     let slidesToScroll = 1;
-    if ('slidesToScroll' in properties) {
+    if (responsiveSettings) {
+        slidesToScroll = responsiveSettings?.settings.slidesToScroll;
+    } else if ('slidesToScroll' in properties) {
         slidesToScroll = properties.slidesToScroll || 1;
     }
     const isDisabled = currentIndex >= React.Children.count(children) - slidesToScroll && !infinite;

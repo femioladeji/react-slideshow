@@ -410,7 +410,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                         {renderTrailingSlides()}
                     </div>
                 </div>
-                {props.arrows && showNextArrow(props, index, moveSlides)}
+                {props.arrows && showNextArrow(props, index, moveSlides, responsiveSettings)}
             </div>
             {!!props.indicators && showIndicators(props, index, goToSlide, responsiveSettings)}
         </div>
