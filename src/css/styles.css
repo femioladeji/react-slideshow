@@ -142,6 +142,7 @@
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  width : auto
 }
 
 .react-slideshow-wrapper .images-wrap>div[aria-hidden='true'] {
