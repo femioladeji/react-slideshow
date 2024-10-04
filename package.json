@@ -1,6 +1,6 @@
 {
   "name": "react-slideshow-image",
-  "version": "4.3.1",
+  "version": "4.3.2",
   "description": "An image slideshow with react",
   "license": "MIT",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://react-slideshow-image.netlify.com",
+  "homepage": "https://react-slideshow-image.netlify.app",
   "keywords": [
     "image",
     "react",
