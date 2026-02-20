@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react';
 import 'resize-observer-polyfill';
-import { Fade, Zoom, Slide } from './src';
+import { Fade, Zoom, Slide, SlideProps } from './src';
 
 jest.mock('resize-observer-polyfill');
 
@@ -82,17 +82,48 @@ export const renderSlide = (props = {}, container, rerender) => {
       baseElement: container
     }
   }
+      const {
+      duration=5000,
+      transitionDuration=1000,
+      defaultIndex=0,
+      infinite=true,
+      autoplay=true,
+      indicators=false,
+      arrows=true,
+      pauseOnHover=true,
+      easing='linear',
+      canSwipe=true,
+      cssClass='',
+      responsive=[],
+      ...others
+    } = props;
+    const props2 = {
+      duration,
+      transitionDuration,
+      defaultIndex,
+      infinite,
+      autoplay,
+      indicators,
+      arrows,
+      pauseOnHover,
+      easing,
+      canSwipe,
+      cssClass,
+      responsive,
+      ...others
+    };
   let slideShow;
   if (rerender) {
+
     slideShow = rerender(
-      <Slide {...props}>
+      <Slide {...props2}>
         {images.map((each, index) => (
           <img key={index} src={each} />
         ))}
       </Slide>);
   } else {
     slideShow = render(
-        <Slide {...props}>
+        <Slide {...props2}>
           {images.map((each, index) => (<img key={index} src={each} />))}
         </Slide>, options);
   }
