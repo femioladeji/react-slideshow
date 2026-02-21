@@ -16,18 +16,47 @@ import {
     showPreviousArrow,
 } from './helpers';
 import { ButtonClick, SlideshowRef, ZoomProps } from './types';
-import { defaultProps } from './props';
 
-export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) => {
+export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((
+    {
+        duration = 5000,
+        transitionDuration = 1000,
+        defaultIndex = 0,
+        infinite = true,
+        autoplay = true,
+        indicators = false,
+        arrows = true,
+        pauseOnHover = true,
+        easing = 'linear',
+        canSwipe = true,
+        cssClass = '',
+        ...props
+    },
+    ref
+) => {
+    const allProps = {
+        duration,
+        transitionDuration,
+        defaultIndex,
+        infinite,
+        autoplay,
+        indicators,
+        arrows,
+        pauseOnHover,
+        easing,
+        canSwipe,
+        cssClass,
+        ...props,
+    };
     const [index, setIndex] = useState<number>(
-        getStartingIndex(props.children, props.defaultIndex)
+        getStartingIndex(allProps.children, allProps.defaultIndex)
     );
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = useRef(new Group());
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
-    const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
+    const childrenCount = useMemo(() => React.Children.count(allProps.children), [allProps.children]);
 
     const applyStyle = useCallback(() => {
         if (innerWrapperRef.current && wrapperRef.current) {
@@ -56,7 +85,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     }, [wrapperRef, applyStyle]);
 
     const play = useCallback(() => {
-        const { autoplay, children, duration, infinite } = props;
+        const { autoplay, children, duration, infinite } = allProps;
         if (
             autoplay &&
             React.Children.count(children) > 1 &&
@@ -65,7 +94,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
             timeout.current = setTimeout(moveNext, duration);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props, index]);
+    }, [allProps, index]);
 
     useEffect(() => {
         initResizeObserver();
@@ -79,7 +108,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     useEffect(() => {
         clearTimeout(timeout.current);
         play();
-    }, [index, props.autoplay, play]);
+    }, [index, allProps.autoplay, play]);
 
     useEffect(() => {
         applyStyle();
@@ -108,20 +137,20 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     };
 
     const pauseSlides = () => {
-        if (props.pauseOnHover) {
+        if (allProps.pauseOnHover) {
             clearTimeout(timeout.current);
         }
     };
 
     const startSlides = () => {
-        const { pauseOnHover, autoplay, duration } = props;
+        const { pauseOnHover, autoplay, duration } = allProps;
         if (pauseOnHover && autoplay) {
             timeout.current = setTimeout(() => moveNext(), duration);
         }
     };
 
     const moveNext = () => {
-        const { children, infinite } = props;
+        const { children, infinite } = allProps;
         if (!infinite && index === React.Children.count(children) - 1) {
             return;
         }
@@ -129,7 +158,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     };
 
     const moveBack = () => {
-        const { children, infinite } = props;
+        const { children, infinite } = allProps;
         if (!infinite && index === 0) {
             return;
         }
@@ -162,7 +191,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
             animate();
 
             const tween = new Tween(value, tweenGroup.current)
-                .to({ opacity: 1, scale: props.scale }, props.transitionDuration)
+                .to({ opacity: 1, scale: allProps.scale }, allProps.transitionDuration)
                 .onUpdate((value) => {
                     if (!innerWrapperRef.current) {
                         return;
@@ -173,10 +202,10 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                         index
                     ].style.transform = `scale(${value.scale})`;
                 });
-            tween.easing(getEasing(props.easing));
+            tween.easing(getEasing(allProps.easing));
             tween.onStart(() => {
-                if (typeof props.onStartChange === 'function') {
-                    props.onStartChange(index, newIndex);
+                if (typeof allProps.onStartChange === 'function') {
+                    allProps.onStartChange(index, newIndex);
                 }
             });
             tween.onComplete(() => {
@@ -184,8 +213,8 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                     setIndex(newIndex);
                     innerWrapperRef.current.children[index].style.transform = `scale(1)`;
                 }
-                if (typeof props.onChange === 'function') {
-                    props.onChange(index, newIndex);
+                if (typeof allProps.onChange === 'function') {
+                    allProps.onChange(index, newIndex);
                 }
             });
             tween.start();
@@ -211,18 +240,18 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     return (
         <div dir="ltr" aria-roledescription="carousel">
             <div
-                className={`react-slideshow-container ${props.cssClass || ''}`}
+                className={`react-slideshow-container ${allProps.cssClass || ''}`}
                 onMouseEnter={pauseSlides}
                 onMouseOver={pauseSlides}
                 onMouseLeave={startSlides}
             >
-                {props.arrows && showPreviousArrow(props, index, preTransition)}
+                {allProps.arrows && showPreviousArrow(allProps, index, preTransition)}
                 <div
-                    className={`react-slideshow-fadezoom-wrapper ${props.cssClass}`}
+                    className={`react-slideshow-fadezoom-wrapper ${allProps.cssClass}`}
                     ref={wrapperRef}
                 >
                     <div className="react-slideshow-fadezoom-images-wrap" ref={innerWrapperRef}>
-                        {(React.Children.map(props.children, (thisArg) => thisArg) || []).map(
+                        {(React.Children.map(allProps.children, (thisArg) => thisArg) || []).map(
                             (each, key) => (
                                 <div
                                     style={{
@@ -240,11 +269,9 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                         )}
                     </div>
                 </div>
-                {props.arrows && showNextArrow(props, index, preTransition)}
+                {allProps.arrows && showNextArrow(allProps, index, preTransition)}
             </div>
-            {props.indicators && showIndicators(props, index, navigate)}
+            {allProps.indicators && showIndicators(allProps, index, navigate)}
         </div>
     );
 });
-
-FadeZoom.defaultProps = defaultProps;
