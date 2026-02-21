@@ -19,22 +19,17 @@ import { ButtonClick, SlideshowRef, ZoomProps } from './types';
 
 export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) => {
     const {
-        duration=5000,
-        transitionDuration=1000,
-        defaultIndex=0,
-        infinite=true,
-        autoplay=true,
-        indicators=false,
-        arrows=true,
-        pauseOnHover=true,
-        easing='linear',
-        canSwipe=true,
-        cssClass='',
+        transitionDuration = 1000,
+        defaultIndex = 0,
+        autoplay = true,
+        indicators = false,
+        arrows = true,
+        pauseOnHover = true,
+        easing = 'linear',
+        cssClass = '',
         ...others
     } = props;
-    const [index, setIndex] = useState<number>(
-        getStartingIndex(others.children, defaultIndex)
-    );
+    const [index, setIndex] = useState<number>(getStartingIndex(others.children, defaultIndex));
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = useRef(new Group());
@@ -230,10 +225,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                 onMouseLeave={startSlides}
             >
                 {arrows && showPreviousArrow(props, index, preTransition)}
-                <div
-                    className={`react-slideshow-fadezoom-wrapper ${cssClass}`}
-                    ref={wrapperRef}
-                >
+                <div className={`react-slideshow-fadezoom-wrapper ${cssClass}`} ref={wrapperRef}>
                     <div className="react-slideshow-fadezoom-images-wrap" ref={innerWrapperRef}>
                         {(React.Children.map(others.children, (thisArg) => thisArg) || []).map(
                             (each, key) => (

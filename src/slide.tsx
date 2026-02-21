@@ -20,18 +20,18 @@ import { ButtonClick, SlideshowRef, SlideProps } from './types';
 
 export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => {
     const {
-        duration=5000,
-        transitionDuration=1000,
-        defaultIndex=0,
-        infinite=true,
-        autoplay=true,
-        indicators=false,
-        arrows=true,
-        pauseOnHover=true,
-        easing='linear',
-        canSwipe=true,
-        cssClass='',
-        responsive=[],
+        duration = 5000,
+        transitionDuration = 1000,
+        defaultIndex = 0,
+        infinite = true,
+        autoplay = true,
+        indicators = false,
+        arrows = true,
+        pauseOnHover = true,
+        easing = 'linear',
+        canSwipe = true,
+        cssClass = '',
+        responsive = [],
         ...others
     } = props;
     const newTransitionDuration = transitionDuration;
@@ -85,7 +85,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 }
             }
         }
-    }, [wrapperSize, eachChildSize]);
+    }, [wrapperSize, eachChildSize, others.vertical]);
 
     const initResizeObserver = useCallback(() => {
         if (wrapperRef.current) {
@@ -396,10 +396,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 onTouchMove={swipe}
             >
                 {arrows && showPreviousArrow(props, index, moveSlides)}
-                <div
-                    className={`react-slideshow-wrapper slide ${cssClass || ''}`}
-                    ref={wrapperRef}
-                >
+                <div className={`react-slideshow-wrapper slide ${cssClass || ''}`} ref={wrapperRef}>
                     <div
                         className={`images-wrap ${others.vertical ? 'vertical' : 'horizontal'}`}
                         style={style}

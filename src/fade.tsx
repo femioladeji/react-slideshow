@@ -4,21 +4,21 @@ import { FadeProps, SlideshowRef } from './types';
 
 export const Fade = React.forwardRef<SlideshowRef, FadeProps>((props, ref) => {
     const {
-        duration=5000,
-        transitionDuration=1000,
-        defaultIndex=0,
-        infinite=true,
-        autoplay=true,
-        indicators=false,
-        arrows=true,
-        pauseOnHover=true,
-        easing='linear',
-        canSwipe=true,
-        cssClass='',
+        duration = 5000,
+        transitionDuration = 1000,
+        defaultIndex = 0,
+        infinite = true,
+        autoplay = true,
+        indicators = false,
+        arrows = true,
+        pauseOnHover = true,
+        easing = 'linear',
+        canSwipe = true,
+        cssClass = '',
         ...others
     } = props;
 
-    const props2:FadeProps = {
+    const props2: FadeProps = {
         duration,
         transitionDuration,
         defaultIndex,
@@ -30,7 +30,7 @@ export const Fade = React.forwardRef<SlideshowRef, FadeProps>((props, ref) => {
         easing,
         canSwipe,
         cssClass,
-        ...others
+        ...others,
     };
     return <FadeZoom {...props2} scale={1} ref={ref} />;
 });
