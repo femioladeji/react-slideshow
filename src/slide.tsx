@@ -17,60 +17,75 @@ import {
     showPreviousArrow,
 } from './helpers';
 import { ButtonClick, SlideshowRef, SlideProps } from './types';
-import { defaultProps } from './props';
 
 export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => {
-    const [index, setIndex] = useState(getStartingIndex(props.children, props.defaultIndex));
+    const {
+        duration = 5000,
+        transitionDuration = 1000,
+        defaultIndex = 0,
+        infinite = true,
+        autoplay = true,
+        indicators = false,
+        arrows = true,
+        pauseOnHover = true,
+        easing = 'linear',
+        canSwipe = true,
+        cssClass = '',
+        responsive = [],
+        ...others
+    } = props;
+    const newTransitionDuration = transitionDuration;
+    const [index, setIndex] = useState(getStartingIndex(others.children, defaultIndex));
     const [wrapperSize, setWrapperSize] = useState<number>(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = useRef(new Group());
     const responsiveSettings = useMemo(
-        () => getResponsiveSettings(wrapperSize, props.responsive),
-        [wrapperSize, props.responsive]
+        () => getResponsiveSettings(wrapperSize, responsive),
+        [wrapperSize, responsive]
     );
     const slidesToScroll = useMemo(() => {
         if (responsiveSettings) {
             return responsiveSettings.settings.slidesToScroll;
         }
-        return props.slidesToScroll || 1;
-    }, [responsiveSettings, props.slidesToScroll]);
+        return others.slidesToScroll || 1;
+    }, [responsiveSettings, others.slidesToScroll]);
     const slidesToShow = useMemo(() => {
         if (responsiveSettings) {
             return responsiveSettings.settings.slidesToShow;
         }
-        return props.slidesToShow || 1;
-    }, [responsiveSettings, props.slidesToShow]);
-    const childrenCount = useMemo(() => React.Children.count(props.children), [props.children]);
+        return others.slidesToShow || 1;
+    }, [responsiveSettings, others.slidesToShow]);
+    const childrenCount = useMemo(() => React.Children.count(others.children), [others.children]);
     const eachChildSize = useMemo(() => wrapperSize / slidesToShow, [wrapperSize, slidesToShow]);
     const timeout = useRef<NodeJS.Timeout>();
     const resizeObserver = useRef<any>();
     let startingSwipePosition: number;
     let dragging: boolean = false;
     let distanceSwiped: number = 0;
-    const translateType = props.vertical ? 'translateY' : 'translateX';
-    const swipeAttributeType = props.vertical ? 'clientY' : 'clientX';
-    const swipePageAttributeType = props.vertical ? 'pageY' : 'pageX';
+    const translateType = others.vertical ? 'translateY' : 'translateX';
+    const swipeAttributeType = others.vertical ? 'clientY' : 'clientX';
+    const swipePageAttributeType = others.vertical ? 'pageY' : 'pageX';
 
     const applyStyle = useCallback(() => {
         if (innerWrapperRef.current) {
             const fullSize = wrapperSize * innerWrapperRef.current.children.length;
-            const attribute = props.vertical ? 'height' : 'width';
+            const attribute = others.vertical ? 'height' : 'width';
             innerWrapperRef.current.style[attribute] = `${fullSize}px`;
-            if (props.vertical && wrapperRef.current) {
+            if (others.vertical && wrapperRef.current) {
                 wrapperRef.current.style[attribute] = `${wrapperSize}px`;
             }
             for (let index = 0; index < innerWrapperRef.current.children.length; index++) {
                 const eachDiv = innerWrapperRef.current.children[index];
                 if (eachDiv) {
-                    if (!props.vertical) {
+                    if (!others.vertical) {
                         eachDiv.style[attribute] = `${eachChildSize}px`;
                     }
                     eachDiv.style.display = `block`;
                 }
             }
         }
-    }, [wrapperSize, eachChildSize]);
+    }, [wrapperSize, eachChildSize, others.vertical]);
 
     const initResizeObserver = useCallback(() => {
         if (wrapperRef.current) {
@@ -106,7 +121,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     useEffect(() => {
         clearTimeout(timeout.current);
         play();
-    }, [index, wrapperSize, props.autoplay, play]);
+    }, [index, wrapperSize, autoplay, play]);
 
     useImperativeHandle(ref, () => ({
         goNext: () => {
@@ -131,13 +146,13 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const pauseSlides = () => {
-        if (props.pauseOnHover) {
+        if (pauseOnHover) {
             clearTimeout(timeout.current);
         }
     };
 
     const swipe = (event: React.MouseEvent | React.TouchEvent) => {
-        if (props.canSwipe && dragging) {
+        if (canSwipe && dragging) {
             let position;
             if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
                 position = event.nativeEvent.touches[0][swipePageAttributeType];
@@ -147,12 +162,12 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             if (position && startingSwipePosition) {
                 let translateValue = eachChildSize * (index + getOffset());
                 const distance = position - startingSwipePosition;
-                if (!props.infinite && index === childrenCount - slidesToScroll && distance < 0) {
+                if (!infinite && index === childrenCount - slidesToScroll && distance < 0) {
                     // if it is the last and infinite is false and you're swiping left
                     // then nothing happens
                     return;
                 }
-                if (!props.infinite && index === 0 && distance > 0) {
+                if (!infinite && index === 0 && distance > 0) {
                     // if it is the first and infinite is false and you're swiping right
                     // then nothing happens
                     return;
@@ -165,7 +180,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const moveNext = () => {
-        if (!props.infinite && index === childrenCount - slidesToScroll) {
+        if (!infinite && index === childrenCount - slidesToScroll) {
             return;
         }
         const nextIndex = calculateIndex(index + slidesToScroll);
@@ -173,7 +188,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const moveBack = () => {
-        if (!props.infinite && index === 0) {
+        if (!infinite && index === 0) {
             return;
         }
         let previousIndex = index - slidesToScroll;
@@ -208,8 +223,8 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     const startSlides = () => {
         if (dragging) {
             endSwipe();
-        } else if (props.pauseOnHover && props.autoplay) {
-            timeout.current = setTimeout(moveNext, props.duration);
+        } else if (pauseOnHover && autoplay) {
+            timeout.current = setTimeout(moveNext, duration);
         }
     };
 
@@ -222,7 +237,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const renderPreceedingSlides = () => {
-        return React.Children.toArray(props.children)
+        return React.Children.toArray(others.children)
             .slice(-slidesToShow)
             .map((each, index) => (
                 <div
@@ -237,10 +252,10 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const renderTrailingSlides = () => {
-        if (!props.infinite && slidesToShow === slidesToScroll) {
+        if (!infinite && slidesToShow === slidesToScroll) {
             return;
         }
-        return React.Children.toArray(props.children)
+        return React.Children.toArray(others.children)
             .slice(0, slidesToShow)
             .map((each, index) => (
                 <div
@@ -255,8 +270,8 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const setSize = () => {
-        const attribute = props.vertical ? 'clientHeight' : 'clientWidth';
-        if (props.vertical) {
+        const attribute = others.vertical ? 'clientHeight' : 'clientWidth';
+        if (others.vertical) {
             if (innerWrapperRef.current) {
                 setWrapperSize(innerWrapperRef.current.children[0][attribute]);
             }
@@ -268,7 +283,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const startSwipe = (event: React.MouseEvent | React.TouchEvent) => {
-        if (props.canSwipe) {
+        if (canSwipe) {
             if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
                 startingSwipePosition = event.nativeEvent.touches[0][swipePageAttributeType];
             } else {
@@ -280,7 +295,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const endSwipe = () => {
-        if (props.canSwipe) {
+        if (canSwipe) {
             dragging = false;
             if (Math.abs(distanceSwiped) / wrapperSize > 0.2) {
                 if (distanceSwiped < 0) {
@@ -302,13 +317,13 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const transitionSlide = (toIndex: number, animationDuration?: number) => {
-        const transitionDuration = animationDuration || props.transitionDuration;
+        const transitionDuration = animationDuration || newTransitionDuration;
         const currentIndex = index;
         const existingTweens = tweenGroup.current.getAll();
         if (!wrapperRef.current) {
             return;
         }
-        const attribute = props.vertical ? 'clientHeight' : 'clientWidth';
+        const attribute = others.vertical ? 'clientHeight' : 'clientWidth';
         const childSize = wrapperRef.current[attribute] / slidesToShow;
         if (!existingTweens.length) {
             clearTimeout(timeout.current);
@@ -322,7 +337,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                         innerWrapperRef.current.style.transform = `${translateType}(${value.margin}px)`;
                     }
                 });
-            tween.easing(getEasing(props.easing));
+            tween.easing(getEasing(easing));
 
             animate();
 
@@ -334,15 +349,15 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             }
 
             tween.onStart(() => {
-                if (typeof props.onStartChange === 'function') {
-                    props.onStartChange(index, newIndex);
+                if (typeof others.onStartChange === 'function') {
+                    others.onStartChange(index, newIndex);
                 }
             });
 
             tween.onComplete(() => {
                 distanceSwiped = 0;
-                if (typeof props.onChange === 'function') {
-                    props.onChange(index, newIndex);
+                if (typeof others.onChange === 'function') {
+                    others.onChange(index, newIndex);
                 }
                 setIndex(newIndex);
             });
@@ -356,7 +371,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     };
 
     const getOffset = (): number => {
-        if (!props.infinite) {
+        if (!infinite) {
             return 0;
         }
         return slidesToShow;
@@ -380,18 +395,15 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 onTouchCancel={endSwipe}
                 onTouchMove={swipe}
             >
-                {props.arrows && showPreviousArrow(props, index, moveSlides)}
-                <div
-                    className={`react-slideshow-wrapper slide ${props.cssClass || ''}`}
-                    ref={wrapperRef}
-                >
+                {arrows && showPreviousArrow(props, index, moveSlides)}
+                <div className={`react-slideshow-wrapper slide ${cssClass || ''}`} ref={wrapperRef}>
                     <div
-                        className={`images-wrap ${props.vertical ? 'vertical' : 'horizontal'}`}
+                        className={`images-wrap ${others.vertical ? 'vertical' : 'horizontal'}`}
                         style={style}
                         ref={innerWrapperRef}
                     >
-                        {props.infinite && renderPreceedingSlides()}
-                        {(React.Children.map(props.children, (thisArg) => thisArg) || []).map(
+                        {infinite && renderPreceedingSlides()}
+                        {(React.Children.map(others.children, (thisArg) => thisArg) || []).map(
                             (each, key) => {
                                 const isThisSlideActive = isSlideActive(key);
                                 return (
@@ -410,11 +422,9 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                         {renderTrailingSlides()}
                     </div>
                 </div>
-                {props.arrows && showNextArrow(props, index, moveSlides, responsiveSettings)}
+                {arrows && showNextArrow(props, index, moveSlides, responsiveSettings)}
             </div>
-            {!!props.indicators && showIndicators(props, index, goToSlide, responsiveSettings)}
+            {!!indicators && showIndicators(props, index, goToSlide, responsiveSettings)}
         </div>
     );
 });
-
-Slide.defaultProps = defaultProps;
