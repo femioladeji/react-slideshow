@@ -19,8 +19,10 @@ import { ButtonClick, SlideshowRef, ZoomProps } from './types';
 
 export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) => {
     const {
+        duration = 5000,
         transitionDuration = 1000,
         defaultIndex = 0,
+        infinite = true,
         autoplay = true,
         indicators = false,
         arrows = true,
@@ -33,8 +35,8 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerWrapperRef = useRef<any>(null);
     const tweenGroup = useRef(new Group());
-    const timeout = useRef<NodeJS.Timeout>();
-    const resizeObserver = useRef<any>();
+    const timeout = useRef<NodeJS.Timeout | undefined>(undefined);
+    const resizeObserver = useRef<any>(undefined);
     const childrenCount = useMemo(() => React.Children.count(others.children), [others.children]);
 
     const applyStyle = useCallback(() => {
@@ -64,21 +66,21 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     }, [wrapperRef, applyStyle]);
 
     const play = useCallback(() => {
-        const { autoplay, children, duration, infinite } = props;
         if (
             autoplay &&
-            React.Children.count(children) > 1 &&
-            (infinite || index < React.Children.count(children) - 1)
+            React.Children.count(others.children) > 1 &&
+            (infinite || index < React.Children.count(others.children) - 1)
         ) {
             timeout.current = setTimeout(moveNext, duration);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props, index]);
+    }, [autoplay, duration, infinite, others.children, index]);
 
     useEffect(() => {
         initResizeObserver();
+        const tweenGroupRef = tweenGroup.current;
         return () => {
-            tweenGroup.current.removeAll();
+            tweenGroupRef.removeAll();
             clearTimeout(timeout.current);
             removeResizeObserver();
         };
@@ -122,26 +124,23 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
     };
 
     const startSlides = () => {
-        const { pauseOnHover, autoplay, duration } = props;
         if (pauseOnHover && autoplay) {
             timeout.current = setTimeout(() => moveNext(), duration);
         }
     };
 
     const moveNext = () => {
-        const { children, infinite } = props;
-        if (!infinite && index === React.Children.count(children) - 1) {
+        if (!infinite && index === React.Children.count(others.children) - 1) {
             return;
         }
-        transitionSlide((index + 1) % React.Children.count(children));
+        transitionSlide((index + 1) % React.Children.count(others.children));
     };
 
     const moveBack = () => {
-        const { children, infinite } = props;
         if (!infinite && index === 0) {
             return;
         }
-        transitionSlide(index === 0 ? React.Children.count(children) - 1 : index - 1);
+        transitionSlide(index === 0 ? React.Children.count(others.children) - 1 : index - 1);
     };
 
     const preTransition: ButtonClick = (event) => {
@@ -224,7 +223,7 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                 onMouseOver={pauseSlides}
                 onMouseLeave={startSlides}
             >
-                {arrows && showPreviousArrow(props, index, preTransition)}
+                {arrows && showPreviousArrow({ ...props, infinite }, index, preTransition)}
                 <div className={`react-slideshow-fadezoom-wrapper ${cssClass}`} ref={wrapperRef}>
                     <div className="react-slideshow-fadezoom-images-wrap" ref={innerWrapperRef}>
                         {(React.Children.map(others.children, (thisArg) => thisArg) || []).map(
@@ -245,9 +244,9 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
                         )}
                     </div>
                 </div>
-                {arrows && showNextArrow(props, index, preTransition)}
+                {arrows && showNextArrow({ ...props, infinite }, index, preTransition)}
             </div>
-            {indicators && showIndicators(props, index, navigate)}
+            {indicators && showIndicators({ ...props, indicators }, index, navigate)}
         </div>
     );
 });

@@ -1,4 +1,5 @@
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import * as SlideStories from './Slide.stories';
+import { Canvas, Meta } from '@storybook/blocks';
 
 <Meta title="Introduction" />
 
@@ -74,6 +75,4 @@ and the css
   text-align: center;
 }
 ```
-<Canvas>
-    <Story id='examples-slide--default' />
-</Canvas>
+<Canvas of={SlideStories.Default} />

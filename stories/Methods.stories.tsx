@@ -2,16 +2,12 @@ import React, { useRef } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { Slide, SlideshowRef } from '../src';
 import type { SlideProps } from '../src';
-import mdx from './Methods.mdx';
 
 const meta: Meta = {
     title: 'Examples/Methods',
     component: Slide,
     parameters: {
         controls: { expanded: true },
-        docs: {
-            page: mdx,
-        },
     },
 };
 

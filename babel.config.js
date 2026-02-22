@@ -7,13 +7,17 @@ module.exports = api => {
           targets: {
             node: 'current'
           }
-        }], '@babel/preset-react']
+        }],
+        '@babel/preset-react',
+        '@babel/preset-typescript',
+      ]
     };
   } else {
     return {
       presets: [
-        '@babel/preset-env', 
-        '@babel/preset-react'
+        '@babel/preset-env',
+        '@babel/preset-react',
+        '@babel/preset-typescript',
       ]
     };
   }

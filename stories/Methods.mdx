@@ -1,7 +1,8 @@
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import * as MethodsStories from './Methods.stories';
+import { Canvas, Meta, Story } from '@storybook/blocks';
 import { Slide } from '../src';
 
-<Meta title="Examples/Methods34" component={Slide} />
+<Meta of={MethodsStories} />
 
 ## Methods Slides
 
@@ -43,5 +44,5 @@ export default Example;
 ```
 
 <Canvas>
-     <Story id='examples-methods--default' />
+     <Story of={MethodsStories.Default} />
 </Canvas>

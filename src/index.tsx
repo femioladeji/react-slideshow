@@ -4,4 +4,4 @@
 export { Fade } from './fade';
 export { Zoom } from './zoom';
 export { Slide } from './slide';
-export { FadeProps, ZoomProps, SlideProps, SlideshowRef } from './types';
+export type { FadeProps, ZoomProps, SlideProps, SlideshowRef } from './types';
