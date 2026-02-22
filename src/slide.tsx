@@ -32,6 +32,8 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
         canSwipe = true,
         cssClass = '',
         responsive = [],
+        slidesToShow: slidesToShowDefault = 1,
+        slidesToScroll: slidesToScrollDefault = 1,
         ...others
     } = props;
     const newTransitionDuration = transitionDuration;
@@ -48,18 +50,18 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
         if (responsiveSettings) {
             return responsiveSettings.settings.slidesToScroll;
         }
-        return others.slidesToScroll || 1;
-    }, [responsiveSettings, others.slidesToScroll]);
+        return slidesToScrollDefault;
+    }, [responsiveSettings, slidesToScrollDefault]);
     const slidesToShow = useMemo(() => {
         if (responsiveSettings) {
             return responsiveSettings.settings.slidesToShow;
         }
-        return others.slidesToShow || 1;
-    }, [responsiveSettings, others.slidesToShow]);
+        return slidesToShowDefault;
+    }, [responsiveSettings, slidesToShowDefault]);
     const childrenCount = useMemo(() => React.Children.count(others.children), [others.children]);
     const eachChildSize = useMemo(() => wrapperSize / slidesToShow, [wrapperSize, slidesToShow]);
-    const timeout = useRef<NodeJS.Timeout>();
-    const resizeObserver = useRef<any>();
+    const timeout = useRef<NodeJS.Timeout | undefined>(undefined);
+    const resizeObserver = useRef<any>(undefined);
     let startingSwipePosition: number;
     let dragging: boolean = false;
     let distanceSwiped: number = 0;
@@ -98,12 +100,11 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
     }, [wrapperRef]);
 
     const play = useCallback(() => {
-        const { autoplay, infinite, duration } = props;
         if (autoplay && (infinite || index < childrenCount - 1)) {
             timeout.current = setTimeout(moveNext, duration);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props, childrenCount, index]);
+    }, [autoplay, infinite, duration, childrenCount, index]);
 
     useEffect(() => {
         applyStyle();
@@ -395,7 +396,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                 onTouchCancel={endSwipe}
                 onTouchMove={swipe}
             >
-                {arrows && showPreviousArrow(props, index, moveSlides)}
+                {arrows && showPreviousArrow({ ...props, infinite }, index, moveSlides)}
                 <div className={`react-slideshow-wrapper slide ${cssClass || ''}`} ref={wrapperRef}>
                     <div
                         className={`images-wrap ${others.vertical ? 'vertical' : 'horizontal'}`}
@@ -422,9 +423,9 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                         {renderTrailingSlides()}
                     </div>
                 </div>
-                {arrows && showNextArrow(props, index, moveSlides, responsiveSettings)}
+                {arrows && showNextArrow({ ...props, infinite }, index, moveSlides, responsiveSettings)}
             </div>
-            {!!indicators && showIndicators(props, index, goToSlide, responsiveSettings)}
+            {!!indicators && showIndicators({ ...props, indicators }, index, goToSlide, responsiveSettings)}
         </div>
     );
 });

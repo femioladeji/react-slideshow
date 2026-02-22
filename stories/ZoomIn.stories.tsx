@@ -2,7 +2,6 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { Zoom } from '../src';
 import type { ZoomProps } from '../src';
-import mdx from './ZoomIn.mdx';
 
 const images = [
     "https://images.unsplash.com/photo-1444525873963-75d329ef9e1b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
@@ -15,9 +14,6 @@ const meta: Meta = {
     component: Zoom,
     parameters: {
         controls: { expanded: true },
-        docs: {
-            page: mdx,
-        },
     },
 };
 

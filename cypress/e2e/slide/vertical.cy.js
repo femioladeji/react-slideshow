@@ -2,7 +2,7 @@ import { translateYRegex } from '../../support/utils';
 
 describe('vertical slide test', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:6006/?path=/story/examples-vertical--page');
+        cy.visit('http://localhost:6006/?path=/story/examples-vertical--default');
         cy.frameLoaded("#storybook-preview-iframe");
         cy.iframe('#storybook-preview-iframe')
             .find('.react-slideshow-container')
