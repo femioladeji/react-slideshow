@@ -78,8 +78,9 @@ export const FadeZoom = React.forwardRef<SlideshowRef, ZoomProps>((props, ref) =
 
     useEffect(() => {
         initResizeObserver();
+        const tweenGroupRef = tweenGroup.current;
         return () => {
-            tweenGroup.current.removeAll();
+            tweenGroupRef.removeAll();
             clearTimeout(timeout.current);
             removeResizeObserver();
         };

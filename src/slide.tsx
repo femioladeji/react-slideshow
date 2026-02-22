@@ -89,6 +89,19 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
         }
     }, [wrapperSize, eachChildSize, others.vertical]);
 
+    const setSize = useCallback(() => {
+        const attribute = others.vertical ? 'clientHeight' : 'clientWidth';
+        if (others.vertical) {
+            if (innerWrapperRef.current) {
+                setWrapperSize(innerWrapperRef.current.children[0][attribute]);
+            }
+        } else {
+            if (wrapperRef.current) {
+                setWrapperSize(wrapperRef.current[attribute]);
+            }
+        }
+    }, [others.vertical]);
+
     const initResizeObserver = useCallback(() => {
         if (wrapperRef.current) {
             resizeObserver.current = new ResizeObserver((entries) => {
@@ -97,7 +110,7 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             });
             resizeObserver.current.observe(wrapperRef.current);
         }
-    }, [wrapperRef]);
+    }, [wrapperRef, setSize]);
 
     const play = useCallback(() => {
         if (autoplay && (infinite || index < childrenCount - 1)) {
@@ -112,8 +125,9 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
 
     useEffect(() => {
         initResizeObserver();
+        const tweenGroupRef = tweenGroup.current;
         return () => {
-            tweenGroup.current.removeAll();
+            tweenGroupRef.removeAll();
             clearTimeout(timeout.current);
             removeResizeObserver();
         };
@@ -270,19 +284,6 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
             ));
     };
 
-    const setSize = () => {
-        const attribute = others.vertical ? 'clientHeight' : 'clientWidth';
-        if (others.vertical) {
-            if (innerWrapperRef.current) {
-                setWrapperSize(innerWrapperRef.current.children[0][attribute]);
-            }
-        } else {
-            if (wrapperRef.current) {
-                setWrapperSize(wrapperRef.current[attribute]);
-            }
-        }
-    };
-
     const startSwipe = (event: React.MouseEvent | React.TouchEvent) => {
         if (canSwipe) {
             if (window.TouchEvent && event.nativeEvent instanceof TouchEvent) {
@@ -423,9 +424,11 @@ export const Slide = React.forwardRef<SlideshowRef, SlideProps>((props, ref) => 
                         {renderTrailingSlides()}
                     </div>
                 </div>
-                {arrows && showNextArrow({ ...props, infinite }, index, moveSlides, responsiveSettings)}
+                {arrows &&
+                    showNextArrow({ ...props, infinite }, index, moveSlides, responsiveSettings)}
             </div>
-            {!!indicators && showIndicators({ ...props, indicators }, index, goToSlide, responsiveSettings)}
+            {!!indicators &&
+                showIndicators({ ...props, indicators }, index, goToSlide, responsiveSettings)}
         </div>
     );
 });
