@@ -1,0 +1,28 @@
+import * as MultipleSlidesStories from './MultipleSlides.stories';
+import { Canvas, Meta } from '@storybook/blocks';
+
+<Meta of={MultipleSlidesStories} />
+
+## Multiple Slides
+
+The slide effect has support for multiple slides on a page. You can specify the number of slides to show and the number of slides to scroll
+
+```tsx
+import React from 'react';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
+const Example = () => {
+    return (
+        <div>
+            <Slide slidesToScroll={2} slidesToShow={2} indicators={true}>
+                {/* children here */}
+            </Slide>
+        </div>
+    );
+};
+
+export default Example;
+```
+
+<Canvas of={MultipleSlidesStories.Default} />

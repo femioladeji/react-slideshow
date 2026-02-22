@@ -1,0 +1,49 @@
+import * as CustomIndicatorsStories from './CustomIndicators.stories';
+import { Canvas, Meta } from '@storybook/blocks';
+
+<Meta of={CustomIndicatorsStories} />
+
+## Customizing Indicators
+
+The indicators shown below the slide can be customized to your design specification.
+It takes a boolean or a function. If it is set to true, it shows the default indicator style.
+If a function is passed then it displays the element returned in that function.
+The indicator for the current slide has an active class that can be used in styling it
+
+```tsx
+import React from 'react';
+import { Zoom } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
+const indicators = (index) => (<div className="indicator">{index + 1}</div>);
+
+const Example = () => {
+
+  return (
+    <div>
+        <Zoom indicators={indicators} scale={1.4}>
+            {/* children here */}
+        </Zoom>
+    </div>
+  );
+};
+
+export default Example;
+```
+
+You can also style the indicator
+```css
+.indicator {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  border: 1px #666 solid;
+  margin: 0;
+}
+
+.indicator.active {
+  color: #fff;
+  background: #666;
+}
+```
+<Canvas of={CustomIndicatorsStories.Default} />

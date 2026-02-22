@@ -1,0 +1,27 @@
+import * as VerticalModeStories from './VerticalMode.stories';
+import { Canvas, Meta } from '@storybook/blocks';
+
+<Meta of={VerticalModeStories} />
+
+## Vertical Mode
+The slide effect can be set to vertical mode by passing the `vertical` prop
+
+```tsx
+import React from 'react';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
+const Example = () => {
+    return (
+        <div>
+            <Slide vertical>
+                {/* children here */}
+            </Slide>
+        </div>
+    );
+};
+
+export default Example;
+```
+
+<Canvas of={VerticalModeStories.Default} />
