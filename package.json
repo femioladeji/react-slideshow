@@ -90,7 +90,7 @@
     "react-is": "^19.2.4",
     "size-limit": "^7.0.8",
     "storybook": "^8.0.0",
-    "tsdx": "^0.14.1",
+    "tsdx": "^2.0.0",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
     "uglifycss": "0.0.29",
